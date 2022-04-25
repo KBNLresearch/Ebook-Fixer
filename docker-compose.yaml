@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  server:
+    restart: always
+    container_name: code
+    # command : bash -c "python check_db.py --service-name db --ip db --port 3306 && 
+    #                   python manage.py migrate &&
+    #                   python manage.py runserver 0.0.0.0:8000"
+    # env_file:
+    #   - ./server/settings.ini
+    build:
+      context: ./server/
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+
+  client:
+    restart: always
+    command : npm start
+    container_name: front
+    build:
+      context: ./client/
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    depends_on:
+      - server
