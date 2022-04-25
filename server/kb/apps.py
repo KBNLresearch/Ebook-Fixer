@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class SpBackendConfig(AppConfig):
+class KbConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'sp_backend'
+    name = 'kb'
