@@ -5,3 +5,4 @@ pycodestyle
 flake8
 unittest2
 isort==5.8.0
+django-cors-headers
