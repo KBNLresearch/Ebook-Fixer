@@ -21,8 +21,9 @@ function App() {
             <p>
             Press the button below to call the api:
             </p>
-                <button onClick={getResult}>Call it </button>
-            <p>Result: {result} </p>
+            <button onClick={getResult}>Call it </button>
+            Result:
+            <p id="result">{result}</p>
         </header>
         </div>
     );
