@@ -17,10 +17,17 @@ services:
 
   server:
     restart: always
-    container_name: code
-    command : >
-      sh -c "python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
+#<<<<<<< HEAD
+#    container_name: code
+#    command : >
+#      sh -c "python manage.py migrate &&
+#             python manage.py runserver 0.0.0.0:8000"
+#=======
+    container_name: backend
+    image: ${GITLAB_REGISTRY}/server:${TAG}
+    command: bash -c 'python manage.py migrate && 
+                      python manage.py runserver 0.0.0.0:8000'
+
     # env_file:
     #   - ./server/settings.ini
     build:
@@ -33,16 +40,17 @@ services:
     volumes:
       - .:/code
 
-
   client:
     restart: always
+    container_name: frontend
+    image: ${GITLAB_REGISTRY}/client:${TAG}
     command : npm start
-    container_name: front
     build:
       context: ./client/
       dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
     ports:
       - "3000:3000"
     stdin_open: true
-    depends_on:
-      - server

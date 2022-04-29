@@ -6,4 +6,5 @@ pycodestyle
 pymongo==3.12.1
 flake8
 unittest2
+pytest
 isort==5.8.0
