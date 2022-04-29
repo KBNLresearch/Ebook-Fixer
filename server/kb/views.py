@@ -1,10 +1,11 @@
 from django.http import HttpResponse
 from rest_framework import viewsets
-from .serializers import ImageSerializer, EbookSerializer, AnnotationSerializer, ImageAnnotatedSerializer
+from .serializers import ImageSerializer, EbookSerializer
+from .serializers import AnnotationSerializer, ImageAnnotatedSerializer
 from .models import Image, Ebook, Annotation, ImageAnnotated
-from django.http import JsonResponse
 
 # from django.shortcuts import render
+
 
 # Create your views here.
 def main(request):

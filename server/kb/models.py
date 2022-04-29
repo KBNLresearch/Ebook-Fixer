@@ -22,8 +22,14 @@ class Image(models.Model):
     # but we may turn it into an object containing more fields later (e.g. line no.)
     location = models.CharField(max_length=50, default='DEFAULT')
     IMAGE_TYPES = [
-        ('INFO', 'Informative'),
         ('DECO', 'Decorative'),
+        ('INFO', 'Informative'),
+        ('PHOTO', 'Photo'),
+        ('ILLUS', 'Illustration'),
+        ('FIG', 'Figure'),
+        ('SYM', 'Symbol'),
+        ('DRAW', 'Drawing'),
+        ('COM', 'Comic'),
         ('LOGO', 'Logo'),
         ('GRAPH', 'Graph'),
         ('MAP', 'Map')
