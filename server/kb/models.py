@@ -18,7 +18,7 @@ class Ebook(models.Model):
 class Image(models.Model):
     # When the referenced ebook gets deleted, the child image will be deleted too.
     ebook = models.ForeignKey(Ebook, on_delete=models.CASCADE)
-    # For now location = file path, 
+    # For now location = file path,
     # but we may turn it into an object containing more fields later (e.g. line no.)
     location = models.CharField(max_length=50, default='DEFAULT')
     IMAGE_TYPES = [
