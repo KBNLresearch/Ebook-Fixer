@@ -87,11 +87,17 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'fixingebooks',
+        # 'USER': '',
+        # 'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': 27017,
+        # 'SUPPORTS_TRANSACTIONS': False,
         # 'CLIENT': {
         #    'host': 'your-db-host',
         # }
     }
 }
+
 
 
 # Password validation
