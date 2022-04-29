@@ -16,8 +16,15 @@ Including another URLconf
 # from xml.etree.ElementInclude import include
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework import routers
+from kb import views
+from kb.views import api_home
+
+router = routers.DefaultRouter()
+router.register(r'students', views.StudentView, 'student')
 
 urlpatterns = [
+    path('', api_home),
     path('admin/', admin.site.urls),
-    path('', include('kb.urls'))
+    path('api/', include(router.urls)),
 ]
