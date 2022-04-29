@@ -1,5 +1,5 @@
 from django.contrib import admin
-from kb.models import Ebook
+from kb.models import *
 
 # Register your models here.
 
