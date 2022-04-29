@@ -18,13 +18,15 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from kb import views
-from kb.views import api_home
 
 router = routers.DefaultRouter()
-router.register(r'students', views.StudentView, 'student')
+router.register(r'ebooks', views.EbookView, 'ebook')
+router.register(r'images', views.ImageView, 'image')
+router.register(r'annotations', views.AnnotationView, 'annotation')
+router.register(r'imageannotations', views.ImageAnnotatedView, 'imageannotation')
 
 urlpatterns = [
-    path('', api_home),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('', include('kb.urls'))
 ]
