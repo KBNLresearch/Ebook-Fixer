@@ -1,9 +1,10 @@
 Django>=3.2,<4.0
 django-rest-framework
 djongo
-pymongo==3.12.3
 epubcheck
 pycodestyle
+pymongo==3.12.1
 flake8
 unittest2
+pytest
 isort==5.8.0

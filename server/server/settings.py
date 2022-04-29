@@ -87,14 +87,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'fixingebooks',
-        # 'USER': '',
-        # 'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': 27017,
-        # 'SUPPORTS_TRANSACTIONS': False,
-        # 'CLIENT': {
-        #    'host': 'your-db-host',
-        # }
+        'CLIENT': {
+            'host': 'mongodb://mongodb:27017',
+            'username': 'root',
+            'password': 'mongoadmin',
+            'authSource': 'admin',
+            'authMechanism': 'SCRAM-SHA-1',
+        }
     }
 }
 

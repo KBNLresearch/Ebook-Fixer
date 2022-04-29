@@ -1,10 +1,33 @@
 version: '3.7'
 
 services:
+
+  mongodb:
+    image: mongo
+    restart: always
+#    volumes:
+#      - ./init-db:/docker-entrypoint-initdb.d
+#      - ./data-db:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: mongoadmin
+      MONGO_INITDB_DATABASE: fixingebooks
+    ports:
+      - 27017:27017
+
   server:
     restart: always
-    container_name: code
-    command : python manage.py runserver 0.0.0.0:8000
+#<<<<<<< HEAD
+#    container_name: code
+#    command : >
+#      sh -c "python manage.py migrate &&
+#             python manage.py runserver 0.0.0.0:8000"
+#=======
+    container_name: backend
+    image: ${GITLAB_REGISTRY}/server:${TAG}
+    command: bash -c 'python manage.py migrate && 
+                      python manage.py runserver 0.0.0.0:8000'
+
     # env_file:
     #   - ./server/settings.ini
     build:
@@ -12,19 +35,22 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    links:
+      - mongodb
     volumes:
       - .:/code
 
-
   client:
     restart: always
+    container_name: frontend
+    image: ${GITLAB_REGISTRY}/client:${TAG}
     command : npm start
-    container_name: front
     build:
       context: ./client/
       dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
     ports:
       - "3000:3000"
     stdin_open: true
-    depends_on:
-      - server
