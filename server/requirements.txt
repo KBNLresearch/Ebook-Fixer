@@ -4,5 +4,6 @@ epubcheck
 pycodestyle
 flake8
 unittest2
-pytest
 isort==5.8.0
+django-cors-headers
+pytest
