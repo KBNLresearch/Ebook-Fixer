@@ -6,11 +6,11 @@ import { fetchExampleApiCall } from './ApiCalls';
 // This code uses functional components, you could use classes instead but they're
 function App() {
 
-    const [result, setResult] = useState("");
+    const [result, setResult] = useState([]);
 
     function getResult() {
-        fetchExampleApiCall().then(res => {
-            setResult(res)
+        fetchExampleApiCall().then(data => {
+            setResult(data)
         })
     }
 
@@ -22,8 +22,12 @@ function App() {
             Press the button below to call the api:
             </p>
             <button onClick={getResult}>Call it </button>
-            Result:
-            <p id="result">{result}</p>
+            {result.length === 0 ? "" : "Result:"}
+            <ul id="result">
+                {result.map(student => {
+                    return <li key={student.name}>Student name: {student.name}, age: {student.age}</li>
+                })}
+            </ul>
         </header>
         </div>
     );
