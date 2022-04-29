@@ -24,7 +24,7 @@ services:
 #             python manage.py runserver 0.0.0.0:8000"
 #=======
     container_name: backend
-    # image: ${GITLAB_REGISTRY}/server:${TAG}
+    image: ${GITLAB_REGISTRY}/server:${TAG}
     command: bash -c 'python manage.py makemigrations kb && 
                       python manage.py migrate && 
                       python manage.py runserver 0.0.0.0:8000'

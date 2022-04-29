@@ -1,5 +1,5 @@
 from django.contrib import admin
-from kb.models import *
+from kb.models import Ebook, Image, Annotation, ImageAnnotated
 
 # Register your models here.
 
