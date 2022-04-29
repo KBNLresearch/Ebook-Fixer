@@ -1,11 +1,12 @@
-from tkinter import CASCADE
+# import uuid
 from django.db import models
  
 # Create your models here.
 # By default, blank (empty value in <form>) and null (empty value in db) are false.
 class Ebook(models.Model):
     # The use of an UUID is mandatory for epub files 
-    uuid = models.UUIDField(primary_key=True) 
+    # uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True) 
+    uuid = models.CharField(primary_key=True, max_length=100, default='DEFAULT', unique=True)
     epub3_path = models.CharField(max_length=50)
     title = models.CharField(max_length=50)   # May not be necessary for our demo
 
@@ -14,7 +15,7 @@ class Image(models.Model):
     # When the referenced ebook gets deleted, the child image will be deleted too.
     ebook = models.ForeignKey(Ebook, on_delete=models.CASCADE)  
      # For now location = file path, but we may turn it into an object containing more fields later (e.g. line no.)
-    location = models.CharField(max_length=50) 
+    location = models.CharField(max_length=50, default='DEFAULT') 
     IMAGE_TYPES = [ 
         ('INFO', 'Informative'), 
         ('DECO', 'Decorative'), 
