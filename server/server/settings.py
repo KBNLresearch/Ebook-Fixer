@@ -10,10 +10,17 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import environ
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env()
+environ.Env.read_env() # reading .env file
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = env('SECRET_KEY')
 
 
 # Quick-start development settings - unsuitable for production
@@ -77,26 +84,20 @@ WSGI_APPLICATION = 'server.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'fixingebooks',
+        'NAME': env('MONGO_DB_NAME'),
         'CLIENT': {
-            'host': 'mongodb://mongodb:27017',
-            'username': 'root',
-            'password': 'mongoadmin',
-            'authSource': 'admin',
-            'authMechanism': 'SCRAM-SHA-1',
+            'host': env('MONGO_DB_HOST'),
+            'username': env('MONGO_DB_USERNAME'),
+            'password': env('MONGO_DB_PASSWORD'),
+            'authSource': env('MONGO_DB_AUTH_SOURCE'),
+            'authMechanism': env('MONGO_DB_AUTH_MECHANISM'),
         }
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

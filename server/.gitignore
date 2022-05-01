@@ -1,3 +1,6 @@
+env/
+server/env/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -6,8 +9,8 @@ __pycache__/
 # C extensions
 *.so
 
-# Make migration files
-kb/migrations/
+# Migration files (for Django model crud ops)
+migrations/
 
 # Distribution / packaging
 .Python
