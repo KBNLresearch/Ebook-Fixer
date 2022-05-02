@@ -34,8 +34,8 @@ build-main:
     - chmod u+x wait.sh && ./wait.sh
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
-    - docker-compose --env-file .env.release build --parallel
-    - docker-compose --env-file .env.release push
+    - docker-compose --env-file .env.development build --parallel
+    - docker-compose --env-file .env.development push
 
 build:
   stage: build
@@ -44,8 +44,8 @@ build:
     - chmod u+x wait.sh && ./wait.sh
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
-    - docker-compose --env-file .env.development build --parallel
-    - docker-compose --env-file .env.development push
+    - docker-compose --env-file .env.ci build --parallel
+    - docker-compose --env-file .env.ci push
 
 analysis-client:
   stage: static analysis

@@ -3,15 +3,15 @@ version: '3.7'
 services:
 
   mongodb:
-    image: mongo
+    image: mongo:${MONGO_DB_TAG}
     restart: always
 #    volumes:
 #      - ./init-db:/docker-entrypoint-initdb.d
 #      - ./data-db:/data/db
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: mongoadmin
-      MONGO_INITDB_DATABASE: fixingebooks
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DB_NAME}
     ports:
       - "27017:27017"
 
