@@ -1,0 +1,13 @@
+Django>=3.2,<4.0
+django-rest-framework
+djongo
+epubcheck
+pycodestyle
+pymongo==3.12.0
+sqlparse==0.2.4
+flake8
+unittest2
+isort==5.8.0
+django-cors-headers
+pytest
+django-environ
