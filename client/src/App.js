@@ -19,13 +19,13 @@ function App() {
         <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
             <p>
-            Press the button below to call the api:
+            Press the button below to call the ebooks api:
             </p>
             <button onClick={getResult}>Call it </button>
             {result.length === 0 ? "" : "Result:"}
             <ul id="result">
-                {result.map(student => {
-                    return <li key={student.name}>Student name: {student.name}, age: {student.age}</li>
+                {result.map(ebook => {
+                    return <li key={ebook.uuid}>Ebook epub3_path: {ebook.epub3_path}, title: {ebook.title}</li>
                 })}
             </ul>
         </header>

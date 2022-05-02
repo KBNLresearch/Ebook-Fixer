@@ -1,10 +1,9 @@
 from django.contrib import admin
-from .models import Student
-
-
-class StudentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'age')
-
+from kb.models import Ebook, Image, Annotation, ImageAnnotated
 
 # Register your models here.
-admin.site.register(Student, StudentAdmin)
+
+admin.site.register(Ebook)
+admin.site.register(Image)
+admin.site.register(Annotation)
+admin.site.register(ImageAnnotated)
