@@ -2,16 +2,22 @@
 .uploading,
 .success,
 .error {
-  display: none;
+    display: none;
+}
+
+.hidden {
+    display: none; 
 }
 
 .box {
-    height: 20vh;
+    height: 25vh;
+    width: 70%;
     color: black;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     padding: 20px;
+    padding-bottom: 2rem;
     transition: background-color 0.3s ease;
     transition: padding 0.3s ease;
 }
@@ -28,4 +34,38 @@
 }
 .advanced_upload .dragndrop {
   display: inline;
+}
+
+.input {
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.button {
+    font-size: inherit;
+    padding: 0.3rem;
+    background-color: aquamarine;
+    border: none;
+    border-radius: 0.7rem;
+    cursor: pointer ;
+    margin: 0.5rem;
+}
+
+input {
+    opacity: 0;
+    position: absolute;
+}
+
+strong {
+    text-decoration: underline;
+}
+strong:hover {
+    color: blueviolet;
+}
+
+.button:hover {
+    background-color: blueviolet;
 }
