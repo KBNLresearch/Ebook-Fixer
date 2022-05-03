@@ -1,8 +1,13 @@
-.dragndrop,
-.uploading,
-.success,
-.error {
+.dragndrop{
     display: none;
+}
+
+.success {
+    background-color: lightgreen;
+}
+
+.error {
+    background-color: lightcoral !important;
 }
 
 .hidden {
@@ -13,9 +18,11 @@
     height: 25vh;
     width: 70%;
     color: black;
+    background-color: gainsboro;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
     padding: 20px;
     padding-bottom: 2rem;
     transition: background-color 0.3s ease;
@@ -28,7 +35,6 @@
 
 
 .advanced_upload {
-  background-color: white;
   outline: 2px dashed black;
   outline-offset: -10px;
 }

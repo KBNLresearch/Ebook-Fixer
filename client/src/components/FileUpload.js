@@ -10,33 +10,44 @@ function testForDragAndDropSupport() {
         && 'FormData' in window && 'FileReader' in window;
 }
 
+// The file that the user will upload
 let droppedFile = null;
 
 function FileUpload() {    
 
+    // State of this component:
+    // If the user is dragging a file across the component
     const [dragging, setDragging] = useState(false);
+    // If the user is uploading a file
     const [uploading, setUploading] = useState(false);
+    // The filename of the file that the user is uploading
     const [filename, setFilename] = useState("");
+    // Status when the user uploads a file
+    const [status, setStatus] = useState("");
 
     const form = useRef(null);
 
+    // When the mouse enters the file drop area
     function handleDragEnter(e) {
         if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
             setDragging(true);
         }
     }
 
+    // When the mouse leaves the file drop area
     function handleDragLeave(e) {
         setDragging(false);
     }
 
+    // When the mouse drops the file
     function handleDrop(e) {
         droppedFile = e.dataTransfer.files;
         setFilename(droppedFile[0].name)
-        console.log(droppedFile);
     }
 
+    // When the mouse is in the drag and drop area
     function handleDrag(e) {
+        // prevent browser from opening the file
         e.preventDefault();
         e.stopPropagation();  
     }
@@ -44,6 +55,7 @@ function FileUpload() {
     // This executes when the component is mounted:
     useEffect(() => {
         if (testForDragAndDropSupport()) {
+            // get form element
             const formElement = form.current;
             // Add Events (react only supports adding 1 event at a time so I had to do it this way)
             ['drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop'].forEach(s => {
@@ -73,10 +85,15 @@ function FileUpload() {
         }
     }, [])
 
+    // Handle the submission of the file
     function handleSubmit(e) {
+        // Dont reload the page with the form
         e.preventDefault();
+
+        // Already submitted
         if (uploading) return false;
 
+        // If the file exists
         if (droppedFile) {
             setUploading(true);
             console.log("uploading");
@@ -85,28 +102,57 @@ function FileUpload() {
             let formdata = new FormData();
             formdata.append('epub', droppedFile[0])
             sendFile(formdata)
+                .then(result => {
+                    setUploading(false);
+                    setStatus("success");
+                })
+                .catch(error => {
+                    setUploading(false);
+                    setStatus("error");
+                })
         }
-
     }
 
     return (
-        <form className={styles.box + ' ' + (testForDragAndDropSupport() ? styles.advanced_upload : '') + ' ' + (dragging ? styles.dragging : '')}
+        <form className={
+            (testForDragAndDropSupport() ? styles.advanced_upload : '')
+            + ' ' + (dragging ? styles.dragging : '')
+            + ' ' + (status === "error" ? styles.error : '')
+            + ' ' + (status === "success" ? styles.success : '')
+            + styles.box
+        }
             method="post" encType="multipart/form-data" ref={form}
-        onSubmit={handleSubmit}>
+            onSubmit={handleSubmit}>
+            
             <div className={styles.input + ' ' + (uploading ? styles.hidden : '')}>
-                <input className={styles.file} type="file" name="epub" id="file" onChange={(e) => {
+
+                <input className={styles.file}
+                    type="file" name="epub" id="file"
+                    onChange={(e) => {
                     droppedFile = e.target.files
                     setFilename(droppedFile[0].name)
-                }}/>
-                <label htmlFor="file">{filename === "" ?
-                    <div><strong>Choose a file</strong><span className={styles.dragndrop}> or drag it here</span></div> :
-                    <span>{filename}</span>}
+                    }}
+                />
+
+                <label htmlFor="file">
+                    {/* If the filename is not empty, display it. 
+                    Otherwise, display file choosing prompt*/}
+                    {filename === "" ?
+                        <div><strong>Choose a file</strong><span className={styles.dragndrop}> or drag it here</span></div>
+                        : <span>{filename}</span>
+                    }
                 </label>
-                <button className={styles.button + ' ' + (uploading ? styles.hidden : '')} type="submit">Upload</button>
+
+                <button
+                    className={styles.button + ' ' + (uploading ? styles.hidden : '')}
+                    type="submit">
+                    Upload
+                </button>
             </div>
+
             <div className={(uploading ? '' : styles.hidden)}>Uploading…</div>
-            <div className={styles.success}>Done!</div>
-            <div className={styles.error}>Error! <span></span>.</div>
+            <div className={(status === "success" ? styles.success : styles.hidden)}>Done!</div>
+            <div className={(status === "error" ? styles.error : styles.hidden)}>Error! Please try again!</div>
         </form>
     )
 }
