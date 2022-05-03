@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import { sendFile } from '../api/SendFile';
 import styles from './FileUpload.module.css';
+import {ReactComponent as UploadSVG} from '../assets/svgs/upload-sign.svg'
 
 // Tests that drag and drop features and File reading are available
 // in the user's browser. Will use a workaround if they're not.
@@ -8,6 +9,10 @@ function testForDragAndDropSupport() {
     var div = document.createElement('div');
     return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div))
         && 'FormData' in window && 'FileReader' in window;
+}
+
+function checkFileType(file) {
+    return file.type === "application/epub+zip";
 }
 
 // The file that the user will upload
@@ -89,12 +94,20 @@ function FileUpload() {
     function handleSubmit(e) {
         // Dont reload the page with the form
         e.preventDefault();
+        setStatus("");
 
         // Already submitted
         if (uploading) return false;
 
         // If the file exists
         if (droppedFile) {
+            // Check the file type:
+            if (!checkFileType(droppedFile[0])) {
+                // Wrong file type
+                setStatus("bad_file_type")
+                return false;
+            }
+
             setUploading(true);
             console.log("uploading");
             console.log(droppedFile);
@@ -119,7 +132,7 @@ function FileUpload() {
             + ' ' + (dragging ? styles.dragging : '')
             + ' ' + (status === "error" ? styles.error : '')
             + ' ' + (status === "success" ? styles.success : '')
-            + styles.box
+            + ' ' + styles.box
         }
             method="post" encType="multipart/form-data" ref={form}
             onSubmit={handleSubmit}>
@@ -138,7 +151,7 @@ function FileUpload() {
                     {/* If the filename is not empty, display it. 
                     Otherwise, display file choosing prompt*/}
                     {filename === "" ?
-                        <div><strong>Choose a file</strong><span className={styles.dragndrop}> or drag it here</span></div>
+                        <div><strong className={styles.chooseFile}>Choose a file</strong><span className={styles.dragndrop}> or drag it here</span></div>
                         : <span>{filename}</span>
                     }
                 </label>
@@ -146,6 +159,7 @@ function FileUpload() {
                 <button
                     className={styles.button + ' ' + (uploading ? styles.hidden : '')}
                     type="submit">
+                    <UploadSVG className={styles.svg}/>
                     Upload
                 </button>
             </div>
@@ -153,6 +167,8 @@ function FileUpload() {
             <div className={(uploading ? '' : styles.hidden)}>Uploading…</div>
             <div className={(status === "success" ? styles.success : styles.hidden)}>Done!</div>
             <div className={(status === "error" ? styles.error : styles.hidden)}>Error! Please try again!</div>
+            <div className={(status === "bad_file_type" ? styles.error : styles.hidden)}>The chosen file has the wrong file type!
+                <br />Please submit an epub file.</div>
         </form>
     )
 }
