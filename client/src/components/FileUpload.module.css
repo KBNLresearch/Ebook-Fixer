@@ -1,0 +1,31 @@
+.dragndrop,
+.uploading,
+.success,
+.error {
+  display: none;
+}
+
+.box {
+    height: 20vh;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    transition: background-color 0.3s ease;
+    transition: padding 0.3s ease;
+}
+.box.dragging {
+    background-color: slategray;
+    padding: 30px;
+}
+
+
+.advanced_upload {
+  background-color: white;
+  outline: 2px dashed black;
+  outline-offset: -10px;
+}
+.advanced_upload .dragndrop {
+  display: inline;
+}
