@@ -13,20 +13,19 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-# from xml.etree.ElementInclude import include
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from kb import views
+from ebooks.views import EbookView
+from images.views import ImageView
+from annotations.views import AnnotationView
 
 router = routers.DefaultRouter()
-router.register(r'ebooks', views.EbookView, 'ebook')
-router.register(r'images', views.ImageView, 'image')
-router.register(r'annotations', views.AnnotationView, 'annotation')
-router.register(r'imageannotations', views.ImageAnnotatedView, 'imageannotation')
+router.register(r'ebooks', EbookView, 'ebook')
+router.register(r'images', ImageView, 'image')
+router.register(r'annotations', AnnotationView, 'annotation')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('', include('kb.urls'))
 ]
