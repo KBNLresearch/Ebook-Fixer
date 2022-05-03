@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import React, { useState } from 'react'
-import { fetchExampleApiCall } from './ApiCalls';
+import { fetchExampleApiCall } from './api/ApiCalls';
 import FileUpload from './components/FileUpload';
 
 // This code uses functional components, you could use classes instead but they're
