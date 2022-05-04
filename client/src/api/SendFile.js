@@ -1,3 +1,10 @@
+/**
+ * This calls the server API to upload the submitted epub file.
+ * 
+ * @param {FormData} file The file which is put in a FormData container so that it can be sent like a form.
+ * @returns The parsed JSON response if the response was OK (code 2xx), 
+ *          Or the error that was thrown (if the response is an error code).
+ */
 export function sendFile(file) {
     return fetch('http://localhost:8000/api/ebooks/upload/', {
         method: 'POST',

@@ -4,13 +4,14 @@ import styles from './FileUpload.module.css';
 import {ReactComponent as UploadSVG} from '../assets/svgs/upload-sign.svg'
 
 // Tests that drag and drop features and File reading are available
-// in the user's browser. Will use a workaround if they're not.
+// in the user's browser. The code will use a workaround if they're not.
 function testForDragAndDropSupport() {
     var div = document.createElement('div');
     return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div))
         && 'FormData' in window && 'FileReader' in window;
 }
 
+// This helper function checks that the file type of the file provided is an epub
 function checkFileType(file) {
     return file.type === "application/epub+zip";
 }
@@ -18,6 +19,13 @@ function checkFileType(file) {
 // The file that the user will upload
 let droppedFile = null;
 
+/**
+ * This component handles uploading the epub and sending it to the server.
+ * It supports both drag and drop and choosing a file with a system window.
+ * It checks the file type to be an epub.
+ * 
+ * @returns The FileUpload component, ready for rendering.
+ */
 function FileUpload() {    
 
     // State of this component:
@@ -30,6 +38,8 @@ function FileUpload() {
     // Status when the user uploads a file
     const [status, setStatus] = useState("");
 
+    // A reference to the form that is returned below,
+    // Used for adding event listeners to it.
     const form = useRef(null);
 
     // When the mouse enters the file drop area
@@ -58,6 +68,7 @@ function FileUpload() {
     }
 
     // This executes when the component is mounted:
+    // This is used for adding event listeners for dragging and dropping (for UI elements)
     useEffect(() => {
         if (testForDragAndDropSupport()) {
             // get form element
@@ -90,7 +101,15 @@ function FileUpload() {
         }
     }, [])
 
-    // Handle the submission of the file
+    /**
+     * This Function checks that a file has been submitted / dropped 
+     * and is called automatically when the user submits the form (by clicking the upload button)
+     * It checks the file type of the submission (by calling a helper function)
+     * And sends the file to the server using the API.
+     * 
+     * @param e The event that submitted the form.
+     * @returns False if the submission is not meant to be done at this point, nothing if it succeeds / fails
+     */
     function handleSubmit(e) {
         // Dont reload the page with the form
         e.preventDefault();
@@ -126,13 +145,14 @@ function FileUpload() {
         }
     }
 
+    // Return the final HTML of the component:
     return (
         <form className={
-            (testForDragAndDropSupport() ? styles.advanced_upload : '')
+            styles.box
+            + ' ' + (testForDragAndDropSupport() ? styles.advanced_upload : '')
             + ' ' + (dragging ? styles.dragging : '')
             + ' ' + (status === "error" ? styles.error : '')
             + ' ' + (status === "success" ? styles.success : '')
-            + ' ' + styles.box
         }
             method="post" encType="multipart/form-data" ref={form}
             onSubmit={handleSubmit}>
