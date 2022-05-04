@@ -11,10 +11,13 @@ from django.http import JsonResponse
 def ebook_detail_view(request, uuid):
     if request.method == "GET":
         serializer_class = EbookSerializer
-        obj = Ebook.objects.all().filter(uuid=uuid).get()
-        serializer = serializer_class(obj)
+        try:
+            ebook = Ebook.objects.all().filter(uuid=uuid).get()
+        except Ebook.DoesNotExist:
+            return JsonResponse({'msg': 'Ebook Not Found!'}, status=status.HTTP_404_NOT_FOUND)
+        serializer = serializer_class(ebook)
         return JsonResponse(serializer.data, status=status.HTTP_200_OK)
-    return JsonResponse({'msg': 'Ebook not found!'}, status=status.HTTP_404_NOT_FOUND)
+    return JsonResponse({'msg': 'Method Not Allowed!'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
 def ebook_download_view(request, uuid):
