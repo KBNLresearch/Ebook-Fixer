@@ -1,2 +1,4 @@
 env/
 data-db/
+init-db/
+node_modules/

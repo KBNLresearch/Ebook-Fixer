@@ -1,6 +1,6 @@
 env/
 server/env/
-test-books
+test-books/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

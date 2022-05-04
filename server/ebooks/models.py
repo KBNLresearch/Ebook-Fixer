@@ -12,6 +12,3 @@ class Ebook(models.Model):
 
     def get_absolute_url(self):
         return reverse("ebooks:ebook-detail", kwargs={"uuid": self.uuid})
-    
-    def get_uuid(self):
-        return self.uuid
