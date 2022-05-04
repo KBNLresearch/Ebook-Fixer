@@ -20,7 +20,8 @@ export function sendFile(file) {
         throw new Error(response.status + ", message: " + response.statusText)
     })
     .then(function (response) {
-        console.log("Response: " + response);
+        console.log("Response: ");
+        console.log(response);
         return response;
     })
     .catch(error => {
