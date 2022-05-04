@@ -11,3 +11,4 @@ isort==5.8.0
 django-cors-headers
 pytest
 django-environ
+bs4

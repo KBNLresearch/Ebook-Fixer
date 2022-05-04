@@ -5,9 +5,9 @@ services:
   mongodb:
     image: mongo:${MONGO_DB_TAG}
     restart: always
-#    volumes:
-#      - ./init-db:/docker-entrypoint-initdb.d
-#      - ./data-db:/data/db
+    volumes:
+      - ./init-db:/docker-entrypoint-initdb.d
+      - ./data-db:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_DB_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_DB_PASSWORD}

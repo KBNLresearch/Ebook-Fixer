@@ -1,8 +1,6 @@
 from django.db import models
 from images.models import Image
 
-# Create your models here.
-
 
 class Annotation(models.Model):
     image = models.ForeignKey(Image, on_delete=models.CASCADE)
