@@ -5,7 +5,9 @@ from images.models import Image
 from annotations.models import Annotation
 
 from django.http import JsonResponse
+from django.http import HttpResponse
 from rest_framework import status
+from .utils import zip_ebook
 # import json
 
 
@@ -27,14 +29,25 @@ def ebook_download_view(request, uuid):
     annotations = [a for a in Annotation.objects.all()
                    if a.image in images
                    if a.type == 'HUM']
+    
+    ebook_uuid = ebook.get_uuid()
+    
 
     # assume a list of html files for that book
     html_files = []
 
     inject_image_annotations(html_files, images, annotations)
 
-    # zip contents
-    # return zipped contents
+    # Zip contents
+    print(f"Zipping: {ebook_uuid}")
+    zipFileName = zip_ebook(ebook_uuid)
+
+    # Return zipped contents
+    with open(zipFileName, 'r') as file:
+            response = HttpResponse(file, content_type='application/epub+zip')
+            response['Content-Disposition'] = f'attachment; filename={zipFileName}'
+            return response
+
 
 
 def ebook_upload_view(request):
