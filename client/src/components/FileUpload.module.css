@@ -1,0 +1,89 @@
+.dragndrop{
+    display: none;
+}
+
+.success {
+    background-color: lightgreen !important;
+}
+
+.error {
+    background-color: lightcoral !important;
+}
+
+div.error {
+    padding: 0.3rem;
+    border-radius: 0.5rem;
+}
+
+.hidden {
+    display: none; 
+}
+
+.box {
+    height: 25vh;
+    width: 70%;
+    color: black;
+    background-color: gainsboro;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    padding-bottom: 2rem;
+    transition: background-color 0.5s ease, padding 0.3s ease;
+}
+.box.dragging {
+    background-color: slategray;
+    padding: 30px;
+}
+
+
+.advanced_upload {
+  outline: 2px dashed black;
+  outline-offset: -10px;
+}
+.advanced_upload .dragndrop {
+  display: inline;
+}
+
+.input {
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.button {
+    font-size: inherit;
+    padding: 0.3rem;
+    background-color: aquamarine;
+    border: none;
+    border-radius: 0.7rem;
+    cursor: pointer;
+    margin: 0.8rem;
+    transition: all 0.2s ease;
+}
+
+.button:hover {
+    background-color: blueviolet;
+}
+
+input.file {
+    opacity: 0.5;
+    position: absolute;
+    z-index: -1;
+}
+
+.chooseFile {
+    text-decoration: underline;
+    cursor: pointer;
+}
+.chooseFile:hover {
+    color: blueviolet;
+}
+
+.svg {
+    height: 1em;
+    padding-right: 0.5rem;
+}
