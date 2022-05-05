@@ -58,6 +58,7 @@ analysis-client:
   script:
     - docker run $CLIENT_IMAGE echo npx eslint .
     - echo "Static analysis on the client passed!"
+  allow_failure: true
 
 analysis-server:
   stage: static analysis
@@ -70,6 +71,7 @@ analysis-server:
   script:
     - docker run $SERVER_IMAGE flake8 --max-line-length 99 --statistics .
     - echo "Static analysis on the server passed!"
+  allow_failure: true
 
 test-client:
   stage: test
@@ -83,6 +85,7 @@ test-client:
     # npm test can be replaced with another script that runs the tests
     - docker run $CLIENT_IMAGE npm test
     - echo "Tests on the client passed!"
+  allow_failure: true
 
 test-server:
   stage: test
@@ -97,6 +100,7 @@ test-server:
     # Using this for now since we don't have any tests
 #    - docker run $SERVER_IMAGE sh -c 'pytest; ret=$?; [ $ret = 5 ] && exit 0 || exit $ret'
     - echo "Tests on the server passed!"
+  allow_failure: true
 
 clean-up:
   stage: clean-up
