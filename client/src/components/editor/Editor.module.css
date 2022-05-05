@@ -1,0 +1,10 @@
+.editor {
+    padding: 1rem;
+    background-color: #eee;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+.title {
+    text-align: center;
+}

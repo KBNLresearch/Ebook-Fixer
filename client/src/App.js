@@ -2,11 +2,14 @@ import './App.css';
 import React, { useState } from 'react'
 import { fetchExampleApiCall } from './api/ApiCalls';
 import FileUpload from './components/FileUpload';
+import Editor from './components/editor/Editor';
 
 // This code uses functional components, you could use classes instead but they're
 function App() {
 
     const [result, setResult] = useState([]);
+
+    const [ebookFile, setEbookFile] = useState(null);
 
     function getResult() {
         fetchExampleApiCall().then(data => {
@@ -17,7 +20,7 @@ function App() {
     return (
         <div className="App">
         <header className="App-header">
-            <FileUpload></FileUpload>
+            <FileUpload setEbookFile={setEbookFile}></FileUpload>
             <p>
             Press the button below to call the ebooks api:
             </p>
@@ -29,6 +32,9 @@ function App() {
                 })}
             </ul>
         </header>
+        <main>
+            {ebookFile === null ? '' : <Editor ebookFile={ebookFile}></Editor>}
+        </main>
         </div>
     );
 }

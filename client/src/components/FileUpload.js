@@ -26,7 +26,7 @@ let droppedFile = null;
  * 
  * @returns The FileUpload component, ready for rendering.
  */
-function FileUpload() {    
+function FileUpload(props) {    
 
     // State of this component:
     // If the user is dragging a file across the component
@@ -130,18 +130,26 @@ function FileUpload() {
             setUploading(true);
             console.log("uploading");
             console.log(droppedFile);
+
+            // -----------------------------------------------------
+            // TODO: Remove the next line of code once the endpoint for downloading ebooks is done
+            // this is for development purposes only:
+            // Puts the dropped file into the state of the App component to use for the Editor
+            props.setEbookFile(droppedFile[0])
+            // -----------------------------------------------------
+
             // sending the file:
             let formdata = new FormData();
             formdata.append('epub', droppedFile[0])
-            sendFile(formdata)
-                .then(result => {
-                    setUploading(false);
-                    setStatus("success");
-                })
-                .catch(error => {
-                    setUploading(false);
-                    setStatus("error");
-                })
+            // sendFile(formdata)
+            //     .then(result => {
+            //         setUploading(false);
+            //         setStatus("success");
+            //     })
+            //     .catch(error => {
+            //         setUploading(false);
+            //         setStatus("error");
+            //     })
         }
     }
 
