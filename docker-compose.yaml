@@ -33,7 +33,7 @@ services:
     links:
       - mongodb
     volumes:
-      - .:/code
+      - ./server-vol:/backend
 
   client:
     restart: always

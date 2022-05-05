@@ -91,11 +91,15 @@ test-server:
   stage: test
   except: [main]
   needs: [analysis-server]
+  variables:
+    MONGOD_DB_TAG: 5.0.8
+    MONGO_DB: mongo:$MONGOD_DB_TAG
   before_script:
     - apk add --no-cache bash
     - chmod u+x wait.sh && ./wait.sh
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
+    - docker run $MONGO_DB
     - docker run $SERVER_IMAGE python manage.py test
     - echo "Tests on the server passed!"
   allow_failure: true
