@@ -34,7 +34,7 @@ services:
       - mongodb
     volumes:
       - .:/code
-      - ./server-vol:/app/test-books
+      - ./server-vol:/app/test-ebooks
 
   client:
     restart: always
