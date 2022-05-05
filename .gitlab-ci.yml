@@ -99,7 +99,7 @@ test-server:
   script:
     - docker-compose --env-file .env.ci up --build -d
     - docker ps -a
-    - docker exec -it backend python manage.py test
+    - docker exec backend python manage.py test
     - echo "Tests on the server passed!"
   allow_failure: true
 
