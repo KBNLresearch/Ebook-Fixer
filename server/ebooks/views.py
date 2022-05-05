@@ -49,11 +49,9 @@ def ebook_download_view(request, uuid):
     # Zip contents
     print(f"Zipping: {ebook_uuid}")
     zip_file_name = zip_ebook(ebook_uuid)
-    print(zip_file_name)
 
     # Return zipped contents
-    with open(zip_file_name, 'r') as file:
-        print(file)
+    with open(zip_file_name, 'rb') as file:
         response = HttpResponse(file, content_type='application/epub+zip')
         response['Content-Disposition'] = f'attachment; filename={zip_file_name}'
         return response

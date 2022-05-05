@@ -1,8 +1,6 @@
 from bs4 import BeautifulSoup
-import zipfile
-import os
-from os.path import basename
 from pathlib import Path
+import shutil
 
 
 def inject_image_annotations(ebook_uuid, html_filenames, images, annotations):
@@ -28,18 +26,8 @@ def inject_image_annotations(ebook_uuid, html_filenames, images, annotations):
 # Assumes that there is an unzipped epub at test-books/
 # Zips the ebook with that uuid and returns the path for the zipped epub
 def zip_ebook(ebook_uuid):
-    zipfile_name = f"test-books/{ebook_uuid}.zip"
-    print(f"DEBUG: {zipfile_name}")
-    with zipfile.ZipFile(zipfile_name, 'w') as zipObj:
-        # Iterate over all the files in directory
-        for folder_name, sub_folders, filenames in os.walk("test-books/{ebook_uuid}"):
-            for filename in filenames:
-                # Create complete filepath of file in directory
-                filepath = os.path.join(folder_name, filename)
-                # Add file to zip
-                zipObj.write(filepath, basename(filepath))
-
-    # Changing extension to .epub
+    path_name = f"test-books/{ebook_uuid}/"
+    zipfile_name = shutil.make_archive(ebook_uuid, 'zip', path_name)
     path = Path(zipfile_name)
     path = path.rename(path.with_suffix('.epub'))
     return path
