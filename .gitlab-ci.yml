@@ -101,7 +101,6 @@ test-server:
 clean-up:
   stage: clean-up
   except: [main]
-  needs: [build]
   variables:
     SERVER_IMAGE: $CI_PROJECT_PATH/server:$CI_COMMIT_SHORT_SHA
     CLIENT_IMAGE: $CI_PROJECT_PATH/client:$CI_COMMIT_SHORT_SHA
