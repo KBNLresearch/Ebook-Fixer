@@ -19,6 +19,8 @@ from rest_framework import routers
 from ebooks.views import EbookView
 from images.views import ImageView
 from annotations.views import AnnotationView
+from django.conf import settings
+from django.conf.urls.static import static
 
 router = routers.DefaultRouter()
 router.register(r'ebooks', EbookView, 'ebook')
@@ -29,3 +31,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

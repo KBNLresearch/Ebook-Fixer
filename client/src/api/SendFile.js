@@ -1,9 +1,6 @@
 export function sendFile(file) {
     return fetch('http://localhost:8000/api/ebooks/upload/', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
         body: file,
     })
     .then(response => {

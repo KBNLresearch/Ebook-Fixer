@@ -1,3 +1,4 @@
+from xml.dom.minidom import Document
 from rest_framework import viewsets
 from .serializers import EbookSerializer
 from .models import Ebook
@@ -5,8 +6,11 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import JsonResponse
-import json
+import zipfile
+import uuid 
+import os
 # Create your views here.
+
 
 
 class EbookView(viewsets.ModelViewSet):
@@ -23,11 +27,36 @@ class EbookView(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-    # This will add the unzipped epub file into local storage, then create DB entry with uuid, title
+
     @action(detail=False, methods=["post"], url_path=r'upload',)
     def upload(self, request):
-        if request.method == 'POST':
-            # json_data = json.loads(request.body)
-            
-            return JsonResponse({'msg':'Upload GUD'})
-        return JsonResponse({'msg':'Upload BAD'})
+
+        print('\n\n\n ########################################## request.FILES:\n')  
+        print(request.FILES, '\n')              
+        print(request.FILES['epub'].file)  
+        print('\n########################################## \n\n\n')
+
+        book_id = str(uuid.uuid4())
+        # binary_epub = request.FILES['epub'].file
+        epub_name = request.FILES['epub'].name
+        
+        # Check if file extension is  .epub
+        file_ext = epub_name[-5:]
+        if file_ext == '.epub':
+            # TODO: Extract title from HTML
+            new_ebook = Ebook(book_id, epub_name, request.FILES['epub'])
+            new_ebook.save()
+
+            # TODO: Make accessible (Aratrika)
+                
+            # TODO: Return accessible epub file as response to client in Response
+
+            return Response(data='<accessible ebook>', status=status.HTTP_200_OK)
+        else: 
+            return Response(data='Make sure your uploaded file has extension .epub!', status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
