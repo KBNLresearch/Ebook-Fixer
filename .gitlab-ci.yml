@@ -96,9 +96,7 @@ test-server:
     - chmod u+x wait.sh && ./wait.sh
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
-    # - docker run $SERVER_IMAGE pytest
-    # Using this for now since we don't have any tests
-    - docker run $SERVER_IMAGE sh -c 'pytest; ret=$?; [ $ret = 5 ] && exit 0 || exit $ret'
+    - docker run $SERVER_IMAGE python manage.py test
     - echo "Tests on the server passed!"
   allow_failure: false
 
