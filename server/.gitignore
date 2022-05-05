@@ -1,6 +1,3 @@
-env/
-server/env/
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -84,7 +81,7 @@ celerybeat-schedule
 *.sage.py
 
 # Environments
-.env
+# .env
 .venv
 env/
 venv/
