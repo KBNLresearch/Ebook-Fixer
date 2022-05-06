@@ -5,6 +5,7 @@ from uuid import uuid4
 from .views import ebook_detail_view
 from .models import Ebook
 from .serializers import EbookSerializer
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 
 class ViewsTest(TestCase):
@@ -39,8 +40,14 @@ class ViewsTest(TestCase):
         self.assertEqual(response.status_code, 405)
         self.assertEqual(msg, b'{"msg": "Method Not Allowed!"}')
 
+    # TODO: How to pass FileField??
     def test_ebook_details_view_200(self):
-        ebook = Ebook.objects.create(uuid=self.uuid, epub3_path="TEST_PATH", title="TEST_TITLE")
+
+        test_file = SimpleUploadedFile(
+            "test_epubfile.epub",
+            b"These are the file contents!"   # note the b in front of the string [bytes]
+        )
+        ebook = Ebook.objects.create(uuid=self.uuid, title="TEST_TITLE", epub=test_file)
 
         response, data = self.response_ebook_detail_view()
         data = data.decode('utf-8')

@@ -10,6 +10,7 @@ from annotations.models import Annotation
 
 
 class UtilsTest(TestCase):
+    # TODO: How to pass FileField epub??
     def test_inject_image_annotations(self):
         uuid = uuid4()
         test_html_content = '<html><body><img src="test.jpg"/></body></html>'
@@ -21,7 +22,7 @@ class UtilsTest(TestCase):
         with open(html_content_path + html_filename, "w") as file:
             file.write(test_html_content)
 
-        ebook = Ebook.objects.create(uuid=uuid, epub3_path="TEST_PATH", title="TEST_TITLE")
+        ebook = Ebook.objects.create(uuid=uuid, title="TEST_TITLE")
         image = Image.objects.create(ebook=ebook, filename="test.jpg", location=html_filename,
                                      classification="INFO", raw_context=" ")
         annotation = Annotation.objects.create(image=image, type="HUM",
