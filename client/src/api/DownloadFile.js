@@ -1,19 +1,26 @@
 export function  getFile(fileId) {
-    return fetch('http://localhost:8000/api/ebooks/download/'+ fileId, {
+    return fetch('http://localhost:8000/ebooks/download/'+ fileId + "/", {
         method: 'GET'
     })
     .then(response => {
         if (response.ok) {
+            console.log("okay")
             response.blob().then(blob => {
+                console.log("blob")
                 let url = window.URL.createObjectURL(blob);
                 let a = document.createElement('a');
                 a.href = url;
                 a.download = fileId+'.epub';
                 a.click();
+                return
+
+
             });
+
+
         }
-        throw new Error(response.status + ", message: " + response.statusText)
-        
+
+
     })
     .then(function (response) {
         console.log("Response: ");
@@ -21,8 +28,9 @@ export function  getFile(fileId) {
         return response;
     })
     .catch(error => {
+        window.alert("Error! Please try again.")
         console.log(error);
         throw error;
     })
-    
+
 }
