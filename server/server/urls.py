@@ -32,4 +32,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
 ]
 
+# Allows localhost:8000 to serve the uploaded epub files
+# For example at:
+# "http://localhost:8000/test-ebooks/f8825e97-c336-4138-85d7-28aa691defc6/pg84.epub"
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -16,8 +16,8 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-MEDIA_URL = '/test-ebooks/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'test-ebooks')
+MEDIA_URL = '/test-books/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'test-books')
 
 env = environ.Env()
 environ.Env.read_env()  # reading .env file
@@ -145,5 +145,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000'
 ]
-
-
