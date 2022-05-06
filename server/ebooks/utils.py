@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from pathlib import Path
 import shutil
+import zipfile
 
 
 def inject_image_annotations(ebook_uuid, html_filenames, images, annotations):
@@ -36,3 +37,10 @@ def zip_ebook(ebook_uuid):
     path = Path(zipfile_name)
     path = path.rename(path.with_suffix('.epub'))
     return path
+
+# Assumes the zipped epub file is stored under MEDIA_ROOT/test-books/{uuid}/{filename}
+# Unzips the epub file, now under MEDIA_ROOT/{uuid}
+def unzip_ebook(ebook_uuid, ebook_filename):
+    with zipfile.ZipFile(f"/app/test-books/{ebook_uuid}/{ebook_filename}", 'r') as zipped_epub:
+        zipped_epub.extractall(f"/app/test-books/{ebook_uuid}")
+

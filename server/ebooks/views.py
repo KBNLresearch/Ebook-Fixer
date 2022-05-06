@@ -4,55 +4,12 @@ from rest_framework.decorators import action
 from django.http import JsonResponse
 from django.http import HttpResponse
 from rest_framework import status
-import zipfile
 import uuid
-from .utils import inject_image_annotations, zip_ebook
+from .utils import inject_image_annotations, unzip_ebook, zip_ebook
 from images.models import Image
 from annotations.models import Annotation
 import os
-
-# class EbookView(viewsets.ModelViewSet):
-#     serializer_class = EbookSerializer
-#     queryset = Ebook.objects.all()
-
-    # @action(detail=False, methods=["post"], url_path=r'upload',)
-    # def upload(self, request):
-
-    #     # print('\n\nRequest.body: ', request.body)
-    #     #  <MultiValueDict: {'epub': [<InMemoryUploadedFile: pg84.epub
-    #     #                     (application/epub+zip)>]}
-    #     # print('\n\nrequest.FILES: ', request.FILES)
-
-    #     # Generate random uuid for new ebook instance
-    #     book_id = str(uuid.uuid4())
-    #     uploaded_epub = request.FILES['epub']
-    #     # binary_epub = request.FILES['epub'].file
-    #     epub_name = request.FILES['epub'].name
-
-    #     # Check if file extension is .epub
-    #     file_ext = epub_name[-5:]
-    #     if file_ext == '.epub':
-    #         # TODO: Extract title from content.opf ?
-    #         new_ebook = Ebook(book_id, epub_name, uploaded_epub)
-    #         new_ebook.save()
-
-    #         # Unzip the epub file stored on the server
-    #         with zipfile.ZipFile(f"/app/test-books/{book_id}/{epub_name}", 'r') as zipped_epub:
-    #             zipped_epub.extractall(f"/app/test-books/{book_id}")
-
-    #         # TODO: Make accessible (Aratrika)
-    #         # TODO: Convert epub2 to epub3
-
-    #         # TODO: Return accessible epub3 file (convert to JSON??)
-    #         #       + bookid as response to client in Response
-
-    #         return JsonResponse({'book_id': str(book_id),
-    #                             'accessible_epub3': '<JSON_epub_file>'},
-    #                             status=status.HTTP_200_OK)
-    #         # return JsonResponse({'data': binary_epub}, status=status.HTTP_200_OK)
-    #     else:
-    #         return JsonResponse({'data': 'Make sure your uploaded file has extension .epub!'},
-    #                             status=status.HTTP_400_BAD_REQUEST)
+from django.views.decorators.csrf import csrf_exempt
 
 def ebook_detail_view(request, uuid):
     if request.method == "GET":
@@ -104,5 +61,45 @@ def ebook_download_view(request, uuid):
                             status=status.HTTP_404_NOT_FOUND)
 
 
+@csrf_exempt
 def ebook_upload_view(request):
-    pass
+    if request.method == "POST":
+        # print('\n\nRequest.body: ', request.body)
+        #  <MultiValueDict: {'epub': [<InMemoryUploadedFile: pg84.epub
+        #                     (application/epub+zip)>]}
+        # print('\n\nrequest.FILES: ', request.FILES)
+
+        # Generate random uuid for new ebook instance
+        book_uuid = str(uuid.uuid4())
+        uploaded_epub = request.FILES['epub']
+        # binary_epub = request.FILES['epub'].file
+        epub_name = request.FILES['epub'].name
+
+        # Check if file extension is .epub
+        file_ext = epub_name[-5:]
+        if file_ext == '.epub':
+            # TODO: Extract title from content.opf ?
+            new_ebook = Ebook(book_uuid, epub_name, uploaded_epub)
+            # Automatically stores the uploaded epub under MEDIA_ROOT/{uuid}/{filename}
+            new_ebook.save()
+
+            # Unzip the epub file stored on the server, under MEDIA_ROOT/{uuid}
+            unzip_ebook(book_uuid, epub_name)
+
+            # TODO: Make accessible (Aratrika)
+            # TODO: Convert epub2 to epub3
+
+            # TODO: Return accessible epub3 file (<class '_io.BufferedReader'> in HTTPResponse)
+
+            # response = HttpResponse(uploaded_epub, content_type='application/epub+zip')
+            # response['book_uuid'] = str(book_uuid)
+            # return response
+            return JsonResponse({'book_id': str(book_uuid),
+                                'accessible_epub3': '<JSON_epub_file>'},
+                                status=status.HTTP_200_OK)
+        else:
+            return JsonResponse({'msg': 'Make sure your uploaded file has extension .epub!'},
+                                status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return JsonResponse({'msg': 'Method Not Allowed!'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
