@@ -1,10 +1,11 @@
+import uuid
 from django.db import models
+from django.urls import reverse
 
 
 def epub_dir_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/{uuid}
     return '{0}/{1}'.format(str(instance.uuid), filename)
-
 
 class Ebook(models.Model):
     uuid = models.CharField(primary_key=True, max_length=100, default="DEFAULT", unique=True)
@@ -15,5 +16,11 @@ class Ebook(models.Model):
     # containing the reference to the actual file
     epub = models.FileField(upload_to=epub_dir_path)
 
+    def get_absolute_url(self):
+        return reverse("ebooks:ebook-detail", kwargs={"uuid": self.uuid})
+
     def __str__(self) -> str:
         return self.uuid
+
+    
+

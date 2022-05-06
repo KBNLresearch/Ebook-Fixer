@@ -22,9 +22,6 @@ services:
     command: bash -c 'python manage.py makemigrations ebooks images annotations && 
                       python manage.py migrate && 
                       python manage.py runserver 0.0.0.0:8000'
-
-    # env_file:
-    #   - ./server/settings.ini
     build:
       context: ./server/
       dockerfile: Dockerfile
@@ -33,8 +30,7 @@ services:
     links:
       - mongodb
     volumes:
-      - .:/code
-      - ./server-vol:/app/test-ebooks
+      - ./server-vol:/app/test-books
 
   client:
     restart: always
@@ -45,8 +41,7 @@ services:
       context: ./client/
       dockerfile: Dockerfile
     volumes:
-      - '.:/app'
-      - '/app/node_modules'
+      - .:/app
     ports:
       - "3000:3000"
     stdin_open: true

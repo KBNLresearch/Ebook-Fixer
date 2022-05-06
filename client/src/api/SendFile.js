@@ -6,7 +6,7 @@
  *          Or the error that was thrown (if the response is an error code).
  */
 export function sendFile(file) {
-    return fetch('http://localhost:8000/api/ebooks/upload/', {
+    return fetch('http://localhost:8000/ebooks/upload/', {
         method: 'POST',
         body: file,
     })

@@ -15,21 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
-from ebooks.views import EbookView
-from images.views import ImageView
-from annotations.views import AnnotationView
 from django.conf import settings
 from django.conf.urls.static import static
 
-router = routers.DefaultRouter()
-router.register(r'ebooks', EbookView, 'ebook')
-router.register(r'images', ImageView, 'image')
-router.register(r'annotations', AnnotationView, 'annotation')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+    path('ebooks/', include('ebooks.urls')),
+    path('images', include('images.urls')),
+    path('annotations', include('annotations.urls'))
 ]
 
 # Allows localhost:8000 to serve the uploaded epub files
