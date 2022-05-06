@@ -1,3 +1,8 @@
+/**
+ * makes a get request to get the file with given id to download from the server
+ * @param {*} fileId 
+ * @returns  response
+ */
 export function  getFile(fileId) {
     return fetch('http://localhost:8000/ebooks/download/'+ fileId + "/", {
         method: 'GET'
@@ -12,7 +17,7 @@ export function  getFile(fileId) {
                 a.href = url;
                 a.download = fileId+'.epub';
                 a.click();
-                return
+                
 
 
             });
