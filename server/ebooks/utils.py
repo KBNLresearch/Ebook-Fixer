@@ -30,7 +30,7 @@ def inject_image_annotations(ebook_uuid, html_filenames, images, annotations):
 # Zips the ebook with that uuid and returns the path for the zipped epub
 def zip_ebook(ebook_uuid):
     path_name = f"test-books/{ebook_uuid}/"
-    zipfile_name = shutil.make_archive(ebook_uuid, 'zip', path_name)
+    zipfile_name = shutil.make_archive(str(ebook_uuid), 'zip', path_name)
     path = Path(zipfile_name)
     path = path.rename(path.with_suffix('.epub'))
     return path
