@@ -3,6 +3,7 @@ from django.test import RequestFactory, TestCase
 from uuid import uuid4
 
 from .views import ebook_detail_view
+from .views import ebook_upload_view
 from .models import Ebook
 from .serializers import EbookSerializer
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -40,7 +41,6 @@ class ViewsTest(TestCase):
         self.assertEqual(response.status_code, 405)
         self.assertEqual(msg, b'{"msg": "Method Not Allowed!"}')
 
-    # TODO: How to pass FileField??
     def test_ebook_details_view_200(self):
 
         test_file = SimpleUploadedFile(
@@ -55,3 +55,27 @@ class ViewsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         expected_data = str(EbookSerializer(ebook).data).replace("'", '"')
         self.assertEqual(data, expected_data)
+
+    def test_ebook_upload_view_405(self):
+        request = self.factory.get('upload/')
+        request.user = self.user
+
+        response = ebook_upload_view(request)
+        msg = response.content
+
+        self.assertEqual(response.status_code, 405)
+        self.assertEqual(msg, b'{"msg": "Method Not Allowed!"}')
+
+    def test_ebook_upload_view_400(self):
+        test_file = SimpleUploadedFile(
+            "test_file.pdf",
+            b"Only .epub files allowed!"
+        )
+        request = self.factory.post('upload/', {"epub": test_file})
+        request.user = self.user
+
+        response = ebook_upload_view(request)
+        msg = response.content
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(msg, b'{"msg": "Make sure your uploaded file has extension .epub!"}')

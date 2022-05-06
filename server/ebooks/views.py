@@ -1,6 +1,5 @@
 from .serializers import EbookSerializer
 from .models import Ebook
-from rest_framework.decorators import action
 from django.http import JsonResponse
 from django.http import HttpResponse
 from rest_framework import status
@@ -10,6 +9,7 @@ from images.models import Image
 from annotations.models import Annotation
 import os
 from django.views.decorators.csrf import csrf_exempt
+
 
 def ebook_detail_view(request, uuid):
     if request.method == "GET":
@@ -63,7 +63,6 @@ def ebook_download_view(request, uuid):
     return JsonResponse({'msg': 'Method Not Allowed!'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
-
 # TODO: Make accessible (Aratrika)
 # TODO: Convert epub2 to epub3
 # TODO: Return accessible epub3 file (or have separate endpoint)
@@ -74,8 +73,8 @@ def ebook_upload_view(request):
         Note that the MEDIA_ROOT is defined as ./app/test-books/
 
         Args:
-            request (_type_): client request 
-            
+            request (_type_): client request
+
         Returns:
             _type_: JsonResponse containing the uuid for the newly created ebook
         """
@@ -93,6 +92,7 @@ def ebook_upload_view(request):
             new_ebook = Ebook(book_uuid, epub_name, uploaded_epub)
             # Automatically stores the uploaded epub under MEDIA_ROOT/{uuid}/{filename}
             new_ebook.save()
+            print(f'\n\nNew ebook stored with uuid {book_uuid}\nFile name: {epub_name}\n\n')
 
             # Unzip the epub file stored on the server, under MEDIA_ROOT/{uuid}
             unzip_ebook(book_uuid, epub_name)
@@ -103,5 +103,5 @@ def ebook_upload_view(request):
             return JsonResponse({'msg': 'Make sure your uploaded file has extension .epub!'},
                                 status=status.HTTP_400_BAD_REQUEST)
     else:
-        return JsonResponse({'msg': 'Method Not Allowed!'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
-
+        return JsonResponse({'msg': 'Method Not Allowed!'},
+                            status=status.HTTP_405_METHOD_NOT_ALLOWED)

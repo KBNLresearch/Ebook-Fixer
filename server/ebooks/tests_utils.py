@@ -10,7 +10,6 @@ from annotations.models import Annotation
 
 
 class UtilsTest(TestCase):
-    # TODO: How to pass FileField epub??
     def test_inject_image_annotations(self):
         uuid = uuid4()
         test_html_content = '<html><body><img src="test.jpg"/></body></html>'
