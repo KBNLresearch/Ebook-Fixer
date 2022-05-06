@@ -12,15 +12,20 @@ def inject_image_annotations(ebook_uuid, html_filenames, images, annotations):
         except StopIteration:
             pass
         else:
-            html_content = open(storage_path + html_file)
-            data = BeautifulSoup(html_content, 'html.parser')
-            images_in_html = data.find_all('img', src=True)
-            for im in images_in_html:
-                if im['src'] == image.filename:
-                    im['alt'] = image_annotation.text
+            try:
+                html_content = open(storage_path + html_file)
+                data = BeautifulSoup(html_content, 'html.parser')
+                images_in_html = data.find_all('img', src=True)
+                for im in images_in_html:
+                    # print(im)
+                    # print(image.filename)
+                    if im['src'] == image.filename:
+                        im['alt'] = image_annotation.text
 
-            with open(storage_path + html_file, "w") as file:
-                file.write(str(data))
+                with open(storage_path + html_file, "w") as file:
+                    file.write(str(data))
+            except FileNotFoundError:
+                pass
 
 
 # Assumes that there is an unzipped epub at test-books/

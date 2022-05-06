@@ -7,45 +7,42 @@ from .models import Ebook
 from .serializers import EbookSerializer
 
 
-class DownloadTest(TestCase):
+class ViewsTest(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.user = AnonymousUser()
+        self.uuid = uuid4()
 
-    def response_ebook_detail_view(self, uuid):
-        request = self.factory.get(f'{uuid}/')
+    def response_ebook_detail_view(self):
+        request = self.factory.get(f'{self.uuid}/')
         request.user = self.user
 
-        response = ebook_detail_view(request, uuid)
+        response = ebook_detail_view(request, self.uuid)
         msg = response.content
 
         return response, msg
 
     def test_ebook_details_view_404(self):
-        uuid = uuid4()
-        response, msg = self.response_ebook_detail_view(uuid)
+        response, msg = self.response_ebook_detail_view()
 
         self.assertEqual(response.status_code, 404)
-        expected_msg = '{"msg": ' + f'"Ebook with uuid {uuid} not found!"' + '}'
+        expected_msg = '{"msg": ' + f'"Ebook with uuid {self.uuid} not found!"' + '}'
         self.assertEqual(msg, bytes(expected_msg, 'utf-8'))
 
     def test_ebook_details_view_405(self):
-        uuid = uuid4()
-
-        request = self.factory.post(f'{uuid}/')
+        request = self.factory.post(f'{self.uuid}/')
         request.user = self.user
 
-        response = ebook_detail_view(request, uuid)
+        response = ebook_detail_view(request, self.uuid)
         msg = response.content
 
         self.assertEqual(response.status_code, 405)
         self.assertEqual(msg, b'{"msg": "Method Not Allowed!"}')
 
     def test_ebook_details_view_200(self):
-        uuid = uuid4()
-        ebook = Ebook.objects.create(uuid=uuid, epub3_path="TEST_PATH", title="TEST_TITLE")
+        ebook = Ebook.objects.create(uuid=self.uuid, epub3_path="TEST_PATH", title="TEST_TITLE")
 
-        response, data = self.response_ebook_detail_view(uuid)
+        response, data = self.response_ebook_detail_view()
         data = data.decode('utf-8')
 
         self.assertEqual(response.status_code, 200)
