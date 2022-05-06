@@ -17,8 +17,6 @@ def inject_image_annotations(ebook_uuid, html_filenames, images, annotations):
                 data = BeautifulSoup(html_content, 'html.parser')
                 images_in_html = data.find_all('img', src=True)
                 for im in images_in_html:
-                    # print(im)
-                    # print(image.filename)
                     if im['src'] == image.filename:
                         im['alt'] = image_annotation.text
 

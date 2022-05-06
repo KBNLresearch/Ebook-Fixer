@@ -61,4 +61,4 @@ def ebook_download_view(request, uuid):
 
 
 def ebook_upload_view(request):
-    pass
+    return JsonResponse({'msg': 'All good here!'}, status=status.HTTP_200_OK)
