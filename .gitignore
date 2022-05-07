@@ -1,1 +1,7 @@
 env/
+
+# Volumes
+data-db/
+init-db/
+node_modules/
+server-vol/
