@@ -68,16 +68,17 @@ def ebook_download_view(request, uuid):
 # TODO: Return accessible epub3 file (or have separate endpoint)
 @csrf_exempt
 def ebook_upload_view(request):
-    """ Takes the existing unzipped epup file under ./app/test-books/{uuid}/{filename}
+    """ Takes the existing unzipped epub file under ./app/test-books/{uuid}/{filename}
         and unzips it, now under ./app/test-books/{uuid}
         Note that the MEDIA_ROOT is defined as ./app/test-books/
 
         Args:
-            request (_type_): client request
+            request (request object): client request
 
         Returns:
-            _type_: JsonResponse containing the uuid for the newly created ebook
-        """
+            JSONResponse: Response object sent to client
+            containing the uuid for the newly created ebook
+    """
     if request.method == "POST":
         # Generate random uuid for new ebook instance
         book_uuid = str(uuid.uuid4())
@@ -88,16 +89,19 @@ def ebook_upload_view(request):
         # Check if file extension is .epub
         file_ext = epub_name[-5:]
         if file_ext == '.epub':
-            # TODO: Extract title from content.opf ?
             new_ebook = Ebook(book_uuid, epub_name, uploaded_epub)
             # Automatically stores the uploaded epub under MEDIA_ROOT/{uuid}/{filename}
             new_ebook.save()
-            print(f'\n\nNew ebook stored with uuid {book_uuid}\nFile name: {epub_name}\n\n')
-
             # Unzip the epub file stored on the server, under MEDIA_ROOT/{uuid}
-            unzip_ebook(book_uuid, epub_name)
+            # Returns the extracted title, which override the title
+            ebook_title = unzip_ebook(book_uuid, epub_name)
+            new_ebook.title = ebook_title
+            new_ebook.save(update_fields=["title"])
+            print(f'\n\nNew ebook {ebook_title}')
+            print('stored with uuid {book_uuid}s')
+            print('\nFile name: {epub_name}\n\n')
 
-            return JsonResponse({'book_id': str(book_uuid)},
+            return JsonResponse({'book_id': str(book_uuid), 'title': ebook_title},
                                 status=status.HTTP_200_OK)
         else:
             return JsonResponse({'msg': 'Make sure your uploaded file has extension .epub!'},
