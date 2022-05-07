@@ -82,9 +82,13 @@ def ebook_upload_view(request):
     if request.method == "POST":
         # Generate random uuid for new ebook instance
         book_uuid = str(uuid.uuid4())
-        uploaded_epub = request.FILES['epub']
-        # binary_epub = request.FILES['epub'].file
-        epub_name = request.FILES['epub'].name
+        try:
+            uploaded_epub = request.FILES['epub']
+            # binary_epub = request.FILES['epub'].file
+            epub_name = request.FILES['epub'].name
+        except FileNotFoundError:
+            return JsonResponse({'msg': 'No epub file found in request!'},
+                                status=status.HTTP_404_NOT_FOUND)
 
         # Check if file extension is .epub
         file_ext = epub_name[-5:]
@@ -97,9 +101,8 @@ def ebook_upload_view(request):
             ebook_title = unzip_ebook(book_uuid, epub_name)
             new_ebook.title = ebook_title
             new_ebook.save(update_fields=["title"])
-            print(f'\n\nNew ebook {ebook_title}')
-            print('stored with uuid {book_uuid}s')
-            print('\nFile name: {epub_name}\n\n')
+            print(f'\n\nNew ebook {ebook_title} stored with uuid {book_uuid}')
+            print(f'\nFile name: {epub_name}\n\n')
 
             return JsonResponse({'book_id': str(book_uuid), 'title': ebook_title},
                                 status=status.HTTP_200_OK)

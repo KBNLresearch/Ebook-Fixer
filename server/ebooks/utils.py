@@ -1,3 +1,4 @@
+from os import remove
 from bs4 import BeautifulSoup
 from pathlib import Path
 import shutil
@@ -63,14 +64,13 @@ def extract_title(ebook_uuid):
     Returns:
         String: extracted title of ebook
     """
+    # The content.opf file must exist if unzipping of epub was successful
     storage_path = f"test-books/{ebook_uuid}/OEBPS/content.opf"
-    try:
-        content_opf_file = open(storage_path)
-        data = BeautifulSoup(content_opf_file, 'html.parser')
-        title = data.find('dc:title').string
-        return title
-    except FileNotFoundError:
-        pass
+    with open(storage_path, 'r') as f:
+        content_opf_file = f.read()
+    soup = BeautifulSoup(content_opf_file, 'lxml')
+    title = soup.find('dc:title').string
+    return title
 
 
 def unzip_ebook(ebook_uuid, ebook_filename):
@@ -85,6 +85,12 @@ def unzip_ebook(ebook_uuid, ebook_filename):
     Returns:
         String: extracted title of ebook
     """
-    with zipfile.ZipFile(f"/app/test-books/{ebook_uuid}/{ebook_filename}", 'r') as zipped_epub:
-        zipped_epub.extractall(f"/app/test-books/{ebook_uuid}")
-    return extract_title(ebook_uuid)
+    try:
+        zip_file = f"test-books/{ebook_uuid}/{ebook_filename}"
+        with zipfile.ZipFile(zip_file, 'r') as zipped_epub:
+            zipped_epub.extractall(f"test-books/{ebook_uuid}")
+            # Remove the original zip .epub file
+            remove(zip_file)
+        return extract_title(ebook_uuid)
+    except FileNotFoundError:
+        pass
