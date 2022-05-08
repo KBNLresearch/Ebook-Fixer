@@ -52,7 +52,7 @@ class ViewsTest(TestCase):
         self.assertEqual(data, expected_data)
 
     def response_ebook_download_view(self):
-        request = self.factory.get(f'{self.uuid}/')
+        request = self.factory.get(f'/download/{self.uuid}/')
         request.user = self.user
 
         response = ebook_download_view(request, self.uuid)
@@ -68,7 +68,7 @@ class ViewsTest(TestCase):
         self.assertEqual(msg, bytes(expected_msg, 'utf-8'))
 
     def test_ebook_download_view_405(self):
-        request = self.factory.post(f'{self.uuid}/')
+        request = self.factory.post(f'/download/{self.uuid}/')
         request.user = self.user
 
         response = ebook_download_view(request, self.uuid)
@@ -102,7 +102,7 @@ class ViewsTest(TestCase):
 
         response, msg = self.response_ebook_download_view()
 
-        epub_path = f"/app/{self.uuid}.epub"
+        epub_path = f"./{self.uuid}.epub"
 
         self.assertTrue(os.path.exists(f"{epub_path}"))
         self.assertEqual(response.status_code, 200)
