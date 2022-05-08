@@ -79,17 +79,6 @@ def extract_title(ebook_uuid):
             else:
                 FileNotFoundError('Epub zip did not contain content.opf!')
 
-    # storage_path = f"test-books/{ebook_uuid}/OEBPS/content.opf"
-    # if os.path.exists(storage_path):
-    #     with open(storage_path, 'r') as f:
-    #         content_opf_file = f.read()
-    #     # Parse the file as XML
-    #     soup = BeautifulSoup(content_opf_file, 'lxml')
-    #     title = soup.find('dc:title').string
-    #     return title
-    # else:
-    #     FileNotFoundError('Epub zip did not contain content.opf!')
-
 
 def unzip_ebook(ebook_uuid, ebook_filename):
     """ Assumes the zipped epub file is stored under MEDIA_ROOT/test-books/{uuid}/{filename}
@@ -102,19 +91,12 @@ def unzip_ebook(ebook_uuid, ebook_filename):
 
     Returns:
         String: extracted title of ebook
-    """ 
-    print(f'\nebook filename used in unzip_ebook: {ebook_filename}')
-
+    """
     try:
         epub_path = f"test-books/{ebook_uuid}/{ebook_filename}"
-        
-        print(f'\n Epub path to extract: {epub_path}\n')
-        with open(f'{epub_path}', 'rb') as MyZip:
-    	    print(MyZip.read(4))
-
         # Turns epub file into zip archive
         with ZipFile(epub_path, 'r') as zipped_epub:
-            zipped_epub.printdir()
+            # zipped_epub.printdir()
             zipped_epub.extractall(f"test-books/{ebook_uuid}")
             # Remove the original zip .epub file
             os.remove(epub_path)

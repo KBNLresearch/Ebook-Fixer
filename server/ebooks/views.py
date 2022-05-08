@@ -97,18 +97,12 @@ def ebook_upload_view(request):
             new_ebook = Ebook(book_uuid, epub_name, uploaded_epub)
             # Automatically stores the uploaded epub under MEDIA_ROOT/{uuid}/{filename}
 
-            print('\nNew uuid: ', book_uuid)
-            print('\nNew title (epub name): ', epub_name)
-            print('\nuploaded epub: ', uploaded_epub)
-
             new_ebook.save()
             # Unzip the epub file stored on the server, under MEDIA_ROOT/{uuid}
             # Returns the extracted title, which override the title
             ebook_title = unzip_ebook(book_uuid, epub_name)
             new_ebook.title = ebook_title
             new_ebook.save(update_fields=["title"])
-            print(f'\n\nNew ebook {ebook_title} stored with uuid {book_uuid}')
-            print(f'\nFile name: {epub_name}\n\n')
 
             return JsonResponse({'book_id': str(book_uuid), 'title': ebook_title},
                                 status=status.HTTP_200_OK)

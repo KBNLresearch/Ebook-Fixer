@@ -13,46 +13,45 @@ from annotations.models import Annotation
 class UtilsTest(TestCase):
     def setUp(self):
         self.uuid = uuid4()
-        print(f"\n\n RANDOM UUID FOR TEST: {self.uuid}\n\n")
 
-    # def test_inject_image_annotations(self):
-    #     test_html_content = '<html><body><img src="test.jpg"/></body></html>'
-    #     html_path = os.path.abspath("./") + f"/test-books/{self.uuid}"
-    #     html_filename = "test.html"
-    #     os.mkdir(html_path)
-    #     html_content_path = html_path + "/OEBPS/"
-    #     os.mkdir(html_content_path)
-    #     with open(html_content_path + html_filename, "w") as file:
-    #         file.write(test_html_content)
+    def test_inject_image_annotations(self):
+        test_html_content = '<html><body><img src="test.jpg"/></body></html>'
+        html_path = os.path.abspath("./") + f"/test-books/{self.uuid}"
+        html_filename = "test.html"
+        os.mkdir(html_path)
+        html_content_path = html_path + "/OEBPS/"
+        os.mkdir(html_content_path)
+        with open(html_content_path + html_filename, "w") as file:
+            file.write(test_html_content)
 
-    #     ebook = Ebook.objects.create(uuid=self.uuid, title="TEST_TITLE")
-    #     image = Image.objects.create(ebook=ebook, filename="test.jpg", location=html_filename,
-    #                                  classification="INFO", raw_context=" ")
-    #     annotation = Annotation.objects.create(image=image, type="HUM",
-    #                                            text="TEST ANNOTATION", confidence=1.0)
+        ebook = Ebook.objects.create(uuid=self.uuid, title="TEST_TITLE")
+        image = Image.objects.create(ebook=ebook, filename="test.jpg", location=html_filename,
+                                     classification="INFO", raw_context=" ")
+        annotation = Annotation.objects.create(image=image, type="HUM",
+                                               text="TEST ANNOTATION", confidence=1.0)
 
-    #     inject_image_annotations(self.uuid, ["test.html"], [image], [annotation])
+        inject_image_annotations(self.uuid, ["test.html"], [image], [annotation])
 
-    #     with open(html_content_path + html_filename, "r") as file:
-    #         self.assertEqual(file.readline(),
-    #                          '<html><body><img alt="TEST ANNOTATION" '
-    #                          'src="test.jpg"/></body></html>')
+        with open(html_content_path + html_filename, "r") as file:
+            self.assertEqual(file.readline(),
+                             '<html><body><img alt="TEST ANNOTATION" '
+                             'src="test.jpg"/></body></html>')
 
-    #     shutil.rmtree(html_path)
+        shutil.rmtree(html_path)
 
-    # def test_extract_title(self):
-    #     opf_file_content = '<metadata><dc:title>Hamlet</dc:title></metadata>'
-    #     file_path = os.path.abspath("./") + f"/test-books/{self.uuid}"
-    #     xml_filename = "content.opf"
-    #     os.mkdir(file_path)
-    #     # content.opf is found under ./test-books/{uuid}/OEBPS/
-    #     content_path = file_path + "/OEBPS/"
-    #     os.mkdir(content_path)
-    #     with open(content_path + xml_filename, "w") as file:
-    #         file.write(opf_file_content)
-    #     expected_title = 'Hamlet'
-    #     result_title = extract_title(self.uuid)
-    #     self.assertEqual(result_title, expected_title)
+    def test_extract_title(self):
+        opf_file_content = '<metadata><dc:title>Hamlet</dc:title></metadata>'
+        file_path = os.path.abspath("./") + f"/test-books/{self.uuid}"
+        xml_filename = "content.opf"
+        os.mkdir(file_path)
+        # content.opf is found under ./test-books/{uuid}/OEBPS/
+        content_path = file_path + "/OEBPS/"
+        os.mkdir(content_path)
+        with open(content_path + xml_filename, "w") as file:
+            file.write(opf_file_content)
+        expected_title = 'Hamlet'
+        result_title = extract_title(self.uuid)
+        self.assertEqual(result_title, expected_title)
 
     def test_unzip_epub_file(self):
         # Create zip archive test.zip
