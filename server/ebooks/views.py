@@ -82,11 +82,12 @@ def ebook_upload_view(request):
     if request.method == "POST":
         # Generate random uuid for new ebook instance
         book_uuid = str(uuid.uuid4())
-        try:
+        # Check if key 'epub' exists in MultiValueDictionary
+        if 'epub' in request.FILES:
             uploaded_epub = request.FILES['epub']
             # binary_epub = request.FILES['epub'].file
             epub_name = request.FILES['epub'].name
-        except FileNotFoundError:
+        else:
             return JsonResponse({'msg': 'No epub file found in request!'},
                                 status=status.HTTP_404_NOT_FOUND)
 
@@ -95,6 +96,11 @@ def ebook_upload_view(request):
         if file_ext == '.epub':
             new_ebook = Ebook(book_uuid, epub_name, uploaded_epub)
             # Automatically stores the uploaded epub under MEDIA_ROOT/{uuid}/{filename}
+
+            print('\nNew uuid: ', book_uuid)
+            print('\nNew title (epub name): ', epub_name)
+            print('\nuploaded epub: ', uploaded_epub)
+
             new_ebook.save()
             # Unzip the epub file stored on the server, under MEDIA_ROOT/{uuid}
             # Returns the extracted title, which override the title
