@@ -72,7 +72,7 @@ def extract_title(ebook_uuid):
                     content_opf_file = f.read()
                     # Parse the file as XML
                     soup = BeautifulSoup(content_opf_file, 'xml')
-                    title = soup.find('dc:title').string
+                    title = soup.find('title').string
                     return title
             else:
                 FileNotFoundError('Epub zip did not contain content.opf!')

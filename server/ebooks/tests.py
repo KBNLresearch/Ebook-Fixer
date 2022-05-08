@@ -92,7 +92,7 @@ class ViewsTest(TestCase):
         response = ebook_upload_view(request)
         msg = response.content
 
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 400)
         self.assertEqual(msg, b'{"msg": "No epub file found in request!"}')
 
     # def test_upload_view_200(self):
