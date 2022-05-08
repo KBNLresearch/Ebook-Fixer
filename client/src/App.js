@@ -30,7 +30,7 @@ function App() {
             {result.length === 0 ? "" : "Result:"}
             <ul id="result">
                 {result.map(ebook => {
-                    return <li key={ebook.uuid}>Ebook epub3_path: {ebook.epub3_path}, title: {ebook.title}</li>
+                    return <li key={ebook.uuid}>Ebook uuid: {ebook.uuid}, title: {ebook.title}</li>
                 })}
             </ul>
         </header>
