@@ -1,13 +1,15 @@
 from .serializers import EbookSerializer
 from .models import Ebook
-from .utils import inject_image_annotations, zip_ebook
-from images.models import Image
-from annotations.models import Annotation
-
 from django.http import JsonResponse
 from django.http import HttpResponse
 from rest_framework import status
+import uuid
+from .utils import inject_image_annotations, unzip_ebook, zip_ebook
+from images.models import Image
+from annotations.models import Annotation
 import os
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.datastructures import MultiValueDictKeyError
 
 
 def ebook_detail_view(request, uuid):
@@ -82,5 +84,52 @@ def ebook_download_view(request, uuid):
     return JsonResponse({'msg': 'Method Not Allowed!'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
+# TODO: Make accessible (Aratrika)
+# TODO: Convert epub2 to epub3
+# TODO: Return accessible epub3 file (or have separate endpoint)
+@csrf_exempt
 def ebook_upload_view(request):
-    return JsonResponse({'msg': 'All good here!'}, status=status.HTTP_200_OK)
+    """ Takes the existing unzipped epub file under ./app/test-books/{uuid}/{filename}
+        and unzips it, now under ./app/test-books/{uuid}
+        Note that the MEDIA_ROOT is defined as ./app/test-books/
+
+        Args:
+            request (request object): client request
+
+        Returns:
+            JSONResponse: Response object sent to client
+            containing the uuid for the newly created ebook
+    """
+    if request.method == "POST":
+        # Generate random uuid for new ebook instance
+        book_uuid = str(uuid.uuid4())
+        # Check if key 'epub' exists in MultiValueDictionary
+        try:
+            uploaded_epub = request.FILES['epub']
+            # binary_epub = request.FILES['epub'].file
+            epub_name = request.FILES['epub'].name
+        except MultiValueDictKeyError:
+            return JsonResponse({'msg': 'No epub file found in request!'},
+                                status=status.HTTP_400_BAD_REQUEST)
+
+        # Check if file extension is .epub
+        file_ext = epub_name[-5:]
+        if file_ext == '.epub':
+            new_ebook = Ebook(book_uuid, epub_name, uploaded_epub)
+            # Automatically stores the uploaded epub under MEDIA_ROOT/{uuid}/{filename}
+
+            new_ebook.save()
+            # Unzip the epub file stored on the server, under MEDIA_ROOT/{uuid}
+            # Returns the extracted title, which override the title
+            ebook_title = unzip_ebook(book_uuid, epub_name)
+            new_ebook.title = ebook_title
+            new_ebook.save(update_fields=["title"])
+
+            return JsonResponse({'book_id': str(book_uuid), 'title': ebook_title},
+                                status=status.HTTP_200_OK)
+        else:
+            return JsonResponse({'msg': 'Make sure your uploaded file has extension .epub!'},
+                                status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return JsonResponse({'msg': 'Method Not Allowed!'},
+                            status=status.HTTP_405_METHOD_NOT_ALLOWED)
