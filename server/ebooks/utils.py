@@ -71,7 +71,7 @@ def extract_title(ebook_uuid):
                 with open(filepath, 'r') as f:
                     content_opf_file = f.read()
                     # Parse the file as XML
-                    soup = BeautifulSoup(content_opf_file, 'lxml')
+                    soup = BeautifulSoup(content_opf_file, 'xml')
                     title = soup.find('dc:title').string
                     return title
             else:

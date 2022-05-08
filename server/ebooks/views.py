@@ -9,6 +9,7 @@ from images.models import Image
 from annotations.models import Annotation
 import os
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.datastructures import MultiValueDictKeyError
 
 
 def ebook_detail_view(request, uuid):
@@ -83,13 +84,13 @@ def ebook_upload_view(request):
         # Generate random uuid for new ebook instance
         book_uuid = str(uuid.uuid4())
         # Check if key 'epub' exists in MultiValueDictionary
-        if 'epub' in request.FILES:
+        try:
             uploaded_epub = request.FILES['epub']
             # binary_epub = request.FILES['epub'].file
             epub_name = request.FILES['epub'].name
-        else:
+        except MultiValueDictKeyError:
             return JsonResponse({'msg': 'No epub file found in request!'},
-                                status=status.HTTP_404_NOT_FOUND)
+                                status=status.HTTP_400_BAD_REQUEST)
 
         # Check if file extension is .epub
         file_ext = epub_name[-5:]
