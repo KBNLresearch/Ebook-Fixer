@@ -1,0 +1,85 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    align-items: flex-end;
+    width: 100%;
+    box-sizing: border-box;
+    
+
+    .user_input {
+        width: 100%;
+        position: relative;
+    }
+    .ai_input {
+        width: 100%;
+        position: relative;
+        textarea {
+            border-color: slategray;
+            &:focus {
+                background-color: black;
+            }
+        }
+        
+        .icon {
+            padding: 0.2em;
+            &:disabled {
+                background-color: slategray;
+                cursor: auto;
+            }
+        }
+        
+    }
+
+    textarea {
+        width: 100%;
+        border-radius: 0.5em;
+        border: 0.2em solid skyblue;
+        padding: 0.3em;
+        box-sizing: border-box;
+        resize: none;
+        font-size: inherit;
+        outline: none;
+    }
+
+    button.save_button {
+        margin-top: 0.2em;
+        background-color: #1bca44;
+        border: 0.2em solid #ccc;
+        transition: border-color 0.2s ease,
+                    background-color 0.2s ease;
+        padding: 0.5em 0.7em;
+
+        &:hover {
+            background-color: #2AAC48;
+            border-color: #eee;
+        }
+    }
+
+    .icon {
+        width: 1.5em;
+        height: 1.5em;
+        position: absolute;
+        top: 0.35em;
+        right: 0.35em;
+        background-color: skyblue;
+        border-radius: 100%;
+        padding: 0.1em;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background-color 0.2s ease,
+                    opacity 0.3s ease;
+        box-shadow: 1px 1px 5px #999;
+
+        &:hover {
+            background-color: rgb(107, 183, 212);
+            &.transparent {
+                opacity: 0.9;
+            }
+        }
+    }
+}
+
+.transparent {
+    opacity: 0.3;
+}
