@@ -22,7 +22,11 @@ function App() {
     return (
         <div className="App">
             
+<<<<<<< HEAD
         <div style={{width: '50%'}}><Annotator></Annotator></div>
+=======
+        <div style={{width: '30%'}}><Annotator></Annotator></div>
+>>>>>>> 10-user-annotations
             
         <header className="App-header">
             <FileUpload setEbookFile={setEbookFile}></FileUpload>
