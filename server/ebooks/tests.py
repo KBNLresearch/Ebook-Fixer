@@ -85,6 +85,11 @@ class ViewsTest(TestCase):
         request.user = self.user
 
         response = ebook_download_view(request, self.uuid)
+        msg = response.content
+
+        self.assertEqual(response.status_code, 405)
+        self.assertEqual(msg, b'{"msg": "Method Not Allowed!"}')
+
 
     def test_ebook_upload_view_405(self):
         request = self.factory.get('upload/')
@@ -114,7 +119,6 @@ class ViewsTest(TestCase):
         Ebook.objects.create(uuid=self.uuid, title="TEST_TITLE", epub=test_file)
 
         folder_path = os.path.abspath("./") + f"/test-books/{self.uuid}/"
-        file_path = f"{folder_path}{test_filename}"
 
         response, msg = self.response_ebook_download_view()
 
