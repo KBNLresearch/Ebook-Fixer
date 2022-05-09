@@ -90,7 +90,6 @@ class ViewsTest(TestCase):
         self.assertEqual(response.status_code, 405)
         self.assertEqual(msg, b'{"msg": "Method Not Allowed!"}')
 
-
     def test_ebook_upload_view_405(self):
         request = self.factory.get('upload/')
         request.user = self.user
