@@ -12,9 +12,12 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 import environ
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+MEDIA_URL = '/test-books/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'test-books')
 
 env = environ.Env()
 environ.Env.read_env()  # reading .env file
@@ -41,7 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'kb',
+    'ebooks',
+    'images',
+    'annotations',
     'rest_framework',
     'corsheaders',
 ]

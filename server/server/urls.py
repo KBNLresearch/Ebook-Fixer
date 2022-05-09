@@ -13,20 +13,20 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-# from xml.etree.ElementInclude import include
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
-from kb import views
+from django.conf import settings
+from django.conf.urls.static import static
 
-router = routers.DefaultRouter()
-router.register(r'ebooks', views.EbookView, 'ebook')
-router.register(r'images', views.ImageView, 'image')
-router.register(r'annotations', views.AnnotationView, 'annotation')
-router.register(r'imageannotations', views.ImageAnnotatedView, 'imageannotation')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-    path('', include('kb.urls'))
+    path('ebooks/', include('ebooks.urls')),
+    path('images', include('images.urls')),
+    path('annotations', include('annotations.urls'))
 ]
+
+# Allows localhost:8000 to serve the uploaded epub files
+# For example at:
+# "http://localhost:8000/test-ebooks/f8825e97-c336-4138-85d7-28aa691defc6/pg84.epub"
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
