@@ -1,5 +1,5 @@
 bs4
-lxml
+coverage
 Django>=3.2,<4.0
 django-cors-headers
 django-environ
@@ -8,6 +8,7 @@ djongo
 epubcheck
 flake8
 isort==5.8.0
+lxml
 pycodestyle
 pymongo==3.12.0
 pytest
