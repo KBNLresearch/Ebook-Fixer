@@ -53,6 +53,8 @@ class UtilsTest(TestCase):
         result_title = extract_title(self.uuid)
         self.assertEqual(result_title, expected_title)
 
+        shutil.rmtree(file_path)
+
     def test_unzip_epub_file(self):
         # Create zip archive test.zip
         zip_file_path = f"test-books/{self.uuid}/"
@@ -90,3 +92,5 @@ class UtilsTest(TestCase):
             self.assertEqual(file1.readline(), contents_1)
         with open(zip_file_path + test_file_2, "r") as file2:
             self.assertEqual(file2.readline(), contents_2)
+
+        shutil.rmtree(zip_file_path)

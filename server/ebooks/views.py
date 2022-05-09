@@ -13,6 +13,15 @@ from django.utils.datastructures import MultiValueDictKeyError
 
 
 def ebook_detail_view(request, uuid):
+    """The GET endpoint for an ebook instance
+
+    Args:
+        request (request object): The request object
+        uuid (str): The UUID of an already uploaded ebook
+
+    Returns:
+        JsonResponse: Response object sent to the client side
+    """
     if request.method == "GET":
         try:
             ebook = Ebook.objects.all().filter(uuid=uuid).get()
@@ -25,6 +34,15 @@ def ebook_detail_view(request, uuid):
 
 
 def ebook_download_view(request, uuid):
+    """Endpoint for zipping the ebook with given uuid from storage and reutrns the epub
+
+    Args:
+        request (request object): The request object
+        uuid (str): The UUID of an already uploaded ebook
+
+    Returns:
+        JsonResponse: Response object sent to the client side
+    """
     if request.method == "GET":
         try:
             ebook = Ebook.objects.all().filter(uuid=uuid).get()
@@ -32,9 +50,11 @@ def ebook_download_view(request, uuid):
             return JsonResponse({'msg': f'Ebook with uuid {uuid} not found!'},
                                 status=status.HTTP_404_NOT_FOUND)
         images = Image.objects.all().filter(ebook=ebook).all()
-        annotations = [a for a in Annotation.objects.all()
-                       if a.image in images
-                       if a.type == 'HUM']
+        annotations = [
+            a for a in Annotation.objects.all()
+            if a.image in images
+            if a.type == 'HUM'
+        ]
 
         # Get the html files from the storage
         storage_path = f"test-books/{uuid}"
@@ -49,7 +69,7 @@ def ebook_download_view(request, uuid):
 
         try:
             # Zip contents
-            print(f"Zipping: {uuid}")
+            print(f"Zipping ebook with uuid: {uuid}")
             zip_file_name = zip_ebook(uuid)
 
             # Return zipped contents

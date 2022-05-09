@@ -47,7 +47,7 @@ def zip_ebook(ebook_uuid):
         Path: path to zipped .epub file to download
     """
     path_name = f"test-books/{ebook_uuid}/"
-    zipfile_name = shutil.make_archive(ebook_uuid, 'zip', path_name)
+    zipfile_name = shutil.make_archive(str(ebook_uuid), 'zip', path_name)
     path = Path(zipfile_name)
     path = path.rename(path.with_suffix('.epub'))
     return path
