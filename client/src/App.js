@@ -4,7 +4,6 @@ import { fetchExampleApiCall } from './api/ApiCalls';
 import FileUpload from './components/FileUpload';
 import Editor from './components/editor/Editor';
 import FileDownload from './components/FileDownload';
-import Annotator from './components/editor/Annotator';
 
 // This code uses functional components, you could use classes instead but they're
 function App() {
@@ -20,10 +19,7 @@ function App() {
     }
 
     return (
-        <div className="App">
-            
-        <div style={{width: '50%'}}><Annotator></Annotator></div>
-            
+        <div className="App">            
         <header className="App-header">
             <FileUpload setEbookFile={setEbookFile}></FileUpload>
             <FileDownload></FileDownload>

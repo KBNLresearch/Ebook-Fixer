@@ -3,6 +3,7 @@ import ePub from 'epubjs'
 import Viewer from './Viewer';
 import EditorControls from './EditorControls';
 import styles from './Editor.module.css'
+import Annotator from './Annotator'
 
 /**
  * The editor component takes an epub file and displays it as well as a UI for interacting with it.
@@ -144,15 +145,18 @@ function Editor(props) {
             <h1 className={styles.title}>Editor</h1>
             <span>If you don't see anything, scroll down to load more of the book.</span>
             <div className={styles.editor}>
-            <EditorControls>{imageList.map(img => {
-                return <button
-                    key={img.imageFileName}
-                    onClick={() => { img.element.scrollIntoView() }}>
-                    Scroll {img.imageFileName} into view
-                </button>
-            })}
-            </EditorControls>
-            <Viewer id={viewerId}></Viewer>
+                <Viewer id={viewerId}></Viewer>
+                <div>
+                    <Annotator></Annotator>
+                    <EditorControls>{imageList.map(img => {
+                        return <button
+                            key={img.imageFileName}
+                            onClick={() => { img.element.scrollIntoView() }}>
+                            Scroll {img.imageFileName} into view
+                        </button>
+                    })}
+                    </EditorControls>
+                </div>
             </div>
         </div>
     )

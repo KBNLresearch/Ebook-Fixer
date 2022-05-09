@@ -3,6 +3,13 @@ import styles from './Annotator.module.scss';
 import { ReactComponent as HistorySVG } from '../../assets/svgs/history-icon.svg'
 import AIannotator from './AIannotator'
 
+/**
+ * The user Annotator component has a textbox with a button for the history of the annotations for that image.
+ * It should receive the history of the annotations.
+ * And a function to save the annotation somewhere once the user types it.
+ * 
+ * @returns The UserAnnotator component
+ */
 function UserAnnotator() {
     const [typing, setTyping] = useState(false);
 
@@ -14,6 +21,14 @@ function UserAnnotator() {
     )
 }
 
+/**
+ * Annotator component is meant to help the user produce an annotation for an image as an end result
+ * It has an AI component for classifying images and generating AI descriptions
+ * And a user component for letting the user annotate images
+ * 
+ * @param {{imageId: The id of the image currently being annotated}} props The props of the component
+ * @returns Tha Anotator Component
+ */
 function Annotator(props) {
     
     return (
