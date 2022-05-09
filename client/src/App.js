@@ -22,7 +22,7 @@ function App() {
     return (
         <div className="App">
             
-        <div style={{width: '30%'}}><Annotator></Annotator></div>
+        <div style={{width: '50%'}}><Annotator></Annotator></div>
             
         <header className="App-header">
             <FileUpload setEbookFile={setEbookFile}></FileUpload>
