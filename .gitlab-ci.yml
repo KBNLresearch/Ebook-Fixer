@@ -99,7 +99,7 @@ test-server:
   script:
     - docker-compose --env-file .env.ci up --build -d
     - docker exec backend coverage run manage.py test
-    - docker exec backed coverage report
+    - docker exec backend coverage report
     - echo "Tests on the server passed!"
   allow_failure: true
 
