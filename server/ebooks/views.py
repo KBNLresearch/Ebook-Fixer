@@ -1,15 +1,14 @@
 from .serializers import EbookSerializer
 from .models import Ebook
-from django.http import JsonResponse
-from django.http import HttpResponse
-from rest_framework import status
-import uuid
 from .utils import inject_image_annotations, unzip_ebook, zip_ebook
 from images.models import Image
 from annotations.models import Annotation
-import os
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.datastructures import MultiValueDictKeyError
+from rest_framework import status
+import uuid
+import os
 
 
 def ebook_detail_view(request, uuid):
@@ -17,7 +16,7 @@ def ebook_detail_view(request, uuid):
 
     Args:
         request (request object): The request object
-        uuid (str): The UUID of an already uploaded ebook
+        uuid (uuid): The UUID of an already uploaded ebook
 
     Returns:
         JsonResponse: Response object sent to the client side
@@ -30,11 +29,13 @@ def ebook_detail_view(request, uuid):
                                 status=status.HTTP_404_NOT_FOUND)
         serializer = EbookSerializer(ebook)
         return JsonResponse(serializer.data, status=status.HTTP_200_OK)
-    return JsonResponse({'msg': 'Method Not Allowed!'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    else:
+        return JsonResponse({'msg': 'Method Not Allowed!'},
+                            status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
 def ebook_download_view(request, uuid):
-    """Endpoint for zipping the ebook with given uuid from storage and reutrns the epub
+    """Endpoint for zipping the ebook with given uuid from storage and returns the epub
 
     Args:
         request (request object): The request object
@@ -81,7 +82,9 @@ def ebook_download_view(request, uuid):
             return JsonResponse({'msg': f'Files for ebook with uuid {uuid} not found! '
                                         f'Zipping failed!'},
                                 status=status.HTTP_404_NOT_FOUND)
-    return JsonResponse({'msg': 'Method Not Allowed!'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    else:
+        return JsonResponse({'msg': 'Method Not Allowed!'},
+                            status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
 # TODO: Make accessible (Aratrika)
@@ -121,10 +124,13 @@ def ebook_upload_view(request):
             new_ebook.save()
             # Unzip the epub file stored on the server, under MEDIA_ROOT/{uuid}
             # Returns the extracted title, which override the title
-            ebook_title = unzip_ebook(book_uuid, epub_name)
+            try:
+                ebook_title = unzip_ebook(book_uuid, epub_name)
+            except FileNotFoundError:
+                return JsonResponse({'msg': 'Something went wrong! Please try again!'},
+                                    status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             new_ebook.title = ebook_title
             new_ebook.save(update_fields=["title"])
-
             return JsonResponse({'book_id': str(book_uuid), 'title': ebook_title},
                                 status=status.HTTP_200_OK)
         else:
