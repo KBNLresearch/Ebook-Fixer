@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import React, { useState } from 'react'
 import { fetchExampleApiCall } from './api/ApiCalls';
 import FileUpload from './components/FileUpload';
@@ -19,7 +19,7 @@ function App() {
     }
 
     return (
-        <div className="App">
+        <div className="App">            
         <header className="App-header">
             <FileUpload setEbookFile={setEbookFile}></FileUpload>
             <FileDownload></FileDownload>
