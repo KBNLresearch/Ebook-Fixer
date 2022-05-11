@@ -3,7 +3,7 @@ import Viewer from './Viewer';
 import EditorControls from './EditorControls';
 import styles from './Editor.module.css'
 import Annotator from './Annotator'
-import {viewerId, openBook, getImagesOnScreen, prevImage, nextImage} from './EditorHelper'
+import {viewerId, openBook, prevImage, nextImage} from '../../helpers/EditorHelper'
 
 /**
  * The editor component takes an epub file and displays it as well as a UI for interacting with it.
