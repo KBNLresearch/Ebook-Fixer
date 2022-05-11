@@ -37,10 +37,29 @@ function EditorControls(props) {
         let newImage = await props.getImage(props.imageList[newIndex], props.rendition);
         // Scroll to the image
         newImage.scrollIntoView();
+        // Highlight the image in red for 5s
+        highlightElement(newImage);
         // Set the current image via the props from the parent
         props.setCurrentImage(props.imageList[newIndex])
         // Change the current index
         setCurrentImageIndex(newIndex)
+    }
+
+    /**
+     * Puts a red outline around an element for 5 seconds, 
+     * then returns the style back to what it was before.
+     * 
+     * @param {HTMLElement} element The HTML Element to highlight
+     */
+    function highlightElement(element) {
+        if (!element.style) {
+            element.style = {}
+        }
+        let prevStyle = element.style.outline;
+        element.style.outline = "7px solid rgba(255, 0, 0, 0.8)";
+        setTimeout(() => {
+            element.style.outline = prevStyle;
+        }, 5000);
     }
 
     return (
