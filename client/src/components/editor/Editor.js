@@ -3,7 +3,7 @@ import Viewer from './Viewer';
 import EditorControls from './EditorControls';
 import styles from './Editor.module.css'
 import Annotator from './Annotator'
-import {viewerId, openBook, prevImage, nextImage} from '../../helpers/EditorHelper'
+import {viewerId, openBook, getImageFromRendition } from '../../helpers/EditorHelper'
 
 /**
  * The editor component takes an epub file and displays it as well as a UI for interacting with it.
@@ -15,8 +15,9 @@ function Editor(props) {
 
     // The list of images that are currently loaded,
     // used to render the buttons on the left
-    const [imageList, setImageList] = useState([])
-    const [rendition, setRendition] = useState(null)
+    const [imageList, setImageList] = useState([]);
+    const [currentImage, setCurrentImage] = useState(null);
+    const [rendition, setRendition] = useState(null);
 
     // Whether the component is already rendering / rendered the epub,
     // This is a fix for a bug that causes the epub to be rendered twice
@@ -44,11 +45,11 @@ function Editor(props) {
             <span>If you don't see anything, scroll down to load more of the book.</span>
             <div className={styles.editor}>
                 <div>
-                    <EditorControls rendition={rendition} imageList={imageList} onNext={nextImage} onPrev={prevImage} />
+                    <EditorControls rendition={rendition} imageList={imageList} getImage={getImageFromRendition} setCurrentImage={setCurrentImage} />
                     <Viewer id={viewerId}></Viewer>
                 </div>
                 <div>
-                    <Annotator></Annotator>
+                    <Annotator currentImage={currentImage}></Annotator>
                 </div>
             </div>
         </div>
