@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { highlightElement } from '../../helpers/EditorHelper';
 
 /**
  * The controls for the editor
@@ -43,23 +44,6 @@ function EditorControls(props) {
         props.setCurrentImage(props.imageList[newIndex])
         // Change the current index
         setCurrentImageIndex(newIndex)
-    }
-
-    /**
-     * Puts a red outline around an element for 5 seconds, 
-     * then returns the style back to what it was before.
-     * 
-     * @param {HTMLElement} element The HTML Element to highlight
-     */
-    function highlightElement(element) {
-        if (!element.style) {
-            element.style = {}
-        }
-        let prevStyle = element.style.outline;
-        element.style.outline = "7px solid rgba(255, 0, 0, 0.8)";
-        setTimeout(() => {
-            element.style.outline = prevStyle;
-        }, 5000);
     }
 
     return (

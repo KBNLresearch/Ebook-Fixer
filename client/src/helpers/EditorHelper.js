@@ -53,8 +53,6 @@ export function openBook(e, getRendered, setRendered, setImageList, setRendition
 
     // Reset the veiwer's inner html so that the old epub is gone
     document.getElementById(viewerId).textContent = '';
-    console.log(document.getElementById(viewerId).textContent);
-
 
     // Make sure that only one epub is being rendered at once.
     if (getRendered()) return;
@@ -79,6 +77,8 @@ export function openBook(e, getRendered, setRendered, setImageList, setRendition
 
     // Process the images after the book has been displayed
     displayed.then(stuff => {
+        // Load a bit more straight away
+        stuff.next();
         // After the book has been loaded
         book.loaded.spine.then((spine) => {
             getAllImages(rendition).then(imgs => {
@@ -229,4 +229,48 @@ export function getImageFromRendition(imagetobeDisplayed, rendition) {
         }
         return null;
     });
+}
+
+/**
+ * The style object which is appliead to a highlighted element
+ */
+const highlightedStyle = {
+    outline: '7px solid rgba(255, 0, 0, 0.8)',
+    'box-shadow': '0 0 10px 10px rgba(255, 0, 0, 0.8)',
+    transition: 'all 0.3s ease'
+}
+
+// Helper to apply the css
+function css(element, style) {
+    let prevStyle = {}
+    for (const property in style) {
+        prevStyle[property] = element.style[property];
+        element.style[property] = style[property];
+    }
+    return prevStyle;
+}
+
+/**
+ * Puts a red outline around an element for 5 seconds, 
+ * then returns the style back to what it was before.
+ * 
+ * @param {HTMLElement} element The HTML Element to highlight
+ */
+export function highlightElement(element) {
+    if (!element.style) {
+        element.style = {}
+    }
+    if (!element.dataset) {
+        element.dataset = {}
+    } else if (element.dataset.highlighted === 'true') {
+        // to prevent re-highlighting, which makes the element stay highlighted forever
+        return;
+    }
+    element.dataset.highlighted = true;
+    let prevStyle = css(element, highlightedStyle)
+    // Reset to previous in 5 seconds
+    setTimeout(() => {
+        css(element, prevStyle);
+        element.dataset.highlighted = false;
+    }, 5000);
 }
