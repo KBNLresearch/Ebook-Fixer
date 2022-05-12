@@ -63,7 +63,7 @@ class UtilsTest(TestCase):
         image = Image.objects.create(ebook=ebook, filename="test.jpg", location=html_filename,
                                      classification="INFO", raw_context=" ")
         annotation = Annotation.objects.create(image=image, type="HUM",
-                                               text="TEST ANNOTATION", confidence=1.0)
+                                               text="TEST ANNOTATION")
 
         inject_image_annotations(self.uuid, [html_filename], [image], [annotation])
 
@@ -86,7 +86,7 @@ class UtilsTest(TestCase):
                                      classification="INFO",
                                      raw_context=" ")
         annotation = Annotation.objects.create(image=image, type="HUM",
-                                               text="TEST ANNOTATION", confidence=1.0)
+                                               text="TEST ANNOTATION")
 
         inject_image_annotations(uuid_test, [html_filename], [image], [annotation])
 
@@ -103,9 +103,9 @@ class UtilsTest(TestCase):
         image1 = Image.objects.create(ebook=ebook, filename="test.jpg", location="random.html")
         image2 = Image.objects.create(ebook=ebook, filename="random.jpg", location=html_filename)
         annotation1 = Annotation.objects.create(image=image1, type="HUM",
-                                                text="DUMMY ANNOTATION", confidence=0.1)
+                                                text="DUMMY ANNOTATION")
         annotation2 = Annotation.objects.create(image=image2, type="HUM",
-                                                text="TEST ANNOTATION", confidence=1.0)
+                                                text="TEST ANNOTATION")
 
         inject_image_annotations(self.uuid, [html_filename],
                                  [image1, image2], [annotation1, annotation2])
