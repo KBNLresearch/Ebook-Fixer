@@ -48,9 +48,9 @@ function EditorControls(props) {
 
     return (
         <div>
-            {currentImageIndex < 1 ? '' : <button onClick={() => changeToImageIndex(prevIndex())}>Previous Image</button>}
-            {currentImageIndex < props.imageList.length - 1 ? <button onClick={() => changeToImageIndex(nextIndex())}>
-                {currentImageIndex === -1 ? 'Begin' : 'Next Image'}
+            {currentImageIndex < 1 ? '' : <button style={{backgroundColor: 'skyblue', marginRight: '1em'}} onClick={() => changeToImageIndex(prevIndex())}>Previous Image</button>}
+            {currentImageIndex < props.imageList.length - 1 ? <button style={{backgroundColor: 'skyblue'}} onClick={() => changeToImageIndex(nextIndex())}>
+                {currentImageIndex === -1 ? 'Begin Annotating the First Image' : 'Next Image'}
             </button> : ''}
         </div>
     )
