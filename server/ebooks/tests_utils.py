@@ -14,6 +14,15 @@ def mock_zip(filepath, rule):
     return MockedZipFile()
 
 
+def html_files_set_up(html_path, html_filename):
+    test_html_content = '<html><body><img src="test.jpg"/></body></html>'
+    os.mkdir(html_path)
+    html_content_path = html_path + "/OEBPS/"
+    os.mkdir(html_content_path)
+    with open(html_content_path + html_filename, "w") as file:
+        file.write(test_html_content)
+
+
 class MockedZipFile:
     def __init__(self):
         self.test_file_1 = "container.xml"
@@ -47,28 +56,63 @@ class UtilsTest(TestCase):
         self.uuid = uuid4()
 
     def test_inject_image_annotations(self):
-        test_html_content = '<html><body><img src="test.jpg"/></body></html>'
         html_path = os.path.abspath("./") + f"/test-books/{self.uuid}"
         html_filename = "test.html"
-        os.mkdir(html_path)
-        html_content_path = html_path + "/OEBPS/"
-        os.mkdir(html_content_path)
-        with open(html_content_path + html_filename, "w") as file:
-            file.write(test_html_content)
-
+        html_files_set_up(html_path, html_filename)
         ebook = Ebook.objects.create(uuid=self.uuid, title="TEST_TITLE")
         image = Image.objects.create(ebook=ebook, filename="test.jpg", location=html_filename,
                                      classification="INFO", raw_context=" ")
         annotation = Annotation.objects.create(image=image, type="HUM",
                                                text="TEST ANNOTATION", confidence=1.0)
 
-        inject_image_annotations(self.uuid, ["test.html"], [image], [annotation])
+        inject_image_annotations(self.uuid, [html_filename], [image], [annotation])
 
-        with open(html_content_path + html_filename, "r") as file:
+        with open(html_path + "/OEBPS/" + html_filename, "r") as file:
             self.assertEqual(file.readline(),
                              '<html><body><img alt="TEST ANNOTATION" '
                              'src="test.jpg"/></body></html>')
+        shutil.rmtree(html_path)
 
+    def test_missing_annotations_injection(self):
+        html_path = os.path.abspath("./") + f"/test-books/{self.uuid}"
+        html_filename = "test.html"
+        html_files_set_up(html_path, html_filename)
+        uuid_test = uuid4()
+        ebook_test1 = Ebook.objects.create(uuid=self.uuid, title="TEST_TITLE")
+        Ebook.objects.create(uuid=uuid_test, title="DUMMY BOOK")
+        image = Image.objects.create(ebook=ebook_test1,
+                                     filename="test.jpg",
+                                     location="random.html",
+                                     classification="INFO",
+                                     raw_context=" ")
+        annotation = Annotation.objects.create(image=image, type="HUM",
+                                               text="TEST ANNOTATION", confidence=1.0)
+
+        inject_image_annotations(uuid_test, [html_filename], [image], [annotation])
+
+        with open(html_path + "/OEBPS/" + html_filename, "r") as file:
+            self.assertEqual(file.readline(),
+                             '<html><body><img src="test.jpg"/></body></html>')
+        shutil.rmtree(html_path)
+
+    def test_annotations_injection_html_file_missing(self):
+        html_path = os.path.abspath("./") + f"/test-books/{self.uuid}"
+        html_filename = "test.html"
+        html_files_set_up(html_path, html_filename)
+        ebook = Ebook.objects.create(uuid=self.uuid, title="TEST_TITLE")
+        image1 = Image.objects.create(ebook=ebook, filename="test.jpg", location="random.html")
+        image2 = Image.objects.create(ebook=ebook, filename="random.jpg", location=html_filename)
+        annotation1 = Annotation.objects.create(image=image1, type="HUM",
+                                                text="DUMMY ANNOTATION", confidence=0.1)
+        annotation2 = Annotation.objects.create(image=image2, type="HUM",
+                                                text="TEST ANNOTATION", confidence=1.0)
+
+        inject_image_annotations(self.uuid, [html_filename],
+                                 [image1, image2], [annotation1, annotation2])
+
+        with open(html_path + "/OEBPS/" + html_filename, "r") as file:
+            self.assertEqual(file.readline(),
+                             '<html><body><img src="test.jpg"/></body></html>')
         shutil.rmtree(html_path)
 
     @patch("ebooks.utils.ZipFile", mock_zip)
