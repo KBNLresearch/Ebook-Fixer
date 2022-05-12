@@ -24,7 +24,7 @@ function App() {
         <div className="App">            
         <header className="App-header">
             <FileUpload setEbookFile={setEbookFile} setEbookId={setEbookId}></FileUpload>
-            <FileDownload></FileDownload>
+            <FileDownload ebookId={ebookId}></FileDownload>
             <p>
             Press the button below to call the ebooks api:
             </p>
