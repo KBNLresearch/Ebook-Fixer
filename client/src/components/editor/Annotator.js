@@ -19,6 +19,7 @@ function UserAnnotator(props) {
     useEffect(() => {
         let list = props.annotationList
         if (list.length > 0) {
+            // Display the latest human annotation
             setTextValue(list[list.length-1])
         }
     }, [props.annotationList])
@@ -41,7 +42,8 @@ function UserAnnotator(props) {
  * It has an AI component for classifying images and generating AI descriptions
  * And a user component for letting the user annotate images
  * 
- * @param {{currentImage: ImageInfo}} props The props of the component
+ * @param {{currImage: ImageInfo}} props The props of the component
+ * @param {{currEbook: EbookInfo}} props The props of the component
  * @returns Tha Anotator Component
  */
 function Annotator(props) {
@@ -50,19 +52,20 @@ function Annotator(props) {
 
     // Executed every time the currentImage changes
     useEffect(() => {
-        let imgInfo = props.currentImage;
+        let imgInfo = props.currImage;
         if (imgInfo) {
             console.log(imgInfo);
             let altText = imgInfo.element.alt
             if (altText) {
+                // Initial human annotation is the existing ALT-text
                 setUserAnnotationList([altText])
             }
         }
-    }, [props.currentImage])
+    }, [props.currImage])
     
     return (
         <div className={styles.container}>
-            <AIannotator> currentImage={props.currentImage} </AIannotator>
+            <AIannotator currImage={props.currImage} currEbook={props.currEbook}> </AIannotator>
             <UserAnnotator annotationList={userAnnotationList}></UserAnnotator>
             <button className={styles.save_button}>Save Annotation</button>
         </div>

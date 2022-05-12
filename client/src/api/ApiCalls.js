@@ -1,5 +1,5 @@
 export function fetchExampleApiCall() {
-    return fetch("http://localhost:8000/api/ebooks/")
+    return fetch("http://localhost:8000/ebooks/")
       //.then(res => res.text()) // for the raw data
       .then(res => res.json()) // if it's in json format
       .then(
@@ -14,3 +14,4 @@ export function fetchExampleApiCall() {
         }
       )
 }
+

@@ -26,7 +26,7 @@ function Editor(props) {
     function getRendered() { return rendered };
 
     /**
-     * Creates a hook that executes the arrow func. every time props.ebookFile changes
+     * props.ebookFile changes
      * The func sets the reader and reads the file that was passed through props of this component
      */
     useEffect(() => {
@@ -49,7 +49,7 @@ function Editor(props) {
                     <Viewer id={viewerId}></Viewer>
                 </div>
                 <div>
-                    <Annotator currentImage={currentImage}></Annotator>
+                    <Annotator currImage={currentImage} currEbook={props.ebookFile}></Annotator>
                 </div>
             </div>
         </div>
