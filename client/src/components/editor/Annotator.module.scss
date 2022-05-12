@@ -15,7 +15,7 @@
         width: 100%;
         position: relative;
         textarea {
-            border-color: slategray;
+            border-color: rgb(117, 124, 132);
             &:focus {
                 background-color: black;
             }
@@ -24,7 +24,7 @@
         .icon {
             padding: 0.2em;
             &:disabled {
-                background-color: slategray;
+                background-color: rgb(171, 178, 186);
                 cursor: auto;
             }
         }

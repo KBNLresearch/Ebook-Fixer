@@ -27,13 +27,13 @@ function UserAnnotator() {
  * And a user component for letting the user annotate images
  * 
  * @param {{currentImage: Object containing information about the image that is currently being annotated}} props The props of the component
- * @returns Tha Anotator Component
+ * @returns The Anotator Component
  */
 function Annotator(props) {
     
     return (
         <div className={styles.container}>
-            <AIannotator></AIannotator>
+            <AIannotator> currentImage={props.currentImage} </AIannotator>
             <UserAnnotator></UserAnnotator>
             <button className={styles.save_button}>Save Annotation</button>
         </div>
