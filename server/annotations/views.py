@@ -8,6 +8,17 @@ from rest_framework import status
 
 @csrf_exempt
 def annotation_generation_view(request):
+    """ Receives the metadata for an image and sends
+    a request to the AI to generate annotation for it
+    The caption is the saved to the database
+
+    Args:
+        request (request object): The request with the image
+        metadata in the body
+
+    Returns:
+        JsonResponse: Response object sent back to the client
+    """
     if request.method == "PUT":
         body = check_request_body(request)
         if type(body) == JsonResponse:
@@ -31,6 +42,17 @@ def annotation_generation_view(request):
 
 @csrf_exempt
 def annotation_save_view(request):
+    """ Receives the metadata for an image and updates the text of
+    its human annotation if the entry exists, otherwise, it creates
+    a new one
+
+    Args:
+        request (request object): The request with the image
+        metadata in the body
+
+    Returns:
+        JsonResponse: Response object sent back to the client
+    """
     if request.method == "POST":
         body = check_request_body(request)
         if type(body) == JsonResponse:
