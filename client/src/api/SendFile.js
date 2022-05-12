@@ -6,7 +6,7 @@
  *          Or the error that was thrown (if the response is an error code).
  */
 export function sendFile(file) {
-    return fetch('http://localhost:8000/ebooks/upload/', {
+    return fetch(process.env.REACT_APP_API_URL+'ebooks/upload/', {
         method: 'POST',
         body: file,
     })
