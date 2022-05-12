@@ -29,15 +29,15 @@ class ImageViewsTest(TestCase):
 
         return response, msg
 
-    def response_image_details_view(self, image_id, uuid=None):
-        path = f"get/{image_id}/"
+    def response_image_details_view(self, filename, uuid=None):
+        path = f"get/{filename}/"
         if uuid is not None:
             request = self.factory.get(path, **{"HTTP_ebook": uuid})
         else:
             request = self.factory.get(path)
         request.user = self.user
 
-        response = image_details_view(request, image_id)
+        response = image_details_view(request, filename)
         msg = response.content
 
         return response, msg
@@ -142,28 +142,28 @@ class ImageViewsTest(TestCase):
         self.assertEqual(msg, js.content)
 
     def test_image_details_view_405(self):
-        image_id = 1
-        request = self.factory.post(f"get/{image_id}/")
+        filename = "test.jpg"
+        request = self.factory.post(f"get/{filename}/")
         request.user = self.user
 
-        response = image_details_view(request, image_id)
+        response = image_details_view(request, filename)
 
         self.assertEqual(response.status_code, 405)
         self.assertEqual(decode_message(response.content), "{'msg': 'Method Not Allowed!'}")
 
     def test_image_details_view_missing_header(self):
-        image_id = 1
+        filename = "test.jpg"
 
-        response, msg = self.response_image_details_view(image_id)
+        response, msg = self.response_image_details_view(filename)
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(decode_message(msg), "{'msg': 'Ebook header not found in the request!'}")
 
     def test_image_details_view_missing_ebook(self):
-        image_id = 1
+        filename = "test.jpg"
         uuid = uuid4()
 
-        response, msg = self.response_image_details_view(image_id, uuid)
+        response, msg = self.response_image_details_view(filename, uuid)
 
         self.assertEqual(response.status_code, 404)
         self.assertEqual(decode_message(msg),
@@ -171,34 +171,30 @@ class ImageViewsTest(TestCase):
 
     def test_image_details_view_missing_image(self):
         uuid = uuid4()
+        filename = "test.jpg"
         ebook = Ebook.objects.create(uuid=uuid, title="TEST TITLE", epub="test.epub")
-        image = Image.objects.create(ebook=ebook, filename="test.jpg", location="test.html")
-        image_id = image.id + 1
+        Image.objects.create(ebook=ebook, filename=filename, location="test.html")
 
-        response, msg = self.response_image_details_view(image_id, uuid)
+        response, msg = self.response_image_details_view("random.jpg", uuid)
 
         self.assertEqual(response.status_code, 404)
         self.assertEqual(decode_message(msg),
-                         "{'msg': " f"'Image with id {image_id} and ebook {uuid} not found!'" "}")
+                         "{'msg': " f"'Image random.jpg not found in ebook {uuid}!'" "}")
 
     def test_image_details_view_200(self):
         uuid = uuid4()
         test_filename = "test.jpg"
         test_location = "test.html"
         ebook = Ebook.objects.create(uuid=uuid, title="TEST TITLE", epub="test.epub")
-        image = Image.objects.create(ebook=ebook, filename=test_filename, location=test_location)
-        image_id = image.id
+        Image.objects.create(ebook=ebook, filename=test_filename, location=test_location)
 
-        response, msg = self.response_image_details_view(image_id, uuid)
+        response, msg = self.response_image_details_view(test_filename, uuid)
 
         self.assertEqual(response.status_code, 200)
-        expected_response = json.dumps({"image": {"id": image_id,
-                                                  "ebook": str(uuid),
-                                                  "filename": test_filename,
-                                                  "location": test_location,
-                                                  "classification": "INFO",  # default value
-                                                  "raw_context": ""  # default value
-                                                  },
-                                        "annotations": []
-                                        }).replace('"', "'")
-        self.assertEqual(decode_message(msg), expected_response)
+        expected_response = json.loads(msg)
+        self.assertEqual(expected_response["image"]["ebook"], str(uuid))
+        self.assertEqual(expected_response["image"]["filename"], test_filename)
+        self.assertEqual(expected_response["image"]["location"], test_location)
+        self.assertEqual(expected_response["image"]["classification"], "INFO")  # default value
+        self.assertEqual(expected_response["image"]["raw_context"], "")  # default value
+        self.assertEqual(expected_response["annotations"], [])

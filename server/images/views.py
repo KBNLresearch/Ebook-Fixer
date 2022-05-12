@@ -10,12 +10,12 @@ from json import JSONDecodeError
 import json
 
 
-def image_details_view(request, image_id):
+def image_details_view(request, filename):
     """Returns the metadata and the annotations for an image
 
     Args:
         request (request object): The request object with an ebook header
-        image_id (int): The id of the image
+        filename (string): The name of the image
 
     Returns:
         JsonResponse: Response object sent back to the client
@@ -32,9 +32,9 @@ def image_details_view(request, image_id):
             return JsonResponse({'msg': f'Ebook with uuid {uuid} not found!'},
                                 status=status.HTTP_404_NOT_FOUND)
         try:
-            image = Image.objects.filter(id=image_id, ebook=ebook).get()
+            image = Image.objects.filter(ebook=ebook, filename=filename).get()
         except Image.DoesNotExist:
-            return JsonResponse({'msg': f'Image with id {image_id} and ebook {uuid} not found!'},
+            return JsonResponse({'msg': f'Image {filename} not found in ebook {uuid}!'},
                                 status=status.HTTP_404_NOT_FOUND)
         annotations = [
             a for a in Annotation.objects.all()
