@@ -1,9 +1,10 @@
+import json
 from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory, TestCase
 from django.http import JsonResponse
 from ebooks.models import Ebook
 from uuid import uuid4
-from .views import image_classification_view
+from .views import image_details_view, image_classification_view
 from .models import Image
 from.serializers import ImageSerializer
 
@@ -24,6 +25,19 @@ class ImageViewsTest(TestCase):
         request.user = self.user
 
         response = image_classification_view(request)
+        msg = response.content
+
+        return response, msg
+
+    def response_image_details_view(self, image_id, uuid=None):
+        path = f"get/{image_id}/"
+        if uuid is not None:
+            request = self.factory.get(path, **{"HTTP_ebook": uuid})
+        else:
+            request = self.factory.get(path)
+        request.user = self.user
+
+        response = image_details_view(request, image_id)
         msg = response.content
 
         return response, msg
@@ -126,3 +140,65 @@ class ImageViewsTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(msg, js.content)
+
+    def test_image_details_view_405(self):
+        image_id = 1
+        request = self.factory.post(f"get/{image_id}/")
+        request.user = self.user
+
+        response = image_details_view(request, image_id)
+
+        self.assertEqual(response.status_code, 405)
+        self.assertEqual(decode_message(response.content), "{'msg': 'Method Not Allowed!'}")
+
+    def test_image_details_view_missing_header(self):
+        image_id = 1
+
+        response, msg = self.response_image_details_view(image_id)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(decode_message(msg), "{'msg': 'Ebook header not found in the request!'}")
+
+    def test_image_details_view_missing_ebook(self):
+        image_id = 1
+        uuid = uuid4()
+
+        response, msg = self.response_image_details_view(image_id, uuid)
+
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(decode_message(msg),
+                         "{'msg': " f"'Ebook with uuid {uuid} not found!'" "}")
+
+    def test_image_details_view_missing_image(self):
+        uuid = uuid4()
+        ebook = Ebook.objects.create(uuid=uuid, title="TEST TITLE", epub="test.epub")
+        image = Image.objects.create(ebook=ebook, filename="test.jpg", location="test.html")
+        image_id = image.id + 1
+
+        response, msg = self.response_image_details_view(image_id, uuid)
+
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(decode_message(msg),
+                         "{'msg': " f"'Image with id {image_id} and ebook {uuid} not found!'" "}")
+
+    def test_image_details_view_200(self):
+        uuid = uuid4()
+        test_filename = "test.jpg"
+        test_location = "test.html"
+        ebook = Ebook.objects.create(uuid=uuid, title="TEST TITLE", epub="test.epub")
+        image = Image.objects.create(ebook=ebook, filename=test_filename, location=test_location)
+        image_id = image.id
+
+        response, msg = self.response_image_details_view(image_id, uuid)
+
+        self.assertEqual(response.status_code, 200)
+        expected_response = json.dumps({"image": {"id": image_id,
+                                                  "ebook": str(uuid),
+                                                  "filename": test_filename,
+                                                  "location": test_location,
+                                                  "classification": "INFO",  # default value
+                                                  "raw_context": ""  # default value
+                                                  },
+                                        "annotations": []
+                                        }).replace('"', "'")
+        self.assertEqual(decode_message(msg), expected_response)

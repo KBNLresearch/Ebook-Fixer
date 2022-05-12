@@ -1,6 +1,8 @@
 from .serializers import ImageSerializer
 from .models import Image
 from ebooks.models import Ebook
+from annotations.models import Annotation
+from annotations.serializers import AnnotationSerializer
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
@@ -8,8 +10,58 @@ from json import JSONDecodeError
 import json
 
 
+def image_details_view(request, image_id):
+    """Returns the metadata and the annotations for an image
+
+    Args:
+        request (request object): The request object with an ebook header
+        image_id (int): The id of the image
+
+    Returns:
+        JsonResponse: Response object sent back to the client
+    """
+    if request.method == "GET":
+        try:
+            uuid = request.headers["ebook"]
+        except KeyError:
+            return JsonResponse({'msg': 'Ebook header not found in the request!'},
+                                status=status.HTTP_400_BAD_REQUEST)
+        try:
+            ebook = Ebook.objects.filter(uuid=uuid).get()
+        except Ebook.DoesNotExist:
+            return JsonResponse({'msg': f'Ebook with uuid {uuid} not found!'},
+                                status=status.HTTP_404_NOT_FOUND)
+        try:
+            image = Image.objects.filter(id=image_id, ebook=ebook).get()
+        except Image.DoesNotExist:
+            return JsonResponse({'msg': f'Image with id {image_id} and ebook {uuid} not found!'},
+                                status=status.HTTP_404_NOT_FOUND)
+        annotations = [
+            a for a in Annotation.objects.all()
+            if a.image == image
+        ]
+        image_serializer = ImageSerializer(image)
+        annotations = list(map(lambda a: AnnotationSerializer(a).data, annotations))
+        return JsonResponse({'image': image_serializer.data,
+                             'annotations': annotations
+                             }, status=status.HTTP_200_OK)
+    else:
+        return JsonResponse({'msg': 'Method Not Allowed!'},
+                            status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
 @csrf_exempt
 def image_classification_view(request):
+    """Receives metadata for an image entry which is
+    added/updated in the database
+
+    Args:
+        request (request object): The request object that contains
+        image metadata in the body
+
+    Returns:
+        JsonResponse: Response object sent back to the client
+    """
     if request.method == "PUT":
         try:
             data = request.body.decode('utf-8')
@@ -51,4 +103,6 @@ def image_classification_view(request):
         image.save()
         serializer = ImageSerializer(image)
         return JsonResponse(serializer.data, status=status.HTTP_200_OK)
-    return JsonResponse({'msg': 'Method Not Allowed!'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    else:
+        return JsonResponse({'msg': 'Method Not Allowed!'},
+                            status=status.HTTP_405_METHOD_NOT_ALLOWED)
