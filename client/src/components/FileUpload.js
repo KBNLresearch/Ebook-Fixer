@@ -147,6 +147,12 @@ function FileUpload(props) {
             sendFile(formdata)
                 .then(result => {
                     setUploading(false);
+                     console.log(JSON.stringify(result));
+                    if (result.hasOwnProperty("book_id")){
+                        console.log(result.book_id);
+                        props.setEbookId(result.book_id)
+                   }
+
                     setStatus("success");
                 })
                 .catch(error => {
