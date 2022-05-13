@@ -1,5 +1,4 @@
 from django.db import models
-from django.urls import reverse
 
 
 def epub_dir_path(instance, filename):
@@ -15,9 +14,6 @@ class Ebook(models.Model):
     # FileField is created as a string field in the database (usually VARCHAR),
     # containing the reference to the actual file
     epub = models.FileField(upload_to=epub_dir_path)
-
-    def get_absolute_url(self):
-        return reverse("ebooks:ebook-detail", kwargs={"uuid": self.uuid})
 
     def __str__(self) -> str:
         return self.uuid

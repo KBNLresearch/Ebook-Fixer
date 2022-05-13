@@ -15,7 +15,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 # from pathlib import Path
 
 
-class ViewsTest(TestCase):
+class EbookViewsTest(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.user = AnonymousUser()
@@ -101,7 +101,7 @@ class ViewsTest(TestCase):
         self.assertEqual(msg, b'{"msg": "Method Not Allowed!"}')
 
     def test_ebook_download_view_404_file_not_found(self):
-        Ebook.objects.create(uuid=self.uuid, title="TEST_TITLE", epub=None)
+        ebook = Ebook.objects.create(uuid=self.uuid, title="TEST_TITLE", epub=None)
 
         response, msg = self.response_ebook_download_view()
 
@@ -109,6 +109,7 @@ class ViewsTest(TestCase):
         expected_msg = '{"msg": ' + f'"Files for ebook with uuid {self.uuid} not found!'\
             ' Zipping failed!"' + '}'
         self.assertEqual(msg, bytes(expected_msg, 'utf-8'))
+        self.assertEqual(ebook.__str__(), self.uuid)
 
     def test_ebook_download_view_200(self):
         test_filename = "test_content.txt"
