@@ -40,7 +40,7 @@ function Editor(props) {
     }, [props.ebookFile])
     
     return (
-        <div>
+        <div className={styles.container}>
             <h1 className={styles.title}>Editor</h1>
             <span>If you don't see anything, scroll down to load more of the book.</span>
             <div className={styles.editor}>

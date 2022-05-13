@@ -5,6 +5,7 @@ import FileUpload from './components/FileUpload';
 import Editor from './components/editor/Editor';
 import FileDownload from './components/FileDownload';
 import { BrowserRouter, Routes, Route, Link, } from "react-router-dom";
+import { ReactComponent as GoBackArrowSVG } from './assets/svgs/go-back-arrow.svg'
 
 // This code uses functional components, you could use classes instead but they're
 function App() {
@@ -27,11 +28,11 @@ function App() {
                     <Route path="/" element={<p>Homepage</p>}>
                         
                     </Route>
-                    <Route path="*" element={<h1><Link to="/">Go Back</Link></h1>}/>
+                    <Route path="*" element={<Link to="/" className="home-navigation"><GoBackArrowSVG />Go Back</Link>}/>
                 </Routes>
             
         </header>
-            <main>
+            <main className="App-main">
                 
                     <Routes>
                     <Route path="/" element={<FileUpload setEbookFile={setEbookFile}></FileUpload>} />
