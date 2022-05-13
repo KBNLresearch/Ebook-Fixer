@@ -66,7 +66,7 @@ function Annotator(props) {
     
     return (
         <div className={styles.container}>
-            <AIannotator currImage={props.currImage} currEbook={props.currEbook} ebookId={props.ebookId}> </AIannotator>
+            <AIannotator currImage={props.currImage} ebookId={props.ebookId}> </AIannotator>
             <UserAnnotator annotationList={userAnnotationList}></UserAnnotator>
             <button className={styles.save_button}>Save Annotation</button>
         </div>

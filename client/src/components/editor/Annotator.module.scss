@@ -59,7 +59,11 @@
         padding: 0.5em 0.7em;
 
         &:hover {
-            background-color: #81cf93;
+            background-color: #2ebf50;
+            border-color: #eee;
+        }
+        &:disabled {
+            background-color: #b8c3b8;
             border-color: #eee;
         }
     }
