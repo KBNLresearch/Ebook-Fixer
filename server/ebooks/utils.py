@@ -6,7 +6,7 @@ from zipfile import ZipFile
 
 
 def inject_image_annotations(ebook_uuid, html_filenames, images, annotations):
-    """ Injects all human image annotations to their corresponding ALT-texts in HTML
+    """ Injects all human image annotations to their corresponding ALT-texts in the HTML files
 
         Args:
             ebook_uuid (String): uuid of ebook

@@ -56,7 +56,7 @@ analysis-client:
     - chmod u+x wait.sh && ./wait.sh
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
-    - docker run $CLIENT_IMAGE echo npx eslint .
+    - docker run $CLIENT_IMAGE npx eslint .
     - echo "Static analysis on the client passed!"
   allow_failure: true
 

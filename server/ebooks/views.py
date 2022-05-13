@@ -12,7 +12,7 @@ import os
 
 
 def ebook_detail_view(request, uuid):
-    """The GET endpoint for an ebook instance
+    """ The GET endpoint for an ebook instance
 
     Args:
         request (request object): The request object
@@ -35,7 +35,7 @@ def ebook_detail_view(request, uuid):
 
 
 def ebook_download_view(request, uuid):
-    """Endpoint for zipping the ebook with given uuid from storage and returns the epub
+    """ Endpoint for zipping the ebook with given uuid from storage and returns the epub
 
     Args:
         request (request object): The request object
@@ -92,9 +92,7 @@ def ebook_download_view(request, uuid):
 # TODO: Return accessible epub3 file (or have separate endpoint)
 @csrf_exempt
 def ebook_upload_view(request):
-    """ Takes the existing unzipped epub file under ./app/test-books/{uuid}/{filename}
-        and unzips it, now under ./app/test-books/{uuid}
-        Note that the MEDIA_ROOT is defined as ./app/test-books/
+    """ Takes the epub from the request and unzips it under test-books/{uuid}/
 
         Args:
             request (request object): client request
