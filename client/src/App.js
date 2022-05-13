@@ -12,6 +12,8 @@ function App() {
 
     const [ebookFile, setEbookFile] = useState(null);
 
+    const [ebookId, setEbookId] = useState(null)
+
     function getResult() {
         fetchExampleApiCall().then(data => {
             setResult(data)
@@ -21,8 +23,8 @@ function App() {
     return (
         <div className="App">            
         <header className="App-header">
-            <FileUpload setEbookFile={setEbookFile}></FileUpload>
-            <FileDownload></FileDownload>
+            <FileUpload setEbookFile={setEbookFile} setEbookId={setEbookId}></FileUpload>
+            <FileDownload ebookId={ebookId}></FileDownload>
             <p>
             Press the button below to call the ebooks api:
             </p>
