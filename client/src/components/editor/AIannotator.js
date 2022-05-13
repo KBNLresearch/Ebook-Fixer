@@ -66,7 +66,7 @@ function AIannotator(props) {
             {/* <textarea placeholder="Loading AI zannotation..." disabled></textarea> */}
             {/* <button className={styles.icon} disabled><SettingsSVG title='Reclassify'></SettingsSVG></button>     */}
             <label>Please classify your selected image</label>
-                <select name='selectedClass' ref={dropdownRef} className={styles.dropdown}>
+                <select name='selectedClass' ref={dropdownRef} className={styles.dropdown} onChange={() => saveButtonRef.current.disabled = false}>
                     {options.map((opt) => <option value={opt} > {opt} </option>)}
                 </select>
             <button className={styles.save_button} ref={saveButtonRef} onClick={() => handleSubmit()}> Save classification </button>        
