@@ -1,6 +1,6 @@
 /**
  * makes a get request to get the file with given id to download from the server
- * @param {*} fileId 
+ * @param {String} fileId 
  * @returns  response
  */
 export function  getFile(fileId) {

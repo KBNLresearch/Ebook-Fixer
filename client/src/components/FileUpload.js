@@ -23,7 +23,8 @@ let droppedFile = null;
  * This component handles uploading the epub and sending it to the server.
  * It supports both drag and drop and choosing a file with a system window.
  * It checks the file type to be an epub.
- * 
+ * @param {{setEbookFile: update method}} props The props of the component
+ * @param {{setEbookId: update method}} props The props of the component
  * @returns The FileUpload component, ready for rendering.
  */
 function FileUpload(props) {    
