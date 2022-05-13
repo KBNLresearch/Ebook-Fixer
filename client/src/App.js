@@ -37,7 +37,7 @@ function App() {
             </ul>
         </header>
         <main>
-            {ebookFile === null ? '' : <Editor ebookFile={ebookFile}></Editor>}
+            {ebookFile === null ? '' : <Editor ebookFile={ebookFile} ebookId={ebookId}></Editor>}
         </main>
         </div>
     );
