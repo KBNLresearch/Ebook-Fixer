@@ -22,8 +22,9 @@ function App() {
     return (
         <div className="App">            
             <header className="App-header">
+                <h1>Fixing E-Books</h1>
                 <Routes>
-                    <Route path="/" element={<h1>Fixing E-Books</h1>}>
+                    <Route path="/" element={<p>Homepage</p>}>
                         
                     </Route>
                     <Route path="*" element={<h1><Link to="/">Go Back</Link></h1>}/>
