@@ -31,6 +31,7 @@ def check_request_body(request):
                             status=status.HTTP_404_NOT_FOUND)
     return image, data
 
+
 def google_vision_labels(image_path):
 
     # Instantiates a client

@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 
+
 @csrf_exempt
 def annotation_generation_view(request):
     """ Receives the metadata for an image and sends
@@ -24,9 +25,9 @@ def annotation_generation_view(request):
             return body
         image = body[0]
         # data = body[1]
-        
+
         image_path = f"test-books/{image.ebook}/OEBPS/{image.filename}"
-        
+
         # Calls the helper method in utils
         generated_labels = google_vision_labels(image_path)
 
@@ -37,7 +38,8 @@ def annotation_generation_view(request):
                                       text=description,
                                       confidence=score)
 
-        return JsonResponse({'msg': f'Success, {len(generated_labels)} annotations added.'}, status=status.HTTP_200_OK)
+        return JsonResponse({'msg': f'Success, {len(generated_labels)} annotations added.'},
+                            status=status.HTTP_200_OK)
     else:
         return JsonResponse({'msg': 'Method Not Allowed!'},
                             status=status.HTTP_405_METHOD_NOT_ALLOWED)
