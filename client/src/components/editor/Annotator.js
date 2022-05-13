@@ -21,6 +21,9 @@ function UserAnnotator(props) {
         if (list.length > 0) {
             setTextValue(list[list.length-1])
         }
+        else { // No img alt attribute
+            setTextValue("");
+        }
     }, [props.annotationList])
 
     return (
@@ -56,6 +59,9 @@ function Annotator(props) {
             let altText = imgInfo.element.alt
             if (altText) {
                 setUserAnnotationList([altText])
+            }
+            else { // The image has no alt text
+                setUserAnnotationList([])
             }
         }
     }, [props.currentImage])
