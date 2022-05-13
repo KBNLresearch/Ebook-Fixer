@@ -4,7 +4,7 @@
  * @returns  response
  */
 export function  getFile(fileId) {
-    return fetch('http://localhost:8000/ebooks/download/'+ fileId + "/", {
+    return fetch(process.env.REACT_APP_API_URL + 'ebooks/download/' + fileId + "/", {
         method: 'GET'
     })
     .then(response => {

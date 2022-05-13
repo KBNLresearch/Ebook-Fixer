@@ -10,7 +10,7 @@
  */
  export function classifyImageApiCall(ebook_uuid, filename, location, classification, raw_context) {
     
-    return fetch("http://localhost:8000/images/classify/", {
+    return fetch(process.env.REACT_APP_API_URL + 'images/classify/', {
       method: 'PUT', 
       body: JSON.stringify({ebook: ebook_uuid, filename: filename, location: location, classification: classification, raw_context: raw_context}), 
       headers:  { 'Content-Type': 'application/json; charset=UTF-8'}
