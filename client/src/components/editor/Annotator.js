@@ -26,7 +26,7 @@ function UserAnnotator() {
  * It has an AI component for classifying images and generating AI descriptions
  * And a user component for letting the user annotate images
  * 
- * @param {{imageId: The id of the image currently being annotated}} props The props of the component
+ * @param {{currentImage: Object containing information about the image that is currently being annotated}} props The props of the component
  * @returns Tha Anotator Component
  */
 function Annotator(props) {
