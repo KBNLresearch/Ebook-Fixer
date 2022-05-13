@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import { sendFile } from '../api/SendFile';
 import styles from './FileUpload.module.css';
 import {ReactComponent as UploadSVG} from '../assets/svgs/upload-sign.svg'
+import { useNavigate } from 'react-router-dom';
 
 // Tests that drag and drop features and File reading are available
 // in the user's browser. The code will use a workaround if they're not.
@@ -41,6 +42,9 @@ function FileUpload(props) {
     // A reference to the form that is returned below,
     // Used for adding event listeners to it.
     const form = useRef(null);
+
+    // For navigation to the editor
+    let navigate = useNavigate();
 
     // When the mouse enters the file drop area
     function handleDragEnter(e) {
@@ -152,6 +156,9 @@ function FileUpload(props) {
                 .catch(error => {
                     setUploading(false);
                     setStatus("error");
+                })
+                .finally(() => {
+                    navigate("/ebook/3")
                 })
         }
     }

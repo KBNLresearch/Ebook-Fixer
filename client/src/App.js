@@ -4,6 +4,7 @@ import { fetchExampleApiCall } from './api/ApiCalls';
 import FileUpload from './components/FileUpload';
 import Editor from './components/editor/Editor';
 import FileDownload from './components/FileDownload';
+import { BrowserRouter, Routes, Route, Link, } from "react-router-dom";
 
 // This code uses functional components, you could use classes instead but they're
 function App() {
@@ -20,9 +21,23 @@ function App() {
 
     return (
         <div className="App">            
-        <header className="App-header">
-            <FileUpload setEbookFile={setEbookFile}></FileUpload>
-            <FileDownload></FileDownload>
+            <header className="App-header">
+                <Routes>
+                    <Route path="/" element={<h1>Fixing E-Books</h1>}>
+                        
+                    </Route>
+                    <Route path="*" element={<h1><Link to="/">Go Back</Link></h1>}/>
+                </Routes>
+            
+        </header>
+            <main>
+                
+                    <Routes>
+                    <Route path="/" element={<FileUpload setEbookFile={setEbookFile}></FileUpload>} />
+                    <Route path="/ebook/:uuid" element={<Editor ebookFile={ebookFile}></Editor> }/>
+                    </Routes>
+            
+            {/* <FileDownload></FileDownload>
             <p>
             Press the button below to call the ebooks api:
             </p>
@@ -32,10 +47,7 @@ function App() {
                 {result.map(ebook => {
                     return <li key={ebook.uuid}>Ebook uuid: {ebook.uuid}, title: {ebook.title}</li>
                 })}
-            </ul>
-        </header>
-        <main>
-            {ebookFile === null ? '' : <Editor ebookFile={ebookFile}></Editor>}
+            </ul> */}
         </main>
         </div>
     );
