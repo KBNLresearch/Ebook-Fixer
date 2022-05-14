@@ -1,41 +1,34 @@
 /**
  * makes a get request to get the file with given id to download from the server
- * @param {*} fileId 
+ * @param {String} fileId
  * @returns  response
  */
-export function  getFile(fileId) {
-    return fetch(process.env.REACT_APP_API_URL+'ebooks/download/'+ fileId + "/", {
-        method: 'GET'
-    })
-    .then(response => {
-        if (response.ok) {
-            console.log("okay")
-            response.blob().then(blob => {
-                console.log("blob")
-                let url = window.URL.createObjectURL(blob);
-                let a = document.createElement('a');
-                a.href = url;
-                a.download = fileId+'.epub';
-                a.click();
-                
-
-
-            });
-
-
+export function getFile(fileId) {
+    return fetch(
+        process.env.REACT_APP_API_URL + 'ebooks/download/' + fileId + '/',
+        {
+            method: 'GET',
         }
-
-
-    })
-    .then(function (response) {
-        console.log("Response: ");
-        console.log(response);
-        return response;
-    })
-    .catch(error => {
-        window.alert("Error! Please try again.")
-        console.log(error);
-        throw error;
-    })
-
+    )
+        .then((response) => {
+            if (response.ok) {
+                response.blob().then((blob) => {
+                    const url = window.URL.createObjectURL(blob)
+                    const a = document.createElement('a')
+                    a.href = url
+                    a.download = fileId + '.epub'
+                    a.click()
+                })
+            }
+        })
+        .then((response) => {
+            console.log('Response: ')
+            console.log(response)
+            return response
+        })
+        .catch((error) => {
+            window.alert('Error! Please try again.')
+            console.log(error)
+            throw error
+        })
 }

@@ -6,7 +6,7 @@ from zipfile import ZipFile
 
 
 def inject_image_annotations(ebook_uuid, html_filenames, images, annotations):
-    """ Injects all human image annotations to their corresponding ALT-texts in HTML
+    """ Injects all human image annotations to their corresponding ALT-texts in the HTML files
 
         Args:
             ebook_uuid (String): uuid of ebook
@@ -54,7 +54,8 @@ def zip_ebook(ebook_uuid):
 
 
 def extract_title(ebook_uuid):
-    """ Looks for the content.opf file under test-books/{uuid} and extracts title
+    """ Looks for the container.exml file under test-books/{uuid}/META-INF
+        and extracts the path to the root file from which we get the title
 
     Args:
         ebook_uuid (String): uuid of ebook to extract title of
@@ -62,20 +63,14 @@ def extract_title(ebook_uuid):
     Returns:
         String: extracted title of ebook
     """
-    # The content.opf file must exist if unzipping of epub was successful
-    storage_path = f"test-books/{ebook_uuid}"
-    for path, dirs, files in os.walk(storage_path):
-        for name in files:
-            if name.__eq__("content.opf"):
-                filepath = os.path.join(path, name)
-                with open(filepath, 'r') as f:
-                    content_opf_file = f.read()
-                    # Parse the file as XML
-                    soup = BeautifulSoup(content_opf_file, 'xml')
-                    title = soup.find('title').string
-                    return title
-            else:
-                FileNotFoundError('Epub zip did not contain content.opf!')
+    filepath = f"test-books/{ebook_uuid}/" "META-INF/container.xml"
+    with open(filepath, 'r') as file:
+        content = BeautifulSoup(file, 'xml')
+        opf_path = f"test-books/{ebook_uuid}/" + content.find('rootfile')["full-path"]
+        with open(opf_path, 'r') as f:
+            opf_content = BeautifulSoup(f, 'xml')
+            title = opf_content.find('title').string
+            return title
 
 
 def unzip_ebook(ebook_uuid, ebook_filename):
@@ -90,14 +85,11 @@ def unzip_ebook(ebook_uuid, ebook_filename):
     Returns:
         String: extracted title of ebook
     """
-    try:
-        epub_path = f"test-books/{ebook_uuid}/{ebook_filename}"
-        # Turns epub file into zip archive
-        with ZipFile(epub_path, 'r') as zipped_epub:
-            # zipped_epub.printdir()
-            zipped_epub.extractall(f"test-books/{ebook_uuid}")
-            # Remove the original zip .epub file
-            os.remove(epub_path)
-        return extract_title(ebook_uuid)
-    except FileNotFoundError:
-        pass
+    epub_path = f"test-books/{ebook_uuid}/{ebook_filename}"
+    # Turns epub file into zip archive
+    with ZipFile(epub_path, 'r') as zipped_epub:
+        # zipped_epub.printdir()
+        zipped_epub.extractall(f"test-books/{ebook_uuid}")
+        # Remove the original zip .epub file
+        os.remove(epub_path)
+    return extract_title(ebook_uuid)

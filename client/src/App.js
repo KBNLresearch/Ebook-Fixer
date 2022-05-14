@@ -1,45 +1,53 @@
-import './App.scss';
-import React, { useState } from 'react'
-import { fetchExampleApiCall } from './api/ApiCalls';
-import FileUpload from './components/FileUpload';
-import Editor from './components/editor/Editor';
-import FileDownload from './components/FileDownload';
-import { BrowserRouter, Routes, Route, Link, } from "react-router-dom";
+import { Routes, Route, Link } from 'react-router-dom'
+import './App.scss'
+import { useState } from 'react'
+import FileUpload from './components/FileUpload'
+import Editor from './components/editor/Editor'
 import { ReactComponent as GoBackArrowSVG } from './assets/svgs/go-back-arrow.svg'
 
 // This code uses functional components, you could use classes instead but they're
 function App() {
+    const [ebookFile, setEbookFile] = useState(null)
 
-    const [result, setResult] = useState([]);
-
-    const [ebookFile, setEbookFile] = useState(null);
-
-    function getResult() {
-        fetchExampleApiCall().then(data => {
-            setResult(data)
-        })
-    }
+    const [ebookId, setEbookId] = useState(null)
 
     return (
-        <div className="App">            
+        <div className="App">
             <header className="App-header">
                 <h1>Fixing E-Books</h1>
                 <Routes>
-                    <Route path="/" element={<p>Homepage</p>}>
-                        
-                    </Route>
-                    <Route path="*" element={<Link to="/" className="home-navigation"><GoBackArrowSVG />Go Back</Link>}/>
+                    <Route path="/" element={<p>Homepage</p>} />
+                    <Route
+                        path="*"
+                        element={
+                            <Link to="/" className="home-navigation">
+                                <GoBackArrowSVG />
+                                Go Back
+                            </Link>
+                        }
+                    />
                 </Routes>
-            
-        </header>
+            </header>
             <main className="App-main">
-                
-                    <Routes>
-                    <Route path="/" element={<FileUpload setEbookFile={setEbookFile}></FileUpload>} />
-                    <Route path="/ebook/:uuid" element={<Editor ebookFile={ebookFile}></Editor> }/>
-                    </Routes>
-            
-            {/* <FileDownload></FileDownload>
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <FileUpload
+                                setEbookFile={setEbookFile}
+                                setEbookId={setEbookId}
+                            />
+                        }
+                    />
+                    <Route
+                        path="/ebook/:uuid"
+                        element={
+                            <Editor ebookFile={ebookFile} ebookId={ebookId} />
+                        }
+                    />
+                </Routes>
+
+                {/* <FileDownload></FileDownload>
             <p>
             Press the button below to call the ebooks api:
             </p>
@@ -50,9 +58,9 @@ function App() {
                     return <li key={ebook.uuid}>Ebook uuid: {ebook.uuid}, title: {ebook.title}</li>
                 })}
             </ul> */}
-        </main>
+            </main>
         </div>
-    );
+    )
 }
 
-export default App;
+export default App

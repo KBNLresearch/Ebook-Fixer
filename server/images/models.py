@@ -5,10 +5,8 @@ from ebooks.models import Ebook
 class Image(models.Model):
     # When the referenced ebook gets deleted, the child image will be deleted too.
     ebook = models.ForeignKey(Ebook, on_delete=models.CASCADE)
-    # For now location = file path,
-    # but we may turn it into an object containing more fields later (e.g. line no.)
-    filename = models.CharField(max_length=100, null=True)
-    location = models.CharField(max_length=100, null=True)
+    filename = models.CharField(max_length=100)
+    location = models.CharField(max_length=100)
     IMAGE_TYPES = [
         ('DECO', 'Decorative'),
         ('INFO', 'Informative'),
@@ -22,6 +20,11 @@ class Image(models.Model):
         ('GRAPH', 'Graph'),
         ('MAP', 'Map')
     ]
-    classification = models.CharField(max_length=10, choices=IMAGE_TYPES, default='DECO')
-    raw_context = models.CharField(max_length=1000)
+    SERIALIZED_FIELDS = ['ebook', 'filename', 'location', 'classification', 'raw_context']
+    classification = models.CharField(max_length=10, choices=IMAGE_TYPES, default='INFO')
+    raw_context = models.CharField(max_length=1000, blank=True)
     # keywords = array??
+
+    class Meta:
+        # Combine ebook and filename into a primary key
+        unique_together = (("ebook", "filename"), )
