@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import React, { useState } from 'react'
 import { fetchExampleApiCall } from './api/ApiCalls';
 import FileUpload from './components/FileUpload';
@@ -12,6 +12,8 @@ function App() {
 
     const [ebookFile, setEbookFile] = useState(null);
 
+    const [ebookId, setEbookId] = useState(null)
+
     function getResult() {
         fetchExampleApiCall().then(data => {
             setResult(data)
@@ -19,10 +21,10 @@ function App() {
     }
 
     return (
-        <div className="App">
+        <div className="App">            
         <header className="App-header">
-            <FileUpload setEbookFile={setEbookFile}></FileUpload>
-            <FileDownload></FileDownload>
+            <FileUpload setEbookFile={setEbookFile} setEbookId={setEbookId}></FileUpload>
+            <FileDownload ebookId={ebookId}></FileDownload>
             <p>
             Press the button below to call the ebooks api:
             </p>
@@ -35,7 +37,7 @@ function App() {
             </ul>
         </header>
         <main>
-            {ebookFile === null ? '' : <Editor ebookFile={ebookFile}></Editor>}
+            {ebookFile === null ? '' : <Editor ebookFile={ebookFile} ebookId={ebookId}></Editor>}
         </main>
         </div>
     );

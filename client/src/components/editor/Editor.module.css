@@ -2,9 +2,12 @@
     padding: 1rem;
     background-color: #eee;
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 2fr 1fr;
 }
 
 .title {
     text-align: center;
+    font-weight: bold;
+    font-size: 2rem;
+    line-height: 1.5em;
 }

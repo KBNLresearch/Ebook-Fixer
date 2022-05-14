@@ -20,6 +20,7 @@ div.error {
 }
 
 .box {
+    min-height: 8em;
     height: 25vh;
     width: 70%;
     color: black;
@@ -27,20 +28,25 @@ div.error {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    border-radius: 0.2em;
     align-items: center;
-    padding: 20px;
+    padding: 0.5em;
     padding-bottom: 2rem;
-    transition: background-color 0.5s ease, padding 0.3s ease;
+    outline: 0.2em dashed black;
+    outline-offset: -10px;
+    transition: background-color 0.5s ease, 
+                outline-offset 0.5s ease, 
+                outline 0.5s ease;
 }
 .box.dragging {
     background-color: slategray;
-    padding: 30px;
+    outline: 0.2em dashed blueviolet;
+    outline-offset: -20px;
 }
 
 
 .advanced_upload {
-  outline: 2px dashed black;
-  outline-offset: -10px;
+  outline: 0.2em dashed white;
 }
 .advanced_upload .dragndrop {
   display: inline;

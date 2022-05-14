@@ -1,10 +1,10 @@
 /**
  * makes a get request to get the file with given id to download from the server
- * @param {*} fileId 
+ * @param {String} fileId 
  * @returns  response
  */
 export function  getFile(fileId) {
-    return fetch('http://localhost:8000/ebooks/download/'+ fileId + "/", {
+    return fetch(process.env.REACT_APP_API_URL + 'ebooks/download/' + fileId + "/", {
         method: 'GET'
     })
     .then(response => {
