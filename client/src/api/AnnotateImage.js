@@ -8,7 +8,7 @@
 //
 
 
-export function  sendUserAnnotation(ebookId, imageId, filen, txt) {
+export function  saveUserAnnotation(ebookId, imageId, filen, txt) {
     return fetch(process.env.REACT_APP_API_URL+'annotations/save/', {
         method: 'POST',
         headers: {

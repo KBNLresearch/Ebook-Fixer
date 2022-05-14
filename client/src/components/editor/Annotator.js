@@ -70,7 +70,7 @@ function Annotator(props) {
         <div className={styles.container}>
             <AIannotator></AIannotator>
             <UserAnnotator annotationList={userAnnotationList}></UserAnnotator>
-            <button className={styles.save_button}>Save Annotation</button>
+            <button className={styles.save_button} onClick={() =>{ saveUserAnnotation(ebookId, imageId, filen, txt)}}>Save Annotation</button>
         </div>
     )
 }
