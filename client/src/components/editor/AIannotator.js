@@ -52,7 +52,17 @@ function AIannotator(props) {
             if (!props.ebookId) {
                 console.log('No e-book UUID stored on client!')
             }
+
+
+
             classifyImageApiCall(props.ebookId, getImgFilename(props.currImage), getLocation(props.currImage), getClassification(), getRawContext(props.currImage))
+            .then(result => {
+                console.log(JSON.stringify(result));
+                if (result.hasOwnProperty("id")){
+                        console.log(result.id);
+                        props.setImageId(result.id)
+                   }
+            })
             saveButtonRef.current.disabled = true
             console.log('Save classification button disabled.')
         }

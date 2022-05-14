@@ -3,6 +3,8 @@ import styles from './Annotator.module.scss';
 import { ReactComponent as HistorySVG } from '../../assets/svgs/history-icon.svg'
 import AIannotator from './AIannotator'
 import { ImageInfo } from '../../helpers/EditorHelper';
+import {saveUserAnnotation} from '../../api/AnnotateImage.js';
+import {getImgFilename} from '../../helpers/EditImageHelper.js';
 
 /**
  * The user Annotator component has a textbox with a button for the history of the annotations for that image.
@@ -14,23 +16,24 @@ import { ImageInfo } from '../../helpers/EditorHelper';
  */
 function UserAnnotator(props) {
     const [typing, setTyping] = useState(false);
-    const [textValue, setTextValue] = useState("");
+
+
 
     useEffect(() => {
         let list = props.annotationList
         if (list.length > 0) {
             // Display the latest human annotation
-            setTextValue(list[list.length-1])
+            props.setTextValue(list[list.length-1])
         }
         else { // No img alt attribute
-            setTextValue("");
+            props.setTextValue("");
         }
     }, [props.annotationList])
 
     return (
         <div className={styles.user_input}>
-            <textarea value={textValue}
-                onChange={(e) => { setTextValue(e.target.value) }}
+            <textarea value={props.textValue}
+                onChange={(e) => { props.setTextValue(e.target.value) }}
                 placeholder="Your annotation here..."
                 onFocus={() => { setTyping(true) }}
                 onBlur={() => { setTyping(false) }}>
@@ -52,7 +55,9 @@ function UserAnnotator(props) {
  */
 function Annotator(props) {
 
-    const [userAnnotationList, setUserAnnotationList] = useState([])
+    const [userAnnotationList, setUserAnnotationList] = useState([]);
+    const [imageId, setImageId] = useState("");
+    const [textValue, setTextValue] = useState("");
 
     // Executed every time the currentImage changes
     useEffect(() => {
@@ -72,9 +77,9 @@ function Annotator(props) {
     
     return (
         <div className={styles.container}>
-            <AIannotator currImage={props.currImage} ebookId={props.ebookId}> </AIannotator>
-            <UserAnnotator annotationList={userAnnotationList}></UserAnnotator>
-            <button className={styles.save_button} onClick={() =>{ saveUserAnnotation(ebookId, imageId, filen, txt)}}>Save Annotation</button>
+            <AIannotator currImage={props.currImage} ebookId={props.ebookId} setImageId={setImageId} > </AIannotator>
+            <UserAnnotator annotationList={userAnnotationList} setTextValue={setTextValue} textValue={textValue} ></UserAnnotator>
+            <button className={styles.save_button} onClick={() =>{ saveUserAnnotation(props.ebookId, imageId, getImgFilename(props.currImage), textValue)}}>Save Annotation</button>
         </div>
     )
 }
