@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
-import { getFile } from '../api/DownloadFile.js';
+import React, { useEffect, useRef, useState } from 'react'
+import { getFile } from '../api/DownloadFile.js'
 
 /**
  * adds element that handles download process
@@ -7,16 +7,12 @@ import { getFile } from '../api/DownloadFile.js';
  * @returns element containing download button
  */
 function FileDownload(props) {
-     return (
+    return (
         <div id="container">
             <h3>Download annotated ePub file</h3>
             <button onClick={() => getFile(props.ebookId)}>Download</button>
         </div>
     )
-
-
 }
 
-export default FileDownload;
-
-
+export default FileDownload

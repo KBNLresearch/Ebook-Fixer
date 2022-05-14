@@ -1,8 +1,12 @@
-import React, { useEffect, useRef } from 'react';
-import styles from './Annotator.module.scss';
+import React, { useEffect, useRef } from 'react'
+import styles from './Annotator.module.scss'
 import { ReactComponent as SettingsSVG } from '../../assets/svgs/settings-icon.svg'
-import { classifyImageApiCall } from '../../api/ClassifyImage.js';
-import { getImgFilename, getLocation, getRawContext } from '../../helpers/EditImageHelper'
+import { classifyImageApiCall } from '../../api/ClassifyImage.js'
+import {
+    getImgFilename,
+    getLocation,
+    getRawContext,
+} from '../../helpers/EditImageHelper'
 
 /**
  * The AI annotator component is in charge of classifying the image
@@ -13,7 +17,6 @@ import { getImgFilename, getLocation, getRawContext } from '../../helpers/EditIm
  * @returns The AIannotator component
  */
 function AIannotator(props) {
-
     // TODO: switch to AI generation view --> show textArea instead of dropdown menu
     // TODO: allow user to change classification later again, after AI generation
 
@@ -25,26 +28,28 @@ function AIannotator(props) {
     // TODO: also hide button for User annotation after saving
     useEffect(() => {
         if (!props.currImage) {
-           saveButtonRef.current.disabled = true
+            saveButtonRef.current.disabled = true
         } else {
-           saveButtonRef.current.disabled = false   
-           console.log('Image selected: Save classification button enabled')
+            saveButtonRef.current.disabled = false
+            console.log('Image selected: Save classification button enabled')
         }
     }, [props.currImage])
 
     /**
      * @returns the currently selected classification
      */
-        function getClassification() {
-            if (props.currImage) {
-                var choice = dropdownRef.current.options[dropdownRef.current.selectedIndex].value
-                console.log('Classification chosen: ' + choice)
-                return choice;
-            }
+    function getClassification() {
+        if (props.currImage) {
+            var choice =
+                dropdownRef.current.options[dropdownRef.current.selectedIndex]
+                    .value
+            console.log('Classification chosen: ' + choice)
+            return choice
         }
+    }
 
-     /** 
-      * Makes API call to server and disables "Save" button
+    /**
+     * Makes API call to server and disables "Save" button
      */
     function handleSubmit() {
         if (props.currImage) {
@@ -52,13 +57,31 @@ function AIannotator(props) {
             if (!props.ebookId) {
                 console.log('No e-book UUID stored on client!')
             }
-            classifyImageApiCall(props.ebookId, getImgFilename(props.currImage), getLocation(props.currImage), getClassification(), getRawContext(props.currImage))
+            classifyImageApiCall(
+                props.ebookId,
+                getImgFilename(props.currImage),
+                getLocation(props.currImage),
+                getClassification(),
+                getRawContext(props.currImage)
+            )
             saveButtonRef.current.disabled = true
             console.log('Save classification button disabled.')
         }
     }
 
-    const options = ['Decorative', 'Informative', 'Photo', 'Illustration', 'Figure', 'Symbol', 'Drawing', 'Comic', 'Logo', 'Graph', 'Map']
+    const options = [
+        'Decorative',
+        'Informative',
+        'Photo',
+        'Illustration',
+        'Figure',
+        'Symbol',
+        'Drawing',
+        'Comic',
+        'Logo',
+        'Graph',
+        'Map',
+    ]
 
     return (
         <div className={styles.ai_input}>
@@ -66,12 +89,24 @@ function AIannotator(props) {
             {/* <textarea placeholder="Loading AI zannotation..." disabled></textarea> */}
             {/* <button className={styles.icon} disabled><SettingsSVG title='Reclassify'></SettingsSVG></button>     */}
             <label>Please classify your selected image</label>
-                <select name='selectedClass' ref={dropdownRef} className={styles.dropdown} onChange={() => saveButtonRef.current.disabled = false}>
-                    {options.map((opt) => <option value={opt} > {opt} </option>)}
-                </select>
-            <button className={styles.save_button} ref={saveButtonRef} onClick={() => handleSubmit()}> Save classification </button>        
+            <select
+                name="selectedClass"
+                ref={dropdownRef}
+                className={styles.dropdown}
+                onChange={() => (saveButtonRef.current.disabled = false)}>
+                {options.map((opt) => (
+                    <option value={opt}> {opt} </option>
+                ))}
+            </select>
+            <button
+                className={styles.save_button}
+                ref={saveButtonRef}
+                onClick={() => handleSubmit()}>
+                {' '}
+                Save classification{' '}
+            </button>
         </div>
     )
 }
 
-export default AIannotator;
+export default AIannotator
