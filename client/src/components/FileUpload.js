@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { sendFile } from '../api/SendFile'
 import styles from './FileUpload.module.css'
 import { ReactComponent as UploadSVG } from '../assets/svgs/upload-sign.svg'
@@ -161,7 +161,6 @@ function FileUpload({ setEbookFile, setEbookId }) {
             // Puts the dropped file into the state of the App component to use for the Editor
             if (setEbookFile) {
                 setEbookFile(droppedFile[0])
-                setUploading(false)
             }
             // -----------------------------------------------------
 
@@ -182,9 +181,6 @@ function FileUpload({ setEbookFile, setEbookId }) {
                 .catch((error) => {
                     setUploading(false)
                     setStatus('error')
-                })
-                .finally(() => {
-                    navigate('/ebook/3')
                 })
         }
     }
@@ -249,6 +245,14 @@ function FileUpload({ setEbookFile, setEbookId }) {
                     Upload
                 </button>
             </div>
+
+            {uploading || status ? (
+                <Link to="/ebook/1">
+                    Go to editor (This is for Development only)
+                </Link>
+            ) : (
+                ''
+            )}
 
             <div className={uploading ? '' : styles.hidden}>Uploading…</div>
             <div
