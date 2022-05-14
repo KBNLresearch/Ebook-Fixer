@@ -87,9 +87,6 @@ def ebook_download_view(request, uuid):
                             status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
-# TODO: Make accessible (Aratrika)
-# TODO: Convert epub2 to epub3
-# TODO: Return accessible epub3 file (or have separate endpoint)
 @csrf_exempt
 def ebook_upload_view(request):
     """ Takes the epub from the request and unzips it under test-books/{uuid}/

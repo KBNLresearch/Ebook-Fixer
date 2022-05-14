@@ -1,10 +1,8 @@
+from unittest.mock import ANY
 from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory, TestCase
 from uuid import uuid4
-# from zipfile import ZipFile
-# import os
-# import shutil
-# import codecs
+from unittest.mock import patch
 
 from .views import ebook_detail_view, ebook_download_view, ebook_upload_view
 from .models import Ebook
@@ -12,7 +10,6 @@ from .serializers import EbookSerializer
 import os
 import shutil
 from django.core.files.uploadedfile import SimpleUploadedFile
-# from pathlib import Path
 
 
 class EbookViewsTest(TestCase):
@@ -153,38 +150,20 @@ class EbookViewsTest(TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(msg, b'{"msg": "No epub file found in request!"}')
 
-    # def test_upload_view_200(self):
-    #     # Create zip archive test_epub.zip
-    #     zip_file_path = f"test-books/{self.uuid}/"
-    #     os.mkdir(zip_file_path)
-    #     shutil.make_archive("test_book", 'zip', zip_file_path)
-
-    #     # Temporarily store test content.opf file
-    #     test_opf = "content.opf"
-    #     opf_contents = '<metadata><dc:title>Hamlet</dc:title></metadata>'
-    #     with open(test_opf, "w") as file2:
-    #         file2.write(opf_contents)
-
-    #     # Open zip and add test content.opf file
-    #     zip_contents_path = zip_file_path +  "test_book.zip"
-    #     with ZipFile(zip_contents_path, 'w') as myzip:
-    #         myzip.write(test_opf)
-    #         # Remove temporary zip content file
-    #         os.remove(test_opf)
-    #         # Change extension .zip to .epub again
-    #         p = Path(zip_contents_path)
-    #         p.rename(p.with_suffix('.epub'))
-
-    #     epub_contents_path = zip_file_path + "test_book.epub"
-
-    #     with codecs.open(epub_contents_path, 'r', encoding='utf-8', errors='ignore') as f:
-    #         print(f.name)
-    #         # epub_file = SimpleUploadedFile("test_book.epub",
-    #         bytes(f.read(), 'UTF-8'), content_type="application/epub+zip")
-    #         data = {'epub': f}
-    #         request = self.factory.post('upload/',
-    #         data=data, format='multipart')
-
-    #     response = ebook_upload_view(request)
-    #     # Note that logic is tested in tests_utils.py
-    #     self.assertEqual(response.status_code, 200)
+    # @patch("ebooks.utils.unzip_ebook", unzip_ebook_mock)
+    def test_upload_view_200(self):
+        # Mock unzip_ebook() where it was called!
+        # Note that logic is tested in tests_utils.py
+        # This is about communication between client and server
+        with patch("ebooks.views.unzip_ebook") as unzip_ebook_mock:
+            # Stub mock to return extracted book title
+            unzip_ebook_mock.return_value = "EXTRACTED TITLE"
+            test_file = SimpleUploadedFile(
+                "test_file.epub",
+                b"Only .epub files allowed!"
+            )
+            request = self.factory.post('upload/', {"epub": test_file})
+            response = ebook_upload_view(request)
+            self.assertEqual(response.status_code, 200)
+            # Verify if correct data passed to util function (UUID is random)
+            unzip_ebook_mock.assert_called_once_with(ANY, "test_file.epub")
