@@ -12,9 +12,7 @@ export function getFile(fileId) {
     )
         .then((response) => {
             if (response.ok) {
-                console.log('okay')
                 response.blob().then((blob) => {
-                    console.log('blob')
                     const url = window.URL.createObjectURL(blob)
                     const a = document.createElement('a')
                     a.href = url

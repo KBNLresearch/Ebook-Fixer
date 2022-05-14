@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import PropTypes from 'prop-types'
 import { sendFile } from '../api/SendFile'
 import styles from './FileUpload.module.css'
 import { ReactComponent as UploadSVG } from '../assets/svgs/upload-sign.svg'
@@ -30,7 +31,7 @@ let droppedFile = null
  * @param {{setEbookId: update method}} props The props of the component
  * @returns The FileUpload component, ready for rendering.
  */
-function FileUpload(props) {
+function FileUpload({ setEbookFile, setEbookId }) {
     // State of this component:
     // If the user is dragging a file across the component
     const [dragging, setDragging] = useState(false)
@@ -154,8 +155,8 @@ function FileUpload(props) {
             // TODO: Remove the next line of code once the endpoint for downloading ebooks is done
             // this is for development purposes only:
             // Puts the dropped file into the state of the App component to use for the Editor
-            if (props.setEbookFile) {
-                props.setEbookFile(droppedFile[0])
+            if (setEbookFile) {
+                setEbookFile(droppedFile[0])
                 setUploading(false)
             }
             // -----------------------------------------------------
@@ -166,10 +167,10 @@ function FileUpload(props) {
             sendFile(formdata)
                 .then((result) => {
                     setUploading(false)
-                    console.log(JSON.stringify(result))
-                    if (result.hasOwnProperty('book_id')) {
-                        console.log(result.book_id)
-                        props.setEbookId(result.book_id)
+                    if (
+                        Object.prototype.hasOwnProperty.call(result, 'book_id')
+                    ) {
+                        setEbookId(result.book_id)
                     }
 
                     setStatus('success')
@@ -262,6 +263,11 @@ function FileUpload(props) {
             </div>
         </form>
     )
+}
+
+FileUpload.propTypes = {
+    setEbookFile: PropTypes.func.isRequired,
+    setEbookId: PropTypes.func.isRequired,
 }
 
 export default FileUpload

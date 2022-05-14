@@ -1,4 +1,4 @@
-import React from 'react'
+import PropTypes from 'prop-types'
 
 /**
  * The Viewer component contains the div that holds the rendering of the Ebook
@@ -7,8 +7,12 @@ import React from 'react'
  * @param {{id: id of the div}} props The props of the component, passed by the parent
  * @returns The Viewer component
  */
-function Viewer(props) {
-    return <div id={props.id} />
+function Viewer({ id }) {
+    return <div id={id} />
+}
+
+Viewer.propTypes = {
+    id: PropTypes.string.isRequired,
 }
 
 export default Viewer

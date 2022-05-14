@@ -1,5 +1,5 @@
 import './App.scss'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { fetchExampleApiCall } from './api/ApiCalls'
 import FileUpload from './components/FileUpload'
 import Editor from './components/editor/Editor'
@@ -24,17 +24,20 @@ function App() {
             <header className="App-header">
                 <FileUpload
                     setEbookFile={setEbookFile}
-                    setEbookId={setEbookId} />
+                    setEbookId={setEbookId}
+                />
                 <FileDownload ebookId={ebookId} />
                 <p>Press the button below to call the ebooks api:</p>
-                <button onClick={getResult}>Call it </button>
+                <button type="button" onClick={getResult}>
+                    Call it{' '}
+                </button>
                 {result.length === 0 ? '' : 'Result:'}
                 <ul id="result">
                     {result.map((ebook) => (
-                            <li key={ebook.uuid}>
-                                Ebook uuid: {ebook.uuid}, title: {ebook.title}
-                            </li>
-                        ))}
+                        <li key={ebook.uuid}>
+                            Ebook uuid: {ebook.uuid}, title: {ebook.title}
+                        </li>
+                    ))}
                 </ul>
             </header>
             <main>

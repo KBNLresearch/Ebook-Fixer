@@ -16,7 +16,6 @@ export function getImgFilename(image) {
  */
 export function getLocation(image) {
     const currHTMLFile = image.section.href
-    console.log('Current HTML file of classified image: ' + currHTMLFile)
     return currHTMLFile
 }
 

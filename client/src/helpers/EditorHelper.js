@@ -52,7 +52,6 @@ export function openBook(
 
     // Initialise epubJS
     const book = ePub()
-    let rendition
 
     // Open (unzip) the book using epubJS
     book.open(bookData)
@@ -65,7 +64,7 @@ export function openBook(
     setRendered(true)
 
     // Render the epub using the epubJS viewer
-    rendition = book.renderTo(viewerId, {
+    const rendition = book.renderTo(viewerId, {
         // Scrolling instead of pages
         flow: 'scrolled',
         // Try to load per file, as much of the epub at once as we can
@@ -106,46 +105,44 @@ export function openBook(
  */
 export async function getAllImages(rendition) {
     // All the different chapters / files in the book (I will call them items)
-    const {spineItems} = rendition.book.spine
+    const { spineItems } = rendition.book.spine
 
     // Map all the items asynchronously
-    const mappedimages = spineItems.map(async (item) => 
+    const mappedimages = spineItems.map(async (item) =>
         // Wait for epubJS to load that item
-         await item
-            .load(rendition.book.load.bind(rendition.book))
-            .then((contents) => {
-                // The item has been loaded, so we can use it
+        item.load(rendition.book.load.bind(rendition.book)).then(() => {
+            // The item has been loaded, so we can use it
 
-                // Get the document from the item
-                // (this isn't the same one that is eventually displayed, cus the image sources have to be replaced with different urls)
-                const doc = item.document.documentElement
+            // Get the document from the item
+            // (this isn't the same one that is eventually displayed, cus the image sources have to be replaced with different urls)
+            const doc = item.document.documentElement
 
-                // Get all img & image elements from the document
-                const imgs = doc.querySelectorAll('img')
-                const images = doc.querySelectorAll('image')
+            // Get all img & image elements from the document
+            const imgs = doc.querySelectorAll('img')
+            const images = doc.querySelectorAll('image')
 
-                // Concatenate the lists
-                const allImages = [...imgs, ...images]
-                // Map the images to their {src, section (book item), and element}
-                return allImages.map((image) => {
-                    let src
-                    if (image.src) {
-                        // If it's a normal image
+            // Concatenate the lists
+            const allImages = [...imgs, ...images]
+            // Map the images to their {src, section (book item), and element}
+            return allImages.map((image) => {
+                let src
+                if (image.src) {
+                    // If it's a normal image
 
-                        // remove root url .replace(/^.*\/\/[^\/]+/, '').substring(1) // for taking out just the root of the url
+                    // remove root url .replace(/^.*\/\/[^\/]+/, '').substring(1) // for taking out just the root of the url
 
-                        // Take just the filename
-                        src = String(image.src)
-                            .split(/(\\|\/)/g)
-                            .pop()
-                    } else if (image.href) {
-                        // If it's a svg inside an <image> tag
-                        // (i saw that used in the Alice in Wonderland epub)
-                        src = image.href.baseVal
-                    }
-                    return { element: image, section: item, src }
-                })
+                    // Take just the filename
+                    src = String(image.src)
+                        .split(/(\\|\/)/g)
+                        .pop()
+                } else if (image.href) {
+                    // If it's a svg inside an <image> tag
+                    // (i saw that used in the Alice in Wonderland epub)
+                    src = image.href.baseVal
+                }
+                return { element: image, section: item, src }
             })
+        })
     )
 
     // Await getting all the images asynchronously and flatten the array
@@ -155,15 +152,22 @@ export async function getAllImages(rendition) {
     )
 
     // Get the resources of the book (from the manifest)
-    const resources = rendition.book.resources.replacementUrls.map((v, i) => ({ replacementUrl: v, asset: rendition.book.resources.assets[i] }))
+    const resources = rendition.book.resources.replacementUrls.map((v, i) => ({
+        replacementUrl: v,
+        asset: rendition.book.resources.assets[i],
+    }))
 
     // Filter that list to only contain images (discard other types)
-    const imageResources = resources.filter((resource) => resource.asset.type.startsWith('image'))
+    const imageResources = resources.filter((resource) =>
+        resource.asset.type.startsWith('image')
+    )
 
     // Map each resource from the manifest to one of the imageSectionList above.
     let finalImageList = imageResources.map((imgResource) => {
         // Find image with the same filename as the one form the resource
-        const foundImage = imageSectionList.find((img) => imgResource.asset.href.split(/(\\|\/)/g).pop() === img.src)
+        const foundImage = imageSectionList.find(
+            (img) => imgResource.asset.href.split(/(\\|\/)/g).pop() === img.src
+        )
         // If found
         if (foundImage) {
             return new ImageInfo(
@@ -201,7 +205,8 @@ function findImageInDocument(contents, imageToFind) {
     const foundImage = allImages.find((img) => {
         if (img.src) {
             return img.src === imageToFind.replacementUrl
-        } if (img.href) {
+        }
+        if (img.href) {
             return img.href.baseVal === imageToFind.replacementUrl
         }
         return false
@@ -252,7 +257,8 @@ const highlightedStyle = {
 }
 
 // Helper to apply the css
-function css(element, style) {
+function css(el, style) {
+    const element = el
     const prevStyle = {}
     for (const property in style) {
         if (Object.prototype.hasOwnProperty.call(style, property)) {
@@ -267,9 +273,10 @@ function css(element, style) {
  * Puts a red outline around an element for 5 seconds,
  * then returns the style back to what it was before.
  *
- * @param {HTMLElement} element The HTML Element to highlight
+ * @param {HTMLElement} el The HTML Element to highlight
  */
-export function highlightElement(element) {
+export function highlightElement(el) {
+    const element = el
     if (!element.style) {
         element.style = {}
     }

@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { highlightElement } from '../../helpers/EditorHelper'
+import { useState } from 'react'
+import PropTypes from 'prop-types'
+import { highlightElement, ImageInfo } from '../../helpers/EditorHelper'
 
 /**
  * The controls for the editor
@@ -12,13 +13,13 @@ import { highlightElement } from '../../helpers/EditorHelper'
  *          setCurrentImage: funciton for setting the image that is currently being annotated}} props The props of this component
  * @returns The EditorControls component
  */
-function EditorControls(props) {
+function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
     // The index of the image currently being displayed
     const [currentImageIndex, setCurrentImageIndex] = useState(-1)
 
     // Gets the next index
     function nextIndex() {
-        return Math.min(currentImageIndex + 1, props.imageList.length - 1)
+        return Math.min(currentImageIndex + 1, imageList.length - 1)
     }
 
     // Gets the previous index
@@ -34,16 +35,13 @@ function EditorControls(props) {
      */
     async function changeToImageIndex(newIndex) {
         // Get the image
-        const newImage = await props.getImage(
-            props.imageList[newIndex],
-            props.rendition
-        )
+        const newImage = await getImage(imageList[newIndex], rendition)
         // Scroll to the image
         newImage.scrollIntoView()
         // Highlight the image in red for 5s
         highlightElement(newImage)
         // Set the current image via the props from the parent
-        props.setCurrentImage(props.imageList[newIndex])
+        setCurrentImage(imageList[newIndex])
         // Change the current index
         setCurrentImageIndex(newIndex)
     }
@@ -54,13 +52,15 @@ function EditorControls(props) {
                 ''
             ) : (
                 <button
+                    type="button"
                     style={{ backgroundColor: 'skyblue', marginRight: '1em' }}
                     onClick={() => changeToImageIndex(prevIndex())}>
                     Previous Image
                 </button>
             )}
-            {currentImageIndex < props.imageList.length - 1 ? (
+            {currentImageIndex < imageList.length - 1 ? (
                 <button
+                    type="button"
                     style={{ backgroundColor: 'skyblue' }}
                     onClick={() => changeToImageIndex(nextIndex())}>
                     {currentImageIndex === -1
@@ -72,6 +72,13 @@ function EditorControls(props) {
             )}
         </div>
     )
+}
+
+EditorControls.propTypes = {
+    imageList: PropTypes.arrayOf(PropTypes.instanceOf(ImageInfo)).isRequired,
+    getImage: PropTypes.func.isRequired,
+    rendition: PropTypes.shape({}).isRequired,
+    setCurrentImage: PropTypes.func.isRequired,
 }
 
 export default EditorControls
