@@ -24,12 +24,14 @@ def annotation_generation_view(request):
         if type(body) == JsonResponse:
             return body
         image = body[0]
-        # data = body[1]
-
         image_path = f"test-books/{image.ebook}/OEBPS/{image.filename}"
 
-        # Calls the helper method in utils
-        generated_labels = google_vision_labels(image_path)
+        try:
+            # Calls the helper method in utils
+            generated_labels = google_vision_labels(image_path)
+        except FileNotFoundError:
+            return JsonResponse({'msg': f'Image {image.filename} in ebook {image.ebook} not found'},
+                            status=status.HTTP_404_NOT_FOUND)
 
         # Adds the each annotation from Google's API as a database entry
         for description, score in generated_labels.items():
