@@ -30,17 +30,21 @@ def annotation_generation_view(request):
             # Calls the helper method in utils
             generated_labels = google_vision_labels(image_path)
         except FileNotFoundError:
-            return JsonResponse({'msg': f'Image {image.filename} in ebook {image.ebook} not found'},
-                            status=status.HTTP_404_NOT_FOUND)
+            return JsonResponse({'msg': f'Img {image.filename} in ebook {image.ebook} not found'},
+                                status=status.HTTP_404_NOT_FOUND)
+
+        annotations = []
 
         # Adds the each annotation from Google's API as a database entry
         for description, score in generated_labels.items():
-            Annotation.objects.create(image=image,
-                                      type="BB",
-                                      text=description,
-                                      confidence=score)
+            annotations.append(Annotation.objects.create(image=image,
+                               type="BB",
+                               text=description,
+                               confidence=score))
 
-        return JsonResponse({'msg': f'Success, {len(generated_labels)} annotations added.'},
+        annotations = list(map(lambda a: AnnotationSerializer(a).data, annotations))
+
+        return JsonResponse({"annotations": annotations},
                             status=status.HTTP_200_OK)
     else:
         return JsonResponse({'msg': 'Method Not Allowed!'},

@@ -8,14 +8,18 @@ from uuid import uuid4
 import json
 from unittest.mock import patch
 
+
 def decode_message(msg):
     return msg.decode('utf-8').replace('"', "'")
+
 
 def mock_google_vision_labels(image_path):
     return {'House': 0.9422, 'Sky': 0.8424, 'Tile': 0.8421}
 
+
 def mock_google_vision_labels_image_not_found(image_path):
     raise FileNotFoundError
+
 
 class AnnotationViewsTest(TestCase):
     def setUp(self):
@@ -97,7 +101,8 @@ class AnnotationViewsTest(TestCase):
         response, msg = self.response_annotation_generation_view(content)
 
         self.assertEqual(response.status_code, 404)
-        self.assertEqual(decode_message(response.content), "{'msg': 'Image test.jpg in ebook TEST_UUID not found'}")
+        self.assertEqual(decode_message(response.content),
+                         "{'msg': 'Img test.jpg in ebook TEST_UUID not found'}")
 
     @patch("annotations.views.google_vision_labels", mock_google_vision_labels)
     def test_annotation_generation_view_200(self):
@@ -111,7 +116,6 @@ class AnnotationViewsTest(TestCase):
         response, msg = self.response_annotation_generation_view(content)
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(decode_message(response.content), "{'msg': 'Success, 3 annotations added.'}")
 
     def test_annotation_save_view_405(self):
         request = self.factory.get("save/")
