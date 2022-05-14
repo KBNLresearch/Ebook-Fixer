@@ -34,7 +34,7 @@ function EditorControls(props) {
      */
     async function changeToImageIndex(newIndex) {
         // Get the image
-        let newImage = await props.getImage(
+        const newImage = await props.getImage(
             props.imageList[newIndex],
             props.rendition
         )

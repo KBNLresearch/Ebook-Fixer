@@ -15,15 +15,15 @@ export function getFile(fileId) {
                 console.log('okay')
                 response.blob().then((blob) => {
                     console.log('blob')
-                    let url = window.URL.createObjectURL(blob)
-                    let a = document.createElement('a')
+                    const url = window.URL.createObjectURL(blob)
+                    const a = document.createElement('a')
                     a.href = url
                     a.download = fileId + '.epub'
                     a.click()
                 })
             }
         })
-        .then(function (response) {
+        .then((response) => {
             console.log('Response: ')
             console.log(response)
             return response

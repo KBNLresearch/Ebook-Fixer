@@ -24,26 +24,24 @@ function App() {
             <header className="App-header">
                 <FileUpload
                     setEbookFile={setEbookFile}
-                    setEbookId={setEbookId}></FileUpload>
-                <FileDownload ebookId={ebookId}></FileDownload>
+                    setEbookId={setEbookId} />
+                <FileDownload ebookId={ebookId} />
                 <p>Press the button below to call the ebooks api:</p>
                 <button onClick={getResult}>Call it </button>
                 {result.length === 0 ? '' : 'Result:'}
                 <ul id="result">
-                    {result.map((ebook) => {
-                        return (
+                    {result.map((ebook) => (
                             <li key={ebook.uuid}>
                                 Ebook uuid: {ebook.uuid}, title: {ebook.title}
                             </li>
-                        )
-                    })}
+                        ))}
                 </ul>
             </header>
             <main>
                 {ebookFile === null ? (
                     ''
                 ) : (
-                    <Editor ebookFile={ebookFile} ebookId={ebookId}></Editor>
+                    <Editor ebookFile={ebookFile} ebookId={ebookId} />
                 )}
             </main>
         </div>

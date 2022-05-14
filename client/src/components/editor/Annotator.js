@@ -17,7 +17,7 @@ function UserAnnotator(props) {
     const [textValue, setTextValue] = useState('')
 
     useEffect(() => {
-        let list = props.annotationList
+        const list = props.annotationList
         if (list.length > 0) {
             // Display the latest human annotation
             setTextValue(list[list.length - 1])
@@ -40,12 +40,12 @@ function UserAnnotator(props) {
                 }}
                 onBlur={() => {
                     setTyping(false)
-                }}></textarea>
+                }} />
             <button
                 className={
                     styles.icon + ' ' + (typing ? styles.transparent : '')
                 }>
-                <HistorySVG title="Annotation History"></HistorySVG>
+                <HistorySVG title="Annotation History" />
             </button>
         </div>
     )
@@ -66,10 +66,10 @@ function Annotator(props) {
 
     // Executed every time the currentImage changes
     useEffect(() => {
-        let imgInfo = props.currImage
+        const imgInfo = props.currImage
         if (imgInfo) {
             console.log(imgInfo)
-            let altText = imgInfo.element.alt
+            const altText = imgInfo.element.alt
             if (altText) {
                 // Initial human annotation is the existing ALT-text
                 setUserAnnotationList([altText])
@@ -85,7 +85,7 @@ function Annotator(props) {
             <AIannotator currImage={props.currImage} ebookId={props.ebookId}>
                 {' '}
             </AIannotator>
-            <UserAnnotator annotationList={userAnnotationList}></UserAnnotator>
+            <UserAnnotator annotationList={userAnnotationList} />
             <button className={styles.save_button}>Save Annotation</button>
         </div>
     )

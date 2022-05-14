@@ -8,7 +8,7 @@ import React from 'react'
  * @returns The Viewer component
  */
 function Viewer(props) {
-    return <div id={props.id}></div>
+    return <div id={props.id} />
 }
 
 export default Viewer

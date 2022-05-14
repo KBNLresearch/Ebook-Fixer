@@ -6,7 +6,7 @@ import { ReactComponent as UploadSVG } from '../assets/svgs/upload-sign.svg'
 // Tests that drag and drop features and File reading are available
 // in the user's browser. The code will use a workaround if they're not.
 function testForDragAndDropSupport() {
-    var div = document.createElement('div')
+    const div = document.createElement('div')
     return (
         ('draggable' in div || ('ondragstart' in div && 'ondrop' in div)) &&
         'FormData' in window &&
@@ -161,7 +161,7 @@ function FileUpload(props) {
             // -----------------------------------------------------
 
             // sending the file:
-            let formdata = new FormData()
+            const formdata = new FormData()
             formdata.append('epub', droppedFile[0])
             sendFile(formdata)
                 .then((result) => {
@@ -216,7 +216,7 @@ function FileUpload(props) {
 
                 <label htmlFor="file">
                     {/* If the filename is not empty, display it. 
-                    Otherwise, display file choosing prompt*/}
+                    Otherwise, display file choosing prompt */}
                     {filename === '' ? (
                         <div>
                             <strong className={styles.chooseFile}>

@@ -18,7 +18,7 @@ export function sendFile(file) {
                 response.status + ', message: ' + response.statusText
             )
         })
-        .then(function (response) {
+        .then((response) => {
             console.log('Response: ')
             console.log(response)
             return response

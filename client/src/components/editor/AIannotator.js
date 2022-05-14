@@ -40,7 +40,7 @@ function AIannotator(props) {
      */
     function getClassification() {
         if (props.currImage) {
-            var choice =
+            const choice =
                 dropdownRef.current.options[dropdownRef.current.selectedIndex]
                     .value
             console.log('Classification chosen: ' + choice)

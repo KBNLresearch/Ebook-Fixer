@@ -4,7 +4,7 @@
  * For example: "2874324973610680654_cover.jpg"
  */
 export function getImgFilename(image) {
-    var currImageName = image.asset.href
+    const currImageName = image.asset.href
     console.log('Current image classified: ' + currImageName)
     return currImageName
 }
@@ -15,7 +15,7 @@ export function getImgFilename(image) {
  * For example: 568395898401760676_31979-h-0.htm.html
  */
 export function getLocation(image) {
-    var currHTMLFile = image.section.href
+    const currHTMLFile = image.section.href
     console.log('Current HTML file of classified image: ' + currHTMLFile)
     return currHTMLFile
 }

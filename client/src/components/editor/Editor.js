@@ -69,13 +69,13 @@ function Editor(props) {
                         getImage={getImageFromRendition}
                         setCurrentImage={setCurrentImage}
                     />
-                    <Viewer id={viewerId}></Viewer>
+                    <Viewer id={viewerId} />
                 </div>
                 <div>
                     <Annotator
                         currImage={currentImage}
                         currEbook={props.ebookFile}
-                        ebookId={props.ebookId}></Annotator>
+                        ebookId={props.ebookId} />
                 </div>
             </div>
         </div>

@@ -48,10 +48,10 @@ export function openBook(
     setRendition
 ) {
     // Get the opened book
-    var bookData = e.target.result
+    const bookData = e.target.result
 
     // Initialise epubJS
-    let book = ePub()
+    const book = ePub()
     let rendition
 
     // Open (unzip) the book using epubJS
@@ -79,7 +79,7 @@ export function openBook(
     })
 
     // Get the promise that epubJS will display the start of the book
-    let displayed = rendition.display()
+    const displayed = rendition.display()
 
     // Process the images after the book has been displayed
     displayed.then((stuff) => {
@@ -106,33 +106,33 @@ export function openBook(
  */
 export async function getAllImages(rendition) {
     // All the different chapters / files in the book (I will call them items)
-    let spineItems = rendition.book.spine.spineItems
+    const {spineItems} = rendition.book.spine
 
     // Map all the items asynchronously
-    let mappedimages = spineItems.map(async (item) => {
+    const mappedimages = spineItems.map(async (item) => 
         // Wait for epubJS to load that item
-        return await item
+         await item
             .load(rendition.book.load.bind(rendition.book))
             .then((contents) => {
                 // The item has been loaded, so we can use it
 
                 // Get the document from the item
-                //(this isn't the same one that is eventually displayed, cus the image sources have to be replaced with different urls)
-                let doc = item.document.documentElement
+                // (this isn't the same one that is eventually displayed, cus the image sources have to be replaced with different urls)
+                const doc = item.document.documentElement
 
                 // Get all img & image elements from the document
-                let imgs = doc.querySelectorAll('img')
-                let images = doc.querySelectorAll('image')
+                const imgs = doc.querySelectorAll('img')
+                const images = doc.querySelectorAll('image')
 
                 // Concatenate the lists
-                let allImages = [...imgs, ...images]
+                const allImages = [...imgs, ...images]
                 // Map the images to their {src, section (book item), and element}
                 return allImages.map((image) => {
                     let src
                     if (image.src) {
                         // If it's a normal image
 
-                        //remove root url .replace(/^.*\/\/[^\/]+/, '').substring(1) // for taking out just the root of the url
+                        // remove root url .replace(/^.*\/\/[^\/]+/, '').substring(1) // for taking out just the root of the url
 
                         // Take just the filename
                         src = String(image.src)
@@ -143,33 +143,27 @@ export async function getAllImages(rendition) {
                         // (i saw that used in the Alice in Wonderland epub)
                         src = image.href.baseVal
                     }
-                    return { element: image, section: item, src: src }
+                    return { element: image, section: item, src }
                 })
             })
-    })
+    )
 
     // Await getting all the images asynchronously and flatten the array
     // (because there are multiple images per item in the book and multiple items in a book)
-    let imageSectionList = await Promise.all(mappedimages).then((arr) =>
+    const imageSectionList = await Promise.all(mappedimages).then((arr) =>
         arr.flat()
     )
 
     // Get the resources of the book (from the manifest)
-    const resources = rendition.book.resources.replacementUrls.map((v, i) => {
-        return { replacementUrl: v, asset: rendition.book.resources.assets[i] }
-    })
+    const resources = rendition.book.resources.replacementUrls.map((v, i) => ({ replacementUrl: v, asset: rendition.book.resources.assets[i] }))
 
     // Filter that list to only contain images (discard other types)
-    const imageResources = resources.filter((resource) => {
-        return resource.asset.type.startsWith('image')
-    })
+    const imageResources = resources.filter((resource) => resource.asset.type.startsWith('image'))
 
     // Map each resource from the manifest to one of the imageSectionList above.
     let finalImageList = imageResources.map((imgResource) => {
         // Find image with the same filename as the one form the resource
-        let foundImage = imageSectionList.find((img) => {
-            return imgResource.asset.href.split(/(\\|\/)/g).pop() === img.src
-        })
+        const foundImage = imageSectionList.find((img) => imgResource.asset.href.split(/(\\|\/)/g).pop() === img.src)
         // If found
         if (foundImage) {
             return new ImageInfo(
@@ -199,15 +193,15 @@ export async function getAllImages(rendition) {
  * @returns The image element in the document if found, undefined if not found
  */
 function findImageInDocument(contents, imageToFind) {
-    let imgs = contents.querySelectorAll('img')
-    let images = contents.querySelectorAll('image')
+    const imgs = contents.querySelectorAll('img')
+    const images = contents.querySelectorAll('image')
 
-    let allImages = [...imgs, ...images]
+    const allImages = [...imgs, ...images]
 
-    let foundImage = allImages.find((img) => {
+    const foundImage = allImages.find((img) => {
         if (img.src) {
             return img.src === imageToFind.replacementUrl
-        } else if (img.href) {
+        } if (img.href) {
             return img.href.baseVal === imageToFind.replacementUrl
         }
         return false
@@ -230,16 +224,16 @@ function findImageInDocument(contents, imageToFind) {
  */
 export function getImageFromRendition(imagetobeDisplayed, rendition) {
     // Display the section in which the image is located
-    let displayed = rendition.display(imagetobeDisplayed.section.href)
+    const displayed = rendition.display(imagetobeDisplayed.section.href)
 
     // When that's done
     return displayed.then((sec) => {
         // Get array of html documents that are currently being rendered
-        let contents = rendition.getContents()
+        const contents = rendition.getContents()
 
         // Try to find the image in every document
-        for (let doc of contents) {
-            let found = findImageInDocument(doc.document, imagetobeDisplayed)
+        for (const doc of contents) {
+            const found = findImageInDocument(doc.document, imagetobeDisplayed)
             if (found) {
                 return found
             }
@@ -259,7 +253,7 @@ const highlightedStyle = {
 
 // Helper to apply the css
 function css(element, style) {
-    let prevStyle = {}
+    const prevStyle = {}
     for (const property in style) {
         if (Object.prototype.hasOwnProperty.call(style, property)) {
             prevStyle[property] = element.style[property]
@@ -286,7 +280,7 @@ export function highlightElement(element) {
         return
     }
     element.dataset.highlighted = true
-    let prevStyle = css(element, highlightedStyle)
+    const prevStyle = css(element, highlightedStyle)
     // Reset to previous in 5 seconds
     setTimeout(() => {
         css(element, prevStyle)

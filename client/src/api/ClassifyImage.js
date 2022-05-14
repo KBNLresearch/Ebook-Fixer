@@ -20,14 +20,14 @@ export function classifyImageApiCall(
             method: 'PUT',
             body: JSON.stringify({
                 ebook: ebook_uuid,
-                filename: filename,
-                location: location,
-                classification: classification,
-                raw_context: raw_context,
+                filename,
+                location,
+                classification,
+                raw_context,
             }),
             headers: { 'Content-Type': 'application/json; charset=UTF-8' },
         })
-            //.then(res => res.text()) // for the raw data
+            // .then(res => res.text()) // for the raw data
             .then((res) => res.json()) // if it's in json format
             .then(
                 (result) => {
