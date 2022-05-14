@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "epubjs": "^0.3.93",
     "jszip": "^3.9.1",
+    "prop-types": "^15.8.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-scripts": "5.0.1",
@@ -42,6 +43,11 @@
           ]
         }
       ],
+      "jsx-a11y/label-has-associated-control": ["error", {
+        "required": {
+          "some": ["nesting", "id"]
+        }
+      }],
       "camelcase": 1,
       "react/jsx-uses-react": "off",
       "react/react-in-jsx-scope": "off",
