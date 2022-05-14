@@ -1,20 +1,15 @@
-
-// {
-//         "ebook": "5a94ef04-a660-4b64-99f1-7b91813d0ffe",
-//         "id": 1,
-//         "filename": "8517446252668873626_i_frontispiece1.jpg",
-//         "text": "NEW TEXT"
-//       }
-//
+/**
+ * sends a POST request to server to save the annotation made by the user
+ * @param {String} ebookId id of ebook in database
+ * @param {String} imageId id of image in database
+ * @param {String} filen file name of image
+ * @param {String} txt that user typed
+ * @returns response to the request
+ */
 
 
 export function  saveUserAnnotation(ebookId, imageId, filen, txt) {
-    console.log(JSON.stringify({
-            "ebook" : ebookId,
-            "id" : imageId,
-            "filename": filen,
-            "text": txt
-        }))
+    
     return fetch(process.env.REACT_APP_API_URL+'annotations/save/', {
         method: 'POST',
         headers: {
