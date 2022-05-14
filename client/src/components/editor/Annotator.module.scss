@@ -14,22 +14,27 @@
     }
     .ai_input {
         width: 100%;
+        height: 7em;
         position: relative;
         textarea {
-            border-color: slategray;
+            border-color: rgb(117, 124, 132);
             &:focus {
                 background-color: black;
             }
         }
-        
         .icon {
             padding: 0.2em;
             &:disabled {
-                background-color: slategray;
+                background-color: rgb(171, 178, 186);
                 cursor: auto;
             }
         }
-        
+    }
+    .dropdown {
+        width: 60%;
+        height: 2em;
+        position: relative;
+        font-size: medium;
     }
 
     textarea {
@@ -47,14 +52,18 @@
 
     button.save_button {
         margin-top: 0.2em;
-        background-color: #1bca44;
+        background-color: #27ce51;
         border: 0.2em solid #ccc;
         transition: border-color 0.2s ease,
                     background-color 0.2s ease;
         padding: 0.5em 0.7em;
 
         &:hover {
-            background-color: #2AAC48;
+            background-color: #2ebf50;
+            border-color: #eee;
+        }
+        &:disabled {
+            background-color: #b8c3b8;
             border-color: #eee;
         }
     }
