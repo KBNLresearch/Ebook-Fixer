@@ -31,8 +31,10 @@ function AIannotator({ currImage, ebookId, setImageId }) {
     useEffect(() => {
         if (!currImage) {
             saveButtonRef.current.disabled = true
+            save_button.current.innerText = "Classification saved"
         } else {
             saveButtonRef.current.disabled = false
+            saveButtonRef.current.innerText = "Save Classification"
         }
     }, [currImage])
 
@@ -74,6 +76,7 @@ function AIannotator({ currImage, ebookId, setImageId }) {
                    }
             })
             saveButtonRef.current.disabled = true
+            saveButtonRef.current.innerText= "Classification Saved"
         }
     }
 

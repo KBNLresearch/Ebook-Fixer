@@ -87,8 +87,10 @@ function Annotator({ currImage, ebookId }) {
     useEffect(() => {
         if (!currImage) {
             saveButton.current.innerText = "Saved"
+            saveButton.current.disabled=true
         } else {
             saveButton.current.innerText = "Save Annotation"
+            saveButton.current.disabled=false
         }
         const imgInfo = currImage
         if (imgInfo) {
@@ -110,6 +112,7 @@ function Annotator({ currImage, ebookId }) {
                            getImgFilename(currImage),
                            textValue)
         saveButton.current.innerText = "Saved"
+        saveButton.current.disabled = true
 
     }
 
