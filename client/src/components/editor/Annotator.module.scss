@@ -5,7 +5,6 @@
     align-items: flex-end;
     width: 100%;
     box-sizing: border-box;
-    
 
     .user_input {
         width: 100%;
@@ -54,8 +53,7 @@
         margin-top: 0.2em;
         background-color: #27ce51;
         border: 0.2em solid #ccc;
-        transition: border-color 0.2s ease,
-                    background-color 0.2s ease;
+        transition: border-color 0.2s ease, background-color 0.2s ease;
         padding: 0.5em 0.7em;
 
         &:hover {
@@ -79,8 +77,7 @@
         padding: 0.1em;
         font-size: 1em;
         cursor: pointer;
-        transition: background-color 0.2s ease,
-                    opacity 0.3s ease;
+        transition: background-color 0.2s ease, opacity 0.3s ease;
         box-shadow: 1px 1px 5px #999;
 
         &:hover {

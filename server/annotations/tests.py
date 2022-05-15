@@ -6,10 +6,19 @@ from ebooks.models import Ebook
 from images.models import Image
 from uuid import uuid4
 import json
+from unittest.mock import patch
 
 
 def decode_message(msg):
     return msg.decode('utf-8').replace('"', "'")
+
+
+def mock_google_vision_labels(image_path):
+    return {'House': 0.9422, 'Sky': 0.8424, 'Tile': 0.8421}
+
+
+def mock_google_vision_labels_image_not_found(image_path):
+    raise FileNotFoundError
 
 
 class AnnotationViewsTest(TestCase):
@@ -80,6 +89,22 @@ class AnnotationViewsTest(TestCase):
                          "{'msg': 'Image with id "
                          f"{image_id} and ebook with uuid {uuid} not found!'" "}")
 
+    @patch("annotations.views.google_vision_labels", mock_google_vision_labels_image_not_found)
+    def test_annotation_generation_view_404_image_not_found(self):
+        uuid = "TEST_UUID"
+        image_id = 1
+        ebook = Ebook.objects.create(uuid=uuid, title="Test title", epub="test.epub")
+        Image.objects.create(id=image_id, ebook=ebook,
+                             filename="test.jpg", location="test.html")
+
+        content = {"ebook": str(uuid), "id": image_id, "filename": "test.jpg"}
+        response, msg = self.response_annotation_generation_view(content)
+
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(decode_message(response.content),
+                         "{'msg': 'Img test.jpg in ebook TEST_UUID not found'}")
+
+    @patch("annotations.views.google_vision_labels", mock_google_vision_labels)
     def test_annotation_generation_view_200(self):
         uuid = uuid4()
         image_id = 1
@@ -91,12 +116,6 @@ class AnnotationViewsTest(TestCase):
         response, msg = self.response_annotation_generation_view(content)
 
         self.assertEqual(response.status_code, 200)
-        response_content = json.loads(msg)
-        self.assertEqual(response_content["image"], image_id)
-        self.assertEqual(response_content["type"], "BB")
-        # TODO: Should be removed/replaced once AI is added
-        # the response of the AI could be mocked and used here
-        self.assertEqual(response_content["text"], "REPLACE WITH AI ANNOTATION")
 
     def test_annotation_save_view_405(self):
         request = self.factory.get("save/")

@@ -1,6 +1,6 @@
 from .serializers import AnnotationSerializer
 from .models import Annotation
-from .utils import check_request_body
+from .utils import check_request_body, google_vision_labels
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
@@ -10,7 +10,7 @@ from rest_framework import status
 def annotation_generation_view(request):
     """ Receives the metadata for an image and sends
     a request to the AI to generate annotation for it
-    The caption is the saved to the database
+    The annotations for save in the database.
 
     Args:
         request (request object): The request with the image
@@ -24,17 +24,28 @@ def annotation_generation_view(request):
         if type(body) == JsonResponse:
             return body
         image = body[0]
-        # data = body[1]
-        # TODO: Retrieve the actual image from the storage system using information from data
-        # TODO: Send request to the AI API
-        # Create utils methods for those ^^
-        # image_content = ...
-        # response = ...
-        annotation = Annotation.objects.create(image=image,
-                                               type="BB",
-                                               text="REPLACE WITH AI ANNOTATION")
-        serializer = AnnotationSerializer(annotation)
-        return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+        image_path = f"test-books/{image.ebook}/OEBPS/{image.filename}"
+
+        try:
+            # Calls the helper method in utils
+            generated_labels = google_vision_labels(image_path)
+        except FileNotFoundError:
+            return JsonResponse({'msg': f'Img {image.filename} in ebook {image.ebook} not found'},
+                                status=status.HTTP_404_NOT_FOUND)
+
+        annotations = []
+
+        # Adds the each annotation from Google's API as a database entry
+        for description, score in generated_labels.items():
+            annotations.append(Annotation.objects.create(image=image,
+                               type="BB",
+                               text=description,
+                               confidence=score))
+
+        annotations = list(map(lambda a: AnnotationSerializer(a).data, annotations))
+
+        return JsonResponse({"annotations": annotations},
+                            status=status.HTTP_200_OK)
     else:
         return JsonResponse({'msg': 'Method Not Allowed!'},
                             status=status.HTTP_405_METHOD_NOT_ALLOWED)

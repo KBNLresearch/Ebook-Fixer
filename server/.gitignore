@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+# Google's json authentication
+arcane-pillar-349913-6276b9f35040.json
+
 # Migration files (for Django model crud ops)
 migrations/
 
