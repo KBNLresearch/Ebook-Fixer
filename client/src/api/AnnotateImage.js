@@ -10,11 +10,11 @@
 
 export function  saveUserAnnotation(ebookId, imageId, filen, txt) {
     
-    return fetch(process.env.REACT_APP_API_URL+'annotations/save/', {
+    return fetch(process.env.REACT_APP_API_URL + 'annotations/save/', {
         method: 'POST',
         headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Accept' : 'application/json',
+        'Content-Type' : 'application/json',
         },
         body: JSON.stringify({
             "ebook" : ebookId,
@@ -30,7 +30,9 @@ export function  saveUserAnnotation(ebookId, imageId, filen, txt) {
         },
         // Error handling
           (error) => {
-            window.alert("Image classification error! Please try again.")
+            window.alert(
+                "error! Please try again."
+            )
             console.log(error);
             throw error;
         }

@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef} from 'react'
 import PropTypes from 'prop-types'
 import { ReactComponent as HistorySVG } from '../../assets/svgs/history-icon.svg'
 import { ImageInfo } from '../../helpers/EditorHelper'
 import AIannotator from './AIannotator'
-import {saveUserAnnotation} from '../../api/AnnotateImage.js';
-import {getImgFilename} from '../../helpers/EditImageHelper.js'
+import {saveUserAnnotation} from '../../api/AnnotateImage'
+import {getImgFilename} from '../../helpers/EditImageHelper'
 import styles from './Annotator.module.scss'
 
 /**
@@ -16,9 +16,8 @@ import styles from './Annotator.module.scss'
  * @returns The UserAnnotator component
  */
 
-function UserAnnotator({ annotationList }, {setTextValue}, {textValue}) {
+function UserAnnotator({ annotationList, setTextValue, textValue }) {
     const [typing, setTyping] = useState(false)
-    //const [textValue, setTextValue] = useState('')
 
 
     useEffect(() => {
@@ -30,18 +29,8 @@ function UserAnnotator({ annotationList }, {setTextValue}, {textValue}) {
         else { // No img alt attribute
             setTextValue("");
         }
-    }, [props.annotationList])
-
-    return (
-        <div className={styles.user_input}>
-            <textarea value={props.textValue}
-                onChange={(e) => {setTextValue(e.target.value) }}
-                setTextValue(list[list.length - 1])
-        } else {
-            // No img alt attribute
-            setTextValue('')
-        }
     }, [annotationList])
+
 
     return (
         <div className={styles.user_input}>
@@ -72,8 +61,8 @@ function UserAnnotator({ annotationList }, {setTextValue}, {textValue}) {
 
 UserAnnotator.propTypes = {
     annotationList: PropTypes.arrayOf(PropTypes.string).isRequired,
-    setTextValue: PropTypes.func.isRequired
-    textValue: PropTypes.string.isRequired
+    setTextValue: PropTypes.func.isRequired,
+    textValue: PropTypes.string.isRequired,
 
 }
 
@@ -87,13 +76,20 @@ UserAnnotator.propTypes = {
  * @returns Tha Anotator Component
  */
 
-function Annotator(props) {
+function Annotator({ currImage, ebookId }) {
 
     const [userAnnotationList, setUserAnnotationList] = useState([]);
     const [imageId, setImageId] = useState("");
     const [textValue, setTextValue] = useState("");
+
+    const saveButton = useRef(null)
     // Executed every time the currentImage changes
     useEffect(() => {
+        if (!currImage) {
+            saveButton.current.innerText = "Saved"
+        } else {
+            saveButton.current.innerText = "Save Annotation"
+        }
         const imgInfo = currImage
         if (imgInfo) {
             const altText = imgInfo.element.alt
@@ -107,19 +103,29 @@ function Annotator(props) {
         }
     }, [currImage])
 
+
+    function handleClick() {
+        saveUserAnnotation(ebookId,
+                           imageId,
+                           getImgFilename(currImage),
+                           textValue)
+        saveButton.current.innerText = "Saved"
+
+    }
+
     return (
         <div className={styles.container}>
-//<<<<<<< HEAD
-//            <AIannotator currImage={props.currImage} ebookId={props.ebookId} setImageId={setImageId} > </AIannotator>
-//            <UserAnnotator annotationList={userAnnotationList} setTextValue={setTextValue} textValue={textValue} ></UserAnnotator>
-//            <button className={styles.save_button} onClick={() =>{ saveUserAnnotation(props.ebookId, imageId, getImgFilename(props.currImage), textValue)}}>Save Annotation</button>
-//=======
+
             <AIannotator currImage={currImage} ebookId={ebookId} setImageId={setImageId}>
                 {' '}
             </AIannotator>
             <UserAnnotator annotationList={userAnnotationList} setTextValue={setTextValue} textValue={textValue}/>
-            <button type="button" className={styles.save_button} onClick={() =>{ saveUserAnnotation(props.ebookId, imageId, getImgFilename(props.currImage), textValue)}>
-                Save Annotation
+            <button type="button"
+                    className={styles.save_button}
+                    ref={saveButton}
+                    onClick={() => handleClick()}>
+                    Save Annotation
+
             </button>
         </div>
     )
