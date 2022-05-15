@@ -70,7 +70,6 @@ def ebook_download_view(request, uuid):
 
         try:
             # Zip contents
-            print(f"Zipping ebook with uuid: {uuid}")
             zip_file_name = zip_ebook(uuid)
 
             # Return zipped contents

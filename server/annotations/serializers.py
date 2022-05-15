@@ -5,4 +5,4 @@ from .models import Annotation
 class AnnotationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Annotation
-        fields = ('id', 'image', 'type', 'text')
+        fields = ('id', 'image', 'type', 'text', 'confidence')
