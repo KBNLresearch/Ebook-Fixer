@@ -22,8 +22,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('ebooks/', include('ebooks.urls')),
-    path('images', include('images.urls')),
-    path('annotations', include('annotations.urls'))
+    path('images/', include('images.urls')),
+    path('annotations/', include('annotations.urls'))
 ]
 
 # Allows localhost:8000 to serve the uploaded epub files

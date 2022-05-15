@@ -11,4 +11,4 @@ class Annotation(models.Model):
     ]
     type = models.CharField(max_length=10, choices=ANNOTATION_TYPES, default='BB')
     text = models.CharField(max_length=500)
-    confidence = models.DecimalField(max_digits=5, decimal_places=4)
+    confidence = models.DecimalField(max_digits=5, decimal_places=4, default=1.0)
