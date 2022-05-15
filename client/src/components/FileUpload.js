@@ -48,7 +48,7 @@ function FileUpload({ setEbookFile, setEbookId }) {
     const form = useRef(null)
 
     // For navigation to the editor
-    let navigate = useNavigate()
+    const navigate = useNavigate()
 
     // When the mouse enters the file drop area
     function handleDragEnter(e) {
@@ -174,6 +174,9 @@ function FileUpload({ setEbookFile, setEbookId }) {
                         Object.prototype.hasOwnProperty.call(result, 'book_id')
                     ) {
                         setEbookId(result.book_id)
+                        setTimeout(() => {
+                            navigate(`/ebook/${result.book_id}`)
+                        }, 3000)
                     }
 
                     setStatus('success')
@@ -259,7 +262,7 @@ function FileUpload({ setEbookFile, setEbookId }) {
                 className={
                     status === 'success' ? styles.success : styles.hidden
                 }>
-                Done!
+                Done! Redirecting to editor...
             </div>
             <div className={status === 'error' ? styles.error : styles.hidden}>
                 Error! Please try again!

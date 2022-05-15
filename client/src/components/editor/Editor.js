@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import { useParams } from 'react-router-dom'
 import {
     getImageFromRendition,
     openBook,
@@ -9,6 +10,7 @@ import Annotator from './Annotator'
 import styles from './Editor.module.css'
 import EditorControls from './EditorControls'
 import Viewer from './Viewer'
+import FileDownload from '../FileDownload'
 
 /**
  * The editor component takes an epub file and displays it as well as a UI for interacting with it.
@@ -24,6 +26,8 @@ function Editor({ ebookFile, ebookId }) {
     const [currentImage, setCurrentImage] = useState(null)
     const [rendition, setRendition] = useState(null)
 
+    const { uuid } = useParams()
+
     // Whether the component is already rendering / rendered the epub,
     // This is a fix for a bug that causes the epub to be rendered twice
     let rendered = false
@@ -32,6 +36,13 @@ function Editor({ ebookFile, ebookId }) {
     }
     function getRendered() {
         return rendered
+    }
+
+    function getEbookUUID() {
+        if (!ebookId) {
+            return uuid
+        }
+        return ebookId
     }
 
     /**
@@ -73,7 +84,11 @@ function Editor({ ebookFile, ebookId }) {
                     <Viewer id={viewerId} />
                 </div>
                 <div>
-                    <Annotator currImage={currentImage} ebookId={ebookId} />
+                    <Annotator
+                        currImage={currentImage}
+                        ebookId={getEbookUUID()}
+                    />
+                    <FileDownload ebookId={getEbookUUID()} />
                 </div>
             </div>
         </div>
@@ -82,7 +97,11 @@ function Editor({ ebookFile, ebookId }) {
 
 Editor.propTypes = {
     ebookFile: PropTypes.shape({}).isRequired,
-    ebookId: PropTypes.string.isRequired,
+    ebookId: PropTypes.string,
+}
+
+Editor.defaultProps = {
+    ebookId: '',
 }
 
 export default Editor
