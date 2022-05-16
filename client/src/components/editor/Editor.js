@@ -6,7 +6,7 @@ import {
     viewerId,
 } from '../../helpers/EditorHelper'
 import Annotator from './Annotator'
-import styles from './Editor.module.css'
+import styles from './Editor.module.scss'
 import EditorControls from './EditorControls'
 import Viewer from './Viewer'
 
