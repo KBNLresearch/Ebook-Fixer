@@ -13,10 +13,6 @@
 }
 
 .viewer {
-    border: 0.2rem solid white;
-    border-radius: 0.1em;
-    margin: 0.2em;
-    box-sizing: border-box;
 }
 
 .editor_controls {
@@ -24,6 +20,7 @@
     justify-content: center;
     gap: 1em;
     align-items: center;
+    margin-bottom: 0.5em;
 
     .navigation_button {
         background-color: skyblue;
@@ -36,7 +33,7 @@
             border-color: #ccc;
         }
         &:disabled {
-            background-color: #b8c3b8;
+            background-color: #b8c1c3;
             border-color: #ccc;
             cursor: default;
         }

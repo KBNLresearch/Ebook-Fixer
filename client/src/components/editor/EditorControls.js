@@ -18,8 +18,8 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
     // The index of the image currently being displayed
     const [currentImageIndex, setCurrentImageIndex] = useState(-1)
 
-    const nextButton = useRef(null)
-    const prevButton = useRef(null)
+    const [nextDisabled, setNextDisabled] = useState(false)
+    const [prevDisabled, setPrevDisabled] = useState(true)
 
     // Gets the next index
     function nextIndex() {
@@ -33,21 +33,21 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
 
     function handleNext(e) {
         changeToImageIndex(nextIndex())
-        if (nextIndex() === currentImageIndex) {
+        if (nextIndex() === imageList.length - 1) {
             // at end
-            e.target.disabled = true
-        } else {
-            prevButton.current.disabled = false
+            setNextDisabled(true)
+        } else if (nextIndex() > 0) {
+            setPrevDisabled(false)
         }
     }
 
     function handlePrev(e) {
         changeToImageIndex(prevIndex())
-        if (prevIndex() === currentImageIndex) {
+        if (prevIndex() === 0) {
             // at start
-            e.target.disabled = true
+            setPrevDisabled(true)
         } else {
-            nextButton.current.disabled = false
+            setNextDisabled(false)
         }
     }
 
@@ -74,14 +74,14 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
         <div className={styles.editor_controls}>
             <button
                 type="button"
-                ref={prevButton}
+                disabled={prevDisabled}
                 className={styles.navigation_button}
                 onClick={handlePrev}>
                 Previous Image
             </button>
             <button
                 type="button"
-                ref={nextButton}
+                disabled={nextDisabled}
                 className={styles.navigation_button}
                 onClick={handleNext}>
                 {currentImageIndex === -1
