@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { highlightElement, ImageInfo } from '../../helpers/EditorHelper'
+import styles from './Editor.module.scss'
 
 /**
  * The controls for the editor
@@ -17,6 +18,9 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
     // The index of the image currently being displayed
     const [currentImageIndex, setCurrentImageIndex] = useState(-1)
 
+    const nextButton = useRef(null)
+    const prevButton = useRef(null)
+
     // Gets the next index
     function nextIndex() {
         return Math.min(currentImageIndex + 1, imageList.length - 1)
@@ -25,6 +29,26 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
     // Gets the previous index
     function prevIndex() {
         return Math.max(currentImageIndex - 1, 0)
+    }
+
+    function handleNext(e) {
+        changeToImageIndex(nextIndex())
+        if (nextIndex() === currentImageIndex) {
+            // at end
+            e.target.disabled = true
+        } else {
+            prevButton.current.disabled = false
+        }
+    }
+
+    function handlePrev(e) {
+        changeToImageIndex(prevIndex())
+        if (prevIndex() === currentImageIndex) {
+            // at start
+            e.target.disabled = true
+        } else {
+            nextButton.current.disabled = false
+        }
     }
 
     /**
@@ -47,29 +71,23 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
     }
 
     return (
-        <div>
-            {currentImageIndex < 1 ? (
-                ''
-            ) : (
-                <button
-                    type="button"
-                    style={{ backgroundColor: 'skyblue', marginRight: '1em' }}
-                    onClick={() => changeToImageIndex(prevIndex())}>
-                    Previous Image
-                </button>
-            )}
-            {currentImageIndex < imageList.length - 1 ? (
-                <button
-                    type="button"
-                    style={{ backgroundColor: 'skyblue' }}
-                    onClick={() => changeToImageIndex(nextIndex())}>
-                    {currentImageIndex === -1
-                        ? 'Begin Annotating the First Image'
-                        : 'Next Image'}
-                </button>
-            ) : (
-                ''
-            )}
+        <div className={styles.editor_controls}>
+            <button
+                type="button"
+                ref={prevButton}
+                className={styles.navigation_button}
+                onClick={handlePrev}>
+                Previous Image
+            </button>
+            <button
+                type="button"
+                ref={nextButton}
+                className={styles.navigation_button}
+                onClick={handleNext}>
+                {currentImageIndex === -1
+                    ? 'Begin Annotating the First Image'
+                    : 'Next Image'}
+            </button>
         </div>
     )
 }

@@ -58,10 +58,6 @@ function Editor({ ebookFile, ebookId }) {
     return (
         <div>
             <h1 className={styles.title}>Editor</h1>
-            <span>
-                If you don&apos;t see anything, scroll down to load more of the
-                book.
-            </span>
             <div className={styles.editor}>
                 <div>
                     <EditorControls

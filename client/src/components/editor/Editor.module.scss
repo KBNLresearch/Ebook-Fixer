@@ -2,7 +2,7 @@
     padding: 1rem;
     background-color: #eee;
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 5fr 3fr;
 }
 
 .title {
@@ -10,4 +10,35 @@
     font-weight: bold;
     font-size: 2rem;
     line-height: 1.5em;
+}
+
+.viewer {
+    border: 0.2rem solid white;
+    border-radius: 0.1em;
+    margin: 0.2em;
+    box-sizing: border-box;
+}
+
+.editor_controls {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    align-items: center;
+
+    .navigation_button {
+        background-color: skyblue;
+        border: 0.2em solid #fff;
+        transition: border-color 0.2s ease, background-color 0.2s ease;
+        padding: 0.3em 0.5em;
+
+        &:hover {
+            background-color: rgb(108, 189, 221);
+            border-color: #ccc;
+        }
+        &:disabled {
+            background-color: #b8c3b8;
+            border-color: #ccc;
+            cursor: default;
+        }
+    }
 }
