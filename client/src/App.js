@@ -46,18 +46,6 @@ function App() {
                         }
                     />
                 </Routes>
-
-                {/* <FileDownload></FileDownload>
-            <p>
-            Press the button below to call the ebooks api:
-            </p>
-            <button onClick={getResult}>Call it </button>
-            {result.length === 0 ? "" : "Result:"}
-            <ul id="result">
-                {result.map(ebook => {
-                    return <li key={ebook.uuid}>Ebook uuid: {ebook.uuid}, title: {ebook.title}</li>
-                })}
-            </ul> */}
             </main>
         </div>
     )

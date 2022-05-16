@@ -38,6 +38,12 @@ function Editor({ ebookFile, ebookId }) {
         return rendered
     }
 
+    /**
+     * This function is used to gather the uuid from the source, wherever that may be.
+     * If the prop to this component is set, then it takes it from there, otherwise the one from the url is used.
+     *
+     * @returns The uuid of the e-book that is currently being edited
+     */
     function getEbookUUID() {
         if (!ebookId) {
             return uuid

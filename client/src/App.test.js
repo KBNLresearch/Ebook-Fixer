@@ -4,7 +4,7 @@ import Editor from './components/editor/Editor'
 import App from './App'
 
 test('renders button text', () => {
-    render(<Editor />)
+    renderWithRouter(<Editor />)
     const titleElement = screen.getByText(/Editor/i)
     expect(titleElement).toBeInTheDocument()
 })
