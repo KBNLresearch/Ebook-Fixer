@@ -11,6 +11,7 @@ import styles from './Editor.module.css'
 import EditorControls from './EditorControls'
 import Viewer from './Viewer'
 import FileDownload from '../FileDownload'
+import { getFileBlob } from '../../api/GetFile'
 
 /**
  * The editor component takes an epub file and displays it as well as a UI for interacting with it.
@@ -25,6 +26,7 @@ function Editor({ ebookFile, ebookId }) {
     const [imageList, setImageList] = useState([])
     const [currentImage, setCurrentImage] = useState(null)
     const [rendition, setRendition] = useState(null)
+    const [ebookNotFound, setEbookNotFound] = useState(false)
 
     const { uuid } = useParams()
 
@@ -56,28 +58,45 @@ function Editor({ ebookFile, ebookId }) {
      * The func sets the reader and reads the file that was passed through props of this component
      */
     useEffect(() => {
-        if (window.FileReader) {
-            // For reading the file from the input -- DEVELOPMENT ONLY
-            const reader = new FileReader()
-            reader.onload = (e) => {
-                openBook(
-                    e,
-                    getRendered,
-                    setRendered,
-                    setImageList,
-                    setRendition
-                )
+        const readFile = (file) => {
+            if (window.FileReader) {
+                // For reading the file from the input -- DEVELOPMENT ONLY
+                const reader = new FileReader()
+                reader.onload = (e) => {
+                    openBook(
+                        e,
+                        getRendered,
+                        setRendered,
+                        setImageList,
+                        setRendition
+                    )
+                }
+                if (file) reader.readAsArrayBuffer(file)
             }
-            if (ebookFile) reader.readAsArrayBuffer(ebookFile)
+        }
+
+        if (ebookFile === null) {
+            getFileBlob(getEbookUUID())
+                .then((blob) => {
+                    setEbookNotFound(false)
+                    readFile(blob)
+                })
+                .catch((error) => {
+                    setEbookNotFound(true)
+                })
+        } else {
+            readFile(ebookFile)
         }
     }, [ebookFile])
 
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>Editor</h1>
-            <span>
-                Scroll down to load the e-book.
-            </span>
+            {ebookNotFound ? (
+                <span style={{ color: 'red' }}>E-book not found!</span>
+            ) : (
+                <span>Scroll down to load the e-book.</span>
+            )}
             <div className={styles.editor}>
                 <div>
                     <EditorControls
@@ -101,12 +120,13 @@ function Editor({ ebookFile, ebookId }) {
 }
 
 Editor.propTypes = {
-    ebookFile: PropTypes.shape({}).isRequired,
+    ebookFile: PropTypes.shape({}),
     ebookId: PropTypes.string,
 }
 
 Editor.defaultProps = {
     ebookId: '',
+    ebookFile: null,
 }
 
 export default Editor
