@@ -72,13 +72,14 @@ function Editor({ ebookFile, ebookId }) {
     }
 
     /**
-     * ebookFile changes
-     * The func sets the reader and reads the file that was passed through props of this component
+     * Executed when ebookFile changes
+     * The readFile func sets the reader and reads the file that was passed through props of this component
+     * Or if it wasn't fetches it from the server
      */
     useEffect(() => {
         const readFile = (file) => {
             if (window.FileReader) {
-                // For reading the file from the input -- DEVELOPMENT ONLY
+                // For reading the file from the input
                 const reader = new FileReader()
                 reader.onload = (e) => {
                     openBook(
