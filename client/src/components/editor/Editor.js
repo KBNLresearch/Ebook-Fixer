@@ -67,7 +67,7 @@ function Editor({ ebookFile, ebookId }) {
         // change text
         e.target.innerHTML = 'Copied!'
         setTimeout(() => {
-            e.target.innerHTML = 'Share'
+            e.target.innerHTML = 'Share link'
         }, 3000)
     }
 
@@ -119,7 +119,7 @@ function Editor({ ebookFile, ebookId }) {
                         onClick={handleShareClick}
                         className={styles.share_button}
                         type="button">
-                        Share
+                        Share link
                     </button>
                 </div>
             )}
