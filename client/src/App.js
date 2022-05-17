@@ -1,51 +1,51 @@
+import { Routes, Route, Link } from 'react-router-dom'
 import './App.scss'
 import { useState } from 'react'
-import { fetchExampleApiCall } from './api/ApiCalls'
 import FileUpload from './components/FileUpload'
 import Editor from './components/editor/Editor'
-import FileDownload from './components/FileDownload'
+import { ReactComponent as GoBackArrowSVG } from './assets/svgs/go-back-arrow.svg'
 
 // This code uses functional components, you could use classes instead but they're
 function App() {
-    const [result, setResult] = useState([])
-
     const [ebookFile, setEbookFile] = useState(null)
 
     const [ebookId, setEbookId] = useState(null)
 
-    function getResult() {
-        fetchExampleApiCall().then((data) => {
-            setResult(data)
-        })
-    }
-
     return (
         <div className="App">
             <header className="App-header">
-                <FileUpload
-                    setEbookFile={setEbookFile}
-                    setEbookId={setEbookId}
-                />
-                <FileDownload ebookId={ebookId} />
-                <p>Press the button below to call the ebooks api:</p>
-                <button type="button" onClick={getResult}>
-                    Call it{' '}
-                </button>
-                {result.length === 0 ? '' : 'Result:'}
-                <ul id="result">
-                    {result.map((ebook) => (
-                        <li key={ebook.uuid}>
-                            Ebook uuid: {ebook.uuid}, title: {ebook.title}
-                        </li>
-                    ))}
-                </ul>
+                <h1>E-BOOK FIXER</h1>
+                <Routes>
+                    <Route path="/" element={<p>Homepage</p>} />
+                    <Route
+                        path="*"
+                        element={
+                            <Link to="/" className="home-navigation">
+                                <GoBackArrowSVG />
+                                Go Back
+                            </Link>
+                        }
+                    />
+                </Routes>
             </header>
-            <main>
-                {ebookFile === null ? (
-                    ''
-                ) : (
-                    <Editor ebookFile={ebookFile} ebookId={ebookId} />
-                )}
+            <main className="App-main">
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <FileUpload
+                                setEbookFile={setEbookFile}
+                                setEbookId={setEbookId}
+                            />
+                        }
+                    />
+                    <Route
+                        path="/ebook/:uuid"
+                        element={
+                            <Editor ebookFile={ebookFile} ebookId={ebookId} />
+                        }
+                    />
+                </Routes>
             </main>
         </div>
     )

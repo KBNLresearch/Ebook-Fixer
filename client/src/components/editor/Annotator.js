@@ -86,7 +86,7 @@ function Annotator({ currImage, ebookId }) {
     // Executed every time the currentImage changes
     useEffect(() => {
         if (!currImage) {
-            saveButton.current.innerText = "Saved"
+            saveButton.current.innerText = "Select image first"
             saveButton.current.disabled=true
         } else {
             saveButton.current.innerText = "Save Annotation"
@@ -111,7 +111,7 @@ function Annotator({ currImage, ebookId }) {
                            imageId,
                            getImgFilename(currImage),
                            textValue)
-        saveButton.current.innerText = "Saved"
+        saveButton.current.innerText = "Annotation saved"
         saveButton.current.disabled = true
 
     }
