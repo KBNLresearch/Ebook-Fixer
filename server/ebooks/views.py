@@ -1,6 +1,6 @@
 from .serializers import EbookSerializer
 from .models import Ebook
-from .utils import inject_image_annotations, unzip_ebook, zip_ebook
+from .utils import inject_image_annotations, unzip_ebook, zip_ebook, push_epub_to_github
 from images.models import Image
 from annotations.models import Annotation
 from django.http import HttpResponse, JsonResponse
@@ -112,14 +112,14 @@ def ebook_upload_view(request):
         # Check if file extension is .epub
         file_ext = epub_name[-5:]
         if file_ext == '.epub':
-            new_ebook = Ebook(book_uuid, epub_name, uploaded_epub)
             # Automatically stores the uploaded epub under MEDIA_ROOT/{uuid}/{filename}
-
+            new_ebook = Ebook(book_uuid, epub_name, uploaded_epub)
             new_ebook.save()
             # Unzip the epub file stored on the server, under MEDIA_ROOT/{uuid}
             # Returns the extracted title, which override the title
             try:
                 ebook_title = unzip_ebook(book_uuid, epub_name)
+                push_epub_to_github(book_uuid)
             except FileNotFoundError:
                 return JsonResponse({'msg': 'Something went wrong! Please try again!'},
                                     status=status.HTTP_500_INTERNAL_SERVER_ERROR)
