@@ -54,6 +54,24 @@ function Editor({ ebookFile, ebookId }) {
     }
 
     /**
+     * This function handles the click on the share button by copying the current url
+     * and showing a message in the button itself for 3 seconds
+     *
+     * @param {Event} e click event from the share button
+     */
+    function handleShareClick(e) {
+        const url = window.location.href
+        // Copy into user's clipboard
+        navigator.clipboard.writeText(url)
+
+        // change text
+        e.target.innerHTML = 'Copied!'
+        setTimeout(() => {
+            e.target.innerHTML = 'Share'
+        }, 3000)
+    }
+
+    /**
      * ebookFile changes
      * The func sets the reader and reads the file that was passed through props of this component
      */
@@ -95,8 +113,17 @@ function Editor({ ebookFile, ebookId }) {
             {ebookNotFound ? (
                 <span style={{ color: 'red' }}>E-book not found!</span>
             ) : (
-                <span>Scroll down to load the e-book.</span>
+                <div>
+                    <span>Scroll down to load the e-book.</span>
+                    <button
+                        onClick={handleShareClick}
+                        className={styles.share_button}
+                        type="button">
+                        Share
+                    </button>
+                </div>
             )}
+
             <div className={styles.editor}>
                 <div>
                     <EditorControls
