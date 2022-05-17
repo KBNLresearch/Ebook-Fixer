@@ -1,16 +1,9 @@
 import os
 from bs4 import BeautifulSoup
-from pathlib import Path
 import shutil
 from zipfile import ZipFile
-from configparser import ConfigParser
 import subprocess
 from pathlib import Path
-
-
-config_file = 'config.ini'
-config = ConfigParser()
-config.read(config_file)
 
 
 def inject_image_annotations(ebook_uuid, html_filenames, images, annotations):
@@ -39,7 +32,7 @@ def inject_image_annotations(ebook_uuid, html_filenames, images, annotations):
                         im['alt'] = image_annotation.text
 
                 with open(storage_path + html_file, "w") as file:
-                    file.write(str(data))
+                    file.write(data.prettify())
             except FileNotFoundError:
                 pass
 
@@ -103,32 +96,10 @@ def unzip_ebook(ebook_uuid, ebook_filename):
     return extract_title(ebook_uuid)
 
 
-def push_epub_to_github(uuid):
-    access_token = config.get('my_settings', 'github_token')
-    email = config.get('my_settings', 'email')
-    github_name = config.get('my_settings', 'github_name')
-    real_name = config.get('my_settings', 'real_name')
-    repo_directory = config.get('my_settings', 'directory')
-
+def push_epub_folder_to_github(uuid, message):
     folder = f"test-books/{uuid}/"
+    subprocess.run(["git", "add", folder])
+    subprocess.run(["git", "commit", "--quiet", "-m", message])
 
-    subprocess.run(["git", "init"], cwd=repo_directory)
-
-    subprocess.run(["git", "config", "user.email", email], cwd=repo_directory)
-    subprocess.run(["git", "config", "user.email", real_name], cwd=repo_directory)
-
-    # with open(filename, "wb") as file:
-    #     file.write(filepath.read())
-    subprocess.run(["git", "add", folder], cwd=repo_directory)
-
-    message = f"Upload {uuid}"
-    subprocess.run(["git", "commit", "-m", message], cwd=repo_directory) 
-
-    server = f"https://{github_name}:{access_token}@github.com/{github_name}/epubs.git"
-    subprocess.run(["git", "remote", "add", "origin", server], cwd=repo_directory)
-
-    subprocess.run(["git", "fetch", server], cwd=repo_directory)
-    subprocess.run(["git", "branch", "--set-upstream-to=origin/master", "master"], cwd=repo_directory)
-    subprocess.run(["git", "config", "pull.rebase", "false"], cwd=repo_directory)
-    subprocess.run(["git", "pull", "--allow-unrelated-histories", server], cwd=repo_directory)
-    subprocess.run(["git", "push", server], cwd=repo_directory)
+    subprocess.run(["git", "pull", "--allow-unrelated-histories"])
+    subprocess.run(["git", "push", "--quiet"])
