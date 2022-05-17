@@ -10,5 +10,5 @@ class Annotation(models.Model):
         ('HUM', 'Human')
     ]
     type = models.CharField(max_length=10, choices=ANNOTATION_TYPES, default='BB')
-    text = models.CharField(max_length=500)
+    text = models.CharField(max_length=200)
     confidence = models.DecimalField(max_digits=5, decimal_places=4, default=1.0)

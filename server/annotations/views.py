@@ -35,7 +35,7 @@ def annotation_generation_view(request):
 
         annotations = []
 
-        # Adds the each annotation from Google's API as a database entry
+        # Adds each annotation from Google's API as a database entry
         for description, score in generated_labels.items():
             annotations.append(Annotation.objects.create(image=image,
                                type="BB",
@@ -76,7 +76,7 @@ def annotation_save_view(request):
         except Annotation.DoesNotExist:
             annotation = Annotation.objects.create(image=image, type="HUM")
         annotation.text = data["text"]
-        annotation.save()
+        annotation.save(update_fields=["text"])
         serializer = AnnotationSerializer(annotation)
         return JsonResponse(serializer.data, status=status.HTTP_200_OK)
     else:

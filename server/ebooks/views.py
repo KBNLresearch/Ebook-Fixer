@@ -1,6 +1,6 @@
 from .serializers import EbookSerializer
 from .models import Ebook
-from .utils import inject_image_annotations, unzip_ebook, zip_ebook, push_epub_to_github
+from .utils import inject_image_annotations, unzip_ebook, zip_ebook, push_epub_folder_to_github
 from images.models import Image
 from annotations.models import Annotation
 from django.http import HttpResponse, JsonResponse
@@ -62,11 +62,14 @@ def ebook_download_view(request, uuid):
         html_files = []
         for folder_name, sub_folders, filenames in os.walk(storage_path):
             for filename in filenames:
-                if filename.endswith(".html"):
+                if filename.endswith("html"):
                     html_files.append(filename)
 
         # Inject image annotations into the html files
         inject_image_annotations(uuid, html_files, images, annotations)
+        # Push new contents to GitHub
+        message = f"Download {uuid}"
+        push_epub_folder_to_github(uuid, message)
 
         try:
             # Zip contents
@@ -119,7 +122,9 @@ def ebook_upload_view(request):
             # Returns the extracted title, which override the title
             try:
                 ebook_title = unzip_ebook(book_uuid, epub_name)
-                push_epub_to_github(book_uuid)
+                # Push unzipped contents to GitHub
+                message = f"Upload {book_uuid}"
+                push_epub_folder_to_github(book_uuid, message)
             except FileNotFoundError:
                 return JsonResponse({'msg': 'Something went wrong! Please try again!'},
                                     status=status.HTTP_500_INTERNAL_SERVER_ERROR)
