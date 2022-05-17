@@ -12,6 +12,10 @@ import shutil
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 
+def dummy_mock(book_uuid, message):
+    pass
+
+
 class EbookViewsTest(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
@@ -97,6 +101,7 @@ class EbookViewsTest(TestCase):
         self.assertEqual(response.status_code, 405)
         self.assertEqual(msg, b'{"msg": "Method Not Allowed!"}')
 
+    @patch("ebooks.views.push_epub_folder_to_github", dummy_mock)
     def test_ebook_download_view_404_file_not_found(self):
         ebook = Ebook.objects.create(uuid=self.uuid, title="TEST_TITLE", epub=None)
 
@@ -108,6 +113,7 @@ class EbookViewsTest(TestCase):
         self.assertEqual(msg, bytes(expected_msg, 'utf-8'))
         self.assertEqual(ebook.__str__(), self.uuid)
 
+    @patch("ebooks.views.push_epub_folder_to_github", dummy_mock)
     def test_ebook_download_view_200(self):
         test_filename = "test_content.txt"
         test_txt_content = b"Represents an unzipped ebook"
@@ -150,7 +156,7 @@ class EbookViewsTest(TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(msg, b'{"msg": "No epub file found in request!"}')
 
-    # @patch("ebooks.utils.unzip_ebook", unzip_ebook_mock)
+    @patch("ebooks.views.push_epub_folder_to_github", dummy_mock)
     def test_upload_view_200(self):
         # Mock unzip_ebook() where it was called!
         # Note that logic is tested in tests_utils.py

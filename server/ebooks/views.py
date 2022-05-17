@@ -8,7 +8,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.datastructures import MultiValueDictKeyError
 from rest_framework import status
 import uuid
-import os
 
 
 def ebook_detail_view(request, uuid):
@@ -57,16 +56,8 @@ def ebook_download_view(request, uuid):
             if a.type == 'HUM'
         ]
 
-        # Get the html files from the storage
-        storage_path = f"test-books/{uuid}"
-        html_files = []
-        for folder_name, sub_folders, filenames in os.walk(storage_path):
-            for filename in filenames:
-                if filename.endswith("html"):
-                    html_files.append(filename)
-
         # Inject image annotations into the html files
-        inject_image_annotations(uuid, html_files, images, annotations)
+        inject_image_annotations(uuid, images, annotations)
         # Push new contents to GitHub
         message = f"Download {uuid}"
         push_epub_folder_to_github(uuid, message)
@@ -106,7 +97,6 @@ def ebook_upload_view(request):
         # Check if key 'epub' exists in MultiValueDictionary
         try:
             uploaded_epub = request.FILES['epub']
-            # binary_epub = request.FILES['epub'].file
             epub_name = request.FILES['epub'].name
         except MultiValueDictKeyError:
             return JsonResponse({'msg': 'No epub file found in request!'},
