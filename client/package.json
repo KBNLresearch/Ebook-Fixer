@@ -44,11 +44,17 @@
           ]
         }
       ],
-      "jsx-a11y/label-has-associated-control": ["error", {
-        "required": {
-          "some": ["nesting", "id"]
+      "jsx-a11y/label-has-associated-control": [
+        "error",
+        {
+          "required": {
+            "some": [
+              "nesting",
+              "id"
+            ]
+          }
         }
-      }],
+      ],
       "camelcase": 1,
       "react/jsx-uses-react": "off",
       "react/react-in-jsx-scope": "off",

@@ -76,7 +76,7 @@ def annotation_save_view(request):
         except Annotation.DoesNotExist:
             annotation = Annotation.objects.create(image=image, type="HUM")
         annotation.text = data["text"]
-        annotation.save()
+        annotation.save(update_fields=["text"])
         serializer = AnnotationSerializer(annotation)
         return JsonResponse(serializer.data, status=status.HTTP_200_OK)
     else:
