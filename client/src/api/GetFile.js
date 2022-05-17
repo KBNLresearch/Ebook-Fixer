@@ -18,14 +18,8 @@ export function getFileBlob(fileId) {
             }
             throw new Error('Response code: ' + response.status)
         })
-        .then((response) => {
-            console.log('Responseaaa: ')
-            // console.log(response)
-            return response
-        })
+        .then((response) => response)
         .catch((error) => {
-            // window.alert('Error!' + error.message)
-            // console.log(error)
             throw error
         })
 }
