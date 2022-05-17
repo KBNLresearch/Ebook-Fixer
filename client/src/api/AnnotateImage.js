@@ -8,7 +8,7 @@
  */
 
 
-export function  saveUserAnnotation(ebookId, imageId, filen, txt) {
+export function  saveUserAnnotation(ebookId, imageId, fileName, txt) {
     
     return fetch(process.env.REACT_APP_API_URL + 'annotations/save/', {
         method: 'POST',
@@ -19,7 +19,7 @@ export function  saveUserAnnotation(ebookId, imageId, filen, txt) {
         body: JSON.stringify({
             "ebook" : ebookId,
             "id" : imageId,
-            "filename": filen,
+            "filename": fileName,
             "text": txt
         })
     }).then(res => res.json()) // if it's in json format
