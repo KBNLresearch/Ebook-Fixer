@@ -27,7 +27,6 @@ function AIannotator({ currImage, ebookId, setImageId, currClassification}) {
     // References/hooks to React DOM elements
     const saveButtonRef = useRef(null)
     const dropdownRef = useRef(null)
-    const [currClass, setCurrClass] = useState(currClassification)
 
     // Creates a hook that executes the arrow func. every time imageSelected or classification changes
     useEffect(() => {
@@ -41,9 +40,11 @@ function AIannotator({ currImage, ebookId, setImageId, currClassification}) {
             
             if (currClassification != null) {
                 saveButtonRef.current.disabled = false
-                setCurrClass(currClassification)
+                // Show the selected classification
+                dropdownRef.current.selectedIndex = options.indexOf(currClassification) + 1
             } else {
-                setCurrClass(null)
+                // Show the label
+                dropdownRef.current.selectedIndex = 0
             }
         }
         }, [currImage, currClassification])
@@ -63,6 +64,7 @@ function AIannotator({ currImage, ebookId, setImageId, currClassification}) {
             return choice
         }
     }
+    
 
     /**
      * Makes API call to server and disables "Save" button
@@ -92,27 +94,6 @@ function AIannotator({ currImage, ebookId, setImageId, currClassification}) {
         }
     }
 
-    /**
-     * Makes current classification for currImage the default value in dropdown menu
-     * If no classification, "decorative" is the default
-     * @param {String} option in dropdown menu
-     * @returns {HTMLSelectElement} option
-     */
-    function handleMenuOption(opt) {
-        // Default is decorative if images was never classified before
-        if (currClass === null && opt === 'Decorative') {
-            console.log('Curr class is null, ' + options[0] + ' shown.')
-            return <option selected="selected" value='Decorative'> Decorative </option>
-        } 
-        // Default is the curr classification stored on server
-        if (opt === currClass) {
-            console.log('opt == currClass')
-            return <option selected="selected" value={opt}> {opt} </option>
-        }
-        console.log('Opt not selected')
-        return <option value={opt}> {opt} </option>
-    }
-
     const options = [
         'Decorative',
         'Informative',
@@ -132,9 +113,6 @@ function AIannotator({ currImage, ebookId, setImageId, currClassification}) {
             {/* Showing the textarea only after classification, in the AI generation step */}
             {/* <textarea placeholder="Loading AI zannotation..." disabled></textarea> */}
             {/* <button className={styles.icon} disabled><SettingsSVG title='Reclassify'></SettingsSVG></button>     */}
-            <label htmlFor="selectClass">
-                Please classify your selected image
-            </label>
             <select
                 name="selectedClass"
                 id="selectClass"
@@ -143,8 +121,12 @@ function AIannotator({ currImage, ebookId, setImageId, currClassification}) {
                 onChange={() => {
                     saveButtonRef.current.disabled = false
                 }}>
+                    <option value="none" selected disabled hidden>
+                        Classify image
+                    </option>
                 {options.map((opt) => (
-                    handleMenuOption(opt)
+                    <option value={opt}> {opt} </option>
+                    // handleMenuOption(ospt)
                 ))}
             </select>
             <button
