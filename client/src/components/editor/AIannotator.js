@@ -1,5 +1,6 @@
 import styles from './Annotator.module.scss'
 
+
 function AIAnnotator() {
 
 
@@ -12,7 +13,6 @@ function AIAnnotator() {
             
             </div>
         )
-            
 }
-
+            
 export default AIAnnotator

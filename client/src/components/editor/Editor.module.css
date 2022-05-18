@@ -5,6 +5,10 @@
     grid-template-columns: 2fr 1fr;
 }
 
+.container {
+    width: 100%;
+}
+
 .title {
     text-align: center;
     font-weight: bold;
