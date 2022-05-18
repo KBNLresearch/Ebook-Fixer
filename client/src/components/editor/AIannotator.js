@@ -60,6 +60,9 @@ function AIannotator({ currImage, ebookId, setImageId, currClassification}) {
             if (choice === "Decorative") {
                 // TODO: for now this is only an alert, but this may be changed still
                 window.alert("Decorative images should not be annotated, please proceed to next image.")
+            }
+            if (dropdownRef.current.selectedIndex === 0) {
+                window.alert("This option is not allowed!")
             }                
             return choice
         }

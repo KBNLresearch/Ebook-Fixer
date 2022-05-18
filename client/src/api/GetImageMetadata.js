@@ -10,7 +10,7 @@
         // Encoding of URI component allows for encoding of chars such as /, ?, =, &
         // Some image filenames have a path such as images/hoof001ware10ill0001.gif
         // TODO: path in image gives 404 Not Found??? Change to param "image" + change settings.py again (header remains)
-        process.env.REACT_APP_API_URL + 'images/get/' + encodeURIComponent(filename) + '/',
+        process.env.REACT_APP_API_URL + 'images/get/?image=' + encodeURIComponent(filename),
         {
             method: 'GET',
             headers: { 'Content-Type': 'application/json; charset=UTF-8', 'ebook': ebookUuid },
