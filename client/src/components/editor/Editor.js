@@ -77,7 +77,7 @@ function Editor({ ebookFile, ebookId }) {
             <h1 className={styles.title}>Editor</h1>
             <span>Scroll down to load the e-book.</span>
             <div className={styles.editor}>
-                <div>
+                <div className={styles.viewer_container}>
                     <EditorControls
                         rendition={rendition}
                         imageList={imageList}
@@ -86,7 +86,7 @@ function Editor({ ebookFile, ebookId }) {
                     />
                     <Viewer id={viewerId} />
                 </div>
-                <div>
+                <div className={styles.annotator_container}>
                     <Annotator
                         currImage={currentImage}
                         ebookId={getEbookUUID()}
