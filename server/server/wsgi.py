@@ -32,7 +32,7 @@ print("\nGithub setup:\n")
 subprocess.run(["git", "init"])
 
 subprocess.run(["git", "config", "user.email", email])
-subprocess.run(["git", "config", "user.email", real_name])
+subprocess.run(["git", "config", "user.name", real_name])
 
 branch_name = f"{datetime.date.today()}"
 subprocess.run(["git", "branch", "-m", branch_name])
