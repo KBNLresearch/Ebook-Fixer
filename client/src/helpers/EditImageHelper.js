@@ -5,7 +5,6 @@
  */
 export function getImgFilename(image) {
     const currImageName = image.asset.href
-    console.log('Current image classified: ' + currImageName)
     return currImageName
 }
 

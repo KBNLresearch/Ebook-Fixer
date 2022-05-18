@@ -84,6 +84,7 @@ function Annotator({ currImage, ebookId }) {
     const [userAnnotationList, setUserAnnotationList] = useState([]);
     const [imageId, setImageId] = useState("");
     const [textValue, setTextValue] = useState("");
+    const [currClassification, setCurrClassification] = useState(null);
 
     const saveButton = useRef(null)
     // Executed every time the currentImage changes
@@ -92,7 +93,7 @@ function Annotator({ currImage, ebookId }) {
             saveButton.current.innerText = "Select image first"
             saveButton.current.disabled=true
         } else {
-            saveButton.current.innerText = "Save Annotation"
+            saveButton.current.innerText = "Save annotation"
             saveButton.current.disabled=false
 
             const imgInfo = currImage
@@ -100,16 +101,12 @@ function Annotator({ currImage, ebookId }) {
             if (imgInfo) {
                 const altText = imgInfo.element.alt
                 if (altText) {
-                    // Initial human annotation is the existing ALT-text
+                    // Initial alt text of image will be displayed if no HUM annotations yet
                     setUserAnnotationList([altText])
-                } else {
-                    // The image has no alt text
-                    // setUserAnnotationList([])
                 }
             }
             
-            // TODO: get rid of the savedImagesList?
-            // TODO: display the previously stored annotation for each image! Should override the initial alt text
+            // For each image that is loaded, client fetches all metadata from server (even if the image does not exist yet)
             console.log('Fetching image metadata...')
             getImageMetadataApiCall(ebookId, getImgFilename(currImage))
                 .then((result) => {
@@ -118,15 +115,25 @@ function Annotator({ currImage, ebookId }) {
                         console.log(result.annotations)
                         console.log('Image metadata: ')
                         console.log(result.image)
+                        // For each HUM annotation, add to user annotation list (for display in UserAnnotator)
+                        // Note that for now this list always contains 1 HUM annotation
+                        result.annotations.forEach(element => {
+                            if (element.type === "HUM") {
+                                setUserAnnotationList([...userAnnotationList, element.text])
+                            }
+                        });
                    }
-
-                     // TODO: fetch HUM annotation for curr image from server + check for type HUM!
-                    // TODO: add HUM annotation to list 
+                   // TODO: we may also wanna pass this classification to AIAnnotator in the future, 
+                   //    to allow for different workflows per category
+                   if (Object.prototype.hasOwnProperty.call(result, "image")) {
+                       console.log('Classification stored: ' + result.image.classification)
+                       setCurrClassification(result.image.classification)
+                   }
                 }, 
                 (error) => {
-                    // TODO: Catch cause 404 and display alt 
                     if (error.cause === 404) {
                        console.log('Image does not exist on server yet, will be created after the first time classifying.') 
+                       setCurrClassification(null)
                     }
                 }) 
 
@@ -151,6 +158,7 @@ function Annotator({ currImage, ebookId }) {
                 currImage={currImage} 
                 ebookId={ebookId} 
                 setImageId={setImageId}
+                currClassification={currClassification}
             >
                 {' '}
             </AIannotator>
