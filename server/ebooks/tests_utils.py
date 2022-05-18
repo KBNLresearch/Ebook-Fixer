@@ -60,17 +60,23 @@ class UtilsTest(TestCase):
         html_filename = "test.html"
         html_files_set_up(html_path, html_filename)
         ebook = Ebook.objects.create(uuid=self.uuid, title="TEST_TITLE")
-        image = Image.objects.create(ebook=ebook, filename="test.jpg", location=html_filename,
-                                     classification="INFO", raw_context=" ")
+        image = Image.objects.create(ebook=ebook,
+                                     filename="test.jpg",
+                                     location="OEBPS/" + html_filename,
+                                     classification="INFO",
+                                     raw_context=" ")
         annotation = Annotation.objects.create(image=image, type="HUM",
                                                text="TEST ANNOTATION")
 
-        inject_image_annotations(self.uuid, [html_filename], [image], [annotation])
+        inject_image_annotations(self.uuid, [image], [annotation])
 
         with open(html_path + "/OEBPS/" + html_filename, "r") as file:
-            self.assertEqual(file.readline(),
-                             '<html><body><img alt="TEST ANNOTATION" '
-                             'src="test.jpg"/></body></html>')
+            self.assertEqual(file.readlines(),
+                             ['<html>\n',
+                              ' <body>\n',
+                              '  <img alt="TEST ANNOTATION" src="test.jpg"/>\n',
+                              ' </body>\n',
+                              '</html>'])
         shutil.rmtree(html_path)
 
     def test_missing_annotations_injection(self):
@@ -88,7 +94,7 @@ class UtilsTest(TestCase):
         annotation = Annotation.objects.create(image=image, type="HUM",
                                                text="TEST ANNOTATION")
 
-        inject_image_annotations(uuid_test, [html_filename], [image], [annotation])
+        inject_image_annotations(uuid_test, [image], [annotation])
 
         with open(html_path + "/OEBPS/" + html_filename, "r") as file:
             self.assertEqual(file.readline(),
@@ -107,8 +113,7 @@ class UtilsTest(TestCase):
         annotation2 = Annotation.objects.create(image=image2, type="HUM",
                                                 text="TEST ANNOTATION")
 
-        inject_image_annotations(self.uuid, [html_filename],
-                                 [image1, image2], [annotation1, annotation2])
+        inject_image_annotations(self.uuid, [image1, image2], [annotation1, annotation2])
 
         with open(html_path + "/OEBPS/" + html_filename, "r") as file:
             self.assertEqual(file.readline(),
