@@ -2,7 +2,8 @@ import { useEffect, useState, useRef} from 'react'
 import PropTypes from 'prop-types'
 import { ReactComponent as HistorySVG } from '../../assets/svgs/history-icon.svg'
 import { ImageInfo } from '../../helpers/EditorHelper'
-import AIannotator from './AIannotator'
+import AIAnnotator from './AIAnnotator'
+import Classifier from './Classifier'
 import {saveUserAnnotation} from '../../api/AnnotateImage'
 import {getImgFilename} from '../../helpers/EditImageHelper'
 import styles from './Annotator.module.scss'
@@ -119,9 +120,10 @@ function Annotator({ currImage, ebookId }) {
     return (
         <div className={styles.container}>
 
-            <AIannotator currImage={currImage} ebookId={ebookId} setImageId={setImageId}>
+            <Classifier currImage={currImage} ebookId={ebookId} setImageId={setImageId}>
                 {' '}
-            </AIannotator>
+            </Classifier>
+            <AIAnnotator></AIAnnotator>
             <UserAnnotator annotationList={userAnnotationList} setTextValue={setTextValue} textValue={textValue}/>
             <button type="button"
                     className={styles.save_button}
