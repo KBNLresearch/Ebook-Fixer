@@ -103,6 +103,8 @@ function Annotator({ currImage, ebookId }) {
                 if (altText) {
                     // Initial alt text of image will be displayed if no HUM annotations yet
                     setUserAnnotationList([altText])
+                } else {
+                    setUserAnnotationList([])
                 }
             }
             
