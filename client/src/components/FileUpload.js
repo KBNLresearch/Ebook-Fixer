@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
+import { Link, useNavigate } from 'react-router-dom'
 import { sendFile } from '../api/SendFile'
 import styles from './FileUpload.module.css'
 import { ReactComponent as UploadSVG } from '../assets/svgs/upload-sign.svg'
@@ -45,6 +46,9 @@ function FileUpload({ setEbookFile, setEbookId }) {
     // A reference to the form that is returned below,
     // Used for adding event listeners to it.
     const form = useRef(null)
+
+    // For navigation to the editor
+    const navigate = useNavigate()
 
     // When the mouse enters the file drop area
     function handleDragEnter(e) {
@@ -157,7 +161,6 @@ function FileUpload({ setEbookFile, setEbookId }) {
             // Puts the dropped file into the state of the App component to use for the Editor
             if (setEbookFile) {
                 setEbookFile(droppedFile[0])
-                setUploading(false)
             }
             // -----------------------------------------------------
 
@@ -171,6 +174,9 @@ function FileUpload({ setEbookFile, setEbookId }) {
                         Object.prototype.hasOwnProperty.call(result, 'book_id')
                     ) {
                         setEbookId(result.book_id)
+                        setTimeout(() => {
+                            navigate(`/ebook/${result.book_id}`)
+                        }, 3000)
                     }
 
                     setStatus('success')
@@ -243,12 +249,20 @@ function FileUpload({ setEbookFile, setEbookId }) {
                 </button>
             </div>
 
+            {uploading || status ? (
+                <Link to="/ebook/1">
+                    Go to editor (This is for Development only)
+                </Link>
+            ) : (
+                ''
+            )}
+
             <div className={uploading ? '' : styles.hidden}>Uploading…</div>
             <div
                 className={
                     status === 'success' ? styles.success : styles.hidden
                 }>
-                Done!
+                Done! Redirecting to editor...
             </div>
             <div className={status === 'error' ? styles.error : styles.hidden}>
                 Error! Please try again!

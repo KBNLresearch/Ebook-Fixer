@@ -253,8 +253,8 @@ export function getImageFromRendition(imagetobeDisplayed, rendition) {
  * The style object which is appliead to a highlighted element
  */
 const highlightedStyle = {
-    outline: '7px solid rgba(255, 0, 0, 0.8)',
-    'box-shadow': '0 0 10px 10px rgba(255, 0, 0, 0.8)',
+    outline: '7px solid rgba(0, 255, 0, 0.8)',
+    'box-shadow': '0 0 10px 10px rgba(0, 255, 0, 0.8)',
     transition: 'all 0.3s ease',
 }
 
