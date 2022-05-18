@@ -39,3 +39,35 @@ export function  saveUserAnnotation(ebookId, imageId, filen, txt) {
       )
 
 }
+
+
+export function  getAiAnnotation(ebookId, imageId, filen) {
+
+    return fetch(process.env.REACT_APP_API_URL + 'annotations/generate/', {
+        method: 'PUT',
+        headers: {
+        'Accept' : 'application/json',
+        'Content-Type' : 'application/json',
+        },
+        body: JSON.stringify({
+            "id" : imageId,
+            "ebook" : ebookId,
+            "filename": filen
+        })
+    }).then(res => res.json()) // if it's in json format
+      .then(
+          (result) => {
+            console.log(result);
+            return result
+        },
+        // Error handling
+          (error) => {
+            window.alert(
+                "error! Please try again."
+            )
+            console.log(error);
+            throw error;
+        }
+      )
+
+}
