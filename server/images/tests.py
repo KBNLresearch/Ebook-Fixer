@@ -167,7 +167,8 @@ class ImageViewsTest(TestCase):
         response, msg = self.response_image_details_view(uuid=uuid)
 
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(decode_message(msg), "{'msg': 'Image parameter not found in the request!'}")
+        self.assertEqual(decode_message(msg),
+                         "{'msg': 'Image parameter not found in the request!'}")
 
     def test_image_details_view_404_missing_ebook(self):
         filename = "test.jpg"
