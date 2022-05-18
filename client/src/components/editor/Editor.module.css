@@ -7,6 +7,7 @@
 
 .container {
     width: 100%;
+    position: relative;
 }
 
 .title {
@@ -14,4 +15,12 @@
     font-weight: bold;
     font-size: 2rem;
     line-height: 1.5em;
+}
+
+.share_button {
+    background-color: limegreen;
+    position: absolute;
+    top: 0.5em;
+    right: 2em;
+    width: 6em;
 }
