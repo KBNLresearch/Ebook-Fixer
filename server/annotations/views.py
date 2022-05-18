@@ -32,6 +32,9 @@ def annotation_generation_view(request):
             return JsonResponse({'msg': f'Img {image.filename} in ebook {image.ebook} not found'},
                                 status=status.HTTP_404_NOT_FOUND)
 
+        # Delete already existing AI annotation
+        # This the endpoint is used for re-classification
+        Annotation.objects.filter(image=image, type="BB").delete()
         annotations = []
 
         # Adds each annotation from Google's API as a database entry
