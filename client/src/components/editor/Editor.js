@@ -24,6 +24,8 @@ function Editor({ ebookFile, ebookId }) {
     // The list of images that are currently loaded,
     // used to render the buttons on the left
     const [imageList, setImageList] = useState([])
+    // TODO: keep track of which images are saved on the server
+    const [savedImageList, setSavedImageList] = useState([])
     const [currentImage, setCurrentImage] = useState(null)
     const [rendition, setRendition] = useState(null)
     const [ebookNotFound, setEbookNotFound] = useState(false)

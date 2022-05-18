@@ -95,7 +95,7 @@ function Annotator({ currImage, ebookId }) {
             saveButton.current.innerText = "Save Annotation"
             saveButton.current.disabled=false
             // TODO: image must exist (classified!!) before calling the API
-            getImageMetadataApiCall(ebookId, getImgFilename(currImage))
+            // getImageMetadataApiCall(ebookId, getImgFilename(currImage))
         }
         // TODO: display the previously stored annotation for each image! Should override the initial alt text
         // TODO: fetch HUM annotation for curr image from server + check for type HUM!

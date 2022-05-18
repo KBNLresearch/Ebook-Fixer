@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styles from './Annotator.module.scss'
 import { ReactComponent as SettingsSVG } from '../../assets/svgs/settings-icon.svg'
 import { classifyImageApiCall } from '../../api/ClassifyImage'
+import { getImageMetadataApiCall } from '../../api/GetImageMetadata'
 import { ImageInfo } from '../../helpers/EditorHelper'
 import {
     getImgFilename,
@@ -67,8 +68,6 @@ function AIannotator({ currImage, ebookId, setImageId }) {
                 console.log('No e-book UUID stored on client!')
             }
 
-
-
             classifyImageApiCall(
                 ebookId,
                 getImgFilename(currImage),
@@ -76,14 +75,19 @@ function AIannotator({ currImage, ebookId, setImageId }) {
                 getClassification(),
                 getRawContext(currImage)
             ) .then(result => {
-                console.log(JSON.stringify(result));
+                // console.log(JSON.stringify(result));
                 if (Object.prototype.hasOwnProperty.call(result, "id")){
-                        console.log(result.id);
+                        console.log('Image id of new entry: ' + result.id);
                         setImageId(result.id)
                    }
             })
             saveButtonRef.current.disabled = true
             saveButtonRef.current.innerText= "Classification Saved"
+
+            // TODO: Image API can only be called after it has been classified and thus created by server
+            setTimeout(() => {
+                getImageMetadataApiCall(ebookId, getImgFilename(currImage))
+            }, 3000)
         }
     }
 

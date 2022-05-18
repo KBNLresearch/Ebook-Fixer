@@ -36,9 +36,7 @@ export function classifyImageApiCall(
                 },
                 // Error handling vvv
                 (error) => {
-                    window.alert(
-                        'Image classification error! Please try again.'
-                    )
+                    window.alert('Image classification error! Please try again.')
                     console.log(error)
                     throw error
                 }
