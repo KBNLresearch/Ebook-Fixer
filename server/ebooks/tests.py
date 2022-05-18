@@ -3,7 +3,6 @@ from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory, TestCase
 from uuid import uuid4
 from unittest.mock import patch
-
 from .views import ebook_detail_view, ebook_download_view, ebook_upload_view
 from .models import Ebook
 from .serializers import EbookSerializer
@@ -12,8 +11,15 @@ import shutil
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 
+mocked_uuid = uuid4()
+
+
 def dummy_mock(book_uuid, message):
     pass
+
+
+def mock_uuid():
+    return mocked_uuid
 
 
 class EbookViewsTest(TestCase):
@@ -157,6 +163,7 @@ class EbookViewsTest(TestCase):
         self.assertEqual(msg, b'{"msg": "No epub file found in request!"}')
 
     @patch("ebooks.views.push_epub_folder_to_github", dummy_mock)
+    @patch("ebooks.views.uuid.uuid4", mock_uuid)
     def test_upload_view_200(self):
         # Mock unzip_ebook() where it was called!
         # Note that logic is tested in tests_utils.py
@@ -173,3 +180,5 @@ class EbookViewsTest(TestCase):
             self.assertEqual(response.status_code, 200)
             # Verify if correct data passed to util function (UUID is random)
             unzip_ebook_mock.assert_called_once_with(ANY, "test_file.epub")
+        path = os.path.abspath("./") + f"/test-books/{mocked_uuid}/"
+        shutil.rmtree(path)
