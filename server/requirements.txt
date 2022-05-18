@@ -1,5 +1,7 @@
 bs4
+configparser
 coverage
+datetime
 Django>=3.2,<4.0
 django-cors-headers
 django-environ
@@ -7,6 +9,7 @@ django-rest-framework
 djongo
 epubcheck
 flake8
+google-cloud-vision
 isort==5.8.0
 lxml
 pycodestyle
@@ -14,4 +17,3 @@ pymongo==3.12.0
 pytest
 sqlparse==0.2.4
 unittest2
-google-cloud-vision

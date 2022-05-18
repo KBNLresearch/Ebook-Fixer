@@ -1,37 +1,38 @@
 import os
 from bs4 import BeautifulSoup
-from pathlib import Path
 import shutil
 from zipfile import ZipFile
+import subprocess
+from pathlib import Path
 
 
-def inject_image_annotations(ebook_uuid, html_filenames, images, annotations):
+def inject_image_annotations(ebook_uuid, images, annotations):
     """ Injects all human image annotations to their corresponding ALT-texts in the HTML files
 
         Args:
             ebook_uuid (String): uuid of ebook
-            html_filenames (List): all .html filenames
             images (List[Image]): all images in that ebook
             annotations (List[Annotation]): all human annotations for the images
     """
-    storage_path = f"test-books/{ebook_uuid}/OEBPS/"
+    storage_path = f"test-books/{ebook_uuid}/"
     for image in images:
         try:
             image_annotation = filter(lambda a: a.image == image, annotations).__next__()
-            html_file = filter(lambda h: h == image.location, html_filenames).__next__()
         except StopIteration:
             pass
         else:
             try:
+                html_file = image.location
                 html_content = open(storage_path + html_file)
                 data = BeautifulSoup(html_content, 'html.parser')
                 images_in_html = data.find_all('img', src=True)
                 for im in images_in_html:
-                    if im['src'] == image.filename:
+                    basename = os.path.basename(image.filename)
+                    if str(im['src']).endswith(basename):
                         im['alt'] = image_annotation.text
 
                 with open(storage_path + html_file, "w") as file:
-                    file.write(str(data))
+                    file.write(data.prettify())
             except FileNotFoundError:
                 pass
 
@@ -93,3 +94,19 @@ def unzip_ebook(ebook_uuid, ebook_filename):
         # Remove the original zip .epub file
         os.remove(epub_path)
     return extract_title(ebook_uuid)
+
+
+def push_epub_folder_to_github(uuid, message):
+    """ Push the folder of the contents of the book to
+    the GitHub repository from server/wsgi.py
+
+    Args:
+        uuid (UUID): The uuid of the e-book
+        message (string): The commit message
+    """
+    folder = f"test-books/{uuid}/"
+    subprocess.run(["git", "add", folder])
+    subprocess.run(["git", "commit", "--quiet", "-m", message])
+
+    subprocess.run(["git", "pull", "--allow-unrelated-histories"])
+    subprocess.run(["git", "push", "--quiet"])
