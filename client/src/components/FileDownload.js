@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { getFile } from '../api/DownloadFile'
+import styles from './FileDownload.module.scss'
 
 /**
  * adds element that handles download process
@@ -8,8 +9,8 @@ import { getFile } from '../api/DownloadFile'
  */
 function FileDownload({ ebookId }) {
     return (
-        <div id="container">
-            <h3>Download annotated ePub file</h3>
+        <div id="container" className={styles.container}>
+            <div className={styles.popup}>Download annotated ePub file</div>
             <button type="button" onClick={() => getFile(ebookId)}>
                 Download
             </button>

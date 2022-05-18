@@ -5,6 +5,7 @@
     align-items: flex-end;
     width: 100%;
     box-sizing: border-box;
+    flex-grow: 1;
 
     .user_input {
         width: 100%;
@@ -63,6 +64,7 @@
         &:disabled {
             background-color: #b8c3b8;
             border-color: #eee;
+            cursor: default;
         }
     }
 

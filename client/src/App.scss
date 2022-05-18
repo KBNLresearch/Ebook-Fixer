@@ -15,8 +15,15 @@
     box-sizing: border-box;
 }
 
+html,
+body,
+#root,
+.App {
+    height: 100%;
+}
+
 .App-header {
-    min-height: 15vh;
+    min-height: 10vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -31,11 +38,10 @@
 }
 
 .App-main {
-    min-height: 50vh;
+    min-height: 90vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     width: 100%;
 }
 
