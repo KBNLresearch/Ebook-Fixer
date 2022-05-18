@@ -49,6 +49,7 @@
     margin-bottom: 0.5em;
 
     .navigation_button {
+        font-family: inherit;
         background-color: skyblue;
         border: 0.2em solid #fff;
         transition: border-color 0.2s ease, background-color 0.2s ease;
@@ -67,7 +68,8 @@
 }
 
 .share_button {
-    background-color: limegreen;
+    font-family: inherit;
+    background-color: rgb(207, 164, 247);
     position: absolute;
     top: 0.5em;
     right: 2em;

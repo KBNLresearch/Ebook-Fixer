@@ -115,7 +115,7 @@ function Editor({ ebookFile, ebookId }) {
                 <span style={{ color: 'red' }}>E-book not found!</span>
             ) : (
                 <div>
-                    <span>Scroll down to load the e-book.</span>
+                    <span>Scroll down to load the e-book...</span>
                     <button
                         onClick={handleShareClick}
                         className={styles.share_button}
