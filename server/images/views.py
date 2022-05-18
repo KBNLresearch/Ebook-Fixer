@@ -10,12 +10,11 @@ from json import JSONDecodeError
 import json
 
 
-def image_details_view(request, filename):
+def image_details_view(request):
     """Returns the metadata and the annotations for an image
 
     Args:
-        request (request object): The request object with an ebook header
-        filename (string): The name of the image
+        request (request object): The request object with an ebook and image header
 
     Returns:
         JsonResponse: Response object sent back to the client
@@ -25,6 +24,10 @@ def image_details_view(request, filename):
             uuid = request.headers["ebook"]
         except KeyError:
             return JsonResponse({'msg': 'Ebook header not found in the request!'},
+                                status=status.HTTP_400_BAD_REQUEST)
+        filename = request.GET.get("image")
+        if filename is None:
+            return JsonResponse({'msg': 'Image parameter not found in the request!'},
                                 status=status.HTTP_400_BAD_REQUEST)
         try:
             ebook = Ebook.objects.filter(uuid=uuid).get()

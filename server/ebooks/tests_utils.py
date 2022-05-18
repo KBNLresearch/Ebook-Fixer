@@ -60,8 +60,11 @@ class UtilsTest(TestCase):
         html_filename = "test.html"
         html_files_set_up(html_path, html_filename)
         ebook = Ebook.objects.create(uuid=self.uuid, title="TEST_TITLE")
-        image = Image.objects.create(ebook=ebook, filename="test.jpg", location="OEBPS/" + html_filename,
-                                     classification="INFO", raw_context=" ")
+        image = Image.objects.create(ebook=ebook,
+                                     filename="test.jpg",
+                                     location="OEBPS/" + html_filename,
+                                     classification="INFO",
+                                     raw_context=" ")
         annotation = Annotation.objects.create(image=image, type="HUM",
                                                text="TEST ANNOTATION")
 

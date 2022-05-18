@@ -29,15 +29,18 @@ class ImageViewsTest(TestCase):
 
         return response, msg
 
-    def response_image_details_view(self, filename, uuid=None):
-        path = f"get/{filename}/"
+    def response_image_details_view(self, filename=None, uuid=None):
+        path = "get/"
         if uuid is not None:
-            request = self.factory.get(path, **{"HTTP_ebook": uuid})
+            if filename is not None:
+                request = self.factory.get(path, {"image": filename}, **{"HTTP_ebook": uuid})
+            else:
+                request = self.factory.get(path, **{"HTTP_ebook": uuid})
         else:
             request = self.factory.get(path)
         request.user = self.user
 
-        response = image_details_view(request, filename)
+        response = image_details_view(request)
         msg = response.content
 
         return response, msg
@@ -146,12 +149,12 @@ class ImageViewsTest(TestCase):
         request = self.factory.post(f"get/{filename}/")
         request.user = self.user
 
-        response = image_details_view(request, filename)
+        response = image_details_view(request)
 
         self.assertEqual(response.status_code, 405)
         self.assertEqual(decode_message(response.content), "{'msg': 'Method Not Allowed!'}")
 
-    def test_image_details_view_missing_header(self):
+    def test_image_details_view_400_missing_header(self):
         filename = "test.jpg"
 
         response, msg = self.response_image_details_view(filename)
@@ -159,7 +162,14 @@ class ImageViewsTest(TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(decode_message(msg), "{'msg': 'Ebook header not found in the request!'}")
 
-    def test_image_details_view_missing_ebook(self):
+    def test_image_details_view_400_missing_parameter(self):
+        uuid = uuid4()
+        response, msg = self.response_image_details_view(uuid=uuid)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(decode_message(msg), "{'msg': 'Image parameter not found in the request!'}")
+
+    def test_image_details_view_404_missing_ebook(self):
         filename = "test.jpg"
         uuid = uuid4()
 
@@ -169,7 +179,7 @@ class ImageViewsTest(TestCase):
         self.assertEqual(decode_message(msg),
                          "{'msg': " f"'Ebook with uuid {uuid} not found!'" "}")
 
-    def test_image_details_view_missing_image(self):
+    def test_image_details_view_404_missing_image(self):
         uuid = uuid4()
         filename = "test.jpg"
         ebook = Ebook.objects.create(uuid=uuid, title="TEST TITLE", epub="test.epub")
