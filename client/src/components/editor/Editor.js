@@ -75,9 +75,7 @@ function Editor({ ebookFile, ebookId }) {
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>Editor</h1>
-            <span>
-                Scroll down to load the e-book.
-            </span>
+            <span>Scroll down to load the e-book.</span>
             <div className={styles.editor}>
                 <div>
                     <EditorControls

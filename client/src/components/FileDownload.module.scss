@@ -1,0 +1,47 @@
+.container {
+    position: relative;
+    width: min-content;
+    align-self: center;
+    .popup {
+        position: absolute;
+        visibility: hidden;
+        font-size: 20px;
+        opacity: 0;
+        color: white;
+        top: -100%;
+        left: 50%;
+        margin-left: -7.5em;
+        margin-top: -0.1em;
+        width: 15em;
+        padding: 0.5em 0.3em;
+        border-radius: 0.6em;
+        text-align: center;
+        background-color: rgba($color: #000000, $alpha: 0.9);
+        transition: opacity 0.3s ease;
+
+        // Tooltip arrow
+        &::after {
+            content: ' ';
+            position: absolute;
+            top: 100%; /* At the bottom of the tooltip */
+            left: 50%;
+            margin-left: -0.3em;
+            border-width: 0.3em;
+            border-style: solid;
+            border-color: black transparent transparent transparent;
+        }
+    }
+
+    &:hover .popup {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    button {
+        padding: 0.4em 0.7em;
+        background-color: rgb(85, 233, 85);
+        &:hover {
+            background-color: limegreen;
+        }
+    }
+}
