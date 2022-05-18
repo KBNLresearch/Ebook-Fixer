@@ -3,20 +3,22 @@
     width: min-content;
     align-self: center;
     .popup {
+        $arrow_size: 0.3em;
+        $popup_width: 16em;
         position: absolute;
         visibility: hidden;
         font-size: 20px;
         opacity: 0;
         color: white;
-        top: -100%;
+        bottom: 100%;
         left: 50%;
-        margin-left: -7.5em;
-        margin-top: -0.1em;
-        width: 15em;
-        padding: 0.5em 0.3em;
-        border-radius: 0.6em;
+        margin-left: calc($popup_width/-2);
+        margin-bottom: $arrow_size;
+        width: $popup_width;
+        padding: 0.5em 0.6em;
+        border-radius: 0.7em;
         text-align: center;
-        background-color: rgba($color: #000000, $alpha: 0.9);
+        background-color: rgba(0, 0, 0, 0.8);
         transition: opacity 0.3s ease;
 
         // Tooltip arrow
@@ -25,8 +27,8 @@
             position: absolute;
             top: 100%; /* At the bottom of the tooltip */
             left: 50%;
-            margin-left: -0.3em;
-            border-width: 0.3em;
+            margin-left: -$arrow_size;
+            border-width: $arrow_size;
             border-style: solid;
             border-color: black transparent transparent transparent;
         }
@@ -39,9 +41,9 @@
 
     button {
         padding: 0.4em 0.7em;
-        background-color: rgb(85, 233, 85);
+        background-color: #4bb543;
         &:hover {
-            background-color: limegreen;
+            background-color: #2ec72e;
         }
     }
 }
