@@ -27,7 +27,6 @@ function AIannotator({ currImage, ebookId, setImageId }) {
     // References/hooks to React DOM elements
     const saveButtonRef = useRef(null)
     const dropdownRef = useRef(null)
-    // const [classificationSaved, setClassificationSaved] = useState(false)
 
     // Creates a hook that executes the arrow func. every time imageSelected changes
     useEffect(() => {
@@ -80,14 +79,12 @@ function AIannotator({ currImage, ebookId, setImageId }) {
                         console.log('Image id of new entry: ' + result.id);
                         setImageId(result.id)
                    }
+                 // TODO: Add newly saved images to list of images stored on server
+                // setSavedImagesList([...savedImagesList, getImgFilename(currImage)])
+                // getImageMetadataApiCall(ebookId, getImgFilename(currImage))
             })
             saveButtonRef.current.disabled = true
             saveButtonRef.current.innerText= "Classification Saved"
-
-            // TODO: Image API can only be called after it has been classified and thus created by server
-            setTimeout(() => {
-                getImageMetadataApiCall(ebookId, getImgFilename(currImage))
-            }, 3000)
         }
     }
 
@@ -140,7 +137,7 @@ function AIannotator({ currImage, ebookId, setImageId }) {
 AIannotator.propTypes = {
     currImage: PropTypes.instanceOf(ImageInfo).isRequired,
     ebookId: PropTypes.string.isRequired,
-    setImageId: PropTypes.func.isRequired,
+    setImageId: PropTypes.func.isRequired
 }
 
 export default AIannotator

@@ -16,14 +16,21 @@
             headers: { 'Content-Type': 'application/json; charset=UTF-8', 'ebook': ebookUuid },
         }
     )
-    .then((response) => response.json())
+    .then((response) => {
+        if (response.ok) {
+            return response.json()
+        } 
+        if (response.status === 404) {
+            throw new Error('Image does not exist on the server!', { cause: 404 });
+        } else {
+            throw new Error('Error in fetching image metadata!', { cause: response.status })
+        }
+    })
     .then((result) => {
         console.log(result)
         return result
     }, 
     (error) => {
-        window.alert('Fetch image metadata error!')
-        console.log(error)
         throw error
     }
     )      
