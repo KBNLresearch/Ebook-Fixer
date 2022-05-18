@@ -31,6 +31,7 @@
     display: flex;
     flex-direction: column;
     background-color: #f8f8f8;
+    position: relative;
 }
 
 .title {
@@ -63,4 +64,12 @@
             cursor: default;
         }
     }
+}
+
+.share_button {
+    background-color: limegreen;
+    position: absolute;
+    top: 0.5em;
+    right: 2em;
+    width: 6em;
 }
