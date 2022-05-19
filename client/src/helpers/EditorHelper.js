@@ -153,10 +153,15 @@ export async function getAllImages(rendition) {
         arr.flat()
     )
 
+    const bookPath = rendition.book.path.directory
+
     // Get the resources of the book (from the manifest)
     const resources = rendition.book.resources.replacementUrls.map((v, i) => ({
         replacementUrl: v,
-        asset: rendition.book.resources.assets[i],
+        asset: {
+            ...rendition.book.resources.assets[i],
+            href: bookPath + rendition.book.resources.assets[i].href,
+        },
     }))
 
     // Filter that list to only contain images (discard other types)
