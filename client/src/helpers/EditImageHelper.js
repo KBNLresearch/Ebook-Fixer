@@ -1,7 +1,7 @@
 /**
  * @param {Object} image: metadata of currently being annotated image
  * @returns the filename of the classifiesd image
- * For example: "2874324973610680654_cover.jpg"
+ * For example: "/OEBPS/8517446252668873626_cover.jpg"
  */
 export function getImgFilename(image) {
     const currImageName = image.asset.href
@@ -11,10 +11,10 @@ export function getImgFilename(image) {
 /**
  * @param {Object} image: metadata of currently being annotated image
  * @returns the HTML filename in which the image occurs
- * For example: 568395898401760676_31979-h-0.htm.html
+ * For example: "/OEBPS/859058013176639507_67858-h-0.htm.html"
  */
 export function getLocation(image) {
-    const currHTMLFile = image.section.href
+    const currHTMLFile = image.section.url
     return currHTMLFile
 }
 
