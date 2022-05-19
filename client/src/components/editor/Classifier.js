@@ -30,7 +30,6 @@ function Classifier({ currImage, ebookId, setImageId, currClassification  }) {
     const saveButtonRef = useRef(null)
     const dropdownRef = useRef(null)
 
-<<<<<<< HEAD:client/src/components/editor/Classifier.js
     // Creates a hook that executes the arrow func. every time imageSelected changes
     // TODO: also hide button for User annotation after saving
 
@@ -75,6 +74,7 @@ function Classifier({ currImage, ebookId, setImageId, currClassification  }) {
 
             return choice
         }
+    }
     }
 
     /**
@@ -162,4 +162,3 @@ Classifier.propTypes = {
 }
 
 export default Classifier
-

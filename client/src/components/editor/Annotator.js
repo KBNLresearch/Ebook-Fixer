@@ -2,17 +2,11 @@ import { useEffect, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { ReactComponent as HistorySVG } from '../../assets/svgs/history-icon.svg'
 import { ImageInfo } from '../../helpers/EditorHelper'
-<<<<<<< HEAD
 import AIAnnotator from './AIAnnotator'
 import Classifier from './Classifier'
 import {saveUserAnnotation} from '../../api/AnnotateImage'
 import {getImgFilename} from '../../helpers/EditImageHelper'
-=======
-import AIannotator from './AIannotator'
-import { saveUserAnnotation } from '../../api/AnnotateImage'
-import { getImgFilename } from '../../helpers/EditImageHelper'
 import { getImageMetadataApiCall } from '../../api/GetImageMetadata'
->>>>>>> d97131015fac10a963bbac0d498731a9275647a7
 import styles from './Annotator.module.scss'
 
 /**
