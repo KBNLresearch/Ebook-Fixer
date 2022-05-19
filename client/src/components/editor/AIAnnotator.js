@@ -9,7 +9,8 @@ import {  getAiAnnotation} from '../../api/AnnotateImage'
 function AIAnnotator({currImage, ebookId, imageId}) {
 
     const generateRef = useRef(null)
-    const [keywords, setKeywords] = useState(null)
+    const [keywords, setKeywords] = useState([])
+    let annotations = []
     useEffect(() => {
         if (!currImage) {
             generateRef.current.disabled = true
@@ -34,10 +35,15 @@ function AIAnnotator({currImage, ebookId, imageId}) {
                 imageId,
                 getImgFilename(currImage)
             ) .then(result => {
-                console.log(JSON.stringify(result));
+               console.log(JSON.stringify(result));
                 if (Object.prototype.hasOwnProperty.call(result, "annotations")){
                         console.log(result.annotations);
-                        setKeywords(result.annotations)
+                        annotations= result.annotations.map(({ text, confidence }) => (JSON.stringify({ text, confidence })))
+
+                        console.log(annotations)
+
+                        setKeywords(annotations)
+                        console.log("ke"+ keywords)
                    }
             })
             generateRef.current.disabled = true
@@ -49,12 +55,13 @@ function AIAnnotator({currImage, ebookId, imageId}) {
 
         return (
             <div className={styles.container}>
-                <textarea value="hello"
+                <textarea value={keywords}
             placeholder="Loading AI annotation..." disabled>
             </textarea>
             <button type="button"
                     className={styles.save_button}
-                    ref={generateRef}>
+                    ref={generateRef}
+                    onClick={() => handleClick()}>
                     Generate
 
             </button>

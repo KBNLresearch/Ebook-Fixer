@@ -41,8 +41,9 @@ export function  saveUserAnnotation(ebookId, imageId, filen, txt) {
 }
 
 
-export function  getAiAnnotation(ebookId, imageId, filen) {
-
+export function  getAiAnnotation(ebookId, imageId, fileName) {
+    console.log("imageid" + imageId)
+    console.log("file"+ fileName)
     return fetch(process.env.REACT_APP_API_URL + 'annotations/generate/', {
         method: 'PUT',
         headers: {
@@ -52,7 +53,7 @@ export function  getAiAnnotation(ebookId, imageId, filen) {
         body: JSON.stringify({
             "id" : imageId,
             "ebook" : ebookId,
-            "filename": filen
+            "filename": fileName
         })
     }).then(res => res.json()) // if it's in json format
       .then(
