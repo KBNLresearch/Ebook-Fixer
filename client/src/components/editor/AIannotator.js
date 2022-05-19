@@ -20,7 +20,7 @@ import {
  * @param {{currClassification: String}} props Classification for this image stored on server
  * @returns The AIannotator component
  */
-function AIannotator({ currImage, ebookId, setImageId, currClassification}) {
+function AIannotator({ currImage, ebookId, setImageId, currClassification }) {
     // TODO: split into Classification and AIAnnotator components
     // TODO: allow user to change classification later again, after AI generation
 
@@ -32,22 +32,22 @@ function AIannotator({ currImage, ebookId, setImageId, currClassification}) {
     useEffect(() => {
         if (!currImage) {
             saveButtonRef.current.disabled = true
-            saveButtonRef.current.innerText = "Select image first"
-            
+            saveButtonRef.current.innerText = 'Select image first'
         } else {
             saveButtonRef.current.disabled = false
-            saveButtonRef.current.innerText = "Save classification"
-            
+            saveButtonRef.current.innerText = 'Save classification'
+
             if (currClassification != null) {
-                saveButtonRef.current.disabled = false
+                saveButtonRef.current.disabled = true
                 // Show the selected classification
-                dropdownRef.current.selectedIndex = options.indexOf(currClassification) + 1
+                dropdownRef.current.selectedIndex =
+                    options.indexOf(currClassification) + 1
             } else {
                 // Show the label
                 dropdownRef.current.selectedIndex = 0
             }
         }
-        }, [currImage, currClassification])
+    }, [currImage, currClassification])
 
     /**
      * @returns the currently selected classification
@@ -57,17 +57,18 @@ function AIannotator({ currImage, ebookId, setImageId, currClassification}) {
             const choice =
                 dropdownRef.current.options[dropdownRef.current.selectedIndex]
                     .value
-            if (choice === "Decorative") {
+            if (choice === 'Decorative') {
                 // TODO: for now this is only an alert, but this may be changed still
-                window.alert("Decorative images should not be annotated, please proceed to next image.")
+                window.alert(
+                    'Decorative images should not be annotated, please proceed to next image.'
+                )
             }
             if (dropdownRef.current.selectedIndex === 0) {
-                window.alert("This option is not allowed!")
-            }                
+                window.alert('This option is not allowed!')
+            }
             return choice
         }
     }
-    
 
     /**
      * Makes API call to server and disables "Save" button
@@ -85,16 +86,16 @@ function AIannotator({ currImage, ebookId, setImageId, currClassification}) {
                 getLocation(currImage),
                 getClassification(),
                 getRawContext(currImage)
-            ) .then(result => {
+            ).then((result) => {
                 // console.log(JSON.stringify(result));
-                 // Keep image id up to date after classifying
-                if (Object.prototype.hasOwnProperty.call(result, "id")){
-                        console.log('Image id of (new) entry: ' + result.id);
-                        setImageId(result.id)
-                   }
+                // Keep image id up to date after classifying
+                if (Object.prototype.hasOwnProperty.call(result, 'id')) {
+                    console.log('Image id of (new) entry: ' + result.id)
+                    setImageId(result.id)
+                }
             })
             saveButtonRef.current.disabled = true
-            saveButtonRef.current.innerText= "Classification Saved"
+            saveButtonRef.current.innerText = 'Classification Saved'
         }
     }
 
@@ -125,9 +126,9 @@ function AIannotator({ currImage, ebookId, setImageId, currClassification}) {
                 onChange={() => {
                     saveButtonRef.current.disabled = false
                 }}>
-                    <option value="none" selected disabled hidden>
-                        Classify image
-                    </option>
+                <option value="none" selected disabled hidden>
+                    Classify image
+                </option>
                 {options.map((opt) => (
                     <option value={opt}> {opt} </option>
                     // handleMenuOption(ospt)
@@ -149,7 +150,7 @@ AIannotator.propTypes = {
     currImage: PropTypes.instanceOf(ImageInfo).isRequired,
     ebookId: PropTypes.string.isRequired,
     setImageId: PropTypes.func.isRequired,
-    currClassification: PropTypes.string.isRequired
+    currClassification: PropTypes.string.isRequired,
 }
 
 export default AIannotator

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { ReactComponent as HistorySVG } from '../../assets/svgs/history-icon.svg'
 import { ImageInfo } from '../../helpers/EditorHelper'
 import AIannotator from './AIannotator'
-import {saveUserAnnotation} from '../../api/AnnotateImage'
-import {getImgFilename} from '../../helpers/EditImageHelper'
+import { saveUserAnnotation } from '../../api/AnnotateImage'
+import { getImgFilename } from '../../helpers/EditImageHelper'
 import { getImageMetadataApiCall } from '../../api/GetImageMetadata'
 import styles from './Annotator.module.scss'
 
@@ -19,9 +19,7 @@ import styles from './Annotator.module.scss'
  * @returns The UserAnnotator component
  */
 
-function UserAnnotator({ annotationList, setTextValue, textValue }) {
-    const [typing, setTyping] = useState(false)
-
+function UserAnnotator({ annotationList, setTextValue, textValue, setTyping }) {
     useEffect(() => {
         const list = annotationList
         if (list.length > 0) {
@@ -64,6 +62,7 @@ UserAnnotator.propTypes = {
     annotationList: PropTypes.arrayOf(PropTypes.string).isRequired,
     setTextValue: PropTypes.func.isRequired,
     textValue: PropTypes.string.isRequired,
+    setTyping: PropTypes.func.isRequired,
 }
 
 /**
@@ -77,11 +76,12 @@ UserAnnotator.propTypes = {
  */
 
 function Annotator({ currImage, ebookId }) {
-
+    // TODO: could be used to get the annotation history
     const [userAnnotationList, setUserAnnotationList] = useState([])
-    const [imageId, setImageId] = useState('')
+    const [imageId, setImageId] = useState(-1)
     const [textValue, setTextValue] = useState('')
-    const [currClassification, setCurrClassification] = useState(null);
+    const [currClassification, setCurrClassification] = useState(null)
+    const [typing, setTyping] = useState(false)
 
     const saveButton = useRef(null)
     // Executed every time the currentImage changes
@@ -91,10 +91,10 @@ function Annotator({ currImage, ebookId }) {
             saveButton.current.disabled = true
         } else {
             saveButton.current.innerText = 'Save annotation'
-            saveButton.current.disabled=false
+            saveButton.current.disabled = false
 
             const imgInfo = currImage
-        
+
             if (imgInfo) {
                 const altText = imgInfo.element.alt
                 if (altText) {
@@ -104,40 +104,65 @@ function Annotator({ currImage, ebookId }) {
                     setUserAnnotationList([])
                 }
             }
-            
+
             // For each image that is loaded, client fetches all metadata from server (even if the image does not exist yet)
             console.log('Fetching image metadata...')
-            getImageMetadataApiCall(ebookId, getImgFilename(currImage))
-                .then((result) => {
-                    if (Object.prototype.hasOwnProperty.call(result, "annotations")){
+            getImageMetadataApiCall(ebookId, getImgFilename(currImage)).then(
+                (result) => {
+                    if (
+                        Object.prototype.hasOwnProperty.call(
+                            result,
+                            'annotations'
+                        )
+                    ) {
                         console.log('Annotations: ')
                         console.log(result.annotations)
                         console.log('Image metadata: ')
                         console.log(result.image)
                         // For each HUM annotation, add to user annotation list (for display in UserAnnotator)
                         // Note that for now this list always contains 1 HUM annotation
-                        result.annotations.forEach(element => {
-                            if (element.type === "HUM") {
-                                setUserAnnotationList([...userAnnotationList, element.text])
+                        result.annotations.forEach((element) => {
+                            if (element.type === 'HUM') {
+                                setUserAnnotationList([
+                                    ...userAnnotationList,
+                                    element.text,
+                                ])
+                                // Disable button if human annotation was saved earlier
+                                saveButton.current.disabled = true
                             }
-                        });
-                   }
-                   // TODO: we may also wanna pass this classification to AIAnnotator in the future, 
-                   //    to allow for different workflows per category
-                   if (Object.prototype.hasOwnProperty.call(result, "image")) {
-                       console.log('Classification stored: ' + result.image.classification)
-                       setCurrClassification(result.image.classification)
-                   }
-                }, 
+                        })
+                    }
+                    // TODO: we may also wanna pass this classification to AIAnnotator in the future,
+                    //    to allow for different workflows per category
+                    if (Object.prototype.hasOwnProperty.call(result, 'image')) {
+                        console.log(
+                            'Classification stored: ' +
+                                result.image.classification
+                        )
+                        setCurrClassification(result.image.classification)
+                    }
+                    // Update image id after each new image is loaded
+                    if (Object.prototype.hasOwnProperty.call(result, 'image')) {
+                        setImageId(result.image.id)
+                    }
+                },
                 (error) => {
                     if (error.cause === 404) {
-                       console.log('Image does not exist on server yet, will be created after the first time classifying.') 
-                       setCurrClassification(null)
+                        console.log(
+                            'Image does not exist on server yet, will be created after the first time classifying.'
+                        )
+                        setCurrClassification(null)
                     }
-                }) 
-
-            }
+                }
+            )
+        }
     }, [currImage])
+
+    useEffect(() => {
+        if (typing) {
+            saveButton.current.disabled = false
+        }
+    }, [typing])
 
     function handleClick() {
         saveUserAnnotation(
@@ -145,12 +170,12 @@ function Annotator({ currImage, ebookId }) {
             imageId,
             getImgFilename(currImage),
             textValue
-        ) .then(result => {
+        ).then((result) => {
             // console.log(JSON.stringify(result));
             // Keep image id up to date after annotating
-            if (Object.prototype.hasOwnProperty.call(result, "image")){
-                    setImageId(result.image)
-               }
+            if (Object.prototype.hasOwnProperty.call(result, 'image')) {
+                setImageId(result.image)
+            }
         })
         saveButton.current.innerText = 'Annotation saved'
         saveButton.current.disabled = true
@@ -158,19 +183,18 @@ function Annotator({ currImage, ebookId }) {
 
     return (
         <div className={styles.container}>
-
-            <AIannotator 
-                currImage={currImage} 
-                ebookId={ebookId} 
+            <AIannotator
+                currImage={currImage}
+                ebookId={ebookId}
                 setImageId={setImageId}
-                currClassification={currClassification}
-            >
+                currClassification={currClassification}>
                 {' '}
             </AIannotator>
             <UserAnnotator
                 annotationList={userAnnotationList}
                 setTextValue={setTextValue}
                 textValue={textValue}
+                setTyping={setTyping}
             />
             <button
                 type="button"
@@ -185,7 +209,7 @@ function Annotator({ currImage, ebookId }) {
 
 Annotator.propTypes = {
     currImage: PropTypes.instanceOf(ImageInfo).isRequired,
-    ebookId: PropTypes.string.isRequired
+    ebookId: PropTypes.string.isRequired,
 }
 
 export default Annotator

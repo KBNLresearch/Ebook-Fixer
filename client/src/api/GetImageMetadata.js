@@ -5,33 +5,43 @@
  * @returns  response by server
  * @throws Error if image metadata could not be retrieved
  */
- export function getImageMetadataApiCall(ebookUuid, filename) {
+export function getImageMetadataApiCall(ebookUuid, filename) {
     return fetch(
         // Encoding of URI component allows for encoding of chars such as /, ?, =, &
         // Some image filenames have a path such as images/hoof001ware10ill0001.gif
         // TODO: path in image gives 404 Not Found??? Change to param "image" + change settings.py again (header remains)
-        process.env.REACT_APP_API_URL + 'images/get/?image=' + encodeURIComponent(filename),
+        process.env.REACT_APP_API_URL +
+            'images/get/?image=' +
+            encodeURIComponent(filename),
         {
             method: 'GET',
-            headers: { 'Content-Type': 'application/json; charset=UTF-8', 'ebook': ebookUuid },
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                ebook: ebookUuid,
+            },
         }
     )
-    .then((response) => {
-        if (response.ok) {
-            return response.json()
-        } 
-        if (response.status === 404) {
-            throw new Error('Image does not exist on the server!', { cause: 404 });
-        } else {
-            throw new Error('Error in fetching image metadata!', { cause: response.status })
-        }
-    })
-    .then((result) => {
-        console.log(result)
-        return result
-    }, 
-    (error) => {
-        throw error
-    }
-    )      
+        .then((response) => {
+            if (response.ok) {
+                return response.json()
+            }
+            if (response.status === 404) {
+                throw new Error('Image does not exist on the server!', {
+                    cause: 404,
+                })
+            } else {
+                throw new Error('Error in fetching image metadata!', {
+                    cause: response.status,
+                })
+            }
+        })
+        .then(
+            (result) => {
+                console.log(result)
+                return result
+            },
+            (error) => {
+                throw error
+            }
+        )
 }

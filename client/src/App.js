@@ -8,7 +8,6 @@ import logo from './assets/images/KB-logo.png'
 
 // This code uses functional components, you could use classes instead but they're
 function App() {
-    
     const [ebookFile, setEbookFile] = useState(null)
     const [ebookId, setEbookId] = useState(null)
 
@@ -16,13 +15,10 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <Routes>
-                    <Route path="/" element={
-                        <img
-                        alt=""
-                        className="logo"
-                        src={logo}
-                        />
-                    } />
+                    <Route
+                        path="/"
+                        element={<img alt="" className="logo" src={logo} />}
+                    />
                     <Route
                         path="*"
                         element={
@@ -40,14 +36,14 @@ function App() {
                         path="/"
                         element={
                             <FileUpload
-                            setEbookFile={setEbookFile}
-                            setEbookId={setEbookId}
-                        /> 
-                            // <div> 
+                                setEbookFile={setEbookFile}
+                                setEbookId={setEbookId}
+                            />
+                            // <div>
                             // <FileUpload
                             //     setEbookFile={setEbookFile}
                             //     setEbookId={setEbookId}
-                            // /> 
+                            // />
                             // <img
                             // alt=""
                             // className="epub-deco"
