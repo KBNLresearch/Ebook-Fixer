@@ -102,8 +102,10 @@ function Annotator({ currImage, ebookId }) {
                 if (altText) {
                     // Initial alt text of image will be displayed if no HUM annotations yet
                     setUserAnnotationList([altText])
+                    setAiAnnotationList([])
                 } else {
                     setUserAnnotationList([])
+                    setAiAnnotationList([])
                 }
             }
 
@@ -135,17 +137,20 @@ function Annotator({ currImage, ebookId }) {
                         })
 
                         // result.annotations.forEach((element) => {
+                        //     console.log(element)
                         //     if (element.type === 'BB') {
                         //         setAiAnnotationList([
                         //             ...aiAnnotationList,
-                        //             element.text,
+                        //             JSON.stringify(element.text, element.confidence)
                         //         ])
                         //         // Disable button if human annotation was saved earlier
-                        //         saveButton.current.disabled = true
+                        //         //  saveButton.current.disabled = true
                         //     }
-                        // })
+                         
+                        // } )
+                        // console.log(aiAnnotationList)
 
-                        setAiAnnotationList([...aiAnnotationList,result.annotations.map(({ text, confidence }) => (JSON.stringify({ text, confidence })))])
+                        setAiAnnotationList([...aiAnnotationList, result.annotations.filter((e) => e.type==='BB').map(({ text, confidence }) => (JSON.stringify({ text, confidence })))])
                     }
 
                         
