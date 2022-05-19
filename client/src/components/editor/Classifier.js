@@ -38,6 +38,7 @@ function Classifier({ currImage, ebookId, setImageId, currClassification  }) {
         if (!currImage) {
             saveButtonRef.current.disabled = true
             saveButtonRef.current.innerText = 'Select image first'
+            
         } else {
             saveButtonRef.current.disabled = false
             saveButtonRef.current.innerText = 'Save classification'

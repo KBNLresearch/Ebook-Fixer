@@ -15,9 +15,12 @@ function AIAnnotator({currImage, ebookId, imageId}) {
         if (!currImage) {
             generateRef.current.disabled = true
             generateRef.current.innerText = "Generated"
+            
         } else {
             generateRef.current.disabled = false
             generateRef.current.innerText = "Generate"
+            setKeywords([])
+            
         }
     }, [currImage])
 
