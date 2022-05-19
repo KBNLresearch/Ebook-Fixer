@@ -7,7 +7,7 @@ import {
     viewerId,
 } from '../../helpers/EditorHelper'
 import Annotator from './Annotator'
-import styles from './Editor.module.css'
+import styles from './Editor.module.scss'
 import EditorControls from './EditorControls'
 import Viewer from './Viewer'
 import FileDownload from '../FileDownload'
@@ -126,7 +126,7 @@ function Editor({ ebookFile, ebookId }) {
             )}
 
             <div className={styles.editor}>
-                <div>
+                <div className={styles.viewer_container}>
                     <EditorControls
                         rendition={rendition}
                         imageList={imageList}
@@ -135,7 +135,7 @@ function Editor({ ebookFile, ebookId }) {
                     />
                     <Viewer id={viewerId} />
                 </div>
-                <div>
+                <div className={styles.annotator_container}>
                     <Annotator
                         currImage={currentImage}
                         ebookId={getEbookUUID()}

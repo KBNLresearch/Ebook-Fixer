@@ -63,6 +63,8 @@ export function openBook(
     if (getRendered()) return
     setRendered(true)
 
+    const height = window.innerHeight * 0.7
+
     // Render the epub using the epubJS viewer
     const rendition = book.renderTo(viewerId, {
         // Scrolling instead of pages
@@ -74,7 +76,7 @@ export function openBook(
         // Take up the whole width of the container
         width: '100%',
         // Use 600 pixels of height for now
-        height: 600,
+        height,
     })
 
     // Get the promise that epubJS will display the start of the book

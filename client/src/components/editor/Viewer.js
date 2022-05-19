@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import styles from './Editor.module.scss'
 
 /**
  * The Viewer component contains the div that holds the rendering of the Ebook
@@ -8,7 +9,7 @@ import PropTypes from 'prop-types'
  * @returns The Viewer component
  */
 function Viewer({ id }) {
-    return <div id={id} />
+    return <div className={styles.viewer} id={id} />
 }
 
 Viewer.propTypes = {
