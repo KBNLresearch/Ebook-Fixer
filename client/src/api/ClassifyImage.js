@@ -20,9 +20,9 @@ export function classifyImageApiCall(
             method: 'PUT',
             body: JSON.stringify({
                 ebook: ebookUuid,
-                filename: filename,
-                location: location,
-                classification: classification,
+                filename,
+                location,
+                classification,
                 raw_context: rawContext,
             }),
             headers: { 'Content-Type': 'application/json; charset=UTF-8' },
