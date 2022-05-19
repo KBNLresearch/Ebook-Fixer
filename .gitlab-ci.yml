@@ -97,11 +97,9 @@ test-server:
     - docker info
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
-#    - docker-compose --env-file .env.ci up --build -d
-#    - docker exec backend coverage run manage.py test
-#    - docker exec backend coverage report
-    - docker run $SERVER_IMAGE coverage run manage.py test
-    - docker run $SERVER_IMAGE coverage report
+    - docker-compose --env-file .env.ci up --build -d
+    - docker exec backend coverage run manage.py test
+    - docker exec backend coverage report
     - echo "Tests on the server passed!"
   allow_failure: true
 
