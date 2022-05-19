@@ -7,14 +7,14 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.datastructures import MultiValueDictKeyError
 from rest_framework import status
-from configparser import ConfigParser
+# from configparser import ConfigParser
 import uuid
 
 
-config_file = 'config.ini'
-config = ConfigParser()
-config.read(config_file)
-mode = config.get('github_settings', 'mode')
+# config_file = 'config.ini'
+# config = ConfigParser()
+# config.read(config_file)
+# mode = config.get('github_settings', 'mode')
 
 
 def ebook_detail_view(request, uuid):

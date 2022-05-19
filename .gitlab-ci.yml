@@ -97,7 +97,7 @@ test-server:
     - docker info
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
-    - docker-compose --env-file .env.ci up --build -d --parallel
+    - docker-compose --env-file .env.ci up --build -d
     - docker ps -a
     - docker exec backend coverage run manage.py test
     - docker exec backend coverage report
