@@ -123,7 +123,7 @@ function Annotator({ currImage, ebookId }) {
             <Classifier currImage={currImage} ebookId={ebookId} setImageId={setImageId}>
                 {' '}
             </Classifier>
-            <AIAnnotator></AIAnnotator>
+            <AIAnnotator currImage={currImage} ebookId={ebookId}  imageId={imageId} ></AIAnnotator>
             <UserAnnotator annotationList={userAnnotationList} setTextValue={setTextValue} textValue={textValue}/>
             <button type="button"
                     className={styles.save_button}
