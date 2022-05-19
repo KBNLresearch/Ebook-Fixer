@@ -40,8 +40,9 @@
     }
 
     button {
+        font-family: inherit;
         padding: 0.4em 0.7em;
-        background-color: #4bb543;
+        background-color: rgb(207, 164, 247);
         &:hover {
             background-color: #2ec72e;
         }
