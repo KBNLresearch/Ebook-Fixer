@@ -9,21 +9,21 @@
  * @returns  response by server
  */
 export function classifyImageApiCall(
-    ebook_uuid,
+    ebookUuid,
     filename,
     location,
     classification,
-    raw_context
+    rawContext
 ) {
     return (
         fetch(process.env.REACT_APP_API_URL + 'images/classify/', {
             method: 'PUT',
             body: JSON.stringify({
-                ebook: ebook_uuid,
+                ebook: ebookUuid,
                 filename,
                 location,
                 classification,
-                raw_context,
+                raw_context: rawContext,
             }),
             headers: { 'Content-Type': 'application/json; charset=UTF-8' },
         })

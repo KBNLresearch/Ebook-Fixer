@@ -7,37 +7,33 @@
  * @returns response to the request
  */
 
-
-export function  saveUserAnnotation(ebookId, imageId, filen, txt) {
-    
+export function saveUserAnnotation(ebookId, imageId, fileName, txt) {
     return fetch(process.env.REACT_APP_API_URL + 'annotations/save/', {
         method: 'POST',
         headers: {
-        'Accept' : 'application/json',
-        'Content-Type' : 'application/json',
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            "ebook" : ebookId,
-            "id" : imageId,
-            "filename": filen,
-            "text": txt
-        })
-    }).then(res => res.json()) // if it's in json format
-      .then(
-          (result) => {
-            console.log(result);
-            return result
-        },
-        // Error handling
-          (error) => {
-            window.alert(
-                "error! Please try again."
-            )
-            console.log(error);
-            throw error;
-        }
-      )
-
+            ebook: ebookId,
+            id: imageId,
+            filename: fileName,
+            text: txt,
+        }),
+    })
+        .then((res) => res.json()) // if it's in json format
+        .then(
+            (result) => {
+                console.log(result)
+                return result
+            },
+            // Error handling
+            (error) => {
+                window.alert('error! Please try again.')
+                console.log(error)
+                throw error
+            }
+        )
 }
 
 

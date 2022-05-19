@@ -4,19 +4,21 @@ import { useState } from 'react'
 import FileUpload from './components/FileUpload'
 import Editor from './components/editor/Editor'
 import { ReactComponent as GoBackArrowSVG } from './assets/svgs/go-back-arrow.svg'
+import logo from './assets/images/KB-logo.png'
 
 // This code uses functional components, you could use classes instead but they're
 function App() {
     const [ebookFile, setEbookFile] = useState(null)
-
     const [ebookId, setEbookId] = useState(null)
 
     return (
         <div className="App">
             <header className="App-header">
-                <h1>E-BOOK FIXER</h1>
                 <Routes>
-                    <Route path="/" element={<p>Homepage</p>} />
+                    <Route
+                        path="/"
+                        element={<img alt="" className="logo" src={logo} />}
+                    />
                     <Route
                         path="*"
                         element={
@@ -37,6 +39,17 @@ function App() {
                                 setEbookFile={setEbookFile}
                                 setEbookId={setEbookId}
                             />
+                            // <div>
+                            // <FileUpload
+                            //     setEbookFile={setEbookFile}
+                            //     setEbookId={setEbookId}
+                            // />
+                            // <img
+                            // alt=""
+                            // className="epub-deco"
+                            // src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Epub_logo_color.svg"
+                            // />
+                            // </div>
                         }
                     />
                     <Route
