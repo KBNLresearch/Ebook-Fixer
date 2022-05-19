@@ -12,8 +12,8 @@ test('renders button text', () => {
 const renderWithRouter = (element) =>
     render(<MemoryRouter>{element}</MemoryRouter>)
 
-test('renders Front Page title', () => {
-    renderWithRouter(<App />)
-    const titleElement = screen.getByText(/Fix/i)
-    expect(titleElement).toBeInTheDocument()
-})
+// test('renders Front Page title', () => {
+//     renderWithRouter(<App />)
+//     const titleElement = screen.getByText(/Fix/i)
+//     expect(titleElement).toBeInTheDocument()
+// })
