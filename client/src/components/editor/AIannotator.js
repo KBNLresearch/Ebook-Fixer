@@ -87,8 +87,9 @@ function AIannotator({ currImage, ebookId, setImageId, currClassification}) {
                 getRawContext(currImage)
             ) .then(result => {
                 // console.log(JSON.stringify(result));
+                 // Keep image id up to date after classifying
                 if (Object.prototype.hasOwnProperty.call(result, "id")){
-                        console.log('Image id of new entry: ' + result.id);
+                        console.log('Image id of (new) entry: ' + result.id);
                         setImageId(result.id)
                    }
             })

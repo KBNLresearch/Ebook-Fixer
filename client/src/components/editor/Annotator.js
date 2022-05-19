@@ -145,7 +145,13 @@ function Annotator({ currImage, ebookId }) {
             imageId,
             getImgFilename(currImage),
             textValue
-        )
+        ) .then(result => {
+            // console.log(JSON.stringify(result));
+            // Keep image id up to date after annotating
+            if (Object.prototype.hasOwnProperty.call(result, "image")){
+                    setImageId(result.image)
+               }
+        })
         saveButton.current.innerText = 'Annotation saved'
         saveButton.current.disabled = true
     }
