@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import styles from './Annotator.module.scss'
-import { ReactComponent as SettingsSVG } from '../../assets/svgs/settings-icon.svg'
 import { classifyImageApiCall } from '../../api/ClassifyImage'
 import { ImageInfo } from '../../helpers/EditorHelper'
 import {
