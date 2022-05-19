@@ -13,6 +13,7 @@ import datetime
 
 from configparser import ConfigParser
 from django.core.wsgi import get_wsgi_application
+import environ
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'server.settings')
 
@@ -20,8 +21,11 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'server.settings')
 config_file = 'config.ini'
 config = ConfigParser()
 config.read(config_file)
-mode = config.get('github_settings', 'mode')
-# If set to 'production' pushing to GitHub will be enabled
+
+env = environ.Env()
+environ.Env.read_env()
+mode = env('GITHUB_MODE')
+# # If set to 'production' pushing to GitHub will be enabled
 if mode == "production":
     access_token = config.get('github_settings', 'github_token')
     email = config.get('github_settings', 'email')
