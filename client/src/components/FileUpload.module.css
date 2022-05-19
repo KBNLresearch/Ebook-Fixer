@@ -1,0 +1,94 @@
+.dragndrop {
+    display: none;
+}
+
+.success {
+    background-color: lightgreen !important;
+}
+
+.error {
+    background-color: lightcoral !important;
+}
+
+div.error {
+    padding: 0.3rem;
+    border-radius: 0.5rem;
+}
+
+.hidden {
+    display: none;
+}
+
+.box {
+    min-height: 8em;
+    height: 25vh;
+    width: 70%;
+    color: black;
+    background-color: gainsboro;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 0.2em;
+    align-items: center;
+    padding: 0.5em;
+    padding-bottom: 2rem;
+    outline: 0.2em dashed black;
+    outline-offset: -10px;
+    transition: background-color 0.5s ease, outline-offset 0.5s ease,
+        outline 0.5s ease;
+}
+.box.dragging {
+    background-color: skyblue;
+    outline: 0.2em dashed blueviolet;
+    outline-offset: -20px;
+}
+
+.advanced_upload {
+    outline: 0.2em dashed white;
+}
+.advanced_upload .dragndrop {
+    display: inline;
+}
+
+.input {
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.button {
+    font-family: inherit;
+    font-size: inherit;
+    padding: 0.3rem;
+    background-color: skyblue;
+    border: none;
+    border-radius: 0.7rem;
+    cursor: pointer;
+    margin: 0.8rem;
+    transition: all 0.2s ease;
+}
+
+.button:hover {
+    background-color: blueviolet;
+}
+
+input.file {
+    opacity: 0.5;
+    position: absolute;
+    z-index: -1;
+}
+
+.chooseFile {
+    text-decoration: underline;
+    cursor: pointer;
+}
+.chooseFile:hover {
+    color: blueviolet;
+}
+
+.svg {
+    height: 1em;
+    padding-right: 0.5rem;
+}
