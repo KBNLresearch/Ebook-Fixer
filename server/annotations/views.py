@@ -24,7 +24,7 @@ def annotation_generation_view(request):
         if type(body) == JsonResponse:
             return body
         image = body[0]
-        image_path = f"test-books/{image.ebook}/{image.filename}"
+        image_path = f"test-books/{image.ebook}{image.filename}"
         try:
             # Calls the helper method in utils
             generated_labels = google_vision_labels(image_path)
