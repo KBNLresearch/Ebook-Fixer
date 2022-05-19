@@ -4,12 +4,14 @@ import styles from './Annotator.module.scss'
 import { ImageInfo} from '../../helpers/EditorHelper'
 import {getImgFilename} from '../../helpers/EditImageHelper'
 import {  getAiAnnotation} from '../../api/AnnotateImage'
+import { getImageMetadataApiCall } from '../../api/GetImageMetadata'
 
 
-function AIAnnotator({currImage, ebookId, imageId}) {
+function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
 
     const generateRef = useRef(null)
     const [keywords, setKeywords] = useState([])
+    
     let annotations = []
     useEffect(() => {
         if (!currImage) {
@@ -22,7 +24,17 @@ function AIAnnotator({currImage, ebookId, imageId}) {
             setKeywords([])
             
         }
-    }, [currImage])
+
+        const list = annotationList
+        if (list.length > 0) {
+            // Display the latest ai annotation
+            setKeywords(list[list.length - 1])
+        } else {
+            // No img alt attribute
+            setKeywords([])
+        }
+        
+    }, [currImage,annotationList])
 
     function handleClick() {
         if (currImage) {
@@ -74,6 +86,7 @@ function AIAnnotator({currImage, ebookId, imageId}) {
 }
 
 AIAnnotator.propTypes = {
+    annotationList: PropTypes.arrayOf(PropTypes.string).isRequired,
     currImage: PropTypes.instanceOf(ImageInfo).isRequired,
     ebookId: PropTypes.string.isRequired,
     imageId: PropTypes.string.isRequired,

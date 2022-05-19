@@ -79,6 +79,7 @@ UserAnnotator.propTypes = {
 function Annotator({ currImage, ebookId }) {
     // TODO: could be used to get the annotation history
     const [userAnnotationList, setUserAnnotationList] = useState([])
+    const [aiAnnotationList, setAiAnnotationList] = useState([])
     const [imageId, setImageId] = useState(-1)
     const [textValue, setTextValue] = useState('')
     const [currClassification, setCurrClassification] = useState(null)
@@ -132,7 +133,23 @@ function Annotator({ currImage, ebookId }) {
                                 saveButton.current.disabled = true
                             }
                         })
+
+                        // result.annotations.forEach((element) => {
+                        //     if (element.type === 'BB') {
+                        //         setAiAnnotationList([
+                        //             ...aiAnnotationList,
+                        //             element.text,
+                        //         ])
+                        //         // Disable button if human annotation was saved earlier
+                        //         saveButton.current.disabled = true
+                        //     }
+                        // })
+
+                        setAiAnnotationList([...aiAnnotationList,result.annotations.map(({ text, confidence }) => (JSON.stringify({ text, confidence })))])
                     }
+
+                        
+                    
                     // TODO: we may also wanna pass this classification to AIAnnotator in the future,
                     //    to allow for different workflows per category
                     if (Object.prototype.hasOwnProperty.call(result, 'image')) {
@@ -193,6 +210,7 @@ function Annotator({ currImage, ebookId }) {
                 {' '}
             </Classifier>
             <AIAnnotator
+            annotationList={aiAnnotationList}
             currImage={currImage}
             ebookId={ebookId}
             imageId={imageId} ></AIAnnotator>

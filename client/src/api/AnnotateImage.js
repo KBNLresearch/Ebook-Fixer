@@ -51,7 +51,13 @@ export function  getAiAnnotation(ebookId, imageId, fileName) {
             "ebook" : ebookId,
             "filename": fileName
         })
-    }).then(res => res.json()) // if it's in json format
+    }).then((res) => {
+        if(res.ok ) {
+            return  res.json()
+        }
+        
+        throw new Error(res.status + ", message: " + res.statusText)
+    }) // if it's in json format
       .then(
           (result) => {
             console.log(result);
