@@ -1,5 +1,7 @@
 [![main](https://img.shields.io/badge/build-passing-brightgreen)]()
-[![tests](https://img.shields.io/badge/total%20tests-42-informational)]()
+[![tests](https://img.shields.io/badge/total%20tests-42-9cf)]()
+[![client](https://img.shields.io/badge/client-react-blue)]()
+[![client](https://img.shields.io/badge/server-django-success)]()
 
 # E-books Fixer
 
@@ -23,6 +25,21 @@ but also its surrounding context and thus improving the final description.
 If you want to learn more about the topics of image annotation and accessibility of e-books here are some helpful links:
 * [Image Description Guidelines](http://diagramcenter.org/table-of-contents-2.html)
 * [Accessible Image Sample Book Webinar](http://diagramcenter.org/diagramwebinars.html#aisb)
+
+## Technology Stack
+
+* Client
+  * Main framework: ``React``
+  * Style library: ``eslint``
+  * To see the list of all the libraries we used check ``package.json`` under the ``client`` directory.
+
+* Server 
+  * Main framework: ``Django``
+  * Style library: ``flake8``
+  * To see the list of all the libraries we used check ``requirements.txt`` under the ``server`` directory.
+
+* External resources - the systems makes use of the Google Vision API to create image annotations
+and the GitHub API to store the contents of the epub files (for research purposes).
 
 ## Installation
 
