@@ -27,7 +27,9 @@ export function getFile(fileId) {
             return response
         })
         .catch((error) => {
-            window.alert('Error in fetching ebook for download! Please try again.')
+            window.alert(
+                'Error in fetching ebook for download! Please try again.'
+            )
             console.log(error)
             throw error
         })

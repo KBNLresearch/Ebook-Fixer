@@ -56,11 +56,12 @@ export function openBook(
     // Open (unzip) the book using epubJS
     book.open(bookData)
 
+    // Make sure that only one epub is being rendered at once.
+    if (getRendered()) return
+
     // Reset the veiwer's inner html so that the old epub is gone
     document.getElementById(viewerId).textContent = ''
 
-    // Make sure that only one epub is being rendered at once.
-    if (getRendered()) return
     setRendered(true)
 
     const height = window.innerHeight * 0.7
@@ -153,10 +154,15 @@ export async function getAllImages(rendition) {
         arr.flat()
     )
 
+    const bookPath = rendition.book.path.directory
+
     // Get the resources of the book (from the manifest)
     const resources = rendition.book.resources.replacementUrls.map((v, i) => ({
         replacementUrl: v,
-        asset: rendition.book.resources.assets[i],
+        asset: {
+            ...rendition.book.resources.assets[i],
+            href: bookPath + rendition.book.resources.assets[i].href,
+        },
     }))
 
     // Filter that list to only contain images (discard other types)

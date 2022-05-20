@@ -48,7 +48,7 @@ def zip_ebook(ebook_uuid):
         Path: path to zipped .epub file to download
     """
     path_name = f"test-books/{ebook_uuid}/"
-    zipfile_name = shutil.make_archive(str(ebook_uuid), 'zip', path_name)
+    zipfile_name = shutil.make_archive(ebook_uuid, 'zip', path_name)
     path = Path(zipfile_name)
     path = path.rename(path.with_suffix('.epub'))
     return path
@@ -89,8 +89,7 @@ def unzip_ebook(ebook_uuid, ebook_filename):
     epub_path = f"test-books/{ebook_uuid}/{ebook_filename}"
     # Turns epub file into zip archive
     with ZipFile(epub_path, 'r') as zipped_epub:
-        # zipped_epub.printdir()
-        zipped_epub.extractall(f"test-books/{ebook_uuid}")
+        zipped_epub.extractall(f"test-books/{ebook_uuid}/")
         # Remove the original zip .epub file
         os.remove(epub_path)
     return extract_title(ebook_uuid)
@@ -107,6 +106,5 @@ def push_epub_folder_to_github(uuid, message):
     folder = f"test-books/{uuid}/"
     subprocess.run(["git", "add", folder])
     subprocess.run(["git", "commit", "--quiet", "-m", message])
-
     subprocess.run(["git", "pull", "--allow-unrelated-histories"])
     subprocess.run(["git", "push", "--quiet"])

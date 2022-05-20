@@ -8,6 +8,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.datastructures import MultiValueDictKeyError
 from rest_framework import status
 import uuid
+import environ
+
+
+env = environ.Env()
+environ.Env.read_env()
+mode = env('GITHUB_MODE')
 
 
 def ebook_detail_view(request, uuid):
@@ -57,14 +63,15 @@ def ebook_download_view(request, uuid):
         ]
 
         # Inject image annotations into the html files
-        inject_image_annotations(uuid, images, annotations)
-        # Push new contents to GitHub
-        message = f"Download {uuid}"
-        push_epub_folder_to_github(uuid, message)
+        inject_image_annotations(str(uuid), images, annotations)
+        # Push new contents to GitHub if mode is 'production'
+        if mode == "production":
+            message = f"Download {uuid}"
+            push_epub_folder_to_github(str(uuid), message)
 
         try:
             # Zip contents
-            zip_file_name = zip_ebook(uuid)
+            zip_file_name = zip_ebook(str(uuid))
 
             # Return zipped contents
             with open(zip_file_name, 'rb') as file:
@@ -113,8 +120,9 @@ def ebook_upload_view(request):
             try:
                 ebook_title = unzip_ebook(book_uuid, epub_name)
                 # Push unzipped contents to GitHub
-                message = f"Upload {book_uuid}"
-                push_epub_folder_to_github(book_uuid, message)
+                if mode == "production":
+                    message = f"Upload {book_uuid}"
+                    push_epub_folder_to_github(book_uuid, message)
             except FileNotFoundError:
                 return JsonResponse({'msg': 'Something went wrong! Please try again!'},
                                     status=status.HTTP_500_INTERNAL_SERVER_ERROR)
