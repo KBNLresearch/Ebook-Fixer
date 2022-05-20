@@ -206,8 +206,6 @@ function Annotator({ currImage, ebookId }) {
 
     return (
         <div className={styles.container}>
-
-
             <Classifier
                 currImage={currImage}
                 ebookId={ebookId}

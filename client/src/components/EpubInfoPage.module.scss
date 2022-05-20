@@ -1,4 +1,4 @@
-.container {
+.info_container {
     padding: 1em;
     display: flex;
     flex-direction: row;
@@ -36,8 +36,7 @@
     }
 }
 
-.infobox {
-    border: 4px dashed skyblue;
+.info_box {
     border-radius: 2em;
     padding: 0.2em;
     max-width: 50%;
@@ -71,4 +70,65 @@
     li {
         line-height: 1.5em;
     }
+}
+
+.workflow_container {
+    border: 4px dashed rgb(248, 75, 12);
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    justify-content: center;
+    align-items: center;
+
+    h1 {
+        font-weight: 100;
+        font-size: 1.5em;
+        line-height: 2em;
+    }
+}
+
+.workflow_box {
+    border: 4px dashed rgb(248, 75, 12);
+    border-radius: 1em;
+    padding: 0.2em;
+    max-width: 100%;
+    font-size: 0.9em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 4em;
+
+    strong {
+        font-weight: bold;
+    }
+
+    p {
+        line-height: 1.4em;
+    }
+
+    // ul {
+    //     list-style-position: inside;
+    //     list-style-type: disc;
+    //     text-align: left;
+    // }
+
+    // li {
+    //     line-height: 1.5em;
+    // }
+}
+
+.step_box {
+    border: 4px dashed rgb(232, 136, 101);
+    border-radius: 1em;
+    padding: 0.2em;
+    width: 15em;
+    max-width: 25%;
+    font-size: 0.9em;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+    gap: 0.2em;
 }
