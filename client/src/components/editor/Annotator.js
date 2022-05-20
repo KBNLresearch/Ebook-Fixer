@@ -17,6 +17,7 @@ import styles from './Annotator.module.scss'
  * @param {{annotationList: List of Strings}} props List of the annotations for this image
  * @param {{setTextValue: SetStateAction}} props Updates text value in user annotation box
  * @param {{textValue: String}} props Human annotation entered by user
+ * @param {{setTyping: SetStateAction}} props Updates whether or not the user is typing
  * @returns The UserAnnotator component
  */
 
@@ -215,11 +216,11 @@ function Annotator({ currImage, ebookId }) {
                 {' '}
             </Classifier>
             <AIAnnotator
-            annotationList={aiAnnotationList}
-            currImage={currImage}
-            ebookId={ebookId}
-            imageId={imageId} ></AIAnnotator>
-            <UserAnnotator annotationList={userAnnotationList} setTextValue={setTextValue} textValue={textValue}/>
+                annotationList={aiAnnotationList}
+                currImage={currImage}
+                ebookId={ebookId}
+                imageId={imageId} ></AIAnnotator>
+            <UserAnnotator annotationList={userAnnotationList} setTextValue={setTextValue} textValue={textValue} setTyping={setTyping}/>
             <button type="button"
                     className={styles.save_button}
                     ref={saveButton}
