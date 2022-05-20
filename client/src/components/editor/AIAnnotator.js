@@ -49,15 +49,10 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
                 imageId,
                 getImgFilename(currImage)
             ) .then(result => {
-               console.log(JSON.stringify(result));
+            //    console.log(JSON.stringify(result));
                 if (Object.prototype.hasOwnProperty.call(result, "annotations")){
-                        console.log(result.annotations);
                         annotations= result.annotations.map(({ text, confidence }) => (JSON.stringify({ text, confidence })))
-
-                        console.log(annotations)
-
                         setKeywords(annotations)
-                        console.log("ke"+ keywords)
                    }
             })
             generateRef.current.disabled = true

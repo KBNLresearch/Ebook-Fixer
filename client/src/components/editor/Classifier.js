@@ -47,7 +47,7 @@ function Classifier({ currImage, ebookId, setImageId, currClassification }) {
             if (currClassification != null) {
                 saveButtonRef.current.disabled = true
                 // Show the selected classification
-                const idx = options.findIndex(opt => opt.abr === currClassification) + 1;
+                const idx = options.findIndex(opt => opt.val === currClassification) + 1;
                 dropdownRef.current.selectedIndex = idx;
             } else {
                 // Show the label
@@ -64,7 +64,6 @@ function Classifier({ currImage, ebookId, setImageId, currClassification }) {
             const choice =
                 dropdownRef.current.options[dropdownRef.current.selectedIndex]
                     .value
-
             if (choice === 'Decorative') {
                 // TODO: for now this is only an alert, but this may be changed still
                 window.alert(
@@ -73,9 +72,8 @@ function Classifier({ currImage, ebookId, setImageId, currClassification }) {
             }
             if (dropdownRef.current.selectedIndex === 0) {
                 window.alert('This option is not allowed!')
-
-            return choice
-        }
+            }
+        return choice
     }
     }
 
@@ -88,7 +86,6 @@ function Classifier({ currImage, ebookId, setImageId, currClassification }) {
             if (!ebookId) {
                 console.log('No e-book UUID stored on client!')
             }
-
             classifyImageApiCall(
                 ebookId,
                 getImgFilename(currImage),
