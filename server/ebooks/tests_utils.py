@@ -62,7 +62,7 @@ class UtilsTest(TestCase):
         ebook = Ebook.objects.create(uuid=self.uuid, title="TEST_TITLE")
         image = Image.objects.create(ebook=ebook,
                                      filename="test.jpg",
-                                     location="OEBPS/" + html_filename,
+                                     location="/OEBPS/" + html_filename,
                                      classification="INFO",
                                      raw_context=" ")
         annotation = Annotation.objects.create(image=image, type="HUM",

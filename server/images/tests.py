@@ -3,6 +3,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory, TestCase
 from django.http import JsonResponse
 from ebooks.models import Ebook
+from annotations.models import Annotation
 from uuid import uuid4
 from .views import image_details_view, image_classification_view
 from .models import Image
@@ -110,6 +111,46 @@ class ImageViewsTest(TestCase):
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(decode_message(msg), "{'msg': 'This type of image is not in supported!'}")
+
+    def test_image_classification_view_200_including_decorative_classification(self):
+        uuid = uuid4()
+        ebook = Ebook.objects.create(uuid=uuid, title="TEST TITLE", epub="TEST_EPUB.epub")
+        image = Image.objects.create(ebook=ebook, filename="image.jpg", location="file.html")
+        content = "{\n" f'"ebook": "{str(uuid)}",\n' '"filename": "image.jpg",\n' \
+                  '"location": "file.html",\n' '"classification": "Decorative",\n' \
+                  '"raw_context": "NEW CONTEXT"\n' "}"
+
+        response, msg = self.response_image_classification_view(content)
+
+        image.classification = "Decorative"
+        image.raw_context = "NEW CONTEXT"
+        serializer = ImageSerializer(image)
+        js = JsonResponse(serializer.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(msg, js.content)
+        self.assertEqual(Annotation.objects.filter(image=image, type="HUM").count(), 1)
+
+    def test_image_classification_view_200_update_existing_annotation(self):
+        uuid = uuid4()
+        ebook = Ebook.objects.create(uuid=uuid, title="TEST TITLE", epub="TEST_EPUB.epub")
+        image = Image.objects.create(ebook=ebook, filename="image.jpg", location="file.html")
+        Annotation.objects.create(image=image, type="HUM", text="OLD TEXT")
+        content = "{\n" f'"ebook": "{str(uuid)}",\n' '"filename": "image.jpg",\n' \
+                  '"location": "file.html",\n' '"classification": "Decorative",\n' \
+                  '"raw_context": "NEW CONTEXT"\n' "}"
+
+        response, msg = self.response_image_classification_view(content)
+
+        image.classification = "Decorative"
+        image.raw_context = "NEW CONTEXT"
+        serializer = ImageSerializer(image)
+        js = JsonResponse(serializer.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(msg, js.content)
+        annotation = Annotation.objects.filter(image=image, type="HUM").get()
+        self.assertEqual(annotation.text, "")
 
     def test_image_classification_view_200_including_optional_fields(self):
         uuid = uuid4()

@@ -14,7 +14,7 @@ def inject_image_annotations(ebook_uuid, images, annotations):
             images (List[Image]): all images in that ebook
             annotations (List[Annotation]): all human annotations for the images
     """
-    storage_path = f"test-books/{ebook_uuid}/"
+    storage_path = f"test-books/{ebook_uuid}"
     for image in images:
         try:
             image_annotation = filter(lambda a: a.image == image, annotations).__next__()
