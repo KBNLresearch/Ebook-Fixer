@@ -38,8 +38,6 @@ export function saveUserAnnotation(ebookId, imageId, fileName, txt) {
 
 
 export function  getAiAnnotation(ebookId, imageId, fileName) {
-    console.log("imageid" + imageId)
-    console.log("file"+ fileName)
     return fetch(process.env.REACT_APP_API_URL + 'annotations/generate/', {
         method: 'PUT',
         headers: {

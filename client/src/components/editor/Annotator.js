@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { ReactComponent as HistorySVG } from '../../assets/svgs/history-icon.svg'
 import { ImageInfo } from '../../helpers/EditorHelper'
 import AIAnnotator from './AIAnnotator'
 import Classifier from './Classifier'
@@ -17,6 +16,7 @@ import styles from './Annotator.module.scss'
  * @param {{annotationList: List of Strings}} props List of the annotations for this image
  * @param {{setTextValue: SetStateAction}} props Updates text value in user annotation box
  * @param {{textValue: String}} props Human annotation entered by user
+ * @param {{setTyping: SetStateAction}} props Updates whether or not the user is typing
  * @returns The UserAnnotator component
  */
 
@@ -209,17 +209,24 @@ function Annotator({ currImage, ebookId }) {
 
 
             <Classifier
-            currImage={currImage}
-            ebookId={ebookId}
-            setImageId={setImageId}>
+                currImage={currImage}
+                ebookId={ebookId}
+                setImageId={setImageId}
+                currClassification={currClassification}>
                 {' '}
             </Classifier>
             <AIAnnotator
-            annotationList={aiAnnotationList}
-            currImage={currImage}
-            ebookId={ebookId}
-            imageId={imageId} ></AIAnnotator>
-            <UserAnnotator annotationList={userAnnotationList} setTextValue={setTextValue} textValue={textValue}/>
+                annotationList={aiAnnotationList}
+                currImage={currImage}
+                ebookId={ebookId}
+                imageId={imageId} >
+                     {' '}
+                </AIAnnotator>
+            <UserAnnotator 
+                annotationList={userAnnotationList} 
+                setTextValue={setTextValue} 
+                textValue={textValue} 
+                setTyping={setTyping}/>
             <button type="button"
                     className={styles.save_button}
                     ref={saveButton}

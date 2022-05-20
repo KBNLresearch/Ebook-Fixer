@@ -4,7 +4,6 @@ import styles from './Annotator.module.scss'
 import { ImageInfo} from '../../helpers/EditorHelper'
 import {getImgFilename} from '../../helpers/EditImageHelper'
 import {  getAiAnnotation} from '../../api/AnnotateImage'
-import { getImageMetadataApiCall } from '../../api/GetImageMetadata'
 
 
 function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
