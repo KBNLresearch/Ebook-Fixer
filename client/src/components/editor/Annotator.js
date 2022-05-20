@@ -84,6 +84,7 @@ function Annotator({ currImage, ebookId }) {
     const [textValue, setTextValue] = useState('')
     const [currClassification, setCurrClassification] = useState(null)
     const [typing, setTyping] = useState(false)
+    const [stage, setStage] = useState("")
 
     const saveButton = useRef(null)
     // Executed every time the currentImage changes
@@ -91,9 +92,11 @@ function Annotator({ currImage, ebookId }) {
         if (!currImage) {
             saveButton.current.innerText = 'Select image first'
             saveButton.current.disabled = true
+            setStage("classify")
         } else {
             saveButton.current.innerText = 'Save annotation'
             saveButton.current.disabled = false
+            
 
             const imgInfo = currImage
 
@@ -108,6 +111,7 @@ function Annotator({ currImage, ebookId }) {
                     setAiAnnotationList([])
                 }
             }
+
 
             // For each image that is loaded, client fetches all metadata from server (even if the image does not exist yet)
             console.log('Fetching image metadata...')
@@ -150,7 +154,10 @@ function Annotator({ currImage, ebookId }) {
                         // } )
                         // console.log(aiAnnotationList)
 
-                        setAiAnnotationList([...aiAnnotationList, result.annotations.filter((e) => e.type==='BB').map(({ text, confidence }) => (JSON.stringify({ text, confidence })))])
+                        setAiAnnotationList(
+                            [...aiAnnotationList, result.annotations
+                                .filter((e) => e.type==='BB')
+                                .map(({ text, confidence }) => (JSON.stringify({ text, confidence })))])
                     }
 
                         
@@ -204,24 +211,31 @@ function Annotator({ currImage, ebookId }) {
         saveButton.current.disabled = true
     }
 
+
     return (
         <div className={styles.container}>
 
-
-            <Classifier
-                currImage={currImage}
-                ebookId={ebookId}
-                setImageId={setImageId}
-                currClassification={currClassification}>
-                {' '}
-            </Classifier>
-            <AIAnnotator
-                annotationList={aiAnnotationList}
-                currImage={currImage}
-                ebookId={ebookId}
-                imageId={imageId} >
-                     {' '}
-                </AIAnnotator>
+            {
+                {
+                'classify': <Classifier
+                            currImage={currImage}
+                            ebookId={ebookId}
+                            setImageId={setImageId}
+                            currClassification={currClassification}
+                            setStage={setStage}>
+                            {' '}
+                        </Classifier>,
+                'ai': <AIAnnotator
+                    annotationList={aiAnnotationList}
+                    currImage={currImage}
+                    ebookId={ebookId}
+                    imageId={imageId} >
+                        {' '}
+                    </AIAnnotator>
+                }[stage]
+            }
+            
+            
             <UserAnnotator 
                 annotationList={userAnnotationList} 
                 setTextValue={setTextValue} 

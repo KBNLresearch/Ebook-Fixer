@@ -20,7 +20,7 @@ import {
  * @param {{currClassification: String}} props Classification for this image stored on server
  * @returns The Classifier component
  */
-function Classifier({ currImage, ebookId, setImageId, currClassification }) {
+function Classifier({ currImage, ebookId, setImageId, currClassification, setStage }) {
     // TODO: switch to AI generation view --> show textArea instead of dropdown menu
 
     // TODO: split into Classification and AIAnnotator components
@@ -102,6 +102,7 @@ function Classifier({ currImage, ebookId, setImageId, currClassification }) {
             })
             saveButtonRef.current.disabled = true
             saveButtonRef.current.innerText = 'Classification Saved'
+            setStage("ai")
         }
     }
 
@@ -158,6 +159,7 @@ Classifier.propTypes = {
     ebookId: PropTypes.string.isRequired,
     setImageId: PropTypes.func.isRequired,
     currClassification: PropTypes.string.isRequired,
+    setStage: PropTypes.func.isRequired,
 }
 
 export default Classifier
