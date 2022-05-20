@@ -1,5 +1,9 @@
 import PropTypes from 'prop-types'
 import styles from './EpubInfoPage.module.scss'
+import step1 from '../assets/svgs/step1.svg'
+import step2 from '../assets/svgs/step2.svg'
+import step3 from '../assets/svgs/step3.svg'
+import step4 from '../assets/svgs/step4.svg'
 
 /**
  * The EpubInfoPage component contains information about our website and epubs in general
@@ -8,22 +12,25 @@ import styles from './EpubInfoPage.module.scss'
  */
 function EpubInfoPage({}) {
     return (
-        <div>
+        <div className={styles.info_title_container}>
+        <h1>Let&apos;s make e-books accessible to all!</h1>
         <div className={styles.info_container}>
             <div className={styles.info_box}>
-                <h1>Let&apos;s make e-books accessible to all!</h1>
+                <br/>
                 <p>
                     This annotation platform can be used to create better image
                     descriptions for ePub2 or ePub3 files, in order to make
                     e-books more accessible to visually impaired users.
                 </p>
                 <br />
+                <br />
                 <p>
-                    <strong>E-BOOK FIXER</strong> has built-in support for:{' '}
+                    <strong> E-BOOK FIXER </strong> has built-in support for:{' '}
                 </p>
                 <ul>
                     <li>Automatically generated image annotations </li>
                     <li>Manual annotations</li>
+                    <li>Downloading your resulting ePub file</li>
                 </ul>
             </div>
             <img
@@ -32,10 +39,11 @@ function EpubInfoPage({}) {
                 src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Epub_logo_color.svg"
             />
         </div>
-        <div className={styles.workflow_container}>
+        <div className={styles.info_title_container}>
         <h1>How to annotate images?</h1>
             <div className={styles.workflow_box}>
                 <div className={styles.step_box}>
+                    <img alt="" className={styles.step_icon} src={step1} />
                     <p>
                         <strong> 1. Select an image in your e-book to annotate </strong>
                         <br/>
@@ -43,6 +51,7 @@ function EpubInfoPage({}) {
                     </p>
                 </div>
                 <div className={styles.step_box}>
+                    <img alt="" className={styles.step_icon} src={step2} />
                     <p> 
                        <strong> 2. Classify your selected image </strong>
                        <br/>
@@ -50,6 +59,7 @@ function EpubInfoPage({}) {
                     </p>
                 </div>
                 <div className={styles.step_box}>
+                    <img alt="" className={styles.step_icon} src={step3} />
                     <p> 
                         <strong> 3. Let AI generate an image description </strong>
                         <br/>
@@ -57,6 +67,7 @@ function EpubInfoPage({}) {
                     </p>
                 </div>
                 <div className={styles.step_box}>
+                    <img alt="" className={styles.step_icon} src={step4} />
                     <p> 
                         <strong> 4. Improve AI description manually </strong>
                         <br/>
