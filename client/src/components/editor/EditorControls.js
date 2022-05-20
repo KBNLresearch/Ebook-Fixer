@@ -1,7 +1,9 @@
-import { useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import { useNavigate, useParams } from 'react-router-dom'
 import { highlightElement, ImageInfo } from '../../helpers/EditorHelper'
 import styles from './Editor.module.scss'
+import { getImgFilename } from '../../helpers/EditImageHelper'
 
 /**
  * The controls for the editor
@@ -21,6 +23,35 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
     const [nextDisabled, setNextDisabled] = useState(false)
     const [prevDisabled, setPrevDisabled] = useState(true)
 
+    const navigate = useNavigate()
+
+    // Get the Image filename from the url
+    const { imgFilename } = useParams()
+
+    // When the imageList is instantiated / filled up (only happens at the beginning)
+    useEffect(() => {
+        if (
+            imgFilename &&
+            currentImageIndex === -1 &&
+            rendition &&
+            imageList.length > 0
+        ) {
+            // Get the filename in a decoded format
+            const imageFilenameDecoded = decodeURIComponent(imgFilename)
+            // Find the index of the image in imageList
+            const foundIndex = imageList.findIndex(
+                (imageInfo) => imageInfo.asset.href === imageFilenameDecoded
+            )
+            // If found
+            if (foundIndex > -1) {
+                changeToImageIndex(foundIndex)
+            } else {
+                // Alert the user that this link doesn't point to an image
+                alert("The image with that name wasn't found in this book!")
+            }
+        }
+    }, [imageList])
+
     // Gets the next index
     function nextIndex() {
         return Math.min(currentImageIndex + 1, imageList.length - 1)
@@ -33,23 +64,32 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
 
     function handleNext(e) {
         changeToImageIndex(nextIndex())
-        if (nextIndex() === imageList.length - 1) {
-            // at end
-            setNextDisabled(true)
-        } else if (nextIndex() > 0) {
-            setPrevDisabled(false)
-        }
     }
 
     function handlePrev(e) {
         changeToImageIndex(prevIndex())
-        if (prevIndex() === 0) {
-            // at start
+    }
+
+    /**
+     * This function handles enabling and disabling the buttons for navigating between images.
+     * When at the first image, disables the Previous image button
+     * When at the last image, disables the Next image button
+     */
+    function disableEnableNavButtons() {
+        if (currentImageIndex <= 0) {
             setPrevDisabled(true)
+        } else {
+            setPrevDisabled(false)
+        }
+        if (currentImageIndex === imageList.length - 1) {
+            setNextDisabled(true)
         } else {
             setNextDisabled(false)
         }
     }
+
+    // Each time the index changes see if the navigation buttons need to be disabled
+    useEffect(disableEnableNavButtons, [currentImageIndex, imageList.length])
 
     /**
      * An asynchronous function to change the view of the book
@@ -64,6 +104,10 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
         newImage.scrollIntoView()
         // Highlight the image in red for 5s
         highlightElement(newImage)
+        // Set the URL to be of that Image
+        navigate(
+            'image/' + encodeURIComponent(getImgFilename(imageList[newIndex]))
+        )
         // Set the current image via the props from the parent
         setCurrentImage(imageList[newIndex])
         // Change the current index
