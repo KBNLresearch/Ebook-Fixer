@@ -2,9 +2,10 @@ import { useEffect, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { ReactComponent as HistorySVG } from '../../assets/svgs/history-icon.svg'
 import { ImageInfo } from '../../helpers/EditorHelper'
-import AIannotator from './AIannotator'
-import { saveUserAnnotation } from '../../api/AnnotateImage'
-import { getImgFilename } from '../../helpers/EditImageHelper'
+import AIAnnotator from './AIAnnotator'
+import Classifier from './Classifier'
+import {saveUserAnnotation} from '../../api/AnnotateImage'
+import {getImgFilename} from '../../helpers/EditImageHelper'
 import { getImageMetadataApiCall } from '../../api/GetImageMetadata'
 import styles from './Annotator.module.scss'
 
@@ -78,6 +79,7 @@ UserAnnotator.propTypes = {
 function Annotator({ currImage, ebookId }) {
     // TODO: could be used to get the annotation history
     const [userAnnotationList, setUserAnnotationList] = useState([])
+    const [aiAnnotationList, setAiAnnotationList] = useState([])
     const [imageId, setImageId] = useState(-1)
     const [textValue, setTextValue] = useState('')
     const [currClassification, setCurrClassification] = useState(null)
@@ -100,8 +102,10 @@ function Annotator({ currImage, ebookId }) {
                 if (altText) {
                     // Initial alt text of image will be displayed if no HUM annotations yet
                     setUserAnnotationList([altText])
+                    setAiAnnotationList([])
                 } else {
                     setUserAnnotationList([])
+                    setAiAnnotationList([])
                 }
             }
 
@@ -131,7 +135,26 @@ function Annotator({ currImage, ebookId }) {
                                 saveButton.current.disabled = true
                             }
                         })
+
+                        // result.annotations.forEach((element) => {
+                        //     console.log(element)
+                        //     if (element.type === 'BB') {
+                        //         setAiAnnotationList([
+                        //             ...aiAnnotationList,
+                        //             JSON.stringify(element.text, element.confidence)
+                        //         ])
+                        //         // Disable button if human annotation was saved earlier
+                        //         //  saveButton.current.disabled = true
+                        //     }
+                         
+                        // } )
+                        // console.log(aiAnnotationList)
+
+                        setAiAnnotationList([...aiAnnotationList, result.annotations.filter((e) => e.type==='BB').map(({ text, confidence }) => (JSON.stringify({ text, confidence })))])
                     }
+
+                        
+                    
                     // TODO: we may also wanna pass this classification to AIAnnotator in the future,
                     //    to allow for different workflows per category
                     if (Object.prototype.hasOwnProperty.call(result, 'image')) {
@@ -183,25 +206,26 @@ function Annotator({ currImage, ebookId }) {
 
     return (
         <div className={styles.container}>
-            <AIannotator
-                currImage={currImage}
-                ebookId={ebookId}
-                setImageId={setImageId}
-                currClassification={currClassification}>
+
+
+            <Classifier
+            currImage={currImage}
+            ebookId={ebookId}
+            setImageId={setImageId}>
                 {' '}
-            </AIannotator>
-            <UserAnnotator
-                annotationList={userAnnotationList}
-                setTextValue={setTextValue}
-                textValue={textValue}
-                setTyping={setTyping}
-            />
-            <button
-                type="button"
-                className={styles.save_button}
-                ref={saveButton}
-                onClick={() => handleClick()}>
-                Save Annotation
+            </Classifier>
+            <AIAnnotator
+            annotationList={aiAnnotationList}
+            currImage={currImage}
+            ebookId={ebookId}
+            imageId={imageId} ></AIAnnotator>
+            <UserAnnotator annotationList={userAnnotationList} setTextValue={setTextValue} textValue={textValue}/>
+            <button type="button"
+                    className={styles.save_button}
+                    ref={saveButton}
+                    onClick={() => handleClick()}>
+                    Save Annotation
+
             </button>
         </div>
     )
