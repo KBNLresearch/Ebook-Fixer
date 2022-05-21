@@ -19,8 +19,9 @@
     gap: 0.3em;
     transition: all 0.2s ease;
     position: absolute;
-    background-color: aquamarine;
-    border: 0.3em solid #333;
+    background-color: hsl(271, 100%, 95%);
+    border: 0.3em solid rgb(207, 164, 247);
+    box-shadow: 0 0 10px rgb(207, 164, 247);
     border-radius: 0.8em;
     top: 100%;
     right: 0;
