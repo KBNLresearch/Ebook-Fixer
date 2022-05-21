@@ -1,13 +1,13 @@
 .share_button {
     font-family: inherit;
     background-color: rgb(207, 164, 247);
+    width: 100%;
 }
 
 .container {
     position: absolute;
     top: 0.5em;
     right: 2em;
-    width: 6em;
 }
 
 .popup {
@@ -42,7 +42,7 @@
             transition: all 0.3s ease;
             $inactive-color: hsl(206, 30%, 75%);
             background-color: $inactive-color;
-            color: #4f4f4f;
+            color: #222;
             border: 3px solid #aaa;
             text-decoration: underline rgba($color: #000000, $alpha: 0);
             white-space: nowrap;

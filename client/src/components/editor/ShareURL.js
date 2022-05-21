@@ -4,56 +4,82 @@ import { useParams } from 'react-router-dom'
 import styles from './ShareURL.module.scss'
 
 function ShareURL() {
+    // Get e-book UUID and imgFilename (which might be undefined) from the URL
     const { uuid, imgFilename } = useParams()
 
     const [popupVisible, setPopupVisible] = useState(false)
-    const [linkType, setLinkType] = useState(imgFilename ? 'image' : 'e-book') // can be either epub of image
+    const [linkType, setLinkType] = useState(imgFilename ? 'image' : 'e-book') // can be either 'e-book' or 'image'
     const urlText = useRef(null)
+    const containerRef = useRef(null)
 
     /**
-     * This function handles the click on the share button by copying the current url
-     * and showing a message in the button itself for 3 seconds
+     * Listens for a mouse click somewhere in the document
+     * If it detects one outside the container for the share button & popup then it closes the popup
+     *
+     * One problem is that if the use clicks on disabled elements, then there is no mousedown event.
+     * So if the user clicks on a disabled button outside the popup, it won't be closed.
+     * I don't think that's a big problem that really needs solving.
+     *
+     * @param {Event} e MouseDown Event
+     */
+    function closePopupOnMouseDownOutside(e) {
+        // If the container doesn't contain the element that we clicked on
+        if (containerRef.current && !containerRef.current.contains(e.target)) {
+            // outside the popup
+            setPopupVisible(false)
+            // Remove this event listener
+            document.removeEventListener(
+                'mousedown',
+                closePopupOnMouseDownOutside
+            )
+        }
+        // else inside the popup, do nothing
+    }
+
+    /**
+     * This function handles the click on the share buttons
+     * Shows the popup with the share menu
      *
      * @param {Event} e click event from the share button
      */
     function handleShareClick(e) {
-        if (popupVisible) {
-            setPopupVisible(false)
-        } else {
-            setPopupVisible(true)
+        if (!popupVisible) {
+            // Add event listener for a use click, to close the popup
+            document.addEventListener('mousedown', closePopupOnMouseDownOutside)
         }
+        // Show popup
+        setPopupVisible(!popupVisible)
     }
 
     /**
-     * This fires every time the
-     * @param {Event} event
+     * This function takes a few steps to show the URL that they want to share to the user:
+     * - Copies it to the clipboard
+     * - Puts it in the readonly input element
+     * - Highlights the readonly input element
+     * @param {String} url the URL to show
      */
-    function handlePopupBlur(event) {
-        console.log(event.relatedTarget)
-        // if the blur was because of outside focus
-        // currentTarget.parentElement is the parent element (the container), relatedTarget is the clicked element
-        if (!event.currentTarget.parentElement.contains(event.relatedTarget)) {
-            console.log(event.currentTarget.parentElement)
-            setPopupVisible(false)
-        }
-    }
-
     function showURL(url) {
         navigator.clipboard.writeText(url)
         const urlTextElement = urlText.current
         urlTextElement.value = url
+        // Focusing is a bit buggy sometimes so we can do it after a short pause.
+        // So that nothing else steals our focus (like the share button)
         setTimeout(() => {
             urlTextElement.focus()
             urlTextElement.select()
         }, 100)
     }
 
+    // Executed every time the link Type changes or popupVisible changes
     useEffect(() => {
         if (popupVisible) {
+            // Set URL for ebook
             if (linkType === 'e-book') {
                 const url = `${window.location.origin}/ebook/${uuid}`
                 showURL(url)
-            } else if (linkType === 'image') {
+            }
+            // Set URL for image
+            else if (linkType === 'image') {
                 const url = `${
                     window.location.origin
                 }/ebook/${uuid}/image/${encodeURIComponent(imgFilename)}`
@@ -62,6 +88,7 @@ function ShareURL() {
         }
     }, [linkType, popupVisible])
 
+    // If an imgFilename is detected in the URL, we set the default link type to image
     useEffect(() => {
         if (imgFilename) {
             setLinkType('image')
@@ -69,7 +96,7 @@ function ShareURL() {
     }, [imgFilename])
 
     return (
-        <div id="container" className={styles.container}>
+        <div id="container" className={styles.container} ref={containerRef}>
             <button
                 onClick={handleShareClick}
                 className={styles.share_button}
@@ -79,8 +106,7 @@ function ShareURL() {
             <div
                 className={
                     styles.popup + ' ' + (popupVisible ? styles.visible : '')
-                }
-                onBlur={handlePopupBlur}>
+                }>
                 <button
                     type="button"
                     title="Close Popup"
