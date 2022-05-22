@@ -6,6 +6,7 @@ import Editor from './components/editor/Editor'
 import { ReactComponent as GoBackArrowSVG } from './assets/svgs/go-back-arrow.svg'
 import logo from './assets/images/KB-logo.png'
 import EpubInfoPage from './components/EpubInfoPage'
+import NotFound from './components/errorpages/NotFound'
 
 // This code uses functional components, you could use classes instead but they're
 function App() {
@@ -51,6 +52,7 @@ function App() {
                             <Editor ebookFile={ebookFile} ebookId={ebookId} />
                         }
                     />
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </main>
         </div>
