@@ -231,10 +231,11 @@ function Annotator({ currImage, ebookId }) {
                                 saveButtonRef.current.disabled = false
                             }}>
                             <option value="none" selected disabled hidden>
-                                Select AI API
+                                Select AI
                             </option>
                             {options.map((opt) => (
                                 <option value={opt.val}> {opt.val} </option>
+                                // TODO: handle AI selected by user
                                 // handleMenuOption(ospt)
                             ))}
                         </select>

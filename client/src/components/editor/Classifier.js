@@ -73,6 +73,7 @@ function Classifier({ currImage, ebookId, setImageId, currClassification, setSta
             }
             if (dropdownRef.current.selectedIndex === 0) {
                 window.alert('This option is not allowed!')
+                return 'Invalid'
             }
         return choice
     }
@@ -102,11 +103,16 @@ function Classifier({ currImage, ebookId, setImageId, currClassification, setSta
                     setImageId(result.id)
                 }
             })
-            saveButtonRef.current.disabled = true
-            saveButtonRef.current.innerText = 'Classification Saved'
+
+            if (selectedClassification !== 'Invalid') {
+                saveButtonRef.current.disabled = true
+                saveButtonRef.current.innerText = 'Classification Saved'
+            } else {
+                saveButtonRef.current.disabled = false
+            }
 
             // For decorative images, user will not proceed to next stage
-            if (selectedClassification !== 'Decoration') {
+            if (selectedClassification !== 'Decoration' && selectedClassification !== 'Invalid') {
                 setStage('ai-selection') 
             } 
         }
