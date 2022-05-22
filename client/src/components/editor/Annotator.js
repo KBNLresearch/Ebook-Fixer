@@ -130,7 +130,10 @@ function Annotator({ currImage, ebookId }) {
                         console.log(result.annotations)
                         console.log('Image metadata: ')
                         console.log(result.image)
-                        setStage("overview")
+                        // Decorative images don't have image descriptions
+                        if (currClassification !== 'Decoration') {
+                            setStage("overview")
+                        }
                         // For each HUM annotation, add to user annotation list (for display in UserAnnotator)
                         // Note that for now this list always contains 1 HUM annotation
                         result.annotations.forEach((element) => {
@@ -143,9 +146,6 @@ function Annotator({ currImage, ebookId }) {
                                 // saveButton.current.disabled = true
                             }
                         })
-
-                        
-
                         setAiAnnotationList(
                             [...aiAnnotationList, result.annotations
                                 .filter((e) => e.type==='BB')
@@ -162,7 +162,6 @@ function Annotator({ currImage, ebookId }) {
                                 result.image.classification
                         )
                         setCurrClassification(result.image.classification)
-                        console.log(currClassification)
                     }
                     // Update image id after each new image is loaded
                     if (Object.prototype.hasOwnProperty.call(result, 'image')) {
@@ -181,11 +180,6 @@ function Annotator({ currImage, ebookId }) {
         }
     }, [currImage])
 
-    useEffect(() => {
-        if (typing) {
-            saveButton.current.disabled = false
-        }
-    }, [typing])
 
     function handleClick() {
         saveUserAnnotation(
@@ -214,15 +208,17 @@ function Annotator({ currImage, ebookId }) {
 
             {
                 {
-                'classify': <Classifier
-                            currImage={currImage}
-                            ebookId={ebookId}
-                            setImageId={setImageId}
-                            currClassification={currClassification}
-                            setStage={setStage}>
-                            {' '}
-                        </Classifier>,
-                'ai-selection':<div className={styles.ai_input}>
+                'classify': 
+                    <Classifier
+                        currImage={currImage}
+                        ebookId={ebookId}
+                        setImageId={setImageId}
+                        currClassification={currClassification}
+                        setStage={setStage}>
+                        {' '}
+                    </Classifier>,
+                'ai-selection':
+                    <div className={styles.ai_input}>
 
                         <label htmlFor="selectClass">
                             Please select AI to generate annotations
@@ -251,8 +247,9 @@ function Annotator({ currImage, ebookId }) {
                             Save AI{' '}
                         </button>
                     </div> ,
-                'annotate': <div className={styles.user_input}>
-                    <AIAnnotator
+                'annotate': 
+                    <div className={styles.user_input}>
+                        <AIAnnotator
                         annotationList={aiAnnotationList}
                         currImage={currImage}
                         ebookId={ebookId}
@@ -272,29 +269,24 @@ function Annotator({ currImage, ebookId }) {
             
                         </button>
                     
-                        </div>,
-                'overview' : <div className={styles.user_input}>
-                    <UserAnnotator 
-                    annotationList={userAnnotationList} 
-                    setTextValue={setTextValue} 
-                    textValue={textValue} 
-                    setTyping={setTyping}/>
-
+                    </div>,
+                'overview' : 
+                    <div className={styles.user_input}>
+                        <strong> Image description: </strong> 
+                        {userAnnotationList[userAnnotationList.length - 1]}
                     <div>
                         <br/>
-                        Classification: {currClassification}
+                        <strong> Classification: </strong> {currClassification}
                         <br/>
                     </div>
                     <button type="button"
                                     className={styles.save_button}
                                     onClick={() => setStage("classify")}>
-                                    Reclassify
+                                    Restart image annotation
                 
                             </button>
                     </div>
-                
 
-                        
                 }[stage]
             }
             
