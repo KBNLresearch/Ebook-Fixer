@@ -21,10 +21,9 @@ div.error {
 
 .box {
     min-height: 8em;
-    height: 25vh;
     width: 70%;
     color: black;
-    background-color: gainsboro;
+    background-color: #e1cff2;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
