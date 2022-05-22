@@ -140,7 +140,7 @@ function Annotator({ currImage, ebookId }) {
                                     element.text,
                                 ])
                                 // Disable button if human annotation was saved earlier
-                                saveButton.current.disabled = true
+                                // saveButton.current.disabled = true
                             }
                         })
 
@@ -174,6 +174,7 @@ function Annotator({ currImage, ebookId }) {
                                 result.image.classification
                         )
                         setCurrClassification(result.image.classification)
+                        console.log(currClassification)
                     }
                     // Update image id after each new image is loaded
                     if (Object.prototype.hasOwnProperty.call(result, 'image')) {
@@ -216,7 +217,7 @@ function Annotator({ currImage, ebookId }) {
     }
 
     const options = [
-        {abr: 'GOOGL', val: 'Google VIsion API'},
+        {abr: 'GOOGL', val: 'Google Vision API'},
     ]
 
 
@@ -291,7 +292,17 @@ function Annotator({ currImage, ebookId }) {
                 setTextValue={setTextValue} 
                 textValue={textValue} 
                 setTyping={setTyping}/>
+
+                <div>
+                    Classification: {currClassification}
                 </div>
+                <button type="button"
+                                className={styles.save_button}
+                                onClick={() => setStage("classify")}>
+                                reclassify
+            
+                        </button>
+            </div>
 
                         
                 }[stage]
