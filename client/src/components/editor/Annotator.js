@@ -291,9 +291,7 @@ function Annotator({ currImage, ebookId }) {
 
                 }[stage]
             }
-            
-            
-            
+             
         </div>
     )
 }
