@@ -102,7 +102,7 @@ function Classifier({ currImage, ebookId, setImageId, currClassification, setSta
             })
             saveButtonRef.current.disabled = true
             saveButtonRef.current.innerText = 'Classification Saved'
-            setStage("ai")
+            setStage("ai-selection")
         }
     }
 
