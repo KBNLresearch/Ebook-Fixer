@@ -271,20 +271,21 @@ function Annotator({ currImage, ebookId }) {
                     
                     </div>,
                 'overview' : 
-                    <div className={styles.user_input}>
+                    <div className={styles.overview}>
+                    <div className={styles.overview_info}>
                         <strong> Image description: </strong> 
                         {userAnnotationList[userAnnotationList.length - 1]}
-                    <div>
+                    </div>
+                    <div className={styles.overview_info}>
                         <br/>
                         <strong> Classification: </strong> {currClassification}
                         <br/>
                     </div>
-                    <button type="button"
+                        <button type="button"
                                     className={styles.save_button}
                                     onClick={() => setStage("classify")}>
                                     Restart image annotation
-                
-                            </button>
+                        </button>
                     </div>
 
                 }[stage]

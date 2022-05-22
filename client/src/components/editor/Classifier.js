@@ -137,7 +137,7 @@ function Classifier({ currImage, ebookId, setImageId, currClassification, setSta
                 id="selectClass"
                 ref={dropdownRef}
                 className={styles.dropdown}
-                onChange={() => {
+                onClick={() => {
                     saveButtonRef.current.disabled = false
                 }}>
                 <option value="none" selected disabled hidden>

@@ -251,7 +251,7 @@ function FileUpload({ setEbookFile, setEbookId }) {
 
             {uploading || status ? (
                 <Link to="/ebook/1">
-                    Go to editor (This is for Development only)
+                    Go to editor (for development only)
                 </Link>
             ) : (
                 ''
