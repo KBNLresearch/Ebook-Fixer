@@ -144,19 +144,7 @@ function Annotator({ currImage, ebookId }) {
                             }
                         })
 
-                        // result.annotations.forEach((element) => {
-                        //     console.log(element)
-                        //     if (element.type === 'BB') {
-                        //         setAiAnnotationList([
-                        //             ...aiAnnotationList,
-                        //             JSON.stringify(element.text, element.confidence)
-                        //         ])
-                        //         // Disable button if human annotation was saved earlier
-                        //         //  saveButton.current.disabled = true
-                        //     }
-                         
-                        // } )
-                        // console.log(aiAnnotationList)
+                        
 
                         setAiAnnotationList(
                             [...aiAnnotationList, result.annotations
@@ -287,22 +275,23 @@ function Annotator({ currImage, ebookId }) {
                     
                         </div>,
                 'overview' : <div >
-                <UserAnnotator 
-                annotationList={userAnnotationList} 
-                setTextValue={setTextValue} 
-                textValue={textValue} 
-                setTyping={setTyping}/>
+                    <UserAnnotator 
+                    annotationList={userAnnotationList} 
+                    setTextValue={setTextValue} 
+                    textValue={textValue} 
+                    setTyping={setTyping}/>
 
-                <div>
-                    Classification: {currClassification}
-                </div>
-                <button type="button"
-                                className={styles.save_button}
-                                onClick={() => setStage("classify")}>
-                                reclassify
-            
-                        </button>
-            </div>
+                    <div>
+                        Classification: {currClassification}
+                    </div>
+                    <button type="button"
+                                    className={styles.save_button}
+                                    onClick={() => setStage("classify")}>
+                                    reclassify
+                
+                            </button>
+                    </div>
+                
 
                         
                 }[stage]
