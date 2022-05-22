@@ -10,6 +10,7 @@ import logo from './assets/images/KB-logo.png'
 function App() {
     const [ebookFile, setEbookFile] = useState(null)
     const [ebookId, setEbookId] = useState(null)
+    const [ebookTitle, setEbookTitle] = useState(null)
 
     return (
         <div className="App">
@@ -38,6 +39,7 @@ function App() {
                             <FileUpload
                                 setEbookFile={setEbookFile}
                                 setEbookId={setEbookId}
+                                setEbookTitle={setEbookTitle}
                             />
                             // <div>
                             // <FileUpload
@@ -55,7 +57,7 @@ function App() {
                     <Route
                         path="/ebook/:uuid"
                         element={
-                            <Editor ebookFile={ebookFile} ebookId={ebookId} />
+                            <Editor ebookFile={ebookFile} ebookId={ebookId} ebookTitle={ebookTitle} />
                         }
                     />
                 </Routes>
