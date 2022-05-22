@@ -251,8 +251,7 @@ function Annotator({ currImage, ebookId }) {
                             Save AI{' '}
                         </button>
                     </div> ,
-                'annotate': <div style={{height: 
-                '10em'}}>
+                'annotate': <div className={styles.user_input}>
                     <AIAnnotator
                         annotationList={aiAnnotationList}
                         currImage={currImage}
@@ -274,7 +273,7 @@ function Annotator({ currImage, ebookId }) {
                         </button>
                     
                         </div>,
-                'overview' : <div >
+                'overview' : <div className={styles.user_input}>
                     <UserAnnotator 
                     annotationList={userAnnotationList} 
                     setTextValue={setTextValue} 
@@ -282,12 +281,14 @@ function Annotator({ currImage, ebookId }) {
                     setTyping={setTyping}/>
 
                     <div>
+                        <br/>
                         Classification: {currClassification}
+                        <br/>
                     </div>
                     <button type="button"
                                     className={styles.save_button}
                                     onClick={() => setStage("classify")}>
-                                    reclassify
+                                    Reclassify
                 
                             </button>
                     </div>

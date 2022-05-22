@@ -107,8 +107,8 @@ function Classifier({ currImage, ebookId, setImageId, currClassification, setSta
     }
 
     const options = [
-        {abr: 'DECO', val: 'Decorative'},
-        {abr: 'INFO', val: 'Informative'},
+        {abr: 'DECO', val: 'Decoration'},
+        {abr: 'INFO', val: 'Information'},
         {abr: 'PHOTO', val: 'Photo'},
         {abr: 'ILLUS', val: 'Illustration'},
         {abr: 'FIG', val: 'Figure'},
