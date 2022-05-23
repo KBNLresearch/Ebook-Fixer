@@ -59,6 +59,7 @@ function App() {
                                 <Editor
                                     ebookFile={ebookFile}
                                     ebookId={ebookId}
+                                    ebookTitle={ebookTitle}
                                 />
                             }
                         />

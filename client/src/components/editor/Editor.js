@@ -12,6 +12,7 @@ import EditorControls from './EditorControls'
 import Viewer from './Viewer'
 import FileDownload from '../FileDownload'
 import { getFileBlob } from '../../api/GetFile'
+import ShareURL from './ShareURL'
 
 /**
  * The editor component takes an epub file and displays it as well as a UI for interacting with it.
@@ -52,24 +53,6 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
             return uuid
         }
         return ebookId
-    }
-
-    /**
-     * This function handles the click on the share button by copying the current url
-     * and showing a message in the button itself for 3 seconds
-     *
-     * @param {Event} e click event from the share button
-     */
-    function handleShareClick(e) {
-        const url = window.location.href
-        // Copy into user's clipboard
-        navigator.clipboard.writeText(url)
-
-        // change text
-        e.target.innerHTML = 'Copied!'
-        setTimeout(() => {
-            e.target.innerHTML = 'Share link'
-        }, 3000)
     }
 
     /**
@@ -117,12 +100,7 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
             ) : (
                 <div>
                     <span> Editing e-book: {ebookTitle} </span>
-                    <button
-                        onClick={handleShareClick}
-                        className={styles.share_button}
-                        type="button">
-                        Share link
-                    </button>
+                    <ShareURL />
                 </div>
             )}
 
