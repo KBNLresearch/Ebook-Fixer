@@ -10,6 +10,7 @@ djongo
 epubcheck
 flake8
 google-cloud-vision
+html.parser
 isort==5.8.0
 lxml
 pycodestyle

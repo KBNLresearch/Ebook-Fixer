@@ -12,6 +12,7 @@ import NotFound from './components/errorpages/NotFound'
 function App() {
     const [ebookFile, setEbookFile] = useState(null)
     const [ebookId, setEbookId] = useState(null)
+    const [ebookTitle, setEbookTitle] = useState(null)
 
     return (
         <div className="App">
@@ -41,6 +42,7 @@ function App() {
                                 <FileUpload
                                     setEbookFile={setEbookFile}
                                     setEbookId={setEbookId}
+                                    setEbookTitle={setEbookTitle}
                                 />
                                 <EpubInfoPage />
                             </div>
@@ -49,7 +51,7 @@ function App() {
                     <Route
                         path="/ebook/:uuid"
                         element={
-                            <Editor ebookFile={ebookFile} ebookId={ebookId} />
+                            <Editor ebookFile={ebookFile} ebookId={ebookId} ebookTitle={ebookTitle} />
                         }>
                         <Route
                             path="image/:imgFilename"
