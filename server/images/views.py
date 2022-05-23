@@ -10,12 +10,11 @@ from json import JSONDecodeError
 import json
 
 
-def image_details_view(request, filename):
+def image_details_view(request):
     """Returns the metadata and the annotations for an image
 
     Args:
-        request (request object): The request object with an ebook header
-        filename (string): The name of the image
+        request (request object): The request object with an ebook and image header
 
     Returns:
         JsonResponse: Response object sent back to the client
@@ -25,6 +24,10 @@ def image_details_view(request, filename):
             uuid = request.headers["ebook"]
         except KeyError:
             return JsonResponse({'msg': 'Ebook header not found in the request!'},
+                                status=status.HTTP_400_BAD_REQUEST)
+        filename = request.GET.get("image")
+        if filename is None:
+            return JsonResponse({'msg': 'Image parameter not found in the request!'},
                                 status=status.HTTP_400_BAD_REQUEST)
         try:
             ebook = Ebook.objects.filter(uuid=uuid).get()
@@ -91,6 +94,13 @@ def image_classification_view(request):
         try:
             if data["classification"] in map(lambda t: t[1], Image.IMAGE_TYPES):
                 image.classification = data["classification"]
+                if image.classification == "Decoration":
+                    try:
+                        annotation = Annotation.objects.filter(image=image, type="HUM").get()
+                        annotation.text = ""
+                        annotation.save(update_fields=["text"])
+                    except Annotation.DoesNotExist:
+                        Annotation.objects.create(image=image, type="HUM")
             else:
                 return JsonResponse({'msg': 'This type of image is not in supported!'},
                                     status=status.HTTP_400_BAD_REQUEST)
@@ -100,7 +110,7 @@ def image_classification_view(request):
             image.raw_context = data["raw_context"]
         except KeyError:
             pass
-        image.save()
+        image.save(update_fields=["classification", "raw_context"])
         serializer = ImageSerializer(image)
         return JsonResponse(serializer.data, status=status.HTTP_200_OK)
     else:

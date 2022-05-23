@@ -21,10 +21,9 @@ div.error {
 
 .box {
     min-height: 8em;
-    height: 25vh;
     width: 70%;
     color: black;
-    background-color: gainsboro;
+    background-color: #e1cff2;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -38,7 +37,7 @@ div.error {
         outline 0.5s ease;
 }
 .box.dragging {
-    background-color: slategray;
+    background-color: skyblue;
     outline: 0.2em dashed blueviolet;
     outline-offset: -20px;
 }
@@ -59,9 +58,10 @@ div.error {
 }
 
 .button {
+    font-family: inherit;
     font-size: inherit;
     padding: 0.3rem;
-    background-color: aquamarine;
+    background-color: skyblue;
     border: none;
     border-radius: 0.7rem;
     cursor: pointer;

@@ -56,12 +56,15 @@ export function openBook(
     // Open (unzip) the book using epubJS
     book.open(bookData)
 
+    // Make sure that only one epub is being rendered at once.
+    if (getRendered()) return
+
     // Reset the veiwer's inner html so that the old epub is gone
     document.getElementById(viewerId).textContent = ''
 
-    // Make sure that only one epub is being rendered at once.
-    if (getRendered()) return
     setRendered(true)
+
+    const height = window.innerHeight * 0.7
 
     // Render the epub using the epubJS viewer
     const rendition = book.renderTo(viewerId, {
@@ -74,7 +77,7 @@ export function openBook(
         // Take up the whole width of the container
         width: '100%',
         // Use 600 pixels of height for now
-        height: 600,
+        height,
     })
 
     // Get the promise that epubJS will display the start of the book
@@ -151,10 +154,15 @@ export async function getAllImages(rendition) {
         arr.flat()
     )
 
+    const bookPath = rendition.book.path.directory
+
     // Get the resources of the book (from the manifest)
     const resources = rendition.book.resources.replacementUrls.map((v, i) => ({
         replacementUrl: v,
-        asset: rendition.book.resources.assets[i],
+        asset: {
+            ...rendition.book.resources.assets[i],
+            href: bookPath + rendition.book.resources.assets[i].href,
+        },
     }))
 
     // Filter that list to only contain images (discard other types)
@@ -251,8 +259,8 @@ export function getImageFromRendition(imagetobeDisplayed, rendition) {
  * The style object which is appliead to a highlighted element
  */
 const highlightedStyle = {
-    outline: '7px solid rgba(255, 0, 0, 0.8)',
-    'box-shadow': '0 0 10px 10px rgba(255, 0, 0, 0.8)',
+    outline: '7px solid rgba(0, 255, 0, 0.8)',
+    'box-shadow': '0 0 10px 10px rgba(0, 255, 0, 0.8)',
     transition: 'all 0.3s ease',
 }
 

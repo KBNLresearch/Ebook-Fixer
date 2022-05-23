@@ -33,7 +33,6 @@ def check_request_body(request):
 
 
 def google_vision_labels(image_path):
-
     # Instantiates a client
     client = vision.ImageAnnotatorClient()
 

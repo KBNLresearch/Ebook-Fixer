@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
+import { Link, useNavigate } from 'react-router-dom'
 import { sendFile } from '../api/SendFile'
 import styles from './FileUpload.module.css'
 import { ReactComponent as UploadSVG } from '../assets/svgs/upload-sign.svg'
@@ -27,11 +28,12 @@ let droppedFile = null
  * This component handles uploading the epub and sending it to the server.
  * It supports both drag and drop and choosing a file with a system window.
  * It checks the file type to be an epub.
- * @param {{setEbookFile: update method}} props The props of the component
- * @param {{setEbookId: update method}} props The props of the component
+ * @param {{setEbookFile: update method}} props
+ * @param {{setEbookId: update method}} props 
+ * @param {{setEbookTitle: update method}} props
  * @returns The FileUpload component, ready for rendering.
  */
-function FileUpload({ setEbookFile, setEbookId }) {
+function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
     // State of this component:
     // If the user is dragging a file across the component
     const [dragging, setDragging] = useState(false)
@@ -45,6 +47,9 @@ function FileUpload({ setEbookFile, setEbookId }) {
     // A reference to the form that is returned below,
     // Used for adding event listeners to it.
     const form = useRef(null)
+
+    // For navigation to the editor
+    const navigate = useNavigate()
 
     // When the mouse enters the file drop area
     function handleDragEnter(e) {
@@ -157,7 +162,6 @@ function FileUpload({ setEbookFile, setEbookId }) {
             // Puts the dropped file into the state of the App component to use for the Editor
             if (setEbookFile) {
                 setEbookFile(droppedFile[0])
-                setUploading(false)
             }
             // -----------------------------------------------------
 
@@ -171,8 +175,13 @@ function FileUpload({ setEbookFile, setEbookId }) {
                         Object.prototype.hasOwnProperty.call(result, 'book_id')
                     ) {
                         setEbookId(result.book_id)
+                        setTimeout(() => {
+                            navigate(`/ebook/${result.book_id}`)
+                        }, 3000)
                     }
-
+                    if (Object.prototype.hasOwnProperty.call(result, 'title')) {
+                        setEbookTitle(result.title)
+                    }
                     setStatus('success')
                 })
                 .catch((error) => {
@@ -243,12 +252,20 @@ function FileUpload({ setEbookFile, setEbookId }) {
                 </button>
             </div>
 
+            {uploading || status ? (
+                <Link to="/ebook/1">
+                    Go to editor (for development only)
+                </Link>
+            ) : (
+                ''
+            )}
+
             <div className={uploading ? '' : styles.hidden}>Uploading…</div>
             <div
                 className={
                     status === 'success' ? styles.success : styles.hidden
                 }>
-                Done!
+                Done! Redirecting to editor...
             </div>
             <div className={status === 'error' ? styles.error : styles.hidden}>
                 Error! Please try again!
@@ -268,6 +285,7 @@ function FileUpload({ setEbookFile, setEbookId }) {
 FileUpload.propTypes = {
     setEbookFile: PropTypes.func.isRequired,
     setEbookId: PropTypes.func.isRequired,
+    setEbookTitle: PropTypes.func.isRequired
 }
 
 export default FileUpload

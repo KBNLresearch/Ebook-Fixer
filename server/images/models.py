@@ -8,8 +8,8 @@ class Image(models.Model):
     filename = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
     IMAGE_TYPES = [
-        ('DECO', 'Decorative'),
-        ('INFO', 'Informative'),
+        ('DECO', 'Decoration'),
+        ('INFO', 'Information'),
         ('PHOTO', 'Photo'),
         ('ILLUS', 'Illustration'),
         ('FIG', 'Figure'),

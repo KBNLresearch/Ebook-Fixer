@@ -24,8 +24,7 @@ def annotation_generation_view(request):
         if type(body) == JsonResponse:
             return body
         image = body[0]
-        image_path = f"test-books/{image.ebook}/OEBPS/{image.filename}"
-
+        image_path = f"test-books/{image.ebook}{image.filename}"
         try:
             # Calls the helper method in utils
             generated_labels = google_vision_labels(image_path)
@@ -33,9 +32,12 @@ def annotation_generation_view(request):
             return JsonResponse({'msg': f'Img {image.filename} in ebook {image.ebook} not found'},
                                 status=status.HTTP_404_NOT_FOUND)
 
+        # Delete already existing AI annotation
+        # This the endpoint is used for re-classification
+        Annotation.objects.filter(image=image, type="BB").delete()
         annotations = []
 
-        # Adds the each annotation from Google's API as a database entry
+        # Adds each annotation from Google's API as a database entry
         for description, score in generated_labels.items():
             annotations.append(Annotation.objects.create(image=image,
                                type="BB",
@@ -76,7 +78,7 @@ def annotation_save_view(request):
         except Annotation.DoesNotExist:
             annotation = Annotation.objects.create(image=image, type="HUM")
         annotation.text = data["text"]
-        annotation.save()
+        annotation.save(update_fields=["text"])
         serializer = AnnotationSerializer(annotation)
         return JsonResponse(serializer.data, status=status.HTTP_200_OK)
     else:

@@ -1,6 +1,6 @@
 from .serializers import EbookSerializer
 from .models import Ebook
-from .utils import inject_image_annotations, unzip_ebook, zip_ebook
+from .utils import inject_image_annotations, unzip_ebook, zip_ebook, push_epub_folder_to_github
 from images.models import Image
 from annotations.models import Annotation
 from django.http import HttpResponse, JsonResponse
@@ -8,7 +8,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.datastructures import MultiValueDictKeyError
 from rest_framework import status
 import uuid
-import os
+import environ
+
+
+env = environ.Env()
+environ.Env.read_env()
+mode = env('GITHUB_MODE')
 
 
 def ebook_detail_view(request, uuid):
@@ -57,20 +62,16 @@ def ebook_download_view(request, uuid):
             if a.type == 'HUM'
         ]
 
-        # Get the html files from the storage
-        storage_path = f"test-books/{uuid}"
-        html_files = []
-        for folder_name, sub_folders, filenames in os.walk(storage_path):
-            for filename in filenames:
-                if filename.endswith(".html"):
-                    html_files.append(filename)
-
         # Inject image annotations into the html files
-        inject_image_annotations(uuid, html_files, images, annotations)
+        inject_image_annotations(str(uuid), images, annotations)
+        # Push new contents to GitHub if mode is 'production'
+        if mode == "production":
+            message = f"Download {uuid}"
+            push_epub_folder_to_github(str(uuid), message)
 
         try:
             # Zip contents
-            zip_file_name = zip_ebook(uuid)
+            zip_file_name = zip_ebook(str(uuid))
 
             # Return zipped contents
             with open(zip_file_name, 'rb') as file:
@@ -103,7 +104,6 @@ def ebook_upload_view(request):
         # Check if key 'epub' exists in MultiValueDictionary
         try:
             uploaded_epub = request.FILES['epub']
-            # binary_epub = request.FILES['epub'].file
             epub_name = request.FILES['epub'].name
         except MultiValueDictKeyError:
             return JsonResponse({'msg': 'No epub file found in request!'},
@@ -112,14 +112,17 @@ def ebook_upload_view(request):
         # Check if file extension is .epub
         file_ext = epub_name[-5:]
         if file_ext == '.epub':
-            new_ebook = Ebook(book_uuid, epub_name, uploaded_epub)
             # Automatically stores the uploaded epub under MEDIA_ROOT/{uuid}/{filename}
-
+            new_ebook = Ebook(book_uuid, epub_name, uploaded_epub)
             new_ebook.save()
             # Unzip the epub file stored on the server, under MEDIA_ROOT/{uuid}
             # Returns the extracted title, which override the title
             try:
                 ebook_title = unzip_ebook(book_uuid, epub_name)
+                # Push unzipped contents to GitHub
+                if mode == "production":
+                    message = f"Upload {book_uuid}"
+                    push_epub_folder_to_github(book_uuid, message)
             except FileNotFoundError:
                 return JsonResponse({'msg': 'Something went wrong! Please try again!'},
                                     status=status.HTTP_500_INTERNAL_SERVER_ERROR)

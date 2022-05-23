@@ -1,51 +1,71 @@
+import { Routes, Route, Link } from 'react-router-dom'
 import './App.scss'
 import { useState } from 'react'
-import { fetchExampleApiCall } from './api/ApiCalls'
 import FileUpload from './components/FileUpload'
 import Editor from './components/editor/Editor'
-import FileDownload from './components/FileDownload'
+import { ReactComponent as GoBackArrowSVG } from './assets/svgs/go-back-arrow.svg'
+import logo from './assets/images/KB-logo.png'
+import EpubInfoPage from './components/EpubInfoPage'
+import NotFound from './components/errorpages/NotFound'
 
 // This code uses functional components, you could use classes instead but they're
 function App() {
-    const [result, setResult] = useState([])
-
     const [ebookFile, setEbookFile] = useState(null)
-
     const [ebookId, setEbookId] = useState(null)
-
-    function getResult() {
-        fetchExampleApiCall().then((data) => {
-            setResult(data)
-        })
-    }
+    const [ebookTitle, setEbookTitle] = useState(null)
 
     return (
         <div className="App">
             <header className="App-header">
-                <FileUpload
-                    setEbookFile={setEbookFile}
-                    setEbookId={setEbookId}
-                />
-                <FileDownload ebookId={ebookId} />
-                <p>Press the button below to call the ebooks api:</p>
-                <button type="button" onClick={getResult}>
-                    Call it{' '}
-                </button>
-                {result.length === 0 ? '' : 'Result:'}
-                <ul id="result">
-                    {result.map((ebook) => (
-                        <li key={ebook.uuid}>
-                            Ebook uuid: {ebook.uuid}, title: {ebook.title}
-                        </li>
-                    ))}
-                </ul>
+                <Routes>
+                    <Route
+                        path="/"
+                        element={<img alt="" className="logo" src={logo} />}
+                    />
+                    <Route
+                        path="*"
+                        element={
+                            <Link to="/" className="home-navigation">
+                                <GoBackArrowSVG />
+                                Go Back
+                            </Link>
+                        }
+                    />
+                </Routes>
             </header>
-            <main>
-                {ebookFile === null ? (
-                    ''
-                ) : (
-                    <Editor ebookFile={ebookFile} ebookId={ebookId} />
-                )}
+            <main className="App-main">
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <div className="App-main">
+                                <FileUpload
+                                    setEbookFile={setEbookFile}
+                                    setEbookId={setEbookId}
+                                    setEbookTitle={setEbookTitle}
+                                />
+                                <EpubInfoPage />
+                            </div>
+                        }
+                    />
+                    <Route
+                        path="/ebook/:uuid"
+                        element={
+                            <Editor ebookFile={ebookFile} ebookId={ebookId} ebookTitle={ebookTitle} />
+                        }>
+                        <Route
+                            path="image/:imgFilename"
+                            element={
+                                <Editor
+                                    ebookFile={ebookFile}
+                                    ebookId={ebookId}
+                                    ebookTitle={ebookTitle}
+                                />
+                            }
+                        />
+                    </Route>
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
             </main>
         </div>
     )

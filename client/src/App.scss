@@ -1,6 +1,6 @@
 .App {
     text-align: center;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto Condensed', serif;
     font-size: 24px;
     box-sizing: border-box;
 
@@ -15,11 +15,54 @@
     box-sizing: border-box;
 }
 
+html,
+body,
+#root,
+.App {
+    height: 100%;
+}
+
 .App-header {
-    min-height: 30vh;
+    min-height: 10vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     color: black;
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        line-height: 1.5em;
+        color: #444;
+    }
+}
+
+.App-main {
+    // min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 2em
+}
+
+.logo {
+    width: 40%;
+    margin: 0.5em;
+}
+
+.home-navigation {
+    position: absolute;
+    left: 2em;
+    color: rgb(0, 0, 0);
+    background-color: rgb(207, 164, 247);
+    padding: 0.2em 0.5em;
+    padding-bottom: 0.5em;
+    border-radius: 0.5em;
+    svg {
+        height: 1.2em;
+        margin-right: 0.5em;
+        position: relative;
+        top: 0.25em;
+    }
 }

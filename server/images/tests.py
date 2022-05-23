@@ -3,6 +3,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory, TestCase
 from django.http import JsonResponse
 from ebooks.models import Ebook
+from annotations.models import Annotation
 from uuid import uuid4
 from .views import image_details_view, image_classification_view
 from .models import Image
@@ -29,15 +30,18 @@ class ImageViewsTest(TestCase):
 
         return response, msg
 
-    def response_image_details_view(self, filename, uuid=None):
-        path = f"get/{filename}/"
+    def response_image_details_view(self, filename=None, uuid=None):
+        path = "get/"
         if uuid is not None:
-            request = self.factory.get(path, **{"HTTP_ebook": uuid})
+            if filename is not None:
+                request = self.factory.get(path, {"image": filename}, **{"HTTP_ebook": uuid})
+            else:
+                request = self.factory.get(path, **{"HTTP_ebook": uuid})
         else:
             request = self.factory.get(path)
         request.user = self.user
 
-        response = image_details_view(request, filename)
+        response = image_details_view(request)
         msg = response.content
 
         return response, msg
@@ -108,6 +112,46 @@ class ImageViewsTest(TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(decode_message(msg), "{'msg': 'This type of image is not in supported!'}")
 
+    def test_image_classification_view_200_including_decorative_classification(self):
+        uuid = uuid4()
+        ebook = Ebook.objects.create(uuid=uuid, title="TEST TITLE", epub="TEST_EPUB.epub")
+        image = Image.objects.create(ebook=ebook, filename="image.jpg", location="file.html")
+        content = "{\n" f'"ebook": "{str(uuid)}",\n' '"filename": "image.jpg",\n' \
+                  '"location": "file.html",\n' '"classification": "Decoration",\n' \
+                  '"raw_context": "NEW CONTEXT"\n' "}"
+
+        response, msg = self.response_image_classification_view(content)
+
+        image.classification = "Decoration"
+        image.raw_context = "NEW CONTEXT"
+        serializer = ImageSerializer(image)
+        js = JsonResponse(serializer.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(msg, js.content)
+        self.assertEqual(Annotation.objects.filter(image=image, type="HUM").count(), 1)
+
+    def test_image_classification_view_200_update_existing_annotation(self):
+        uuid = uuid4()
+        ebook = Ebook.objects.create(uuid=uuid, title="TEST TITLE", epub="TEST_EPUB.epub")
+        image = Image.objects.create(ebook=ebook, filename="image.jpg", location="file.html")
+        Annotation.objects.create(image=image, type="HUM", text="OLD TEXT")
+        content = "{\n" f'"ebook": "{str(uuid)}",\n' '"filename": "image.jpg",\n' \
+                  '"location": "file.html",\n' '"classification": "Decoration",\n' \
+                  '"raw_context": "NEW CONTEXT"\n' "}"
+
+        response, msg = self.response_image_classification_view(content)
+
+        image.classification = "Decoration"
+        image.raw_context = "NEW CONTEXT"
+        serializer = ImageSerializer(image)
+        js = JsonResponse(serializer.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(msg, js.content)
+        annotation = Annotation.objects.filter(image=image, type="HUM").get()
+        self.assertEqual(annotation.text, "")
+
     def test_image_classification_view_200_including_optional_fields(self):
         uuid = uuid4()
         ebook = Ebook.objects.create(uuid=uuid, title="TEST TITLE", epub="TEST_EPUB.epub")
@@ -146,12 +190,12 @@ class ImageViewsTest(TestCase):
         request = self.factory.post(f"get/{filename}/")
         request.user = self.user
 
-        response = image_details_view(request, filename)
+        response = image_details_view(request)
 
         self.assertEqual(response.status_code, 405)
         self.assertEqual(decode_message(response.content), "{'msg': 'Method Not Allowed!'}")
 
-    def test_image_details_view_missing_header(self):
+    def test_image_details_view_400_missing_header(self):
         filename = "test.jpg"
 
         response, msg = self.response_image_details_view(filename)
@@ -159,7 +203,15 @@ class ImageViewsTest(TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(decode_message(msg), "{'msg': 'Ebook header not found in the request!'}")
 
-    def test_image_details_view_missing_ebook(self):
+    def test_image_details_view_400_missing_parameter(self):
+        uuid = uuid4()
+        response, msg = self.response_image_details_view(uuid=uuid)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(decode_message(msg),
+                         "{'msg': 'Image parameter not found in the request!'}")
+
+    def test_image_details_view_404_missing_ebook(self):
         filename = "test.jpg"
         uuid = uuid4()
 
@@ -169,7 +221,7 @@ class ImageViewsTest(TestCase):
         self.assertEqual(decode_message(msg),
                          "{'msg': " f"'Ebook with uuid {uuid} not found!'" "}")
 
-    def test_image_details_view_missing_image(self):
+    def test_image_details_view_404_missing_image(self):
         uuid = uuid4()
         filename = "test.jpg"
         ebook = Ebook.objects.create(uuid=uuid, title="TEST TITLE", epub="test.epub")
