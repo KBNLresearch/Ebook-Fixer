@@ -32,9 +32,31 @@ def inject_image_annotations(ebook_uuid, images, annotations):
                         im['alt'] = image_annotation.text
 
                 with open(storage_path + html_file, "w") as file:
-                    file.write(data.prettify())
+                    text = data.prettify()
+                    text = add_indentation(text, 3)
+                    file.write(text)
             except FileNotFoundError:
                 pass
+
+
+def add_indentation(text, indentation):
+    """ Adds new spaces at the start of each new line in the text.
+
+    Args:
+        text (String): the text to which we should add indentation
+        indentation (Int): the number of spaces to be added to each line
+
+    Returns:
+        Text: the text with indentation
+    """
+    sp = " " * indentation
+    lsep = chr(10) if text.find(chr(13)) == -1 else chr(13) + chr(10)
+    lines = text.split(lsep)
+    for i in range(len(lines)):
+        space_diff = len(lines[i]) - len(lines[i].lstrip())
+        if space_diff:
+            lines[i] = sp * space_diff + lines[i]
+    return lsep.join(lines)
 
 
 def zip_ebook(ebook_uuid):
@@ -90,7 +112,7 @@ def unzip_ebook(ebook_uuid, ebook_filename):
     # Turns epub file into zip archive
     with ZipFile(epub_path, 'r') as zipped_epub:
         zipped_epub.extractall(f"test-books/{ebook_uuid}/")
-        # Remove the original zip .epub file
+        # Remove the original .epub file
         os.remove(epub_path)
     return extract_title(ebook_uuid)
 

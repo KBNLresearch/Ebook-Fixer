@@ -73,9 +73,9 @@ class UtilsTest(TestCase):
         with open(html_path + "/OEBPS/" + html_filename, "r") as file:
             self.assertEqual(file.readlines(),
                              ['<html>\n',
-                              ' <body>\n',
-                              '  <img alt="TEST ANNOTATION" src="test.jpg"/>\n',
-                              ' </body>\n',
+                              '    <body>\n',
+                              '        <img alt="TEST ANNOTATION" src="test.jpg"/>\n',
+                              '    </body>\n',
                               '</html>'])
         shutil.rmtree(html_path)
 
