@@ -52,8 +52,17 @@ function App() {
                         path="/ebook/:uuid"
                         element={
                             <Editor ebookFile={ebookFile} ebookId={ebookId} ebookTitle={ebookTitle} />
-                        }
-                    />
+                        }>
+                        <Route
+                            path="image/:imgFilename"
+                            element={
+                                <Editor
+                                    ebookFile={ebookFile}
+                                    ebookId={ebookId}
+                                />
+                            }
+                        />
+                    </Route>
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </main>
