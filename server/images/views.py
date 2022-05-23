@@ -94,7 +94,7 @@ def image_classification_view(request):
         try:
             if data["classification"] in map(lambda t: t[1], Image.IMAGE_TYPES):
                 image.classification = data["classification"]
-                if image.classification == "Decorative":
+                if image.classification == "Decoration":
                     try:
                         annotation = Annotation.objects.filter(image=image, type="HUM").get()
                         annotation.text = ""
