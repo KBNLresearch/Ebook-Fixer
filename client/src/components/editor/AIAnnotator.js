@@ -44,15 +44,22 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
         
     }, [currImage,annotationList])
 
+
+
+    function displayAnnotation(text, confidence) {
+        // TODO: make font larger depending on confidence rate????
+        const res = " " + text + " " + confidence
+        return res
+    }
+
+
+
     function handleClick() {
         if (currImage) {
             // When only the client is run during development, we still want to inspect this function though
             if (!ebookId) {
                 console.log('No e-book UUID stored on client!')
             }
-
-
-
             getAiAnnotation(
                 ebookId,
                 imageId,
@@ -60,30 +67,26 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
             ) .then(result => {
             //    console.log(JSON.stringify(result));
                 if (Object.prototype.hasOwnProperty.call(result, "annotations")){
-                        annotations= result.annotations.map(({ text, confidence }) => (JSON.stringify({ text, confidence })))
+                        annotations = result.annotations.map(({ text, confidence }) => displayAnnotation(text, confidence))
                         setKeywords(annotations)
                    }
             })
             generateRef.current.disabled = true
-            generateRef.current.innerText= "Generated"
+            generateRef.current.innerText = "Generated"
         }
-
     }
 
 
         return (
             <div className={styles.container}>
                 <textarea value={keywords}
-            placeholder="Loading AI annotation..." disabled>
-            </textarea>
+            placeholder="Loading AI annotation..." disabled />
             <button type="button"
                     className={styles.save_button}
                     ref={generateRef}
                     onClick={() => handleClick()}>
                     Generate
-
             </button>
-            
             </div>
         )
 }
