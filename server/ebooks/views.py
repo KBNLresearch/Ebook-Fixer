@@ -8,12 +8,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.datastructures import MultiValueDictKeyError
 from rest_framework import status
 import uuid
-import environ
+from os import environ
 
 
-env = environ.Env()
-environ.Env.read_env()
-mode = env('GITHUB_MODE')
+mode = environ.get('GITHUB_MODE', 'development')
 
 
 def ebook_detail_view(request, uuid):

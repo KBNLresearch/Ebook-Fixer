@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-import environ
 from pathlib import Path
+from os import environ
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -19,21 +19,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/test-books/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'test-books')
 
-env = environ.Env()
-environ.Env.read_env()  # reading .env file
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = environ.get('SECRET_KEY',
+                         'django-insecure-n8lk#@)p)u_9jn34^i#2_uf_k*k8$+fzhj4)*b!n_6a!krj14e')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(environ.get('DEBUG', 'True'))
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
 # Application definition
 
@@ -89,13 +86,15 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': env('MONGO_DB_NAME'),
+        'NAME': environ.get('MONGO_DB_NAME', 'fixingebooks'),
         'CLIENT': {
-            'host': env('MONGO_DB_HOST'),
-            'username': env('MONGO_DB_USERNAME'),
-            'password': env('MONGO_DB_PASSWORD'),
-            'authSource': env('MONGO_DB_AUTH_SOURCE'),
-            'authMechanism': env('MONGO_DB_AUTH_MECHANISM'),
+            'host': environ.get('MONGO_DB_HOST', 'mongodb://mongodb:27017'),
+            'username': environ.get('MONGO_DB_USERNAME', 'root'),
+            'password': environ.get('MONGO_DB_PASSWORD', 'mongoadmin'),
+            'authSource': environ.get('MONGO_DB_AUTH_SOURCE', 'admin'),
+            'authMechanism': environ.get('MONGO_DB_AUTH_MECHANISM', 'SCRAM-SHA-1'),
+            'tls': environ.get('MONGO_DB_TLS', 'false'),
+            'tlsCAFile': environ.get('MONGO_DB_CA_CERT', None),
         }
     }
 }
@@ -143,7 +142,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ORIGIN_WHITELIST = [
-    env('CLIENT_URL'),
+    environ.get('CLIENT_URL', 'http://localhost:3000'),
 ]
 
 CORS_ALLOW_HEADERS = ('content-disposition', 'accept-encoding',
