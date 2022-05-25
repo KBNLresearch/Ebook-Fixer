@@ -96,4 +96,5 @@ class DataProcessingPipelineTests(TestCase):
 
         self.assertEqual(self.ebook.state, "INVALID")
         self.assertEqual(self.ebook.checker_issues,
-                         "['WARNING - 0 - file.html - WARNING_MESSAGE', 'ERROR - 1 - file.html - ERROR_MESSAGE']")
+                         "['WARNING - 0 - file.html - WARNING_MESSAGE', "
+                         "'ERROR - 1 - file.html - ERROR_MESSAGE']")

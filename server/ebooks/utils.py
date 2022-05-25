@@ -5,7 +5,6 @@ from zipfile import ZipFile
 import subprocess
 from pathlib import Path
 from epubcheck import EpubCheck
-import json
 
 
 def inject_image_annotations(ebook_uuid, images, annotations):
@@ -171,8 +170,9 @@ def process_ebook(ebook):
         ebook (Ebook): the ebook object to be processed
     """
     valid, messages = check_ebook(ebook.epub.name)
-    ebook.checker_issues = str(list(map(lambda m: f"{m.level} - {m.id} - {m.location} - {m.message}",
-                                    messages)))
+    ebook.checker_issues = str(list(map(lambda m: f"{m.level} - {m.id} "
+                                                  f"- {m.location} - {m.message}",
+                                        messages)))
     if not valid:
         ebook.state = 'INVALID'
         ebook.save(update_fields=["state", "checker_issues"])
