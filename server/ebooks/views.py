@@ -17,29 +17,6 @@ from os import environ
 import uuid
 
 
-def ebook_detail_view(request, uuid):
-    """ The endpoint for retrieving the metadata for a book.
-
-    Args:
-        request (request object): the request object
-        uuid (uuid): the UUID of an already uploaded ebook
-
-    Returns:
-        JsonResponse: a message in case of an error or the metadata for the book
-    """
-    if request.method == "GET":
-        try:
-            ebook = Ebook.objects.all().filter(uuid=uuid).get()
-        except Ebook.DoesNotExist:
-            return JsonResponse({'msg': f'Ebook with uuid {uuid} not found!'},
-                                status=status.HTTP_404_NOT_FOUND)
-        serializer = EbookSerializer(ebook)
-        return JsonResponse(serializer.data, status=status.HTTP_200_OK)
-    else:
-        return JsonResponse({'msg': 'Method Not Allowed!'},
-                            status=status.HTTP_405_METHOD_NOT_ALLOWED)
-
-
 def ebook_download_view(request, uuid):
     """ The endpoint for zipping the ebook contents from storage
 
@@ -53,6 +30,16 @@ def ebook_download_view(request, uuid):
     if request.method == "GET":
         try:
             ebook = Ebook.objects.all().filter(uuid=uuid).get()
+            # If the book is in one of the invalid states its entry will be deleted
+            if ebook.state in list(map(lambda t: t[0], Ebook.INVALID_STATES)):
+                serializer = EbookSerializer(ebook)
+                response = JsonResponse(serializer.data, status=status.HTTP_200_OK)
+                ebook.delete()
+                return response
+            # The book needs to be processed before it can be downloaded
+            elif ebook.state != "PROCESSED":
+                serializer = EbookSerializer(ebook)
+                return JsonResponse(serializer.data, status=status.HTTP_200_OK)
         except Ebook.DoesNotExist:
             return JsonResponse({'msg': f'Ebook with uuid {uuid} not found!'},
                                 status=status.HTTP_404_NOT_FOUND)
@@ -111,6 +98,7 @@ def ebook_upload_view(request):
         # Check if file extension is .epub
         file_ext = epub_name[-5:]
         if file_ext == '.epub':
+            # Automatically stores the uploaded epub under MEDIA_ROOT/{uuid}/{filename}
             ebook = Ebook.objects.create(uuid=ebook_uuid, title=epub_name, epub=uploaded_epub)
             start_new_thread(process_ebook, (ebook,))
             return JsonResponse({'book_id': ebook_uuid, 'title': epub_name},

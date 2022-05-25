@@ -196,6 +196,6 @@ def process_ebook(ebook):
     except FileNotFoundError:
         ebook.delete()
         return
-    # Automatically stores the uploaded epub under MEDIA_ROOT/{uuid}/{filename}
     ebook.title = ebook_title
-    ebook.save(update_fields=["title"])
+    ebook.state = 'PROCESSED'
+    ebook.save(update_fields=["title", "state"])

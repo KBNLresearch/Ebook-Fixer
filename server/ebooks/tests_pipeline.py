@@ -45,6 +45,15 @@ class DataProcessingPipelineTests(TestCase):
         self.assertFalse(valid)
         self.assertEqual(message, ["Original .epub file not found!"])
 
+    @patch("ebooks.utils.EpubCheck", MockValidEpubWithWarningsCheck)
+    @patch("ebooks.utils.os.path.isfile", dummy_mock)
+    def test_process_valid_ebook_with_warnings(self):
+        epub_path = "random invalid path"
+        valid, message = check_ebook(epub_path)
+
+        self.assertTrue(valid)
+        self.assertEqual(message, [("0", "WARNING")])
+
     @patch("ebooks.utils.EpubCheck", MockValidEpubCheck)
     @patch("ebooks.utils.os.path.isfile", dummy_mock)
     def test_process_valid_ebook_no_file_found(self):
@@ -61,15 +70,8 @@ class DataProcessingPipelineTests(TestCase):
     def test_process_valid_ebook_updated_title(self):
         process_ebook(self.ebook)
 
+        self.assertEqual(self.ebook.state, "PROCESSED")
         self.assertEqual(self.ebook.title, "MOCKED_TITLE")
-
-    @patch("ebooks.utils.EpubCheck", MockValidEpubWithWarningsCheck)
-    @patch("ebooks.utils.os.path.isfile", dummy_mock)
-    def test_process_valid_ebook_with_warnings(self):
-        process_ebook(self.ebook)
-
-        self.assertEqual(self.ebook.state, "CONVERTING")
-        self.assertEqual(self.ebook.checker_issues, '[["0", "WARNING"]]')
 
     @patch("ebooks.utils.EpubCheck", MockInvalidEpubCheck)
     @patch("ebooks.utils.os.remove", dummy_mock)
