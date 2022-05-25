@@ -154,7 +154,7 @@ def check_ebook(ebook_filepath):
         return valid, messages
     valid = True
     for message in messages:
-        if message[1] == 'ERROR':
+        if message.level == 'ERROR':
             valid = False
             break
     return valid, messages
@@ -171,7 +171,8 @@ def process_ebook(ebook):
         ebook (Ebook): the ebook object to be processed
     """
     valid, messages = check_ebook(ebook.epub.name)
-    ebook.checker_issues = json.dumps(messages)
+    ebook.checker_issues = str(list(map(lambda m: f"{m.level} - {m.id} - {m.location} - {m.message}",
+                                    messages)))
     if not valid:
         ebook.state = 'INVALID'
         ebook.save(update_fields=["state", "checker_issues"])

@@ -5,6 +5,20 @@ from .models import Ebook
 from .utils import check_ebook, process_ebook
 
 
+class MockedMessage:
+    def __init__(self, id, level, location, message):
+        self.id = id
+        self.level = level
+        self.location = location
+        self.message = message
+
+    def __eq__(self, other):
+        return self.id == other.id and \
+               self.level == other.level and \
+               self.location == other.location and \
+               self.message == other.message
+
+
 class MockValidEpubCheck:
     def __init__(self, epub_path):
         self.valid = True
@@ -15,14 +29,15 @@ class MockValidEpubWithWarningsCheck:
     def __init__(self, epub_path):
         self.valid = False
         # Demo messages
-        self.messages = [("0", "WARNING")]
+        self.messages = [MockedMessage("0", "WARNING", "file.html", "MESSAGE")]
 
 
 class MockInvalidEpubCheck:
     def __init__(self, epub_path):
         self.valid = False
         # Demo messages
-        self.messages = [("0", "WARNING"), ("1", "ERROR")]
+        self.messages = [MockedMessage("0", "WARNING", "file.html", "WARNING_MESSAGE"),
+                         MockedMessage("1", "ERROR", "file.html", "ERROR_MESSAGE")]
 
 
 def mock_unzipping(ebook_uuid, ebook_title):
@@ -52,7 +67,7 @@ class DataProcessingPipelineTests(TestCase):
         valid, message = check_ebook(epub_path)
 
         self.assertTrue(valid)
-        self.assertEqual(message, [("0", "WARNING")])
+        self.assertEqual(message, [MockedMessage("0", "WARNING", "file.html", "MESSAGE")])
 
     @patch("ebooks.utils.EpubCheck", MockValidEpubCheck)
     @patch("ebooks.utils.os.path.isfile", dummy_mock)
@@ -80,4 +95,5 @@ class DataProcessingPipelineTests(TestCase):
         process_ebook(self.ebook)
 
         self.assertEqual(self.ebook.state, "INVALID")
-        self.assertEqual(self.ebook.checker_issues, '[["0", "WARNING"], ["1", "ERROR"]]')
+        self.assertEqual(self.ebook.checker_issues,
+                         "['WARNING - 0 - file.html - WARNING_MESSAGE', 'ERROR - 1 - file.html - ERROR_MESSAGE']")
