@@ -7,6 +7,7 @@ import Classifier from './Classifier'
 import {getImgFilename} from '../../helpers/EditImageHelper'
 import { getImageMetadataApiCall } from '../../api/GetImageMetadata'
 import styles from './Annotator.module.scss'
+import ProgressBar from './ProgressBar'
 
 /**
  * Annotator component is meant to help the user produce an annotation for an image as an end result
@@ -122,6 +123,8 @@ function Annotator({ currImage, ebookId }) {
 
     return (
         <div className={styles.container}>
+
+            <ProgressBar/>
 
             {
                 {

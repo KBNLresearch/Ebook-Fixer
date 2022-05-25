@@ -1,0 +1,12 @@
+.progress_container {
+    padding: 1em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2em;
+    width: 100%;
+    box-sizing: border-box;
+    flex-grow: 1;
+}
