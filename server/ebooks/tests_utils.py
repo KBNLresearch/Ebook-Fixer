@@ -146,8 +146,6 @@ class UtilsTest(TestCase):
         # Check that the zip contents indeed exist
         self.assertTrue(os.path.isfile("test-books/test-uuid/META-INF/" + test_file_1))
         self.assertTrue(os.path.isfile("test-books/test-uuid/" + test_file_2))
-        # Check that the original zip file is removed
-        self.assertFalse(os.path.exists("test-books/test-uuid/" + "test.zip"))
         # Check that the contents remained the same
         with open(filepath + "META-INF/" + test_file_1, "r") as file1:
             self.assertEqual(file1.readline(), container_content)

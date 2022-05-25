@@ -25,7 +25,7 @@ config.read(config_file)
 env = environ.Env()
 environ.Env.read_env()
 mode = env('GITHUB_MODE')
-# # If set to 'production' pushing to GitHub will be enabled
+# If set to 'production' pushing to GitHub will be enabled
 if mode == "production":
     access_token = config.get('github_settings', 'github_token')
     email = config.get('github_settings', 'email')

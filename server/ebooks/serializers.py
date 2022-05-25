@@ -5,4 +5,4 @@ from .models import Ebook
 class EbookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ebook
-        fields = ('uuid', 'title', 'epub')
+        fields = ('uuid', 'title', 'state', 'checker_issues')

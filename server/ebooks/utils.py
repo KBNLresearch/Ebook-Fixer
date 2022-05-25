@@ -4,6 +4,8 @@ import shutil
 from zipfile import ZipFile
 import subprocess
 from pathlib import Path
+from epubcheck import EpubCheck
+import json
 
 
 def inject_image_annotations(ebook_uuid, images, annotations):
@@ -112,8 +114,6 @@ def unzip_ebook(ebook_uuid, ebook_filename):
     # Turns epub file into zip archive
     with ZipFile(epub_path, 'r') as zipped_epub:
         zipped_epub.extractall(f"test-books/{ebook_uuid}/")
-        # Remove the original .epub file
-        os.remove(epub_path)
     return extract_title(ebook_uuid)
 
 
@@ -122,11 +122,61 @@ def push_epub_folder_to_github(uuid, message):
     the GitHub repository from server/wsgi.py
 
     Args:
-        uuid (UUID): The uuid of the e-book
-        message (string): The commit message
+        uuid (UUID): the uuid of the e-book
+        message (string): the commit message
     """
     folder = f"test-books/{uuid}/"
     subprocess.run(["git", "add", folder])
     subprocess.run(["git", "commit", "--quiet", "-m", message])
     subprocess.run(["git", "pull", "--allow-unrelated-histories"])
     subprocess.run(["git", "push", "--quiet"])
+
+
+def check_ebook(ebook_filepath):
+    """ Runs EpubCheck on the book corresponding to the path.
+
+    Args:
+        ebook_filepath (str): the local filepath where the book can be found
+
+    Returns:
+        boolean, list: returns the messages received from the EpubCheck
+        and true if the book is valid or false otherwise
+    """
+    epub_path = f"/app/test-books/{ebook_filepath}"
+    result = EpubCheck(epub_path)
+    valid = result.valid
+    messages = result.messages
+    if valid:
+        return valid, messages
+    valid = True
+    for message in messages:
+        if message[1] == 'ERROR':
+            valid = False
+            break
+    return valid, messages
+
+
+def process_ebook(ebook):
+    """ The main method that is invoked in the upload view and runs
+    all tasks of the data processing pipeline.
+    Checks whether the uploaded book is valid.
+    Converts a valid ePub2 into an ePub3.
+    Makes the new ePub3 accessible.
+
+    Args:
+        ebook (Ebook): the ebook object to be processed
+    """
+    valid, messages = check_ebook(ebook.epub.name)
+    ebook.checker_issues = json.dumps(messages)
+    if not valid:
+        ebook.state = 'INVALID'
+        ebook.save(update_fields=["state", "checker_issues"])
+        os.remove(f"test-books/{ebook.epub.name}")
+        return
+    ebook.state = 'CONVERTING'
+    ebook.save(update_fields=["state", "checker_issues"])
+
+    # TODO: CONVERT TO EPUB3
+
+    # Remove the original .epub file
+    os.remove(f"test-books/{ebook.epub.name}")
