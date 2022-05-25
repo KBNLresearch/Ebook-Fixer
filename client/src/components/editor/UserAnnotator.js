@@ -54,8 +54,10 @@ function UserAnnotator({ annotationList, currImage, ebookId, imageId, setImageId
 
     return (
         <div className={styles.user_control}>
+             <label htmlFor="userTextArea" className={styles.box_label}> Manual image description </label>
             <textarea
                 value={textValue}
+                id="userTextArea"
                 onChange={(e) => {
                     setTextValue(e.target.value)
                 }}

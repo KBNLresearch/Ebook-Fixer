@@ -17,19 +17,17 @@ import {  getAiAnnotation} from '../../api/AnnotateImage'
  */
 function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
 
-    const generateRef = useRef(null)
+    const generateButtonRef = useRef(null)
     const [labels, setLabels] = useState([])
-    
-    let annotations = []
 
     useEffect(() => {
         if (!currImage) {
-            generateRef.current.disabled = true
-            generateRef.current.innerText = "Generated"
+            generateButtonRef.current.disabled = true
+            generateButtonRef.current.innerText = "Generated"
             
         } else {
-            generateRef.current.disabled = false
-            generateRef.current.innerText = "Generate"
+            generateButtonRef.current.disabled = false
+            generateButtonRef.current.innerText = "Generate"
             setLabels([])
             
         }
@@ -46,20 +44,16 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
     }, [currImage, annotationList])
 
 
-    // TODO: add labels to the boxes (AI labels, current image description, ...)
-    // TODO: fix setStage overview issue?
-    // TODO: add JSDoc to helper functions
-
     /**
      * 
-     * @param {Annotation object} labelObject
-     * 
+     * @param {Annotation object} labelObject returned by server
+     * Example object:
      * confidence: "0.8987"
      *  id: 1253
      * image: 264
      * text: "Black"
      * type: "BB"
-     * @returns 
+     * @returns CSS classname proportional to confidence, to scale the font size
      */
     function getProportionalClass(labelObject) {
         const classes = [
@@ -74,10 +68,7 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
             styles.conf_eight,
             styles.conf_nine 
         ]
-        // TODO: switch case depending on confidence rate????
         const conf = labelObject.confidence
-        // console.log('Confidence.... = ' + conf)
-        console.log(conf.charAt(2))
         switch(conf.charAt(2)) {
             case '0':
                 return classes[0]
@@ -113,7 +104,6 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
             if (!ebookId) {
                 console.log('No e-book UUID stored on client!')
             }
-                // TODO: extend this with descriptions?
             getAiAnnotation(
                 ebookId,
                 imageId,
@@ -124,24 +114,24 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
                         setLabels(result.annotations)
                    }
             })
-            generateRef.current.disabled = true
-            generateRef.current.innerText = "Generated"
+            generateButtonRef.current.disabled = true
+            generateButtonRef.current.innerText = "Generated"
             // generateRef.current.style.visibility = 'hidden'
         }
     }
 
+    // TODO: insert another div below the AI labels box for sentences, if any (Aratrika)
         return (
             <div className={styles.ai_control}>
-                <div className={styles.ai_keywords}> 
+                <label htmlFor="AiLabelsBox" className={styles.box_label}> Automatic suggestions </label>
+                <div className={styles.ai_labels_box} id="AiLabelsBox"> 
                     {labels.map((obj) => (<p className={getProportionalClass(obj)}> {obj.text} </p>))} 
                 </div>
-                {/* <textarea value={keywords}
-                    placeholder="Loading AI labels..." disabled /> */}
                 <button type="button"
-                    className={styles.save_button}
-                    ref={generateRef}
-                    onClick={() => handleClick()}> 
-                    Get AI suggestions 
+                className={styles.save_button}
+                ref={generateButtonRef}
+                onClick={() => handleClick()}>
+                Get AI suggestions
                 </button>
             </div>
         )
