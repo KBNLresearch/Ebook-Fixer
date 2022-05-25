@@ -2,7 +2,6 @@ from .serializers import EbookSerializer
 from .models import Ebook
 from .utils import (
     inject_image_annotations,
-    unzip_ebook,
     zip_ebook,
     push_epub_folder_to_github,
     process_ebook
@@ -13,14 +12,9 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.datastructures import MultiValueDictKeyError
 from rest_framework import status
-import uuid
-import environ
 from _thread import start_new_thread
-
-
-env = environ.Env()
-environ.Env.read_env()
-mode = env('GITHUB_MODE')
+from os import environ
+import uuid
 
 
 def ebook_detail_view(request, uuid):
@@ -72,10 +66,9 @@ def ebook_download_view(request, uuid):
         # Inject image annotations into the html files
         inject_image_annotations(str(uuid), images, annotations)
         # Push new contents to GitHub if mode is 'production'
-        if mode == "production":
+        if environ.get('GITHUB_MODE', "development") == "production":
             message = f"Download {uuid}"
             push_epub_folder_to_github(str(uuid), message)
-
         try:
             # Zip contents
             zip_file_name = zip_ebook(str(uuid))
@@ -120,23 +113,8 @@ def ebook_upload_view(request):
         file_ext = epub_name[-5:]
         if file_ext == '.epub':
             ebook = Ebook.objects.create(uuid=ebook_uuid, title=epub_name, epub=uploaded_epub)
-            try:
-                # Unzip the epub file stored on the server, under MEDIA_ROOT/{uuid}
-                # Returns the extracted title, which override the title
-                ebook_title = unzip_ebook(ebook_uuid, epub_name)
-                # Push unzipped contents to GitHub
-                if mode == "production":
-                    message = f"Upload {ebook_uuid}"
-                    push_epub_folder_to_github(ebook_uuid, message)
-            except FileNotFoundError:
-                ebook.delete()
-                return JsonResponse({'msg': 'Something went wrong! Please try again!'},
-                                    status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-            # Automatically stores the uploaded epub under MEDIA_ROOT/{uuid}/{filename}
-            ebook.title = ebook_title
-            ebook.save(update_fields=["title"])
             start_new_thread(process_ebook, (ebook,))
-            return JsonResponse({'book_id': ebook_uuid, 'title': ebook_title},
+            return JsonResponse({'book_id': ebook_uuid, 'title': epub_name},
                                 status=status.HTTP_200_OK)
         else:
             return JsonResponse({'msg': 'Make sure your uploaded file has extension .epub!'},

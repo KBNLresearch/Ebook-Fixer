@@ -1,4 +1,3 @@
-from unittest.mock import ANY
 from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory, TestCase
 from uuid import uuid4
@@ -15,6 +14,10 @@ mocked_uuid = uuid4()
 
 
 def dummy_mock(book_uuid, message):
+    pass
+
+
+def mock_pipeline(ebook):
     pass
 
 
@@ -162,23 +165,16 @@ class EbookViewsTest(TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(msg, b'{"msg": "No epub file found in request!"}')
 
-    @patch("ebooks.views.push_epub_folder_to_github", dummy_mock)
     @patch("ebooks.views.uuid.uuid4", mock_uuid)
+    @patch("ebooks.views.process_ebook", mock_pipeline)
     def test_upload_view_200(self):
-        # Mock unzip_ebook() where it was called!
-        # Note that logic is tested in tests_utils.py
-        # This is about communication between client and server
-        with patch("ebooks.views.unzip_ebook") as unzip_ebook_mock:
-            # Stub mock to return extracted book title
-            unzip_ebook_mock.return_value = "EXTRACTED TITLE"
-            test_file = SimpleUploadedFile(
-                "test_file.epub",
-                b"Only .epub files allowed!"
-            )
-            request = self.factory.post('upload/', {"epub": test_file})
-            response = ebook_upload_view(request)
-            self.assertEqual(response.status_code, 200)
-            # Verify if correct data passed to util function (UUID is random)
-            unzip_ebook_mock.assert_called_once_with(ANY, "test_file.epub")
+        test_file = SimpleUploadedFile(
+            "test_file.epub",
+            b"Only .epub files allowed!"
+        )
+        request = self.factory.post('upload/', {"epub": test_file})
+        response = ebook_upload_view(request)
+        self.assertEqual(response.status_code, 200)
+
         path = os.path.abspath("./") + f"/test-books/{mocked_uuid}/"
         shutil.rmtree(path)

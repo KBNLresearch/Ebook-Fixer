@@ -114,6 +114,8 @@ def unzip_ebook(ebook_uuid, ebook_filename):
     # Turns epub file into zip archive
     with ZipFile(epub_path, 'r') as zipped_epub:
         zipped_epub.extractall(f"test-books/{ebook_uuid}/")
+        # Remove the original .epub file
+        os.remove(epub_path)
     return extract_title(ebook_uuid)
 
 
@@ -171,12 +173,27 @@ def process_ebook(ebook):
     if not valid:
         ebook.state = 'INVALID'
         ebook.save(update_fields=["state", "checker_issues"])
+        # Remove the original .epub file
         os.remove(f"test-books/{ebook.epub.name}")
         return
     ebook.state = 'CONVERTING'
     ebook.save(update_fields=["state", "checker_issues"])
 
+    mode = os.environ.get('GITHUB_MODE', "development")
     # TODO: CONVERT TO EPUB3
+    # TODO: MAKE ACCESSIBLE
 
-    # Remove the original .epub file
-    os.remove(f"test-books/{ebook.epub.name}")
+    try:
+        # Unzip the epub file stored on the server, under MEDIA_ROOT/{uuid}
+        # Returns the extracted title, which override the title
+        ebook_title = unzip_ebook(str(ebook.uuid), ebook.title)
+        # Push unzipped contents to GitHub
+        if mode == "production":
+            message = f"Upload {ebook.uuid}"
+            push_epub_folder_to_github(str(ebook.uuid), message)
+    except FileNotFoundError:
+        ebook.delete()
+        return
+    # Automatically stores the uploaded epub under MEDIA_ROOT/{uuid}/{filename}
+    ebook.title = ebook_title
+    ebook.save(update_fields=["title"])
