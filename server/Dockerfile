@@ -8,7 +8,8 @@ COPY requirements.txt ./
 
 RUN pip install -r requirements.txt --quiet && \
     apk add --no-cache bash && \
-    apk add git
+    apk add git && \
+    apk add --no-cache openjdk8-jre
 
 COPY . ./
 

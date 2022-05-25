@@ -3,7 +3,7 @@
 [![client](https://img.shields.io/badge/client-react-blue)]()
 [![client](https://img.shields.io/badge/server-django-success)]()
 
-# E-books Fixer
+# E-book Fixer
 
 E-books Fixer is a cloud-based web application for making epub files more accessible to visually impaired people. 
 Its main focus is on automatically generating image descriptions using already existing AIs, such as the Google Vision API.
