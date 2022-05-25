@@ -46,9 +46,10 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
 
 
 
-    function displayAnnotation(text, confidence) {
+    function displayAnnotations(annotationsList) {
+        const res = annotationsList.map(({ text, confidence }) => " " + text + " " + confidence)
+
         // TODO: make font larger depending on confidence rate????
-        const res = " " + text + " " + confidence
         return res
     }
 
@@ -67,7 +68,7 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
             ) .then(result => {
             //    console.log(JSON.stringify(result));
                 if (Object.prototype.hasOwnProperty.call(result, "annotations")){
-                        annotations = result.annotations.map(({ text, confidence }) => displayAnnotation(text, confidence))
+                        annotations = displayAnnotations(result.annotations)
                         setKeywords(annotations)
                    }
             })
@@ -78,9 +79,9 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
 
 
         return (
-            <div className={styles.container}>
+            <div className={styles.ai_input}>
                 <textarea value={keywords}
-            placeholder="Loading AI annotation..." disabled />
+                    placeholder="Loading AI labels..." disabled />
             <button type="button"
                     className={styles.save_button}
                     ref={generateRef}

@@ -249,7 +249,7 @@ function Annotator({ currImage, ebookId }) {
                         </button>
                     </div> ,
                 'annotate': 
-                    <div className={styles.user_input}>
+                    <div className={styles.container}>
                         <AIAnnotator
                         annotationList={aiAnnotationList}
                         currImage={currImage}
@@ -267,9 +267,7 @@ function Annotator({ currImage, ebookId }) {
                                 ref={saveButton}
                                 onClick={() => handleClick()}>
                                 Save Annotation
-            
-                        </button>
-                    
+                        </button> 
                     </div>,
                 'overview' : 
                     <div className={styles.overview}>
