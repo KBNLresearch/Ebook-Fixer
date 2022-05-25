@@ -45,6 +45,11 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
     }, [currImage,annotationList])
 
 
+    // TODO: add labels to the boxes (AI labels, current image description, ...)
+
+    // TODO: fix setStage overview issue?
+
+    // TODO: fix spacing Save annotation button
 
     function displayAnnotations(annotationsList) {
         const res = annotationsList.map(({ text, confidence }) => " " + text + " " + confidence)
@@ -79,15 +84,18 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
 
 
         return (
-            <div className={styles.ai_input}>
-                <textarea value={keywords}
-                    placeholder="Loading AI labels..." disabled />
-            <button type="button"
+            <div className={styles.ai_control}>
+                <div className={styles.ai_keywords}> 
+                    {keywords.map((kw) => (<p className={styles.ai_label_conf}> {kw} </p>))} 
+                </div>
+                {/* <textarea value={keywords}
+                    placeholder="Loading AI labels..." disabled /> */}
+                <button type="button"
                     className={styles.save_button}
                     ref={generateRef}
                     onClick={() => handleClick()}>
-                    Generate
-            </button>
+                    Generate AI suggestions
+                </button>
             </div>
         )
 }
