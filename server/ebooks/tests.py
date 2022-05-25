@@ -76,7 +76,7 @@ class EbookViewsTest(TestCase):
 
         response, msg = self.response_ebook_download_view()
 
-        # self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 404)
         expected_msg = '{"msg": ' + f'"Files for ebook with uuid {self.uuid} not found!'\
             ' Zipping failed!"' + '}'
         self.assertEqual(msg, bytes(expected_msg, 'utf-8'))
