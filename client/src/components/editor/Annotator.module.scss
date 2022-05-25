@@ -26,7 +26,7 @@
     
     .ai_labels_box {
         width: 100%;
-        height: 70%;
+        height: 50%;
         border-radius: 0.5em;
         border: 0.2em solid rgb(117, 124, 132);
         padding: 0.3em;
@@ -44,33 +44,42 @@
         //     }
         // }
         .conf_zero {
+            display: inline;
             font-size: 50%;
         }
         .conf_one {
+            display: inline;
             font-size: 55%;
         }
         .conf_two {
+            display: inline;
             font-size: 60%;
         }
         .conf_three {
+            display: inline;
             font-size: 65%;
         }
         .conf_four {
             font-size: 70%;
         }
         .conf_five {
+            display: inline;
             font-size: 75%;
         }
         .conf_six {
+            display: inline;
             font-size: 80%;
         }
         .conf_seven {
+            display: inline;
             font-size: 100%;
         }
         .conf_eight {
+            display: inline;
             font-size: 120%;
         }
         .conf_nine {
+            display: inline;
             font-size: 140%;
         }
     }
