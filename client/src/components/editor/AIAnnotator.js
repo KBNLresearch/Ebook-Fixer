@@ -18,9 +18,10 @@ import {  getAiAnnotation} from '../../api/AnnotateImage'
 function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
 
     const generateRef = useRef(null)
-    const [keywords, setKeywords] = useState([])
+    const [labels, setLabels] = useState([])
     
     let annotations = []
+
     useEffect(() => {
         if (!currImage) {
             generateRef.current.disabled = true
@@ -29,34 +30,80 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
         } else {
             generateRef.current.disabled = false
             generateRef.current.innerText = "Generate"
-            setKeywords([])
+            setLabels([])
             
         }
 
         const list = annotationList
         if (list.length > 0) {
             // Display the latest ai annotation
-            setKeywords(list[list.length - 1])
+            setLabels(list[list.length - 1])
         } else {
             // No img alt attribute
-            setKeywords([])
+            setLabels([])
         }
         
-    }, [currImage,annotationList])
+    }, [currImage, annotationList])
 
 
     // TODO: add labels to the boxes (AI labels, current image description, ...)
-
     // TODO: fix setStage overview issue?
+    // TODO: add JSDoc to helper functions
 
-    // TODO: fix spacing Save annotation button
-
-    function displayAnnotations(annotationsList) {
-        const res = annotationsList.map(({ text, confidence }) => " " + text + " " + confidence)
-
-        // TODO: make font larger depending on confidence rate????
-        return res
-    }
+    /**
+     * 
+     * @param {Annotation object} labelObject
+     * 
+     * confidence: "0.8987"
+     *  id: 1253
+     * image: 264
+     * text: "Black"
+     * type: "BB"
+     * @returns 
+     */
+    function getProportionalClass(labelObject) {
+        const classes = [
+            styles.conf_zero,
+            styles.conf_one, 
+            styles.conf_two, 
+            styles.conf_three,
+            styles.conf_four, 
+            styles.conf_five,
+            styles.conf_six, 
+            styles.conf_seven, 
+            styles.conf_eight,
+            styles.conf_nine 
+        ]
+        // TODO: switch case depending on confidence rate????
+        const conf = labelObject.confidence
+        // console.log('Confidence.... = ' + conf)
+        console.log(conf.charAt(2))
+        switch(conf.charAt(2)) {
+            case '0':
+                return classes[0]
+            case '1':
+                return classes[1]
+            case '2':
+                return classes[2]
+            case '3':
+                return classes[3]
+            case '4':
+                return classes[4]
+            case '5':
+                return classes[5]
+            case '6':
+                return classes[6]
+            case '7':
+                return classes[7]
+            case '8':
+                return classes[8]
+            case '9':
+                return classes[9]
+            default:
+                return classes[0]
+            } 
+        }
+    
 
 
 
@@ -66,6 +113,7 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
             if (!ebookId) {
                 console.log('No e-book UUID stored on client!')
             }
+                // TODO: extend this with descriptions?
             getAiAnnotation(
                 ebookId,
                 imageId,
@@ -73,8 +121,7 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
             ) .then(result => {
             //    console.log(JSON.stringify(result));
                 if (Object.prototype.hasOwnProperty.call(result, "annotations")){
-                        annotations = displayAnnotations(result.annotations)
-                        setKeywords(annotations)
+                        setLabels(result.annotations)
                    }
             })
             generateRef.current.disabled = true
@@ -83,18 +130,18 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
         }
     }
 
-
         return (
             <div className={styles.ai_control}>
                 <div className={styles.ai_keywords}> 
-                    {keywords.map((kw) => (<p className={styles.ai_label_conf}> {kw} </p>))} 
+                    {labels.map((obj) => (<p className={getProportionalClass(obj)}> {obj.text} </p>))} 
                 </div>
                 {/* <textarea value={keywords}
                     placeholder="Loading AI labels..." disabled /> */}
                 <button type="button"
                     className={styles.save_button}
                     ref={generateRef}
-                    onClick={() => handleClick()}> Get AI suggestions 
+                    onClick={() => handleClick()}> 
+                    Get AI suggestions 
                 </button>
             </div>
         )

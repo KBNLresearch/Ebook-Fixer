@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     padding: 0.5rem;
-    gap: 10em;
+    gap: 1em;
     align-items: flex-end;
     width: 100%;
     box-sizing: border-box;
@@ -23,7 +23,7 @@
     
     .ai_keywords {
         width: 100%;
-        height: 100%;
+        height: 70%;
         border-radius: 0.5em;
         border: 0.2em solid rgb(117, 124, 132);
         padding: 0.3em;
@@ -40,7 +40,38 @@
         //         cursor: auto;
         //     }
         // }
+        .conf_zero {
+            font-size: 50%;
+        }
+        .conf_one {
+            font-size: 55%;
+        }
+        .conf_two {
+            font-size: 60%;
+        }
+        .conf_three {
+            font-size: 65%;
+        }
+        .conf_four {
+            font-size: 70%;
+        }
+        .conf_five {
+            font-size: 75%;
+        }
+        .conf_six {
+            font-size: 80%;
+        }
+        .conf_seven {
+            font-size: 100%;
+        }
+        .conf_eight {
+            font-size: 120%;
+        }
+        .conf_nine {
+            font-size: 140%;
+        }
     }
+
 
     // .ai_label_conf {
     //     // position: absolute;

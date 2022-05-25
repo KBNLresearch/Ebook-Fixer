@@ -117,6 +117,8 @@ function Annotator({ currImage, ebookId }) {
         {abr: 'GOOGL', val: 'Google Vision API'},
     ]
 
+    // TODO: is there a way to allow the user to scroll down to the user box, without having the epub move along?
+    // (so they can still see the image when doing the manual annotation)
 
     return (
         <div className={styles.container}>
