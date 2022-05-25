@@ -2,7 +2,7 @@ from django.test import TestCase
 from unittest.mock import patch
 from uuid import uuid4
 from .models import Ebook
-from .utils import process_ebook
+from .utils import check_ebook, process_ebook
 
 
 class MockValidEpubCheck:
@@ -29,8 +29,8 @@ def mock_unzipping(ebook_uuid, ebook_title):
     return "MOCKED_TITLE"
 
 
-def mock_file_deleting(filepath):
-    pass
+def dummy_mock(filepath):
+    return True
 
 
 class DataProcessingPipelineTests(TestCase):
@@ -38,7 +38,15 @@ class DataProcessingPipelineTests(TestCase):
         self.uuid = uuid4()
         self.ebook = Ebook.objects.create(uuid=self.uuid)
 
+    def test_check_missing_book(self):
+        epub_path = "random invalid path"
+        valid, message = check_ebook(epub_path)
+
+        self.assertFalse(valid)
+        self.assertEqual(message, ["Original .epub file not found!"])
+
     @patch("ebooks.utils.EpubCheck", MockValidEpubCheck)
+    @patch("ebooks.utils.os.path.isfile", dummy_mock)
     def test_process_valid_ebook_no_file_found(self):
         process_ebook(self.ebook)
 
@@ -49,12 +57,14 @@ class DataProcessingPipelineTests(TestCase):
 
     @patch("ebooks.utils.EpubCheck", MockValidEpubCheck)
     @patch("ebooks.utils.unzip_ebook", mock_unzipping)
+    @patch("ebooks.utils.os.path.isfile", dummy_mock)
     def test_process_valid_ebook_updated_title(self):
         process_ebook(self.ebook)
 
         self.assertEqual(self.ebook.title, "MOCKED_TITLE")
 
     @patch("ebooks.utils.EpubCheck", MockValidEpubWithWarningsCheck)
+    @patch("ebooks.utils.os.path.isfile", dummy_mock)
     def test_process_valid_ebook_with_warnings(self):
         process_ebook(self.ebook)
 
@@ -62,7 +72,8 @@ class DataProcessingPipelineTests(TestCase):
         self.assertEqual(self.ebook.checker_issues, '[["0", "WARNING"]]')
 
     @patch("ebooks.utils.EpubCheck", MockInvalidEpubCheck)
-    @patch("ebooks.utils.os.remove", mock_file_deleting)
+    @patch("ebooks.utils.os.remove", dummy_mock)
+    @patch("ebooks.utils.os.path.isfile", dummy_mock)
     def test_process_invalid_ebook(self):
         process_ebook(self.ebook)
 

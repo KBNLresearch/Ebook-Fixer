@@ -62,7 +62,6 @@ def ebook_download_view(request, uuid):
             if a.image in images
             if a.type == 'HUM'
         ]
-
         # Inject image annotations into the html files
         inject_image_annotations(str(uuid), images, annotations)
         # Push new contents to GitHub if mode is 'production'

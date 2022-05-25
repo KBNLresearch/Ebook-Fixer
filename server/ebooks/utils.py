@@ -145,6 +145,8 @@ def check_ebook(ebook_filepath):
         and true if the book is valid or false otherwise
     """
     epub_path = f"/app/test-books/{ebook_filepath}"
+    if not os.path.isfile(epub_path):
+        return False, ["Original .epub file not found!"]
     result = EpubCheck(epub_path)
     valid = result.valid
     messages = result.messages
