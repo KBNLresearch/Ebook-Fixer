@@ -13,32 +13,41 @@
         height: 10em;
         position: relative;
     }
+
     .ai_control {
         width: 100%;
-        height: 5em;
+        height: 100%;
         position: relative;
-        // gap: 10em;
-        textarea {
-            border-color: rgb(117, 124, 132);
-            &:focus {
-                background-color: black;
-            }
-        }
-        .icon {
-            padding: 0.2em;
-            &:disabled {
-                background-color: rgb(171, 178, 186);
-                cursor: auto;
-            }
-        }
+        gap: 10em;
     }
-    // .ai_keywords {
-        
+    
+    .ai_keywords {
+        width: 100%;
+        height: 100%;
+        border-radius: 0.5em;
+        border: 0.2em solid rgb(117, 124, 132);
+        padding: 0.3em;
+        box-sizing: border-box;
+        resize: none;
+        font-size: inherit;
+        outline: none;
+        font-family: 'Times New Roman', Times, serif;
+        text-align: left;
+        // .icon {
+        //     padding: 0.2em;
+        //     &:disabled {
+        //         background-color: rgb(171, 178, 186);
+        //         cursor: auto;
+        //     }
+        // }
+    }
 
-    // }
     // .ai_label_conf {
-
+    //     // position: absolute;
+    //     // left: 1em;
+    
     // }
+    
 
     .dropdown {
         width: 60%;
@@ -67,6 +76,7 @@
         border: 0.2em solid #ccc;
         transition: border-color 0.2s ease, background-color 0.2s ease;
         padding: 0.5em 0.7em;
+        visibility: visible;
 
         &:hover {
             background-color: #2ebf50;
@@ -120,3 +130,4 @@
 .transparent {
     opacity: 0.3;
 }
+

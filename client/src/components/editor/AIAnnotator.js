@@ -79,6 +79,7 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
             })
             generateRef.current.disabled = true
             generateRef.current.innerText = "Generated"
+            // generateRef.current.style.visibility = 'hidden'
         }
     }
 
@@ -93,8 +94,7 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
                 <button type="button"
                     className={styles.save_button}
                     ref={generateRef}
-                    onClick={() => handleClick()}>
-                    Generate AI suggestions
+                    onClick={() => handleClick()}> Get AI suggestions 
                 </button>
             </div>
         )
