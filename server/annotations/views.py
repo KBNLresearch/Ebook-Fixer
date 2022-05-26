@@ -1,6 +1,6 @@
 from .serializers import AnnotationSerializer
 from .models import Annotation
-from .utils import check_request_body, google_vision_labels
+from .utils import check_request_body, google_vision_labels, mocked_google_vision_labels
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
@@ -41,7 +41,10 @@ def annotation_generation_view(request):
 
         try:
             # Calls the helper method in utils
-            generated_labels = google_vision_labels(image_path)
+
+            #TODO For production comment line 46 and uncomment line 47
+            generated_labels = mocked_google_vision_labels()
+            #generated_labels = google_vision_labels(image_path)
         except FileNotFoundError:
             return JsonResponse({'msg': f'Img {image.filename} in ebook {image.ebook} not found'},
                                 status=status.HTTP_404_NOT_FOUND)
