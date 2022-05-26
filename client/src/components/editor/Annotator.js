@@ -22,13 +22,13 @@ import ProgressBar from './ProgressBar'
 
 function Annotator({ currImage, ebookId }) {
 
-    // TODO: could be used to get the annotation history
-    const [userAnnotationList, setUserAnnotationList] = useState([])
-    const [aiAnnotationList, setAiAnnotationList] = useState([])
+    const [stage, setStage] = useState("")
     const [imageId, setImageId] = useState(-1)
     const [currClassification, setCurrClassification] = useState(null)
     const [currAiSelected, setCurrAISelected] = useState(null)
-    const [stage, setStage] = useState("")
+    // TODO: could be used to get the annotation history
+    const [aiAnnotationList, setAiAnnotationList] = useState([])
+    const [userAnnotationList, setUserAnnotationList] = useState([])
     const [classificationSaved, setClassificationSaved]  = useState(false)
     const [aiSaved, setAiSaved] = useState(false)
     const [userAnnotationSaved, setUserAnnotationSaved] = useState(false)
@@ -37,14 +37,17 @@ function Annotator({ currImage, ebookId }) {
     // Executed every time the currentImage changes
     useEffect(() => {
         if (!currImage) {
-            setStage("classify")
+            setStage("start")
         } else {
             setStage("classify")
             setClassificationSaved(false)
             setAiSaved(false)
             setUserAnnotationSaved(false)
             // Remove all AI suggestions when next image is loaded
+            setCurrClassification(null)
+            setCurrAISelected(null)
             setAiAnnotationList([])
+            setUserAnnotationList([])
             
             const imgInfo = currImage
             // TODO: put original alt text outside textarea (small caption)
@@ -85,13 +88,8 @@ function Annotator({ currImage, ebookId }) {
                     result.annotations.forEach((el) => {
                         if (el.type === 'HUM') {
                             setUserAnnotationList([...userAnnotationList, el.text])
-                            // Disable button if human annotation was saved earlier
-                            // saveButton.current.disabled = true
-                        } else {
-                            // We don't need to display AI suggestions in the overview
-                                // [...aiAnnotationList, result.annotations
-                                //     .filter((el) => el.type !== 'HUM')
-                                //     .map(({ text, confidence }) => (JSON.stringify({ text, confidence })))])
+                            setUserAnnotationSaved(true)
+                            setAiSaved(true)
                         }
                     })
                 }    
@@ -99,11 +97,9 @@ function Annotator({ currImage, ebookId }) {
                 // TODO: we may also wanna pass this classification to AIAnnotator in the future,
                 //    to allow for different workflows per category
                 if (Object.prototype.hasOwnProperty.call(result, 'image')) {
-                    console.log(
-                        'Classification stored: ' +
-                            result.image.classification
-                    )
+                    console.log('Classification stored: ' + result.image.classification)
                     setCurrClassification(result.image.classification)
+                    setClassificationSaved(true)
                 }
                 // Update image id after each new image is loaded
                 if (Object.prototype.hasOwnProperty.call(result, 'image')) {
@@ -140,6 +136,9 @@ function Annotator({ currImage, ebookId }) {
 
             {
                 {
+                'start': 
+                    <div className={styles.start_msg}> Please select an image to annotate. </div>,
+
                 'classify': 
                     <Classifier
                         currImage={currImage}
@@ -163,21 +162,23 @@ function Annotator({ currImage, ebookId }) {
                 'annotate': 
                     <div className={styles.container}>
                         <AIAnnotator
-                        aiAnnotationList={aiAnnotationList}
-                        setAiAnnotationList={setAiAnnotationList}
-                        currImage={currImage}
-                        ebookId={ebookId}
-                        imageId={imageId} >
+                            aiAnnotationList={aiAnnotationList}
+                            setAiAnnotationList={setAiAnnotationList}
+                            currImage={currImage}
+                            ebookId={ebookId}
+                            imageId={imageId} 
+                        >
                             {' '}
                         </AIAnnotator>
                         <UserAnnotator 
-                        annotationList={userAnnotationList} 
-                        currImage={currImage}
-                        ebookId={ebookId}
-                        imageId={imageId}
-                        setImageId={setImageId}
-                        userAnnotationSaved={userAnnotationSaved}
-                        setUserAnnotationSaved={setUserAnnotationSaved}
+                            annotationList={userAnnotationList} 
+                            setAnnotationList={setUserAnnotationList}
+                            currImage={currImage}
+                            ebookId={ebookId}
+                            imageId={imageId}
+                            setImageId={setImageId}
+                            userAnnotationSaved={userAnnotationSaved}
+                            setUserAnnotationSaved={setUserAnnotationSaved}
                         />
                     </div>,
 
@@ -194,7 +195,12 @@ function Annotator({ currImage, ebookId }) {
                     </div>
                         <button type="button"
                                     className={styles.restart_button}
-                                    onClick={() => setStage("classify")}>
+                                    onClick={() => {
+                                            setStage("classify")
+                                            setClassificationSaved(false)
+                                            setAiSaved(false)
+                                            setUserAnnotationSaved(false)
+                                            }}>
                                     Restart image annotation
                         </button>
                     </div>

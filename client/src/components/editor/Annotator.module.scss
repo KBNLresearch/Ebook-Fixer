@@ -7,6 +7,13 @@
     width: 100%;
     box-sizing: border-box;
     flex-grow: 1;
+    position: relative;
+
+    .start_msg {
+        position: absolute;
+        top: 12em;
+        left: 5em;
+    }
 
     .user_control {
         width: 100%;

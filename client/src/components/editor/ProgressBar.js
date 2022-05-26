@@ -46,13 +46,10 @@ function ProgressBar({ currStage, setStage, classificationSaved, aiSaved, userAn
         }
         return styles.save_step
     }
-
-    // TODO: also make first arrow grey if no image selected yet
     
     // TODO: add javadoc
     // TODO: get rid of unncessesary props!
 
-    
     function handleClassificationClick() {        
         console.log('Return to classification step')
         setStage('classify')

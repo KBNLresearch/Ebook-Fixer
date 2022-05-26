@@ -18,9 +18,8 @@ import styles from './Annotator.module.scss'
  * @param {{setUserAnnotationSaved: SetStateAction}} props sets whether user has pressed "Save" button
  * @returns The UserAnnotator component
  */
-function UserAnnotator({ annotationList, currImage, ebookId, imageId, setImageId, userAnnotationSaved, setUserAnnotationSaved }) {
+function UserAnnotator({ annotationList, setAnnotationList, currImage, ebookId, imageId, setImageId, userAnnotationSaved, setUserAnnotationSaved }) {
 
-    const [typing, setTyping] = useState(false)
     const [textValue, setTextValue] = useState('')
     const saveButton = useRef(null)
 
@@ -37,22 +36,16 @@ function UserAnnotator({ annotationList, currImage, ebookId, imageId, setImageId
         }
 
         saveButton.current.disabled = false
-        const saved = userAnnotationSaved
-        if (saved) {
+        if (userAnnotationSaved) {
             saveButton.current.disabled = true
             saveButton.current.innerText = 'Annotation saved'
-
-            // TODO: add a settings button for explicitly editing the manual annotation
-
-            // Enable button again if user starts typing
-            if (typing) {
-                console.log('Typing..')
-                saveButton.current.disabled = false
-            }
         }
 
     }, [annotationList])
 
+
+     // TODO: add a settings button for explicitly editing the manual annotation
+     // Currently we enable save button again as soon as user starts typing (onFocus)
 
     function handleClick() {
         saveUserAnnotation(
@@ -61,7 +54,6 @@ function UserAnnotator({ annotationList, currImage, ebookId, imageId, setImageId
             getImgFilename(currImage),
             textValue
         ).then((result) => {
-            // console.log(JSON.stringify(result));
             // Keep image id up to date after annotating
             if (Object.prototype.hasOwnProperty.call(result, 'image')) {
                 setImageId(result.image)
@@ -70,6 +62,7 @@ function UserAnnotator({ annotationList, currImage, ebookId, imageId, setImageId
         saveButton.current.innerText = 'Annotation saved'
         saveButton.current.disabled = true
         setUserAnnotationSaved(true)
+        setAnnotationList([...annotationList, textValue])
     }
 
     return (
@@ -83,10 +76,7 @@ function UserAnnotator({ annotationList, currImage, ebookId, imageId, setImageId
                 }}
                 placeholder="Your annotation here..."
                 onFocus={() => {
-                    setTyping(true)
-                }}
-                onBlur={() => {
-                    setTyping(false)
+                    saveButton.current.disabled = false
                 }}
             />
             <button type="button"
@@ -109,6 +99,7 @@ function UserAnnotator({ annotationList, currImage, ebookId, imageId, setImageId
 
 UserAnnotator.propTypes = {
     annotationList: PropTypes.arrayOf(PropTypes.string).isRequired,
+    setAnnotationList: PropTypes.func.isRequired,
     currImage: PropTypes.instanceOf(ImageInfo).isRequired,
     ebookId: PropTypes.string.isRequired, 
     imageId: PropTypes.number.isRequired,
