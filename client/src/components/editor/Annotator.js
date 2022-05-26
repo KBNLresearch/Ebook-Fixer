@@ -87,6 +87,7 @@ function Annotator({ currImage, ebookId }) {
     const [stage, setStage] = useState("")
     const saveButtonRef = useRef(null)
     const dropdownRef = useRef(null)
+    const [aiChoice, setAiChoice] = useState("")
 
     const saveButton = useRef(null)
     // Executed every time the currentImage changes
@@ -246,6 +247,16 @@ function Annotator({ currImage, ebookId }) {
                             onClick={() => setStage("annotate")}>
                             {' '}
                             Save AI{' '}
+                        </button>
+                        <button
+                            type="button"
+                                className={styles.save_button}
+                                onClick={() => {
+                                    setStage("annotate")
+                                    setAiChoice("no-ai")
+                                }}>
+                                {' '}
+                                Skip{' '}
                         </button>
                     </div> ,
                 'annotate': 
