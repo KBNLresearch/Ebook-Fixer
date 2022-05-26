@@ -1,34 +1,67 @@
 import { useEffect, useRef, useState } from 'react'
+import PropTypes from 'prop-types'
 import styles from './ProgressBar.module.scss'
 
 
-function ProgressBar() {
+/** Progress bar on top of editor showing arrows that are coloured depending on the current stage.
+ * 
+ * @param {{currStage: String}} props current stage in annotation process
+ * @param {{userAnnotationSaved: bool}} props whether user has pressed "Save" button already
+ * @returns The ProgressBar component
+ */
+function ProgressBar({ currStage, userAnnotationSaved }) {
 
+    function getStyleClassification() {
+        if (currStage === 'classify' || currStage === 'ai-selection' || currStage === 'annotate' || currStage === 'overview') {
+            return styles.class_step_color
+        }
+        return styles.class_step
+    }
 
-    // TODO: create arrow elements (row flex)
+    function getStyleAi() {
+        if (currStage === 'ai-selection' || currStage === 'annotate' || currStage === 'overview') {
+            return styles.ai_step_color
+        }
+        return styles.ai_step
+    }
 
-    // TODO: get props from Annotator parent
+    function getStyleManual() {
+        if (currStage === 'annotate' || currStage === 'overview') {
+            return styles.manual_step_color
+        }
+        return styles.manual_step
+    }
 
-    // TODO: change colour of arrow depending on which stage
-    // TODO: Make everything coloured for overview
+    function getStyleSave() {
+        if (currStage === 'overview' || userAnnotationSaved) {
+            return styles.save_step_color
+        }
+        return styles.save_step
+    }
 
     return (
         <div className={styles.progress_container}> 
-            <div className={styles.class_step} > 
+        
+            <div className={getStyleClassification()} > 
                 <span> Classification </span>
             </div>
-            <div className={styles.ai_step}>
-                 <span> AI </span>
+            <div className={getStyleAi()}>
+                <span> AI </span>
             </div>
-            <div className={styles.manual_step}> 
+            <div className={getStyleManual()}> 
                 <span> Manual </span>
             </div>
-            <div className={styles.save_step}> 
+            <div className={getStyleSave()}> 
                 <span> Save </span>
-            </div>
+            </div> 
         </div>
     )
 
+}
+
+ProgressBar.propTypes = {
+    currStage: PropTypes.string.isRequired,
+    userAnnotationSaved: PropTypes.bool.isRequired
 }
 
 export default ProgressBar

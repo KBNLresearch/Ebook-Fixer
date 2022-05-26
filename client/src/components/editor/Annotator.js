@@ -26,6 +26,7 @@ function Annotator({ currImage, ebookId }) {
     const [imageId, setImageId] = useState(-1)
     const [currClassification, setCurrClassification] = useState(null)
     const [stage, setStage] = useState("")
+    const [userAnnotationSaved, setUserAnnotationSaved] = useState(false)
     const dropdownRef = useRef(null)
     const saveAiChoiceButtonRef = useRef(null)
 
@@ -40,6 +41,7 @@ function Annotator({ currImage, ebookId }) {
             // saveButton.current.innerText = 'Save annotation'
             // saveButton.current.disabled = false
             setStage("classify")
+            setUserAnnotationSaved(false)
             
             const imgInfo = currImage
             if (imgInfo) {
@@ -124,7 +126,10 @@ function Annotator({ currImage, ebookId }) {
     return (
         <div className={styles.container}>
 
-            <ProgressBar/>
+            <ProgressBar
+                currStage={stage}
+                userAnnotationSaved={userAnnotationSaved}
+            />
 
             {
                 {
@@ -155,7 +160,7 @@ function Annotator({ currImage, ebookId }) {
                             </option>
                             {options.map((opt) => (
                                 <option value={opt.val}> {opt.val} </option>
-                                // TODO: handle AI selected by user
+                                // TODO: handle AI selected by user (put this whole div in another component)
                                 // handleMenuOption(ospt)
                             ))}
                         </select>
@@ -183,6 +188,7 @@ function Annotator({ currImage, ebookId }) {
                         ebookId={ebookId}
                         imageId={imageId}
                         setImageId={setImageId}
+                        setUserAnnotationSaved={setUserAnnotationSaved}
                         />
                     </div>,
                 'overview' : 
