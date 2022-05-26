@@ -8,10 +8,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.datastructures import MultiValueDictKeyError
 from rest_framework import status
 import uuid
-from os import environ
+import os
 
 
-mode = environ.get('GITHUB_MODE', 'production')
+mode = os.environ.get('GITHUB_MODE', 'production')
 
 
 def ebook_detail_view(request, uuid):
@@ -75,6 +75,7 @@ def ebook_download_view(request, uuid):
             with open(zip_file_name, 'rb') as file:
                 response = HttpResponse(file, content_type='application/epub+zip')
                 response['Content-Disposition'] = f'attachment; filename={zip_file_name}'
+                os.remove(zip_file_name)
                 return response
         except FileNotFoundError:
             return JsonResponse({'msg': f'Files for ebook with uuid {uuid} not found! '
