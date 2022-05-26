@@ -3,7 +3,7 @@
     display: grid;
     grid-template-columns: 5fr 3fr;
     grid-template-areas: 'viewer_container annotator_container';
-    gap: 1em;
+    gap: 0.5em;
     align-content: stretch;
     flex-grow: 1;
 }
@@ -23,6 +23,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    gap: 6em;
 }
 
 .container {
