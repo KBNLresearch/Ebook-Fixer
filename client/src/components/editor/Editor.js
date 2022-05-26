@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import {
     getImageFromRendition,
     openBook,
@@ -13,6 +13,7 @@ import Viewer from './Viewer'
 import FileDownload from '../FileDownload'
 import { getFileBlob } from '../../api/GetFile'
 import ShareURL from './ShareURL'
+import Overview from './Overview'
 
 /**
  * The editor component takes an epub file and displays it as well as a UI for interacting with it.
@@ -30,7 +31,7 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
     const [rendition, setRendition] = useState(null)
     const [ebookNotFound, setEbookNotFound] = useState(false)
 
-    const { uuid } = useParams()
+    const { uuid, imgFilename } = useParams()
 
     // Whether the component is already rendering / rendered the epub,
     // This is a fix for a bug that causes the epub to be rendered twice
@@ -99,6 +100,11 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
                 <span style={{ color: 'red' }}>E-book not found!</span>
             ) : (
                 <div>
+                    {currentImage && imgFilename ? (
+                        <Link to={`/ebook/${uuid}`}>Back to Overview</Link>
+                    ) : (
+                        ''
+                    )}
                     <span> Editing e-book: {ebookTitle} </span>
                     <ShareURL />
                 </div>
@@ -115,10 +121,15 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
                     <Viewer id={viewerId} />
                 </div>
                 <div className={styles.annotator_container}>
-                    <Annotator
-                        currImage={currentImage}
-                        ebookId={getEbookUUID()}
-                    />
+                    {currentImage && imgFilename ? (
+                        <Annotator
+                            currImage={currentImage}
+                            ebookId={getEbookUUID()}
+                        />
+                    ) : (
+                        <Overview imageList={imageList} />
+                    )}
+
                     <FileDownload ebookId={getEbookUUID()} />
                 </div>
             </div>
@@ -129,13 +140,13 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
 Editor.propTypes = {
     ebookFile: PropTypes.shape({}),
     ebookId: PropTypes.string,
-    ebookTitle: PropTypes.string
+    ebookTitle: PropTypes.string,
 }
 
 Editor.defaultProps = {
     ebookId: '',
     ebookFile: null,
-    ebookTitle: ''
+    ebookTitle: '',
 }
 
 export default Editor
