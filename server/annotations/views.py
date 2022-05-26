@@ -9,7 +9,7 @@ from rest_framework import status
 @csrf_exempt
 def annotation_generation_view(request):
     """ Receives the metadata for an image and sends
-    a request to the AI to generate annotation for it
+    a request to GOOGLE VISON AI to generate annotation for it
     The annotations for save in the database.
 
     Args:
@@ -54,7 +54,7 @@ def annotation_generation_view(request):
         # Adds each annotation from Google's API as a database entry
         for description, score in generated_labels.items():
             annotations.append(Annotation.objects.create(image=image,
-                               type="BB",
+                               type="BB_GOOGLE_LAB",
                                text=description,
                                confidence=score))
 
