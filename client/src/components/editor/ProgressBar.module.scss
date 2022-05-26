@@ -52,7 +52,7 @@
   border-right: 25px solid transparent;
   border-top: 25px solid transparent;
   border-bottom: 25px solid transparent;
-  right: -48px;
+  right: -42px;
   top: 0px;
   width: 0;
   height: 0;
@@ -67,7 +67,7 @@
     color: rgb(0, 0, 0);
     position: relative;
     display: table;
-    border-radius: 0.2em;
+    border-radius: 1em;
 }
 
 .class_step_color span {
@@ -86,7 +86,7 @@
   border-right: 25px solid transparent;
   border-top: 25px solid transparent;
   border-bottom: 25px solid transparent;
-  right: -48px;
+  right: -42px;
   top: 0px;
   width: 0;
   height: 0;
@@ -106,7 +106,9 @@
 
 .ai_step span {
     display: table-cell;
-    vertical-align: middle;
+    position: absolute;
+    top: 14px;
+    left: 55px;
 }
 
 .ai_step:before,
@@ -120,7 +122,7 @@
   border-right: 25px solid transparent;
   border-top: 25px solid transparent;
   border-bottom: 25px solid transparent;
-  right: -48px;
+  right: -43px;
   top: 0px;
   width: 0;
   height: 0;
@@ -153,7 +155,9 @@
 
 .ai_step_color span {
     display: table-cell;
-    vertical-align: middle;
+    position: absolute;
+    top: 14px;
+    left: 55px;
 }
 
 .ai_step_color:before,
@@ -167,7 +171,7 @@
   border-right: 25px solid transparent;
   border-top: 25px solid transparent;
   border-bottom: 25px solid transparent;
-  right: -48px;
+  right: -43px;
   top: 0px;
   width: 0;
   height: 0;
@@ -216,7 +220,7 @@
   border-right: 25px solid transparent;
   border-top: 25px solid transparent;
   border-bottom: 25px solid transparent;
-  right: -48px;
+  right: -43px;
   top: 0px;
   width: 0;
   height: 0;
@@ -266,7 +270,7 @@
   border-right: 25px solid transparent;
   border-top: 25px solid transparent;
   border-bottom: 25px solid transparent;
-  right: -48px;
+  right: -43px;
   top: 0px;
   width: 0;
   height: 0;

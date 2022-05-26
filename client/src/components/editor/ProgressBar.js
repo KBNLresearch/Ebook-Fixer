@@ -39,21 +39,43 @@ function ProgressBar({ currStage, userAnnotationSaved }) {
         return styles.save_step
     }
 
+    // TODO: set stage on click
+
     return (
         <div className={styles.progress_container}> 
         
-            <div className={getStyleClassification()} > 
+            <button 
+                type="button"
+                className={getStyleClassification()}
+                // onClick={() => }
+             > 
                 <span> Classification </span>
-            </div>
-            <div className={getStyleAi()}>
+            </button>
+
+            <button 
+                type="button"
+                className={getStyleAi()}
+                // onClick={() => }
+            >
                 <span> AI </span>
-            </div>
-            <div className={getStyleManual()}> 
+            </button>
+            
+            <button
+                type="button"
+                className={getStyleManual()}
+                // onClick={() => }
+            > 
                 <span> Manual </span>
-            </div>
-            <div className={getStyleSave()}> 
+            </button>
+            
+            <button 
+                type="button"
+                className={getStyleSave()}
+                // onClick={() => }
+            > 
                 <span> Save </span>
-            </div> 
+            </button> 
+
         </div>
     )
 
