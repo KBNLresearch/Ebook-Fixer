@@ -51,6 +51,7 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
             }
         } else if (!imgFilename && currentImageIndex > -1) {
             setCurrentImageIndex(-1)
+            setCurrentImage(null)
         }
     }, [imageList, imgFilename])
 
