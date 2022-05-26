@@ -7,19 +7,66 @@ import styles from './Annotator.module.scss'
  * @param {*} param0 
  * @returns 
  */
-function AISelection({setStage, setAiSaved}) {
-
+function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiSaved}) {
+    
     const dropdownRef = useRef(null)
     const saveAiChoiceButtonRef = useRef(null)
 
     const options = [
-        {abr: 'GOOGL', val: 'Google Vision API'},
+        {abr: 'GG', val: 'Google Vision API'},
+        {abr: 'MS', val: 'Microsoft Azure Vision API'}
     ]
+
+    useEffect(() => {
+        
+        saveAiChoiceButtonRef.current.disabled = false
+
+        if (currAiSelected != null) {
+            saveAiChoiceButtonRef.current.disabled = true
+            // Show the selected AI in dropdown menu
+            const idx = options.findIndex(opt => opt.val === currAiSelected) + 1;
+            dropdownRef.current.selectedIndex = idx;
+        } else {
+            // Show the label
+            dropdownRef.current.selectedIndex = 0
+        }
+
+    }, [])
+
+
+
+    function getSelectedAi() {
+        const choice =  dropdownRef.current.options[dropdownRef.current.selectedIndex].value
+        if (dropdownRef.current.selectedIndex === 0) {
+            window.alert('This option is not allowed!')
+            return 'Invalid'
+        }
+        return choice   
+    }
 
 
     function handleAiClick() {
-        setStage("annotate")
-        setAiSaved(true)
+
+        setCurrAiSelected(getSelectedAi())
+
+
+
+
+
+         // TODO: pass selectedAi to AIAnnotator (via parent), which will make API call depending on the selected AI
+
+
+
+
+
+        if (currAiSelected !== 'Invalid') {
+            saveAiChoiceButtonRef.current.disabled = true
+            saveAiChoiceButtonRef.current.innerText = 'AI saved'
+            setStage('annotate')
+            setAiSaved(true)
+        } else {
+            saveAiChoiceButtonRef.current.disabled = false
+        } 
     }
 
 
@@ -40,8 +87,6 @@ function AISelection({setStage, setAiSaved}) {
             </option>
             {options.map((opt) => (
                 <option value={opt.val}> {opt.val} </option>
-                // TODO: handle AI selected by user (put this whole div in another component)
-                // handleMenuOption(ospt)
             ))}
         </select>
         <button
@@ -58,6 +103,8 @@ function AISelection({setStage, setAiSaved}) {
 
 AISelection.propTypes = {
     setStage: PropTypes.func.isRequired,
+    currAiSelected: PropTypes.string.isRequired,
+    setCurrAiSelected: PropTypes.func.isRequired,
     setAiSaved: PropTypes.func.isRequired
 }
 

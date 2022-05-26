@@ -10,10 +10,9 @@ import styles from './ProgressBar.module.scss'
  * @param {{}}
  * @param {{}}
  * @param {{userAnnotationSaved: bool}} props whether user has pressed "Save" button already
- * @param {{setUserAnnotationSaved: SetStateAction}} props sets whether user has pressed "Save" button
  * @returns The ProgressBar component
  */
-function ProgressBar({ currStage, setStage, classificationSaved, aiSaved, userAnnotationSaved, setUserAnnotationSaved }) {
+function ProgressBar({ currStage, setStage, classificationSaved, aiSaved, userAnnotationSaved }) {
 
     const classificationButtonRef = useRef(null)
     const aiSelectionButtonRef = useRef(null)
@@ -42,46 +41,44 @@ function ProgressBar({ currStage, setStage, classificationSaved, aiSaved, userAn
     }
 
     function getStyleSave() {
-        if (currStage === 'overview' || userAnnotationSaved) {
+        if (currStage === 'overview') {
             return styles.save_step_color
         }
         return styles.save_step
     }
 
-    // TODO: make first arrow grey if no image selected yet
+    // TODO: also make first arrow grey if no image selected yet
     
     // TODO: add javadoc
+    // TODO: get rid of unncessesary props!
 
     
     function handleClassificationClick() {        
         console.log('Return to classification step')
-        // TODO: show selected class (adjust selected idx)
         setStage('classify')
-        setUserAnnotationSaved(false)
     }
 
     function handleAiClick() {
         console.log('Return to AI selection step')
-        // TODO: show selected AI (adjust selected idx)
         setStage('ai-selection')
-        setUserAnnotationSaved(false)
     }
 
     function handleManualClick() {
         console.log('Return to manual step')
-        // TODO: show generated AI + saved human annotation
+        // TODO: show saved human annotation <-- store on client?
+        // TODO: keep button disabled
         setStage('annotate')
-        setUserAnnotationSaved(false)
     }
 
     function handleSaveClick() {
         console.log('Go to save step')
-        // TODO: show stored info when going back! (get props from Annotator) 
+        // TODO: show stored info when going back! (get props from Annotator) <-- stored on client??
         setStage('overview')
     }
 
 
 
+    // Note that user can go back and forth to any step, unless not classified yet
     return (
         <div className={styles.progress_container}> 
         
@@ -89,7 +86,7 @@ function ProgressBar({ currStage, setStage, classificationSaved, aiSaved, userAn
                 type="button"
                 className={getStyleClassification()}
                 ref={classificationButtonRef}
-                // disabled={currStage === 'classify'}
+                disabled={!classificationSaved}
                 onClick={() => handleClassificationClick()}> 
                 <span> Classification </span>
             </button>
@@ -98,7 +95,7 @@ function ProgressBar({ currStage, setStage, classificationSaved, aiSaved, userAn
                 type="button"
                 className={getStyleAi()}
                 ref={aiSelectionButtonRef}
-                // disabled={currStage === 'classify' || currStage === 'ai-selection'}
+                disabled={!classificationSaved}
                 onClick={() => handleAiClick()}>
                 <span> AI </span>
             </button>
@@ -107,7 +104,7 @@ function ProgressBar({ currStage, setStage, classificationSaved, aiSaved, userAn
                 type="button"
                 className={getStyleManual()}
                 ref={manualButtonRef}
-                // disabled={currStage === 'classify' || currStage === 'ai-selection' || currStage === 'manual'}
+                disabled={!classificationSaved}
                 onClick={() => handleManualClick()}> 
                 <span> Manual </span>
             </button>
@@ -116,7 +113,7 @@ function ProgressBar({ currStage, setStage, classificationSaved, aiSaved, userAn
                 type="button"
                 className={getStyleSave()}
                 ref={saveButtonRef}
-                // disabled={false}
+                disabled={!classificationSaved}
                 onClick={() => handleSaveClick()}> 
                 <span> Save </span>
             </button> 
@@ -131,8 +128,7 @@ ProgressBar.propTypes = {
     setStage: PropTypes.func.isRequired,
     classificationSaved: PropTypes.bool.isRequired,
     aiSaved: PropTypes.bool.isRequired,
-    userAnnotationSaved: PropTypes.bool.isRequired,
-    setUserAnnotationSaved: PropTypes.func.isRequired
+    userAnnotationSaved: PropTypes.bool.isRequired
 }
 
 export default ProgressBar

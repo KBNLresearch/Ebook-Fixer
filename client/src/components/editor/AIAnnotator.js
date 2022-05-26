@@ -15,33 +15,20 @@ import {  getAiAnnotation} from '../../api/AnnotateImage'
  * 
  * @returns The AIAnnotator component
  */
-function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
+function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId, imageId}) {
 
     const generateButtonRef = useRef(null)
-    const [labels, setLabels] = useState([])
 
     useEffect(() => {
-        if (!currImage) {
-            generateButtonRef.current.disabled = true
-            generateButtonRef.current.innerText = "Generated"
-            
-        } else {
-            generateButtonRef.current.disabled = false
-            generateButtonRef.current.innerText = "Generate"
-            setLabels([])
-            
-        }
 
-        const list = annotationList
-        if (list.length > 0) {
-            // Display the latest ai annotation
-            setLabels(list[list.length - 1])
-        } else {
-            // No img alt attribute
-            setLabels([])
-        }
-        
-    }, [currImage, annotationList])
+        generateButtonRef.current.disabled = false
+
+        if (aiAnnotationList.length > 0) {
+            generateButtonRef.current.disabled = true
+            generateButtonRef.current.innerText = "Generated" 
+        } 
+
+    }, [])
 
 
     /**
@@ -96,8 +83,6 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
         }
     
 
-
-
     function handleClick() {
         if (currImage) {
             // When only the client is run during development, we still want to inspect this function though
@@ -109,14 +94,12 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
                 imageId,
                 getImgFilename(currImage)
             ) .then(result => {
-            //    console.log(JSON.stringify(result));
                 if (Object.prototype.hasOwnProperty.call(result, "annotations")){
-                        setLabels(result.annotations)
+                        setAiAnnotationList(result.annotations)
                    }
             })
             generateButtonRef.current.disabled = true
             generateButtonRef.current.innerText = "Generated"
-            // generateRef.current.style.visibility = 'hidden'
         }
     }
 
@@ -125,20 +108,21 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
             <div className={styles.ai_control}>
                 <label htmlFor="AiLabelsBox" className={styles.box_label}> Automatic suggestions </label>
                 <div className={styles.ai_labels_box} id="AiLabelsBox"> 
-                    {labels.map((obj) => (<p className={getProportionalClass(obj)}> {obj.text} </p>))} 
+                    {aiAnnotationList.map((obj) => (<p className={getProportionalClass(obj)}> {obj.text} </p>))} 
                 </div>
                 <button type="button"
-                className={styles.save_button}
-                ref={generateButtonRef}
-                onClick={() => handleClick()}>
-                Get AI suggestions
+                    className={styles.save_button}
+                    ref={generateButtonRef}
+                    onClick={() => handleClick()}>
+                    Get AI suggestions
                 </button>
             </div>
         )
 }
 
 AIAnnotator.propTypes = {
-    annotationList: PropTypes.arrayOf(PropTypes.string).isRequired,
+    aiAnnotationList: PropTypes.arrayOf(PropTypes.string).isRequired,
+    setAiAnnotationList: PropTypes.func.isRequired,
     currImage: PropTypes.instanceOf(ImageInfo).isRequired,
     ebookId: PropTypes.string.isRequired,
     imageId: PropTypes.string.isRequired,

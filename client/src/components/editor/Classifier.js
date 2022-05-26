@@ -21,19 +21,11 @@ import {
  * @param {{setStage: SetStateAction}} props Sets the current stage in annotation process 
  * @returns The Classifier component
  */
-function Classifier({ currImage, ebookId, setImageId, currClassification, setClassificationSaved, setStage }) {
-    // TODO: switch to AI generation view --> show textArea instead of dropdown menu
-
-    // TODO: split into Classification and AIAnnotator components
-
-    // TODO: allow user to change classification later again, after AI generation
+function Classifier({ currImage, ebookId, setImageId, currClassification, setCurrClassification, setClassificationSaved, setStage }) {
 
     // References/hooks to React DOM elements
     const saveButtonRef = useRef(null)
     const dropdownRef = useRef(null)
-
-    // Creates a hook that executes the arrow func. every time imageSelected changes
-    // TODO: also hide button for User annotation after saving
 
     // Creates a hook that executes the arrow func. every time imageSelected or classification changes
     useEffect(() => {
@@ -88,12 +80,18 @@ function Classifier({ currImage, ebookId, setImageId, currClassification, setCla
             if (!ebookId) {
                 console.log('No e-book UUID stored on client!')
             }
-            const selectedClassification = getClassification()
+            // Store current classification for this image on client (but will only be fetched from server when image changes)
+            const choice = getClassification()
+            setCurrClassification(choice)
+
+            console.log('Choice: ' + choice)
+            console.log('Curr class: '+ currClassification)
+
             classifyImageApiCall(
                 ebookId,
                 getImgFilename(currImage),
                 getLocation(currImage),
-                selectedClassification,
+                choice,
                 getRawContext(currImage)
             ).then((result) => {
                 // console.log(JSON.stringify(result));
@@ -104,7 +102,7 @@ function Classifier({ currImage, ebookId, setImageId, currClassification, setCla
                 }
             })
 
-            if (selectedClassification !== 'Invalid') {
+            if (choice !== 'Invalid') {
                 saveButtonRef.current.disabled = true
                 saveButtonRef.current.innerText = 'Classification Saved'
             } else {
@@ -112,7 +110,7 @@ function Classifier({ currImage, ebookId, setImageId, currClassification, setCla
             }
 
             // For decorative images, user will not proceed to next stage
-            if (selectedClassification !== 'Decoration' && selectedClassification !== 'Invalid') {
+            if (choice !== 'Decoration' && choice !== 'Invalid') {
                 setStage('ai-selection')
                 setClassificationSaved(true) 
             } 
@@ -152,7 +150,6 @@ function Classifier({ currImage, ebookId, setImageId, currClassification, setCla
                 </option>
                 {options.map((opt) => (
                     <option value={opt.val}> {opt.val} </option>
-                    // handleMenuOption(ospt)
                 ))}
             </select>
             <button
@@ -172,6 +169,7 @@ Classifier.propTypes = {
     ebookId: PropTypes.string.isRequired,
     setImageId: PropTypes.func.isRequired,
     currClassification: PropTypes.string.isRequired,
+    setCurrClassification: PropTypes.func.isRequired,
     setClassificationSaved: PropTypes.func.isRequired,
     setStage: PropTypes.func.isRequired,
 }

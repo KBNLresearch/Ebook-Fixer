@@ -27,6 +27,7 @@ function Annotator({ currImage, ebookId }) {
     const [aiAnnotationList, setAiAnnotationList] = useState([])
     const [imageId, setImageId] = useState(-1)
     const [currClassification, setCurrClassification] = useState(null)
+    const [currAiSelected, setCurrAISelected] = useState(null)
     const [stage, setStage] = useState("")
     const [classificationSaved, setClassificationSaved]  = useState(false)
     const [aiSaved, setAiSaved] = useState(false)
@@ -36,27 +37,24 @@ function Annotator({ currImage, ebookId }) {
     // Executed every time the currentImage changes
     useEffect(() => {
         if (!currImage) {
-            // saveButton.current.innerText = 'Select image first'
-            // saveButton.current.disabled = true
             setStage("classify")
         } else {
-            // saveButton.current.innerText = 'Save annotation'
-            // saveButton.current.disabled = false
             setStage("classify")
             setClassificationSaved(false)
             setAiSaved(false)
             setUserAnnotationSaved(false)
+            // Remove all AI suggestions when next image is loaded
+            setAiAnnotationList([])
             
             const imgInfo = currImage
+            // TODO: put original alt text outside textarea (small caption)
             if (imgInfo) {
                 const altText = imgInfo.element.alt
                 if (altText) {
                     // Initial alt text of image will be displayed if no HUM annotations yet
                     setUserAnnotationList([altText + " (existing ALT-text)"])
-                    setAiAnnotationList([])
                 } else {
                     setUserAnnotationList([])
-                    setAiAnnotationList([])
                 }
             }
 
@@ -92,8 +90,8 @@ function Annotator({ currImage, ebookId }) {
                         } else {
                             // We don't need to display AI suggestions in the overview
                                 // [...aiAnnotationList, result.annotations
-                                    // .filter((el) => el.type !== 'HUM')
-                                    // .map(({ text, confidence }) => (JSON.stringify({ text, confidence })))])
+                                //     .filter((el) => el.type !== 'HUM')
+                                //     .map(({ text, confidence }) => (JSON.stringify({ text, confidence })))])
                         }
                     })
                 }    
@@ -148,6 +146,7 @@ function Annotator({ currImage, ebookId }) {
                         ebookId={ebookId}
                         setImageId={setImageId}
                         currClassification={currClassification}
+                        setCurrClassification={setCurrClassification}
                         setClassificationSaved={setClassificationSaved}
                         setStage={setStage}>
                         {' '}
@@ -156,13 +155,16 @@ function Annotator({ currImage, ebookId }) {
                 'ai-selection':
                    <AISelection 
                         setStage={setStage}
+                        currAiSelected={currAiSelected}
+                        setCurrAiSelected={setCurrAISelected}
                         setAiSaved={setAiSaved}
                     />,
                 
                 'annotate': 
                     <div className={styles.container}>
                         <AIAnnotator
-                        annotationList={aiAnnotationList}
+                        aiAnnotationList={aiAnnotationList}
+                        setAiAnnotationList={setAiAnnotationList}
                         currImage={currImage}
                         ebookId={ebookId}
                         imageId={imageId} >
@@ -174,6 +176,7 @@ function Annotator({ currImage, ebookId }) {
                         ebookId={ebookId}
                         imageId={imageId}
                         setImageId={setImageId}
+                        userAnnotationSaved={userAnnotationSaved}
                         setUserAnnotationSaved={setUserAnnotationSaved}
                         />
                     </div>,

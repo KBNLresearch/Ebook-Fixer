@@ -18,21 +18,39 @@ import styles from './Annotator.module.scss'
  * @param {{setUserAnnotationSaved: SetStateAction}} props sets whether user has pressed "Save" button
  * @returns The UserAnnotator component
  */
-function UserAnnotator({ annotationList, currImage, ebookId, imageId, setImageId, setUserAnnotationSaved }) {
+function UserAnnotator({ annotationList, currImage, ebookId, imageId, setImageId, userAnnotationSaved, setUserAnnotationSaved }) {
 
     const [typing, setTyping] = useState(false)
     const [textValue, setTextValue] = useState('')
     const saveButton = useRef(null)
 
     useEffect(() => {
+
         const list = annotationList
+
         if (list.length > 0) {
             // Display the latest human annotation
             setTextValue(list[list.length - 1])
         } else {
-            // No img alt attribute
+            // No human annotations or existing ALT-text
             setTextValue('')
         }
+
+        saveButton.current.disabled = false
+        const saved = userAnnotationSaved
+        if (saved) {
+            saveButton.current.disabled = true
+            saveButton.current.innerText = 'Annotation saved'
+
+            // TODO: add a settings button for explicitly editing the manual annotation
+
+            // Enable button again if user starts typing
+            if (typing) {
+                console.log('Typing..')
+                saveButton.current.disabled = false
+            }
+        }
+
     }, [annotationList])
 
 
@@ -95,6 +113,7 @@ UserAnnotator.propTypes = {
     ebookId: PropTypes.string.isRequired, 
     imageId: PropTypes.number.isRequired,
     setImageId: PropTypes.func.isRequired,
+    userAnnotationSaved: PropTypes.bool.isRequired,
     setUserAnnotationSaved: PropTypes.func.isRequired
 }
 
