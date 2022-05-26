@@ -38,7 +38,7 @@ export function saveUserAnnotation(ebookId, imageId, fileName, txt) {
 
 
 export function  getAiAnnotation(ebookId, imageId, fileName) {
-    return fetch(process.env.REACT_APP_API_URL + 'annotations/generate/', {
+    return fetch(process.env.REACT_APP_API_URL + 'annotations/generate/google/', {
         method: 'PUT',
         headers: {
         'Accept' : 'application/json',

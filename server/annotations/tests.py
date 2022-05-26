@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory, TestCase
-from .views import annotation_save_view, annotation_generation_view
+from .views import annotation_save_view, google_annotation_generation_view
 from .models import Annotation
 from ebooks.models import Ebook
 from images.models import Image
@@ -32,7 +32,7 @@ class AnnotationViewsTest(TestCase):
                                    content_type="application/json")
         request.user = self.user
 
-        response = annotation_generation_view(request)
+        response = google_annotation_generation_view(request)
         msg = response.content
 
         return response, msg
@@ -41,7 +41,7 @@ class AnnotationViewsTest(TestCase):
         request = self.factory.get("generate/")
         request.user = self.user
 
-        response = annotation_generation_view(request)
+        response = google_annotation_generation_view(request)
 
         self.assertEqual(response.status_code, 405)
         self.assertEqual(decode_message(response.content), "{'msg': 'Method Not Allowed!'}")
@@ -50,7 +50,7 @@ class AnnotationViewsTest(TestCase):
         request = self.factory.put("generate/")
         request.user = self.user
 
-        response = annotation_generation_view(request)
+        response = google_annotation_generation_view(request)
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(decode_message(response.content),
