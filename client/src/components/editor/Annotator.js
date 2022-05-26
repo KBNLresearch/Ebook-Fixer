@@ -4,6 +4,7 @@ import { ImageInfo } from '../../helpers/EditorHelper'
 import AIAnnotator from './AIAnnotator'
 import UserAnnotator from './UserAnnotator'
 import Classifier from './Classifier'
+import AISelection from './AISelection'
 import {getImgFilename} from '../../helpers/EditImageHelper'
 import { getImageMetadataApiCall } from '../../api/GetImageMetadata'
 import styles from './Annotator.module.scss'
@@ -20,15 +21,16 @@ import ProgressBar from './ProgressBar'
  */
 
 function Annotator({ currImage, ebookId }) {
+
     // TODO: could be used to get the annotation history
     const [userAnnotationList, setUserAnnotationList] = useState([])
     const [aiAnnotationList, setAiAnnotationList] = useState([])
     const [imageId, setImageId] = useState(-1)
     const [currClassification, setCurrClassification] = useState(null)
     const [stage, setStage] = useState("")
+    const [classificationSaved, setClassificationSaved]  = useState(false)
+    const [aiSaved, setAiSaved] = useState(false)
     const [userAnnotationSaved, setUserAnnotationSaved] = useState(false)
-    const dropdownRef = useRef(null)
-    const saveAiChoiceButtonRef = useRef(null)
 
 
     // Executed every time the currentImage changes
@@ -41,6 +43,8 @@ function Annotator({ currImage, ebookId }) {
             // saveButton.current.innerText = 'Save annotation'
             // saveButton.current.disabled = false
             setStage("classify")
+            setClassificationSaved(false)
+            setAiSaved(false)
             setUserAnnotationSaved(false)
             
             const imgInfo = currImage
@@ -57,68 +61,69 @@ function Annotator({ currImage, ebookId }) {
             }
 
             // For each image that is loaded, client fetches all metadata from server (even if the image does not exist yet)
-            console.log('Fetching image metadata...')
-            getImageMetadataApiCall(ebookId, getImgFilename(currImage)).then(
-                (result) => {
-                    if (
-                        Object.prototype.hasOwnProperty.call(result, 'annotations')
-                    ) {
-                        console.log('Annotations: ')
-                        console.log(result.annotations)
-                        console.log('Image metadata: ')
-                        console.log(result.image)
-                        // Decorative images don't have image descriptions
-                        if (currClassification !== 'Decoration') {
-                            setStage("overview")
-                        }
-                        // For each HUM annotation, add to user annotation list (for display in UserAnnotator)
-                        // Note that for now this list always contains 1 HUM annotation
-                        result.annotations.forEach((el) => {
-                            if (el.type === 'HUM') {
-                                setUserAnnotationList([...userAnnotationList, el.text])
-                                // Disable button if human annotation was saved earlier
-                                // saveButton.current.disabled = true
-                            } else {
-                                // We don't need to display AI suggestions in the overview
-                                    // [...aiAnnotationList, result.annotations
-                                        // .filter((el) => el.type !== 'HUM')
-                                        // .map(({ text, confidence }) => (JSON.stringify({ text, confidence })))])
-                            }
-                        })
-                    }
-
-                        
-                    
-                    // TODO: we may also wanna pass this classification to AIAnnotator in the future,
-                    //    to allow for different workflows per category
-                    if (Object.prototype.hasOwnProperty.call(result, 'image')) {
-                        console.log(
-                            'Classification stored: ' +
-                                result.image.classification
-                        )
-                        setCurrClassification(result.image.classification)
-                    }
-                    // Update image id after each new image is loaded
-                    if (Object.prototype.hasOwnProperty.call(result, 'image')) {
-                        setImageId(result.image.id)
-                    }
-                },
-                (error) => {
-                    if (error.cause === 404) {
-                        console.log(
-                            'Image does not exist on server yet, will be created after the first time classifying.'
-                        )
-                        setCurrClassification(null)
-                    }
-                }
-            )
+            fetchImageMetadata()
         }
     }, [currImage])
 
+    
 
-    const options = [
-        {abr: 'GOOGL', val: 'Google Vision API'},
-    ]
+    function fetchImageMetadata() {
+
+        console.log('Fetching image metadata...')
+
+        getImageMetadataApiCall(ebookId, getImgFilename(currImage)).then(
+            (result) => {
+                if (Object.prototype.hasOwnProperty.call(result, 'annotations')) {
+                    console.log('Annotations: ')
+                    console.log(result.annotations)
+                    console.log('Image metadata: ')
+                    console.log(result.image)
+                    // Decorative images don't have image descriptions
+                    if (currClassification !== 'Decoration') {
+                        setStage("overview")
+                    }
+                    // For each HUM annotation, add to user annotation list (for display in UserAnnotator)
+                    // Note that for now this list always contains 1 HUM annotation
+                    result.annotations.forEach((el) => {
+                        if (el.type === 'HUM') {
+                            setUserAnnotationList([...userAnnotationList, el.text])
+                            // Disable button if human annotation was saved earlier
+                            // saveButton.current.disabled = true
+                        } else {
+                            // We don't need to display AI suggestions in the overview
+                                // [...aiAnnotationList, result.annotations
+                                    // .filter((el) => el.type !== 'HUM')
+                                    // .map(({ text, confidence }) => (JSON.stringify({ text, confidence })))])
+                        }
+                    })
+                }    
+                
+                // TODO: we may also wanna pass this classification to AIAnnotator in the future,
+                //    to allow for different workflows per category
+                if (Object.prototype.hasOwnProperty.call(result, 'image')) {
+                    console.log(
+                        'Classification stored: ' +
+                            result.image.classification
+                    )
+                    setCurrClassification(result.image.classification)
+                }
+                // Update image id after each new image is loaded
+                if (Object.prototype.hasOwnProperty.call(result, 'image')) {
+                    setImageId(result.image.id)
+                }
+            },
+            (error) => {
+                if (error.cause === 404) {
+                    console.log(
+                        'Image does not exist on server yet, will be created after the first time classifying.'
+                    )
+                    setCurrClassification(null)
+                }
+            }
+        )
+
+    }
+
 
     // TODO: is there a way to allow the user to scroll down to the user box, without having the epub move along?
     // (so they can still see the image when doing the manual annotation)
@@ -128,7 +133,11 @@ function Annotator({ currImage, ebookId }) {
 
             <ProgressBar
                 currStage={stage}
+                setStage={setStage}
+                classificationSaved={classificationSaved}
+                aiSaved={aiSaved}
                 userAnnotationSaved={userAnnotationSaved}
+                setUserAnnotationSaved={setUserAnnotationSaved}
             />
 
             {
@@ -139,40 +148,17 @@ function Annotator({ currImage, ebookId }) {
                         ebookId={ebookId}
                         setImageId={setImageId}
                         currClassification={currClassification}
+                        setClassificationSaved={setClassificationSaved}
                         setStage={setStage}>
                         {' '}
                     </Classifier>,
-                'ai-selection':
-                    <div className={styles.ai_input}>
 
-                        <label htmlFor="selectClass">
-                            Please select AI to generate annotations
-                        </label>
-                        <select
-                           
-                            ref={dropdownRef}
-                            className={styles.dropdown}
-                            onChange={() => {
-                                saveAiChoiceButtonRef.current.disabled = false
-                            }}>
-                            <option value="none" selected disabled hidden>
-                                Select AI
-                            </option>
-                            {options.map((opt) => (
-                                <option value={opt.val}> {opt.val} </option>
-                                // TODO: handle AI selected by user (put this whole div in another component)
-                                // handleMenuOption(ospt)
-                            ))}
-                        </select>
-                        <button
-                            type="button"
-                            className={styles.save_button}
-                            ref={saveAiChoiceButtonRef}
-                            onClick={() => setStage("annotate")}>
-                            {' '}
-                            Save AI{' '}
-                        </button>
-                    </div> ,
+                'ai-selection':
+                   <AISelection 
+                        setStage={setStage}
+                        setAiSaved={setAiSaved}
+                    />,
+                
                 'annotate': 
                     <div className={styles.container}>
                         <AIAnnotator
@@ -191,6 +177,7 @@ function Annotator({ currImage, ebookId }) {
                         setUserAnnotationSaved={setUserAnnotationSaved}
                         />
                     </div>,
+
                 'overview' : 
                     <div className={styles.overview}>
                     <div className={styles.overview_info}>
@@ -203,7 +190,7 @@ function Annotator({ currImage, ebookId }) {
                         {userAnnotationList[userAnnotationList.length - 1]}
                     </div>
                         <button type="button"
-                                    className={styles.save_button}
+                                    className={styles.restart_button}
                                     onClick={() => setStage("classify")}>
                                     Restart image annotation
                         </button>
