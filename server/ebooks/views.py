@@ -11,7 +11,7 @@ import uuid
 from os import environ
 
 
-mode = environ.get('GITHUB_MODE', 'development')
+mode = environ.get('GITHUB_MODE', 'production')
 
 
 def ebook_detail_view(request, uuid):
@@ -63,7 +63,7 @@ def ebook_download_view(request, uuid):
         # Inject image annotations into the html files
         inject_image_annotations(str(uuid), images, annotations)
         # Push new contents to GitHub if mode is 'production'
-        if mode == "production":
+        if mode == "development":
             message = f"Download {uuid}"
             push_epub_folder_to_github(str(uuid), message)
 
@@ -118,7 +118,7 @@ def ebook_upload_view(request):
             try:
                 ebook_title = unzip_ebook(book_uuid, epub_name)
                 # Push unzipped contents to GitHub
-                if mode == "production":
+                if mode == "development":
                     message = f"Upload {book_uuid}"
                     push_epub_folder_to_github(book_uuid, message)
             except FileNotFoundError:

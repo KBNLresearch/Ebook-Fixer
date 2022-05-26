@@ -28,7 +28,7 @@ SECRET_KEY = environ.get('SECRET_KEY',
                          'django-insecure-n8lk#@)p)u_9jn34^i#2_uf_k*k8$+fzhj4)*b!n_6a!krj14e')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(environ.get('DEBUG', 'True'))
+DEBUG = environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
