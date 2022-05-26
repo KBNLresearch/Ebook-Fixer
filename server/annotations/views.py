@@ -24,7 +24,21 @@ def annotation_generation_view(request):
         if type(body) == JsonResponse:
             return body
         image = body[0]
-        image_path = f"test-books/{image.ebook}{image.filename}"
+        image_path = f"test-books/{image.ebook}/{image.filename}"
+
+        # Check if annotation for given type already exists in the database
+        existing_annotations = [
+            a for a in Annotation.objects.all()
+            if a.image == image
+            if a.type == "BB_GOOGLE_LAB"
+        ]
+        if len(existing_annotations) != 0:
+            existing_annotations = list(map(lambda a: AnnotationSerializer(a).data,
+                                        existing_annotations))
+
+            return JsonResponse({"annotations": existing_annotations},
+                                status=status.HTTP_200_OK)
+
         try:
             # Calls the helper method in utils
             generated_labels = google_vision_labels(image_path)
