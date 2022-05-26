@@ -19,6 +19,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/test-books/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'test-books')
 
+# For development
+if environ.get('GOOGLE_APPLICATION_CREDENTIALS') is None:
+    environ['GOOGLE_APPLICATION_CREDENTIALS'] = "./arcane-pillar-349913-6276b9f35040.json"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
