@@ -14,10 +14,18 @@ function ProgressBar() {
 
     return (
         <div className={styles.progress_container}> 
-            <div> Box 1 </div>
-            <div> Box 2 </div>
-            <div> Box 3 </div>
-            <divv> Box 4 </divv>
+            <div className={styles.class_step} > 
+                <span> Classification </span>
+            </div>
+            <div className={styles.ai_step}>
+                 <span> AI </span>
+            </div>
+            <div className={styles.manual_step}> 
+                <span> Manual </span>
+            </div>
+            <div className={styles.save_step}> 
+                <span> Save </span>
+            </div>
         </div>
     )
 

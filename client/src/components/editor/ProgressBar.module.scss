@@ -1,12 +1,178 @@
 .progress_container {
-    padding: 1em;
+    width: 100%;
+    padding: 0.2em;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: 2em;
-    width: 100%;
+    gap: 1.5em;
+    font-size: 0.75em;
     box-sizing: border-box;
     flex-grow: 1;
+}
+
+.class_step {
+    width: 120px;
+    height: 50px;
+    background: skyblue;
+    color: rgb(0, 0, 0);
+    position: relative;
+    display: table;
+    border-radius: 0.2em;
+}
+
+.class_step span {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.class_step:before,
+.class_step:after {
+  content: '';
+  position: absolute;
+}
+
+.class_step:after {
+  border-left: 25px solid skyblue;
+  border-right: 25px solid transparent;
+  border-top: 25px solid transparent;
+  border-bottom: 25px solid transparent;
+  right: -48px;
+  top: 0px;
+  width: 0;
+  height: 0;
+  display: block;
+}
+
+.ai_step {
+    width: 110px;
+    height: 50px;
+    background: skyblue;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    position: relative;
+    display: table;
+    border-radius: 0.2em;
+}
+
+.ai_step span {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.ai_step:before,
+.ai_step:after {
+  content: '';
+  position: absolute;
+}
+
+.ai_step:after {
+  border-left: 25px solid skyblue;
+  border-right: 25px solid transparent;
+  border-top: 25px solid transparent;
+  border-bottom: 25px solid transparent;
+  right: -48px;
+  top: 0px;
+  width: 0;
+  height: 0;
+  display: block;
+}
+
+.ai_step:before {
+  border-left: 26px solid #f8f8f8;;
+  border-right: 26px solid transparent;
+  border-top: 26px solid transparent;
+  border-bottom: 26px solid transparent;
+  left: 0px;
+  top: -1px;
+  width: 0;
+  height: 0;
+  display: block;
+}
+
+.manual_step {
+    width: 110px;
+    height: 50px;
+    background: skyblue;
+    color: rgb(0, 0, 0);
+    position: relative;
+    display: table;
+    border-radius: 0.2em;
+    position: relative;
+}
+
+.manual_step span {
+    display: table-cell;
+    // vertical-align: middle;
+    position: absolute;
+    top: 14px;
+    left: 40px;
+}
+
+.manual_step:before,
+.manual_step:after {
+  content: '';
+  position: absolute;
+}
+
+.manual_step:after {
+  border-left: 25px solid skyblue;
+  border-right: 25px solid transparent;
+  border-top: 25px solid transparent;
+  border-bottom: 25px solid transparent;
+  right: -48px;
+  top: 0px;
+  width: 0;
+  height: 0;
+  display: block;
+}
+
+.manual_step:before {
+  border-left: 26px solid #f8f8f8;;
+  border-right: 26px solid transparent;
+  border-top: 26px solid transparent;
+  border-bottom: 26px solid transparent;
+  left: 0px;
+  top: -1px;
+  width: 0;
+  height: 0;
+  display: block;
+}
+
+.save_step {
+    width: 90px;
+    height: 50px;
+    background: skyblue;
+    color: rgb(0, 0, 0);
+    position: relative;
+    display: table;
+    border-radius: 0.2em;
+    position: relative;
+}
+
+.save_step span {
+    display: table-cell;
+    // vertical-align: middle;
+    position: absolute;
+    top: 14px;
+    left: 35px;
+}
+
+.save_step:before,
+.save_step:after {
+  content: '';
+  position: absolute;
+}
+
+.save_step:before {
+  border-left: 26px solid #f8f8f8;;
+  border-right: 26px solid transparent;
+  border-top: 26px solid transparent;
+  border-bottom: 26px solid transparent;
+  left: 0px;
+  top: -1px;
+  width: 0;
+  height: 0;
+  display: block;
 }
