@@ -29,7 +29,7 @@ let droppedFile = null
  * It supports both drag and drop and choosing a file with a system window.
  * It checks the file type to be an epub.
  * @param {{setEbookFile: update method}} props
- * @param {{setEbookId: update method}} props 
+ * @param {{setEbookId: update method}} props
  * @param {{setEbookTitle: update method}} props
  * @returns The FileUpload component, ready for rendering.
  */
@@ -252,14 +252,6 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                 </button>
             </div>
 
-            {uploading || status ? (
-                <Link to="/ebook/1">
-                    Go to editor (for development only)
-                </Link>
-            ) : (
-                ''
-            )}
-
             <div className={uploading ? '' : styles.hidden}>Uploading…</div>
             <div
                 className={
@@ -285,7 +277,7 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
 FileUpload.propTypes = {
     setEbookFile: PropTypes.func.isRequired,
     setEbookId: PropTypes.func.isRequired,
-    setEbookTitle: PropTypes.func.isRequired
+    setEbookTitle: PropTypes.func.isRequired,
 }
 
 export default FileUpload
