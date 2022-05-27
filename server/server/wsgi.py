@@ -16,7 +16,7 @@ from os import environ
 environ.setdefault('DJANGO_SETTINGS_MODULE', 'server.settings')
 
 mode = environ.get('GITHUB_MODE', 'production')
-# If set to 'production' pushing to GitHub will be enabled
+# If set to 'development' pushing to GitHub will be enabled
 if mode == "development":
     # Connect to the GitHub repository for pushing epub files
     config_file = 'config.ini'

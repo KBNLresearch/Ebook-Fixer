@@ -67,6 +67,7 @@ db.sqlite3
 
 # Sphinx documentation
 docs/_build/
+docs/
 
 # PyBuilder
 target/
