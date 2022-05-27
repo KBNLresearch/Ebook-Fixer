@@ -92,7 +92,16 @@ function Annotator({ currImage, ebookId }) {
                         }
                     })
                     // Display previously generated AI suggestions when revisiting image
-                    setAiAnnotationList(result.annotations.filter(el => el.type === 'BB'))
+                    // TODO: distinguish between different AIs (have separate lists for labels and descriptions)
+                    const aiLabels = result.annotations.filter(el => el.type !== 'HUM')
+                    if (aiLabels.length > 0) {
+                        setAiAnnotationList(aiLabels)
+                        setAiSaved(true)
+                        // Get the most recent AI choice to display (abbreviation!)
+                        // But this may not be needed since the server overrides existing AI annotations
+                        const mostRecentAiChoice = aiLabels[aiLabels.length - 1].type
+                        setCurrAISelected(mostRecentAiChoice)
+                    }
                 }    
                 
                 // TODO: we may also wanna pass this classification to AIAnnotator in the future,
@@ -202,6 +211,8 @@ function Annotator({ currImage, ebookId }) {
                                             setClassificationSaved(false)
                                             setAiSaved(false)
                                             setUserAnnotationSaved(false)
+                                            setCurrClassification(null)
+                                            setCurrAISelected(null)
                                             setAiAnnotationList([])
                                             setUserAnnotationList([])
                                             }}>

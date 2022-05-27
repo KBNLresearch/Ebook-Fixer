@@ -34,13 +34,13 @@ def annotation_generation_view(request):
 
         # Delete already existing AI annotation
         # This the endpoint is used for re-classification
-        Annotation.objects.filter(image=image, type="BB").delete()
+        Annotation.objects.filter(image=image, type="GG").delete()
         annotations = []
 
         # Adds each annotation from Google's API as a database entry
         for description, score in generated_labels.items():
             annotations.append(Annotation.objects.create(image=image,
-                               type="BB",
+                               type="GG",
                                text=description,
                                confidence=score))
 

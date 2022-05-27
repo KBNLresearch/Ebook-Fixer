@@ -40,11 +40,12 @@ function Classifier({ currImage, ebookId, setImageId, currClassification, setCur
             if (currClassification != null) {
                 saveButtonRef.current.disabled = true
                 // Show the selected classification
-                const idx = options.findIndex(opt => opt.val === currClassification) + 1;
+                const idx = options.findIndex(opt => opt.val === currClassification || opt.abr === currClassification) + 1;
                 dropdownRef.current.selectedIndex = idx;
             } else {
                 // Show the label
                 dropdownRef.current.selectedIndex = 0
+                saveButtonRef.current.disabled = false
             }
         }
     }, [currImage, currClassification])

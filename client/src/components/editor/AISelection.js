@@ -24,11 +24,12 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiSaved}) 
         if (currAiSelected != null) {
             saveAiChoiceButtonRef.current.disabled = true
             // Show the selected AI in dropdown menu
-            const idx = options.findIndex(opt => opt.val === currAiSelected) + 1;
+            const idx = options.findIndex(opt => opt.val === currAiSelected || opt.abr === currAiSelected) + 1;
             dropdownRef.current.selectedIndex = idx;
         } else {
             // Show the label
             dropdownRef.current.selectedIndex = 0
+            saveAiChoiceButtonRef.current.disabled = false
         }
 
     }, [])
@@ -47,7 +48,8 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiSaved}) 
 
     function handleAiClick() {
 
-        setCurrAiSelected(getSelectedAi())
+        const choice = getSelectedAi()
+        setCurrAiSelected(choice)
 
 
 
@@ -61,7 +63,7 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiSaved}) 
 
 
 
-        if (currAiSelected !== 'Invalid') {
+        if (choice !== 'Invalid') {
             saveAiChoiceButtonRef.current.disabled = true
             saveAiChoiceButtonRef.current.innerText = 'AI saved'
             setStage('annotate')
