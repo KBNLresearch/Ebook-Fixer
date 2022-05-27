@@ -87,6 +87,7 @@
     ]
   },
   "devDependencies": {
+    "better-docs": "^2.7.2",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
