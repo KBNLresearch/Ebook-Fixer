@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory, TestCase
-from .views import annotation_save_view, google_annotation_generation_view, azure_annotation_generation_view
+from .views import annotation_save_view
+from .views import google_annotation_generation_view, azure_annotation_generation_view
 from .models import Annotation
 from ebooks.models import Ebook
 from images.models import Image
@@ -19,6 +20,7 @@ def mock_google_vision_labels(image_path):
 
 def mock_image_not_found(image_path):
     raise FileNotFoundError
+
 
 def mock_azure_utils(image_path):
     return "Mocked Sentence.", {'House': 0.9422, 'Sky': 0.8424, 'Tile': 0.8421}
@@ -179,7 +181,6 @@ class AnnotationViewsTest(TestCase):
         self.assertEqual(decode_message(response.content),
                          "{'msg': 'No data found in the request!'}")
 
-
     def azure_response_annotation_generation_view(self, content):
         request = self.factory.put("generate/",
                                    data=content,
@@ -259,7 +260,7 @@ class AnnotationViewsTest(TestCase):
                          "{'msg': 'Img test.jpg in ebook TEST_UUID not found'}")
 
     @patch("annotations.views.azure_api_call", mock_azure_utils)
-    def test_annotation_generation_view_200(self):
+    def test_azure_annotation_generation_view_200(self):
         uuid = uuid4()
         image_id = 1
         ebook = Ebook.objects.create(uuid=uuid, title="Test title", epub="test.epub")
