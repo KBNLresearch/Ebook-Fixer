@@ -3,16 +3,14 @@
     flex-direction: column;
     padding: 0.5rem;
     gap: 1em;
-    align-items: flex-end;
+    align-items: center;
     width: 100%;
     box-sizing: border-box;
     flex-grow: 1;
     position: relative;
 
     .start_msg {
-        position: absolute;
-        top: 12em;
-        left: 5em;
+        position: relative;
     }
 
     .user_control {

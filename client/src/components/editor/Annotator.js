@@ -89,9 +89,10 @@ function Annotator({ currImage, ebookId }) {
                             // it will be marked as having completed the AI selection and manual steps,
                             // even though there may not be AI selected!
                             setUserAnnotationSaved(true)
-                            setAiSaved(true)
                         }
                     })
+                    // Display previously generated AI suggestions when revisiting image
+                    setAiAnnotationList(result.annotations.filter(el => el.type === 'BB'))
                 }    
                 
                 // TODO: we may also wanna pass this classification to AIAnnotator in the future,
