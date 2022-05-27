@@ -14,7 +14,8 @@ function Overview({ imageList }) {
                 <Link
                     to={`/ebook/${uuid}/image/${encodeURIComponent(
                         getImgFilename(img)
-                    )}`}>
+                    )}`}
+                    key={getImgFilename(img)}>
                     {React.createElement('img', {
                         src: img.replacementUrl,
                         id: `overViewImage${i}`,
