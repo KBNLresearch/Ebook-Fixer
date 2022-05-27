@@ -7,6 +7,7 @@ import Classifier from './Classifier'
 import {getImgFilename} from '../../helpers/EditImageHelper'
 import { getImageMetadataApiCall } from '../../api/GetImageMetadata'
 import styles from './Annotator.module.scss'
+import AIDropdown from './AIDropdown'
 
 /**
  * Annotator component is meant to help the user produce an annotation for an image as an end result
@@ -25,11 +26,10 @@ function Annotator({ currImage, ebookId }) {
     const [imageId, setImageId] = useState(-1)
     const [currClassification, setCurrClassification] = useState(null)
     const [stage, setStage] = useState("")
-    const dropdownRef = useRef(null)
+
 
     const [aiChoice, setAiChoice] = useState("")
 
-    const saveAiChoiceButtonRef = useRef(null)
 
 
 
@@ -117,9 +117,6 @@ function Annotator({ currImage, ebookId }) {
     }, [currImage])
 
 
-    const options = [
-        {abr: 'GOOGL', val: 'Google Vision API'},
-    ]
 
     // TODO: is there a way to allow the user to scroll down to the user box, without having the epub move along?
     // (so they can still see the image when doing the manual annotation)
@@ -139,53 +136,23 @@ function Annotator({ currImage, ebookId }) {
                         {' '}
                     </Classifier>,
                 'ai-selection':
-                    <div className={styles.ai_input}>
+                    <AIDropdown
+                        currImage={currImage}
+                        ebookId={ebookId}
+                        setImageId={setImageId}
+                        aiChoice={aiChoice}
+                        setAiChoice={setAiChoice}
+                        setStage={setStage}>
 
-                        <label htmlFor="selectClass">
-                            Please select AI to generate annotations
-                        </label>
-                        <select
-                           
-                            ref={dropdownRef}
-                            className={styles.dropdown}
-                            onChange={() => {
-                                saveAiChoiceButtonRef.current.disabled = false
-                            }}>
-                            <option value="none" selected disabled hidden>
-                                Select AI
-                            </option>
-                            {options.map((opt) => (
-                                <option value={opt.val}> {opt.val} </option>
-                                // TODO: handle AI selected by user
-                                // handleMenuOption(ospt)
-                            ))}
-                        </select>
-                        <button
-                            type="button"
-                            className={styles.save_button}
-                            ref={saveAiChoiceButtonRef}
-                            onClick={() => setStage("annotate")}>
-                            {' '}
-                            Save AI{' '}
-                        </button>
-                        <button
-                            type="button"
-                                className={styles.save_button}
-                                onClick={() => {
-                                    setStage("annotate")
-                                    setAiChoice("no-ai")
-                                }}>
-                                {' '}
-                                Skip{' '}
-                        </button>
-                    </div> ,
+                    </AIDropdown>,
                 'annotate': 
                     <div className={styles.container}>
                         <AIAnnotator
                         annotationList={aiAnnotationList}
                         currImage={currImage}
                         ebookId={ebookId}
-                        imageId={imageId} >
+                        imageId={imageId}
+                        aiChoice={aiChoice} >
                             {' '}
                         </AIAnnotator>
                         <UserAnnotator 
