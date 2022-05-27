@@ -24,6 +24,7 @@ function Annotator({ currImage, ebookId }) {
 
     const [stage, setStage] = useState("")
     const [imageId, setImageId] = useState(-1)
+    const [existingAltText, setExistingAltText] = useState(null)
     const [currClassification, setCurrClassification] = useState(null)
     const [currAiSelected, setCurrAISelected] = useState(null)
     // TODO: could be used to get the annotation history
@@ -49,15 +50,11 @@ function Annotator({ currImage, ebookId }) {
             setAiAnnotationList([])
             setUserAnnotationList([])
             
-            const imgInfo = currImage
-            // TODO: put original alt text outside textarea (small caption)
-            if (imgInfo) {
-                const altText = imgInfo.element.alt
+            // Save existing alt-text of image
+            if (currImage) {
+                const altText = currImage.element.alt
                 if (altText) {
-                    // Initial alt text of image will be displayed if no HUM annotations yet
-                    setUserAnnotationList([altText + " (existing ALT-text)"])
-                } else {
-                    setUserAnnotationList([])
+                    setExistingAltText(altText)
                 }
             }
 
@@ -88,6 +85,9 @@ function Annotator({ currImage, ebookId }) {
                     result.annotations.forEach((el) => {
                         if (el.type === 'HUM') {
                             setUserAnnotationList([...userAnnotationList, el.text])
+                            // If this image has a user annotation stored, 
+                            // it will be marked as having completed the AI selection and manual steps,
+                            // even though there may not be AI selected!
                             setUserAnnotationSaved(true)
                             setAiSaved(true)
                         }
@@ -179,6 +179,7 @@ function Annotator({ currImage, ebookId }) {
                             setImageId={setImageId}
                             userAnnotationSaved={userAnnotationSaved}
                             setUserAnnotationSaved={setUserAnnotationSaved}
+                            existingAlt={existingAltText}
                         />
                     </div>,
 

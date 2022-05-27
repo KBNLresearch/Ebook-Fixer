@@ -18,7 +18,7 @@ import styles from './Annotator.module.scss'
  * @param {{setUserAnnotationSaved: SetStateAction}} props sets whether user has pressed "Save" button
  * @returns The UserAnnotator component
  */
-function UserAnnotator({ annotationList, setAnnotationList, currImage, ebookId, imageId, setImageId, userAnnotationSaved, setUserAnnotationSaved }) {
+function UserAnnotator({ annotationList, setAnnotationList, currImage, ebookId, imageId, setImageId, userAnnotationSaved, setUserAnnotationSaved, existingAlt }) {
 
     const [textValue, setTextValue] = useState('')
     const saveButton = useRef(null)
@@ -67,6 +67,16 @@ function UserAnnotator({ annotationList, setAnnotationList, currImage, ebookId, 
 
     return (
         <div className={styles.user_control}>
+            
+            <div className={styles.existing_alt}> 
+                <br/>
+                <br/>
+                <strong> Existing alt text: </strong> {existingAlt} 
+                <br/>
+                <br/>
+                <br/>
+            </div>
+
              <label htmlFor="userTextArea" className={styles.box_label}> Manual image description </label>
             <textarea
                 value={textValue}
@@ -105,7 +115,8 @@ UserAnnotator.propTypes = {
     imageId: PropTypes.number.isRequired,
     setImageId: PropTypes.func.isRequired,
     userAnnotationSaved: PropTypes.bool.isRequired,
-    setUserAnnotationSaved: PropTypes.func.isRequired
+    setUserAnnotationSaved: PropTypes.func.isRequired,
+    existingAlt: PropTypes.string.isRequired
 }
 
 export default UserAnnotator

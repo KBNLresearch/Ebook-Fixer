@@ -17,10 +17,21 @@
 
     .user_control {
         width: 100%;
-        height: 10em;
+        height: 100%;
         position: relative;
         gap: 5em;
         text-align: right;
+    }
+
+    .existing_alt {
+        max-width: 50em;
+        // position: absolute;
+        // right: 20em;
+        // top: 11em;
+        font-size: 80%;
+        strong {
+            font-weight: bold;
+        }
     }
 
     .ai_control {
@@ -33,8 +44,7 @@
     
     .ai_labels_box {
         width: 100%;
-        height: 50%;
-        // gap: 5em;
+        height: fit-content;
         border-radius: 0.5em;
         border: 0.2em solid rgb(117, 124, 132);
         padding: 0.3em;
@@ -118,7 +128,7 @@
 
     textarea {
         width: 100%;
-        height: 100%;
+        height: fit-content;
         border-radius: 0.5em;
         border: 0.2em solid skyblue;
         padding: 0.3em;
