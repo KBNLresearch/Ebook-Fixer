@@ -129,13 +129,13 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
 Editor.propTypes = {
     ebookFile: PropTypes.shape({}),
     ebookId: PropTypes.string,
-    ebookTitle: PropTypes.string
+    ebookTitle: PropTypes.string,
 }
 
 Editor.defaultProps = {
     ebookId: '',
     ebookFile: null,
-    ebookTitle: ''
+    ebookTitle: '',
 }
 
 export default Editor

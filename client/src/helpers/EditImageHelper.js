@@ -1,5 +1,6 @@
 /**
  * @param {Object} image: metadata of currently being annotated image
+ * @function
  * @returns the filename of the classifiesd image
  * For example: "/OEBPS/8517446252668873626_cover.jpg"
  */

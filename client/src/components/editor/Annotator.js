@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { ImageInfo } from '../../helpers/EditorHelper'
 import AIAnnotator from './AIAnnotator'
 import Classifier from './Classifier'
-import {saveUserAnnotation} from '../../api/AnnotateImage'
-import {getImgFilename} from '../../helpers/EditImageHelper'
+import { saveUserAnnotation } from '../../api/AnnotateImage'
+import { getImgFilename } from '../../helpers/EditImageHelper'
 import { getImageMetadataApiCall } from '../../api/GetImageMetadata'
 import styles from './Annotator.module.scss'
 
@@ -84,7 +84,7 @@ function Annotator({ currImage, ebookId }) {
     const [textValue, setTextValue] = useState('')
     const [currClassification, setCurrClassification] = useState(null)
     const [typing, setTyping] = useState(false)
-    const [stage, setStage] = useState("")
+    const [stage, setStage] = useState('')
     const saveButtonRef = useRef(null)
     const dropdownRef = useRef(null)
 
@@ -94,12 +94,11 @@ function Annotator({ currImage, ebookId }) {
         if (!currImage) {
             // saveButton.current.innerText = 'Select image first'
             // saveButton.current.disabled = true
-            setStage("classify")
+            setStage('classify')
         } else {
             // saveButton.current.innerText = 'Save annotation'
             // saveButton.current.disabled = false
-            setStage("classify")
-            
+            setStage('classify')
 
             const imgInfo = currImage
 
@@ -114,7 +113,6 @@ function Annotator({ currImage, ebookId }) {
                     setAiAnnotationList([])
                 }
             }
-
 
             // For each image that is loaded, client fetches all metadata from server (even if the image does not exist yet)
             console.log('Fetching image metadata...')
@@ -132,7 +130,7 @@ function Annotator({ currImage, ebookId }) {
                         console.log(result.image)
                         // Decorative images don't have image descriptions
                         if (currClassification !== 'Decoration') {
-                            setStage("overview")
+                            setStage('overview')
                         }
                         // For each HUM annotation, add to user annotation list (for display in UserAnnotator)
                         // Note that for now this list always contains 1 HUM annotation
@@ -146,14 +144,16 @@ function Annotator({ currImage, ebookId }) {
                                 // saveButton.current.disabled = true
                             }
                         })
-                        setAiAnnotationList(
-                            [...aiAnnotationList, result.annotations
-                                .filter((e) => e.type==='BB')
-                                .map(({ text, confidence }) => (JSON.stringify({ text, confidence })))])
+                        setAiAnnotationList([
+                            ...aiAnnotationList,
+                            result.annotations
+                                .filter((e) => e.type === 'BB')
+                                .map(({ text, confidence }) =>
+                                    JSON.stringify({ text, confidence })
+                                ),
+                        ])
                     }
 
-                        
-                    
                     // TODO: we may also wanna pass this classification to AIAnnotator in the future,
                     //    to allow for different workflows per category
                     if (Object.prototype.hasOwnProperty.call(result, 'image')) {
@@ -180,7 +180,6 @@ function Annotator({ currImage, ebookId }) {
         }
     }, [currImage])
 
-
     function handleClick() {
         saveUserAnnotation(
             ebookId,
@@ -198,100 +197,102 @@ function Annotator({ currImage, ebookId }) {
         saveButton.current.disabled = true
     }
 
-    const options = [
-        {abr: 'GOOGL', val: 'Google Vision API'},
-    ]
-
+    const options = [{ abr: 'GOOGL', val: 'Google Vision API' }]
 
     return (
         <div className={styles.container}>
-
             {
                 {
-                'classify': 
-                    <Classifier
-                        currImage={currImage}
-                        ebookId={ebookId}
-                        setImageId={setImageId}
-                        currClassification={currClassification}
-                        setStage={setStage}>
-                        {' '}
-                    </Classifier>,
-                'ai-selection':
-                    <div className={styles.ai_input}>
-
-                        <label htmlFor="selectClass">
-                            Please select AI to generate annotations
-                        </label>
-                        <select
-                           
-                            ref={dropdownRef}
-                            className={styles.dropdown}
-                            onChange={() => {
-                                saveButtonRef.current.disabled = false
-                            }}>
-                            <option value="none" selected disabled hidden>
-                                Select AI
-                            </option>
-                            {options.map((opt) => (
-                                <option value={opt.val}> {opt.val} </option>
-                                // TODO: handle AI selected by user
-                                // handleMenuOption(ospt)
-                            ))}
-                        </select>
-                        <button
-                            type="button"
-                            className={styles.save_button}
-                            ref={saveButtonRef}
-                            onClick={() => setStage("annotate")}>
+                    classify: (
+                        <Classifier
+                            currImage={currImage}
+                            ebookId={ebookId}
+                            setImageId={setImageId}
+                            currClassification={currClassification}
+                            setStage={setStage}>
                             {' '}
-                            Save AI{' '}
-                        </button>
-                    </div> ,
-                'annotate': 
-                    <div className={styles.user_input}>
-                        <AIAnnotator
-                        annotationList={aiAnnotationList}
-                        currImage={currImage}
-                        ebookId={ebookId}
-                        imageId={imageId} >
-                            {' '}
-                        </AIAnnotator>
-                        <UserAnnotator 
-                        annotationList={userAnnotationList} 
-                        setTextValue={setTextValue} 
-                        textValue={textValue} 
-                        setTyping={setTyping}/>
-                        <button type="button"
+                        </Classifier>
+                    ),
+                    'ai-selection': (
+                        <div className={styles.ai_input}>
+                            <label htmlFor="selectClass">
+                                Please select AI to generate annotations
+                            </label>
+                            <select
+                                ref={dropdownRef}
+                                className={styles.dropdown}
+                                onChange={() => {
+                                    saveButtonRef.current.disabled = false
+                                }}>
+                                <option value="none" selected disabled hidden>
+                                    Select AI
+                                </option>
+                                {options.map((opt) => (
+                                    <option value={opt.val}> {opt.val} </option>
+                                    // TODO: handle AI selected by user
+                                    // handleMenuOption(ospt)
+                                ))}
+                            </select>
+                            <button
+                                type="button"
+                                className={styles.save_button}
+                                ref={saveButtonRef}
+                                onClick={() => setStage('annotate')}>
+                                {' '}
+                                Save AI{' '}
+                            </button>
+                        </div>
+                    ),
+                    annotate: (
+                        <div className={styles.user_input}>
+                            <AIAnnotator
+                                annotationList={aiAnnotationList}
+                                currImage={currImage}
+                                ebookId={ebookId}
+                                imageId={imageId}>
+                                {' '}
+                            </AIAnnotator>
+                            <UserAnnotator
+                                annotationList={userAnnotationList}
+                                setTextValue={setTextValue}
+                                textValue={textValue}
+                                setTyping={setTyping}
+                            />
+                            <button
+                                type="button"
                                 className={styles.save_button}
                                 ref={saveButton}
                                 onClick={() => handleClick()}>
                                 Save Annotation
-            
-                        </button>
-                    
-                    </div>,
-                'overview' : 
-                    <div className={styles.overview}>
-                    <div className={styles.overview_info}>
-                        <strong> Image description: </strong> 
-                        {userAnnotationList[userAnnotationList.length - 1]}
-                    </div>
-                    <div className={styles.overview_info}>
-                        <br/>
-                        <strong> Classification: </strong> {currClassification}
-                        <br/>
-                    </div>
-                        <button type="button"
-                                    className={styles.save_button}
-                                    onClick={() => setStage("classify")}>
-                                    Restart image annotation
-                        </button>
-                    </div>
-
+                            </button>
+                        </div>
+                    ),
+                    overview: (
+                        <div className={styles.overview}>
+                            <div className={styles.overview_info}>
+                                <strong> Image description: </strong>
+                                {
+                                    userAnnotationList[
+                                        userAnnotationList.length - 1
+                                    ]
+                                }
+                            </div>
+                            <div className={styles.overview_info}>
+                                <br />
+                                <strong> Classification: </strong>{' '}
+                                {currClassification}
+                                <br />
+                            </div>
+                            <button
+                                type="button"
+                                className={styles.save_button}
+                                onClick={() => setStage('classify')}>
+                                Restart image annotation
+                            </button>
+                        </div>
+                    ),
                 }[stage]
             }
-             
         </div>
     )
 }
