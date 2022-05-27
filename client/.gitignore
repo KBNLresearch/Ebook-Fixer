@@ -13,6 +13,7 @@
 
 # documentation
 /out
+/docs
 
 # misc
 .DS_Store

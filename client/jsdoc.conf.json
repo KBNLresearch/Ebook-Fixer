@@ -11,12 +11,13 @@
   "plugins": ["plugins/markdown", "better-docs/component"],
   "templates": {
     "better-docs": {
-      "name": "My React components"
+      "name": "Fixing E-Books Client Documentation"
     }
   },
   "opts": {
     "destination": "docs",
     "recurse": true,
-    "readme": "README.md"
+    "readme": "README.md",
+    "template": "node_modules/better-docs"
   }
 }
