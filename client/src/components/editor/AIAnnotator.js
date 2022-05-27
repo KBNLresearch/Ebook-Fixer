@@ -21,12 +21,12 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
 
     useEffect(() => {
 
-        generateButtonRef.current.disabled = false
-
         if (aiAnnotationList.length > 0) {
             generateButtonRef.current.disabled = true
             generateButtonRef.current.innerText = "Generated" 
-        } 
+        } else {
+            generateButtonRef.current.disabled = false
+        }
 
     }, [])
 

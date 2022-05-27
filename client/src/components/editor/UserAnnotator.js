@@ -39,6 +39,9 @@ function UserAnnotator({ annotationList, setAnnotationList, currImage, ebookId, 
         if (userAnnotationSaved) {
             saveButton.current.disabled = true
             saveButton.current.innerText = 'Annotation saved'
+        } else {
+            saveButton.current.disabled = false
+            saveButton.current.innerText = 'Save annotation'
         }
 
     }, [annotationList])
@@ -48,21 +51,26 @@ function UserAnnotator({ annotationList, setAnnotationList, currImage, ebookId, 
      // Currently we enable save button again as soon as user starts typing (onFocus)
 
     function handleClick() {
-        saveUserAnnotation(
-            ebookId,
-            imageId,
-            getImgFilename(currImage),
-            textValue
-        ).then((result) => {
-            // Keep image id up to date after annotating
-            if (Object.prototype.hasOwnProperty.call(result, 'image')) {
-                setImageId(result.image)
-            }
-        })
-        saveButton.current.innerText = 'Annotation saved'
-        saveButton.current.disabled = true
-        setUserAnnotationSaved(true)
-        setAnnotationList([...annotationList, textValue])
+
+        if (textValue === '') {
+            window.alert('Please provide a non-empty image description.')
+        } else {
+            saveUserAnnotation(
+                ebookId,
+                imageId,
+                getImgFilename(currImage),
+                textValue
+            ).then((result) => {
+                // Keep image id up to date after annotating
+                if (Object.prototype.hasOwnProperty.call(result, 'image')) {
+                    setImageId(result.image)
+                }
+            })
+            saveButton.current.innerText = 'Annotation saved'
+            saveButton.current.disabled = true
+            setUserAnnotationSaved(true)
+            setAnnotationList([...annotationList, textValue])
+        }
     }
 
     return (

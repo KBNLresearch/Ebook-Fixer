@@ -202,6 +202,8 @@ function Annotator({ currImage, ebookId }) {
                                             setClassificationSaved(false)
                                             setAiSaved(false)
                                             setUserAnnotationSaved(false)
+                                            setAiAnnotationList([])
+                                            setUserAnnotationList([])
                                             }}>
                                     Restart image annotation
                         </button>

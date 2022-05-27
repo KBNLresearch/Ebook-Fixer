@@ -46,9 +46,6 @@ function ProgressBar({ currStage, setStage, classificationSaved, aiSaved, userAn
         }
         return styles.save_step
     }
-    
-    // TODO: add javadoc
-    // TODO: get rid of unncessesary props!
 
     function handleClassificationClick() {        
         console.log('Return to classification step')
@@ -62,14 +59,11 @@ function ProgressBar({ currStage, setStage, classificationSaved, aiSaved, userAn
 
     function handleManualClick() {
         console.log('Return to manual step')
-        // TODO: show saved human annotation <-- store on client?
-        // TODO: keep button disabled
         setStage('annotate')
     }
 
     function handleSaveClick() {
         console.log('Go to save step')
-        // TODO: show stored info when going back! (get props from Annotator) <-- stored on client??
         setStage('overview')
     }
 
