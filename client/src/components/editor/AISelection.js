@@ -3,11 +3,16 @@ import PropTypes from 'prop-types'
 import styles from './Annotator.module.scss'
 
 /**
+ * The AISelection component handles selection of AI types
+ * After this step the AIAnnotator component will deal with generating 
+ * the actual annotations using that AI selected
  * 
- * @param {*} param0 
- * @returns 
+ * @param {{setStage: SetStateAction}} props Sets the next stage in annotation process 
+ * @param {{currAiSelected: String}} props AI type selected by user
+ * @param {{setCurrAiSelected: SetStateAction}} props Sets the AI choice of the user
+ * @returns the AISelection component
  */
-function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiSaved}) {
+function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
     
     const dropdownRef = useRef(null)
     const saveAiChoiceButtonRef = useRef(null)
@@ -36,6 +41,9 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiSaved}) 
 
 
 
+    /**
+     * @returns the AI type selected in dropdown menu
+     */
     function getSelectedAi() {
         const choice =  dropdownRef.current.options[dropdownRef.current.selectedIndex].value
         if (dropdownRef.current.selectedIndex === 0) {
@@ -46,6 +54,10 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiSaved}) 
     }
 
 
+    /**
+     * Stores the AI selected in dropdown menu
+     * and disables the "Save AI" button
+     */
     function handleAiClick() {
 
         const choice = getSelectedAi()
@@ -67,7 +79,6 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiSaved}) 
             saveAiChoiceButtonRef.current.disabled = true
             saveAiChoiceButtonRef.current.innerText = 'AI saved'
             setStage('annotate')
-            setAiSaved(true)
         } else {
             saveAiChoiceButtonRef.current.disabled = false
         } 
@@ -108,8 +119,7 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiSaved}) 
 AISelection.propTypes = {
     setStage: PropTypes.func.isRequired,
     currAiSelected: PropTypes.string.isRequired,
-    setCurrAiSelected: PropTypes.func.isRequired,
-    setAiSaved: PropTypes.func.isRequired
+    setCurrAiSelected: PropTypes.func.isRequired
 }
 
 export default AISelection
