@@ -55,6 +55,8 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiSaved}) 
 
          // TODO: pass selectedAi to AIAnnotator (via parent), which will make API call depending on the selected AI
 
+         // TODO: enable generate button in next stage again, when new AI is selected
+
 
 
 
