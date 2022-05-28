@@ -19,7 +19,7 @@
     }
   },
   "opts": {
-    "destination": "docs",
+    "destination": "../client-docs",
     "recurse": true,
     "readme": "README.md",
     "template": "node_modules/better-docs"
