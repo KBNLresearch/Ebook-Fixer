@@ -143,13 +143,20 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId, aiChoice}) {
         }
     }
 
-    // TODO: insert another div below the AI labels box for sentences, if any (Aratrika)
+    
         return (
             <div className={styles.ai_control}>
                 <label htmlFor="AiLabelsBox" className={styles.box_label}> Automatic suggestions </label>
                 <div className={styles.ai_labels_box} id="AiLabelsBox"> 
                     {labels.map((obj) => (<p className={getProportionalClass(obj)}> {obj.text} </p>))} 
                 </div>
+                {aiChoice=='MICRO' &&
+                    <div className={styles.ai_control}>
+                        <label htmlFor="AiSentanceBox" className={styles.box_label}> Generated Annotation </label>
+                        <div className={styles.ai_labels_box}>
+                            MY SENTANCE
+                        </div>
+                    </div>}
                 <button type="button"
                 className={styles.save_button}
                 ref={generateButtonRef}

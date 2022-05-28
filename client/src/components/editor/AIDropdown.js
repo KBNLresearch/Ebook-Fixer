@@ -34,7 +34,7 @@ function AIDropdown({ currImage, ebookId, setImageId, aiChoice, setAiChoice, set
                                 Select AI
                             </option>
                             {options.map((opt) => (
-                                <option value={opt.val}> {opt.val} </option>
+                                <option value={opt.abr}> {opt.val} </option>
                                 // TODO: handle AI selected by user
                                 // handleMenuOption(ospt)
                             ))}
@@ -43,7 +43,16 @@ function AIDropdown({ currImage, ebookId, setImageId, aiChoice, setAiChoice, set
                             type="button"
                             className={styles.save_button}
                             ref={saveButtonRef}
-                            onClick={() => setStage("annotate")}>
+                            onClick={() => {
+                                
+                                setAiChoice(dropdownRef.current
+                                    .options[dropdownRef.current.selectedIndex]
+                                    .value)
+                                console.log(dropdownRef.current
+                                    .options[dropdownRef.current.selectedIndex]
+                                    .value)
+                                setStage("annotate")
+                            }}>
                             {' '}
                             Save AI{' '}
                         </button>
