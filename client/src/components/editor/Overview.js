@@ -36,7 +36,11 @@ function Overview({ imageList }) {
                 Overview
             </button>
             <div className={styles.overview_info}>
-                Showing {expanded ? imageList.length - 1 : imageLimit} images
+                Showing{' '}
+                {expanded
+                    ? imageList.length
+                    : Math.min(imageLimit, imageList.length)}{' '}
+                /{' ' + imageList.length} images
                 {expanded ? '' : <div>Expand the overview to see more</div>}
                 <div>Click on an image to annotate it</div>
             </div>
