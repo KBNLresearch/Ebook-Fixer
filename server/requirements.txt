@@ -16,5 +16,6 @@ lxml
 pycodestyle
 pymongo==3.12.0
 pytest
+sphinx
 sqlparse==0.2.4
 unittest2

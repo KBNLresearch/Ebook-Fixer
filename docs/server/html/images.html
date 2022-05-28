@@ -1,0 +1,419 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>images package &#8212; Ebook Fixer 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="images-package">
+<h1>images package<a class="headerlink" href="#images-package" title="Permalink to this headline">¶</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="images.migrations.html">images.migrations package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="images.migrations.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="images.migrations.html#module-images.migrations.0001_initial">images.migrations.0001_initial module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="images.migrations.html#module-images.migrations">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-images.admin">
+<span id="images-admin-module"></span><h2>images.admin module<a class="headerlink" href="#module-images.admin" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-images.apps">
+<span id="images-apps-module"></span><h2>images.apps module<a class="headerlink" href="#module-images.apps" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="images.apps.ImagesConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">images.apps.</span></span><span class="sig-name descname"><span class="pre">ImagesConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#images.apps.ImagesConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.apps.config.AppConfig</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="images.apps.ImagesConfig.default_auto_field">
+<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#images.apps.ImagesConfig.default_auto_field" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="images.apps.ImagesConfig.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'images'</span></em><a class="headerlink" href="#images.apps.ImagesConfig.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-images.models">
+<span id="images-models-module"></span><h2>images.models module<a class="headerlink" href="#module-images.models" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="images.models.Image">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">images.models.</span></span><span class="sig-name descname"><span class="pre">Image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebook</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classification</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#images.models.Image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.models.base.Model</span></code></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="images.models.Image.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#images.models.Image.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="images.models.Image.IMAGE_TYPES">
+<span class="sig-name descname"><span class="pre">IMAGE_TYPES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('DECO',</span> <span class="pre">'Decoration'),</span> <span class="pre">('INFO',</span> <span class="pre">'Information'),</span> <span class="pre">('PHOTO',</span> <span class="pre">'Photo'),</span> <span class="pre">('ILLUS',</span> <span class="pre">'Illustration'),</span> <span class="pre">('FIG',</span> <span class="pre">'Figure'),</span> <span class="pre">('SYM',</span> <span class="pre">'Symbol'),</span> <span class="pre">('DRAW',</span> <span class="pre">'Drawing'),</span> <span class="pre">('COM',</span> <span class="pre">'Comic'),</span> <span class="pre">('LOGO',</span> <span class="pre">'Logo'),</span> <span class="pre">('GRAPH',</span> <span class="pre">'Graph'),</span> <span class="pre">('MAP',</span> <span class="pre">'Map')]</span></em><a class="headerlink" href="#images.models.Image.IMAGE_TYPES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="images.models.Image.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#images.models.Image.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="images.models.Image.SERIALIZED_FIELDS">
+<span class="sig-name descname"><span class="pre">SERIALIZED_FIELDS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['ebook',</span> <span class="pre">'filename',</span> <span class="pre">'location',</span> <span class="pre">'classification',</span> <span class="pre">'raw_context']</span></em><a class="headerlink" href="#images.models.Image.SERIALIZED_FIELDS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="images.models.Image.annotation_set">
+<span class="sig-name descname"><span class="pre">annotation_set</span></span><a class="headerlink" href="#images.models.Image.annotation_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="images.models.Image.classification">
+<span class="sig-name descname"><span class="pre">classification</span></span><a class="headerlink" href="#images.models.Image.classification" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="images.models.Image.ebook">
+<span class="sig-name descname"><span class="pre">ebook</span></span><a class="headerlink" href="#images.models.Image.ebook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="images.models.Image.ebook_id">
+<span class="sig-name descname"><span class="pre">ebook_id</span></span><a class="headerlink" href="#images.models.Image.ebook_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="images.models.Image.filename">
+<span class="sig-name descname"><span class="pre">filename</span></span><a class="headerlink" href="#images.models.Image.filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="images.models.Image.get_classification_display">
+<span class="sig-name descname"><span class="pre">get_classification_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">classification&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#images.models.Image.get_classification_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="images.models.Image.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#images.models.Image.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="images.models.Image.location">
+<span class="sig-name descname"><span class="pre">location</span></span><a class="headerlink" href="#images.models.Image.location" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="images.models.Image.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#images.models.Image.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="images.models.Image.raw_context">
+<span class="sig-name descname"><span class="pre">raw_context</span></span><a class="headerlink" href="#images.models.Image.raw_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-images.serializers">
+<span id="images-serializers-module"></span><h2>images.serializers module<a class="headerlink" href="#module-images.serializers" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="images.serializers.ImageSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">images.serializers.</span></span><span class="sig-name descname"><span class="pre">ImageSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#images.serializers.ImageSerializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="images.serializers.ImageSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#images.serializers.ImageSerializer.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="images.serializers.ImageSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('id',</span> <span class="pre">'ebook',</span> <span class="pre">'filename',</span> <span class="pre">'location',</span> <span class="pre">'classification',</span> <span class="pre">'raw_context')</span></em><a class="headerlink" href="#images.serializers.ImageSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="images.serializers.ImageSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#images.serializers.ImageSerializer.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#images.models.Image" title="images.models.Image"><code class="xref py py-class docutils literal notranslate"><span class="pre">images.models.Image</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-images.tests">
+<span id="images-tests-module"></span><h2>images.tests module<a class="headerlink" href="#module-images.tests" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="images.tests.ImageViewsTest">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">images.tests.</span></span><span class="sig-name descname"><span class="pre">ImageViewsTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.ImageViewsTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="images.tests.ImageViewsTest.response_image_classification_view">
+<span class="sig-name descname"><span class="pre">response_image_classification_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.ImageViewsTest.response_image_classification_view" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="images.tests.ImageViewsTest.response_image_details_view">
+<span class="sig-name descname"><span class="pre">response_image_details_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uuid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.ImageViewsTest.response_image_details_view" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="images.tests.ImageViewsTest.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.ImageViewsTest.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="images.tests.ImageViewsTest.test_image_classification_view_200_excluding_optional_fields">
+<span class="sig-name descname"><span class="pre">test_image_classification_view_200_excluding_optional_fields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.ImageViewsTest.test_image_classification_view_200_excluding_optional_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="images.tests.ImageViewsTest.test_image_classification_view_200_including_decorative_classification">
+<span class="sig-name descname"><span class="pre">test_image_classification_view_200_including_decorative_classification</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.ImageViewsTest.test_image_classification_view_200_including_decorative_classification" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="images.tests.ImageViewsTest.test_image_classification_view_200_including_optional_fields">
+<span class="sig-name descname"><span class="pre">test_image_classification_view_200_including_optional_fields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.ImageViewsTest.test_image_classification_view_200_including_optional_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="images.tests.ImageViewsTest.test_image_classification_view_200_update_existing_annotation">
+<span class="sig-name descname"><span class="pre">test_image_classification_view_200_update_existing_annotation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.ImageViewsTest.test_image_classification_view_200_update_existing_annotation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="images.tests.ImageViewsTest.test_image_classification_view_400_empty_body">
+<span class="sig-name descname"><span class="pre">test_image_classification_view_400_empty_body</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.ImageViewsTest.test_image_classification_view_400_empty_body" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="images.tests.ImageViewsTest.test_image_classification_view_400_extra_fields">
+<span class="sig-name descname"><span class="pre">test_image_classification_view_400_extra_fields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.ImageViewsTest.test_image_classification_view_400_extra_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="images.tests.ImageViewsTest.test_image_classification_view_400_invalid_image_type">
+<span class="sig-name descname"><span class="pre">test_image_classification_view_400_invalid_image_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.ImageViewsTest.test_image_classification_view_400_invalid_image_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="images.tests.ImageViewsTest.test_image_classification_view_400_missing_fields">
+<span class="sig-name descname"><span class="pre">test_image_classification_view_400_missing_fields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.ImageViewsTest.test_image_classification_view_400_missing_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="images.tests.ImageViewsTest.test_image_classification_view_404">
+<span class="sig-name descname"><span class="pre">test_image_classification_view_404</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.ImageViewsTest.test_image_classification_view_404" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="images.tests.ImageViewsTest.test_image_classification_view_405">
+<span class="sig-name descname"><span class="pre">test_image_classification_view_405</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.ImageViewsTest.test_image_classification_view_405" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="images.tests.ImageViewsTest.test_image_details_view_200">
+<span class="sig-name descname"><span class="pre">test_image_details_view_200</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.ImageViewsTest.test_image_details_view_200" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="images.tests.ImageViewsTest.test_image_details_view_400_missing_header">
+<span class="sig-name descname"><span class="pre">test_image_details_view_400_missing_header</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.ImageViewsTest.test_image_details_view_400_missing_header" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="images.tests.ImageViewsTest.test_image_details_view_400_missing_parameter">
+<span class="sig-name descname"><span class="pre">test_image_details_view_400_missing_parameter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.ImageViewsTest.test_image_details_view_400_missing_parameter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="images.tests.ImageViewsTest.test_image_details_view_404_missing_ebook">
+<span class="sig-name descname"><span class="pre">test_image_details_view_404_missing_ebook</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.ImageViewsTest.test_image_details_view_404_missing_ebook" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="images.tests.ImageViewsTest.test_image_details_view_404_missing_image">
+<span class="sig-name descname"><span class="pre">test_image_details_view_404_missing_image</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.ImageViewsTest.test_image_details_view_404_missing_image" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="images.tests.ImageViewsTest.test_image_details_view_405">
+<span class="sig-name descname"><span class="pre">test_image_details_view_405</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.ImageViewsTest.test_image_details_view_405" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="images.tests.decode_message">
+<span class="sig-prename descclassname"><span class="pre">images.tests.</span></span><span class="sig-name descname"><span class="pre">decode_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#images.tests.decode_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-images.urls">
+<span id="images-urls-module"></span><h2>images.urls module<a class="headerlink" href="#module-images.urls" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-images.views">
+<span id="images-views-module"></span><h2>images.views module<a class="headerlink" href="#module-images.views" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="images.views.image_classification_view">
+<span class="sig-prename descclassname"><span class="pre">images.views.</span></span><span class="sig-name descname"><span class="pre">image_classification_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#images.views.image_classification_view" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receives metadata for an image entry which is
+added/updated in the database</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>request (request object): The request object that contains
+image metadata in the body</p>
+</dd>
+<dt>Returns:</dt><dd><p>JsonResponse: Response object sent back to the client</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="images.views.image_details_view">
+<span class="sig-prename descclassname"><span class="pre">images.views.</span></span><span class="sig-name descname"><span class="pre">image_details_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#images.views.image_details_view" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the metadata and the annotations for an image</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>request (request object): The request object with an ebook and image header</p>
+</dd>
+<dt>Returns:</dt><dd><p>JsonResponse: Response object sent back to the client</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-images">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-images" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Ebook Fixer</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Aratrika Das, Denis Tsvetkov, Filip Nguyen Duc, Nadine Kuo, Vlad Makarov.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/images.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
