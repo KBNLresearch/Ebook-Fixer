@@ -98,6 +98,7 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "jsdoc": "^3.6.10",
+    "parcel": "^2.6.0",
     "prettier": "^2.6.2"
   }
 }
