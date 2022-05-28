@@ -101,7 +101,11 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
             ) : (
                 <div>
                     {currentImage && imgFilename ? (
-                        <Link to={`/ebook/${uuid}`}>Back to Overview</Link>
+                        <div className={styles.back_to_overview_btn}>
+                            <Link to={`/ebook/${uuid}`}>
+                                <button type="button">Back to Overview</button>
+                            </Link>
+                        </div>
                     ) : (
                         ''
                     )}

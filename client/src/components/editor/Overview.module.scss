@@ -1,19 +1,64 @@
 .img {
     max-width: 100%;
-    max-height: 33vh;
+    max-height: 25vh;
     cursor: pointer;
     border: 5px solid blueviolet;
     border-radius: 0.3em;
 }
 
 .container {
+    max-height: 70vh;
+    transition: max-height 0.3s ease;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
-    align-items: stretch;
     align-content: flex-start;
-    overflow-y: scroll;
-    height: inherit;
-    gap: 2em;
-    max-height: 80vh;
+    width: 100%;
+    height: 100%;
+    &.expanded {
+        position: fixed;
+        width: 96%;
+        left: 2%;
+        top: 2%;
+        height: 96%;
+        background-color: #f8f8f8;
+        z-index: 999;
+        border: 8px solid #fff;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        border-radius: 1em;
+        max-height: 96vh;
+        padding-bottom: 0.6em;
+    }
+
+    .expandbtn {
+        font-size: 1.1em;
+        svg {
+            height: 1.6em;
+            margin-right: 0.5em;
+            margin-bottom: -0.3em;
+        }
+        padding: 0.5em 0.7em;
+        margin: 0.2em 10%;
+        border: 4px solid blueviolet;
+    }
+
+    .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: stretch;
+        align-content: flex-start;
+        overflow-y: scroll;
+        height: inherit;
+        gap: 2em;
+        padding: 1em;
+    }
+
+    .overview_info {
+        line-height: 1.5em;
+        background-color: hsl(271, 76%, 23%);
+        color: white;
+        border-radius: 0.7em;
+        margin: 0.3em 1em;
+    }
 }
