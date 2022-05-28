@@ -75,7 +75,7 @@
 <span id="ebooks-models-module"></span><h2>ebooks.models module<a class="headerlink" href="#module-ebooks.models" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="ebooks.models.Ebook">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ebooks.models.</span></span><span class="sig-name descname"><span class="pre">Ebook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uuid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epub</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checker_issues</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.models.Ebook" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ebooks.models.</span></span><span class="sig-name descname"><span class="pre">Ebook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uuid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epub</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.models.Ebook" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.models.base.Model</span></code></p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="ebooks.models.Ebook.DoesNotExist">
@@ -83,32 +83,10 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ebooks.models.Ebook.INVALID_STATES">
-<span class="sig-name descname"><span class="pre">INVALID_STATES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('INVALID',</span> <span class="pre">'invalid'),</span> <span class="pre">('CONVERSION_FAILED',</span> <span class="pre">'conversion_failed'),</span> <span class="pre">('NOT_ACCESSIBLE',</span> <span class="pre">'not_accessible')]</span></em><a class="headerlink" href="#ebooks.models.Ebook.INVALID_STATES" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="py exception">
 <dt class="sig sig-object py" id="ebooks.models.Ebook.MultipleObjectsReturned">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#ebooks.models.Ebook.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ebooks.models.Ebook.STATES">
-<span class="sig-name descname"><span class="pre">STATES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('VALIDATING',</span> <span class="pre">'validating'),</span> <span class="pre">('CONVERTING',</span> <span class="pre">'converting'),</span> <span class="pre">('MAKING_ACCESSIBLE',</span> <span class="pre">'making_accessible'),</span> <span class="pre">('PROCESSED',</span> <span class="pre">'processed'),</span> <span class="pre">('INVALID',</span> <span class="pre">'invalid'),</span> <span class="pre">('CONVERSION_FAILED',</span> <span class="pre">'conversion_failed'),</span> <span class="pre">('NOT_ACCESSIBLE',</span> <span class="pre">'not_accessible')]</span></em><a class="headerlink" href="#ebooks.models.Ebook.STATES" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ebooks.models.Ebook.VALID_STATES">
-<span class="sig-name descname"><span class="pre">VALID_STATES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('VALIDATING',</span> <span class="pre">'validating'),</span> <span class="pre">('CONVERTING',</span> <span class="pre">'converting'),</span> <span class="pre">('MAKING_ACCESSIBLE',</span> <span class="pre">'making_accessible'),</span> <span class="pre">('PROCESSED',</span> <span class="pre">'processed')]</span></em><a class="headerlink" href="#ebooks.models.Ebook.VALID_STATES" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ebooks.models.Ebook.checker_issues">
-<span class="sig-name descname"><span class="pre">checker_issues</span></span><a class="headerlink" href="#ebooks.models.Ebook.checker_issues" title="Permalink to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -127,11 +105,6 @@ FieldFile when accessed so you can write code like:</p>
 </pre></div>
 </div>
 </dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ebooks.models.Ebook.get_state_display">
-<span class="sig-name descname"><span class="pre">get_state_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">state&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.models.Ebook.get_state_display" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ebooks.models.Ebook.image_set">
@@ -152,13 +125,6 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 <dt class="sig sig-object py" id="ebooks.models.Ebook.objects">
 <span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#ebooks.models.Ebook.objects" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ebooks.models.Ebook.state">
-<span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#ebooks.models.Ebook.state" title="Permalink to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ebooks.models.Ebook.title">
@@ -194,7 +160,7 @@ object the first time, the query is executed.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="ebooks.serializers.EbookSerializer.Meta.fields">
-<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('uuid',</span> <span class="pre">'title',</span> <span class="pre">'state',</span> <span class="pre">'checker_issues')</span></em><a class="headerlink" href="#ebooks.serializers.EbookSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('uuid',</span> <span class="pre">'title',</span> <span class="pre">'epub')</span></em><a class="headerlink" href="#ebooks.serializers.EbookSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -215,6 +181,11 @@ object the first time, the query is executed.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ebooks.tests.</span></span><span class="sig-name descname"><span class="pre">EbookViewsTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
 <dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.response_ebook_detail_view">
+<span class="sig-name descname"><span class="pre">response_ebook_detail_view</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.response_ebook_detail_view" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.response_ebook_download_view">
 <span class="sig-name descname"><span class="pre">response_ebook_download_view</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.response_ebook_download_view" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -226,13 +197,18 @@ object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.test_ebook_download_200_invalid_book">
-<span class="sig-name descname"><span class="pre">test_ebook_download_200_invalid_book</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.test_ebook_download_200_invalid_book" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.test_ebook_details_view_200">
+<span class="sig-name descname"><span class="pre">test_ebook_details_view_200</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.test_ebook_details_view_200" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.test_ebook_download_200_unprocessed_book">
-<span class="sig-name descname"><span class="pre">test_ebook_download_200_unprocessed_book</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.test_ebook_download_200_unprocessed_book" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.test_ebook_details_view_404">
+<span class="sig-name descname"><span class="pre">test_ebook_details_view_404</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.test_ebook_details_view_404" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.test_ebook_details_view_405">
+<span class="sig-name descname"><span class="pre">test_ebook_details_view_405</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.test_ebook_details_view_405" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -283,89 +259,13 @@ object the first time, the query is executed.</p>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="ebooks.tests.mock_pipeline">
-<span class="sig-prename descclassname"><span class="pre">ebooks.tests.</span></span><span class="sig-name descname"><span class="pre">mock_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ebook</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.mock_pipeline" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="ebooks.tests.mock_uuid">
 <span class="sig-prename descclassname"><span class="pre">ebooks.tests.</span></span><span class="sig-name descname"><span class="pre">mock_uuid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.mock_uuid" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </section>
-<section id="module-ebooks.tests_pipeline">
-<span id="ebooks-tests-pipeline-module"></span><h2>ebooks.tests_pipeline module<a class="headerlink" href="#module-ebooks.tests_pipeline" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="ebooks.tests_pipeline.DataProcessingPipelineTests">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ebooks.tests_pipeline.</span></span><span class="sig-name descname"><span class="pre">DataProcessingPipelineTests</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_pipeline.DataProcessingPipelineTests" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="ebooks.tests_pipeline.DataProcessingPipelineTests.setUp">
-<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#ebooks.tests_pipeline.DataProcessingPipelineTests.setUp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Hook method for setting up the test fixture before exercising it.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ebooks.tests_pipeline.DataProcessingPipelineTests.test_check_missing_book">
-<span class="sig-name descname"><span class="pre">test_check_missing_book</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_pipeline.DataProcessingPipelineTests.test_check_missing_book" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ebooks.tests_pipeline.DataProcessingPipelineTests.test_process_invalid_ebook">
-<span class="sig-name descname"><span class="pre">test_process_invalid_ebook</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_pipeline.DataProcessingPipelineTests.test_process_invalid_ebook" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ebooks.tests_pipeline.DataProcessingPipelineTests.test_process_valid_ebook_no_file_found">
-<span class="sig-name descname"><span class="pre">test_process_valid_ebook_no_file_found</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_pipeline.DataProcessingPipelineTests.test_process_valid_ebook_no_file_found" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ebooks.tests_pipeline.DataProcessingPipelineTests.test_process_valid_ebook_updated_title">
-<span class="sig-name descname"><span class="pre">test_process_valid_ebook_updated_title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_pipeline.DataProcessingPipelineTests.test_process_valid_ebook_updated_title" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ebooks.tests_pipeline.DataProcessingPipelineTests.test_process_valid_ebook_with_warnings">
-<span class="sig-name descname"><span class="pre">test_process_valid_ebook_with_warnings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_pipeline.DataProcessingPipelineTests.test_process_valid_ebook_with_warnings" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="ebooks.tests_pipeline.MockInvalidEpubCheck">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ebooks.tests_pipeline.</span></span><span class="sig-name descname"><span class="pre">MockInvalidEpubCheck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epub_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_pipeline.MockInvalidEpubCheck" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="ebooks.tests_pipeline.MockValidEpubCheck">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ebooks.tests_pipeline.</span></span><span class="sig-name descname"><span class="pre">MockValidEpubCheck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epub_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_pipeline.MockValidEpubCheck" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="ebooks.tests_pipeline.MockValidEpubWithWarningsCheck">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ebooks.tests_pipeline.</span></span><span class="sig-name descname"><span class="pre">MockValidEpubWithWarningsCheck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epub_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_pipeline.MockValidEpubWithWarningsCheck" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="ebooks.tests_pipeline.MockedMessage">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ebooks.tests_pipeline.</span></span><span class="sig-name descname"><span class="pre">MockedMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_pipeline.MockedMessage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="ebooks.tests_pipeline.dummy_mock">
-<span class="sig-prename descclassname"><span class="pre">ebooks.tests_pipeline.</span></span><span class="sig-name descname"><span class="pre">dummy_mock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_pipeline.dummy_mock" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="ebooks.tests_pipeline.mock_unzipping">
-<span class="sig-prename descclassname"><span class="pre">ebooks.tests_pipeline.</span></span><span class="sig-name descname"><span class="pre">mock_unzipping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ebook_uuid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebook_title</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_pipeline.mock_unzipping" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<section id="ebooks-tests-pipeline-module">
+<h2>ebooks.tests_pipeline module<a class="headerlink" href="#ebooks-tests-pipeline-module" title="Permalink to this headline">¶</a></h2>
 </section>
 <section id="module-ebooks.tests_utils">
 <span id="ebooks-tests-utils-module"></span><h2>ebooks.tests_utils module<a class="headerlink" href="#module-ebooks.tests_utils" title="Permalink to this headline">¶</a></h2>
@@ -442,19 +342,6 @@ indentation (Int): the number of spaces to be added to each line</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="ebooks.utils.check_ebook">
-<span class="sig-prename descclassname"><span class="pre">ebooks.utils.</span></span><span class="sig-name descname"><span class="pre">check_ebook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ebook_filepath</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.utils.check_ebook" title="Permalink to this definition">¶</a></dt>
-<dd><p>Runs EpubCheck on the book corresponding to the path.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>ebook_filepath (str): the local filepath where the book can be found</p>
-</dd>
-<dt>Returns:</dt><dd><p>boolean, list: returns the messages received from the EpubCheck
-and true if the book is valid or false otherwise</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="ebooks.utils.extract_title">
 <span class="sig-prename descclassname"><span class="pre">ebooks.utils.</span></span><span class="sig-name descname"><span class="pre">extract_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ebook_uuid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.utils.extract_title" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
@@ -480,27 +367,13 @@ annotations (List[Annotation]): all human annotations for the images</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="ebooks.utils.process_ebook">
-<span class="sig-prename descclassname"><span class="pre">ebooks.utils.</span></span><span class="sig-name descname"><span class="pre">process_ebook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ebook</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.utils.process_ebook" title="Permalink to this definition">¶</a></dt>
-<dd><p>The main method that is invoked in the upload view and runs
-all tasks of the data processing pipeline.
-Checks whether the uploaded book is valid.
-Converts a valid ePub2 into an ePub3.
-Makes the new ePub3 accessible.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>ebook (Ebook): the ebook object to be processed</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="ebooks.utils.push_epub_folder_to_github">
 <span class="sig-prename descclassname"><span class="pre">ebooks.utils.</span></span><span class="sig-name descname"><span class="pre">push_epub_folder_to_github</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uuid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.utils.push_epub_folder_to_github" title="Permalink to this definition">¶</a></dt>
 <dd><p>Push the folder of the contents of the book to
 the GitHub repository from server/wsgi.py</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>uuid (UUID): the uuid of the e-book
-message (string): the commit message</p>
+<dt>Args:</dt><dd><p>uuid (UUID): The uuid of the e-book
+message (string): The commit message</p>
 </dd>
 </dl>
 </dd></dl>
@@ -537,14 +410,27 @@ Zips the ebook with that uuid and returns the path for the zipped epub</p>
 <section id="module-ebooks.views">
 <span id="ebooks-views-module"></span><h2>ebooks.views module<a class="headerlink" href="#module-ebooks.views" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
+<dt class="sig sig-object py" id="ebooks.views.ebook_detail_view">
+<span class="sig-prename descclassname"><span class="pre">ebooks.views.</span></span><span class="sig-name descname"><span class="pre">ebook_detail_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uuid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.views.ebook_detail_view" title="Permalink to this definition">¶</a></dt>
+<dd><p>The GET endpoint for an ebook instance</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>request (request object): The request object
+uuid (uuid): The UUID of an already uploaded ebook</p>
+</dd>
+<dt>Returns:</dt><dd><p>JsonResponse: Response object sent to the client side</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="ebooks.views.ebook_download_view">
 <span class="sig-prename descclassname"><span class="pre">ebooks.views.</span></span><span class="sig-name descname"><span class="pre">ebook_download_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uuid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.views.ebook_download_view" title="Permalink to this definition">¶</a></dt>
-<dd><p>The endpoint for zipping the ebook contents from storage</p>
+<dd><p>Endpoint for zipping the ebook with given uuid from storage and returns the epub</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>request (request object): the request object
-uuid (str): the UUID of an already uploaded ebook</p>
+<dt>Args:</dt><dd><p>request (request object): The request object
+uuid (str): The UUID of an already uploaded ebook</p>
 </dd>
-<dt>Returns:</dt><dd><p>JsonResponse: a message in case of an error of the zipped epub</p>
+<dt>Returns:</dt><dd><p>JsonResponse: Response object sent to the client side</p>
 </dd>
 </dl>
 </dd></dl>
@@ -552,12 +438,12 @@ uuid (str): the UUID of an already uploaded ebook</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="ebooks.views.ebook_upload_view">
 <span class="sig-prename descclassname"><span class="pre">ebooks.views.</span></span><span class="sig-name descname"><span class="pre">ebook_upload_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.views.ebook_upload_view" title="Permalink to this definition">¶</a></dt>
-<dd><p>Takes the epub from the request and unzips it under test-books/{uuid}/.
-Starts processing the epub in a new thread.</p>
+<dd><p>Takes the epub from the request and unzips it under test-books/{uuid}/</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>request (request object): the request object with an ‘epub’ key</p>
+<dt>Args:</dt><dd><p>request (request object): client request</p>
 </dd>
-<dt>Returns:</dt><dd><p>JSONResponse: a message in case of an error of uuid of the newly added book</p>
+<dt>Returns:</dt><dd><p>JSONResponse: Response object sent to client
+containing the uuid for the newly created ebook</p>
 </dd>
 </dl>
 </dd></dl>
