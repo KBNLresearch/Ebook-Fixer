@@ -52,8 +52,8 @@ reactComponents['FileUpload'] = Component8;
 import Component9 from '../src/components/editor/ShareURL.js';
 reactComponents['ShareURL'] = Component9;
 
-import Component10 from '../src/components/editor/Annotator.js';
-reactComponents['Annotator'] = Component10;
+import Component10 from '../src/components/editor/UserAnnotator.js';
+reactComponents['UserAnnotator'] = Component10;
 
 import Component11 from '../src/components/editor/Viewer.js';
 reactComponents['Viewer'] = Component11;
