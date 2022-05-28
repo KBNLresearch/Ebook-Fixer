@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Home</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Fixing E-Books Client Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#openBook">openBook</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p></p>
+                    <h1>Home</h1>
+                </header>
+                
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>Fixing E-Books Client Side</h1>
+<p>This is the main User Interface for the app.
+This project was bootstrapped with <a href="https://github.com/facebook/create-react-app">Create React App</a>.</p>
+<h2>Getting started</h2>
+<p>To just run our app, follow the instructions in the main README file in the root of the project to launch it with docker.</p>
+<p>This is a great solution for showing a demo, but for development you could choose a different workflow, such as this:</p>
+<ul>
+<li>Have the backend &amp; database running in docker</li>
+<li>Have the front end running natively so that hot reloading is available (your changes can be seeen right after you save)</li>
+</ul>
+<p>To achieve something like that, you have to install <code>npm</code> and run <code>npm install</code> in the <code>/client</code> directory to install all the packages required for the project. Then you can use <code>npm start</code> which is described below:</p>
+<h2>Available Scripts</h2>
+<p>In the project directory, you can run:</p>
+<h3><code>npm start</code></h3>
+<p>Runs the app in the development mode.<br>
+Open <a href="http://localhost:3000">http://localhost:3000</a> to view it in your browser.</p>
+<p>The page will reload when you make changes.<br>
+You may also see any lint errors in the console.</p>
+<h3><code>npm test</code></h3>
+<p>Launches the test runner in the interactive watch mode.<br>
+See the section about <a href="https://facebook.github.io/create-react-app/docs/running-tests">running tests</a> for more information.</p>
+<h3><code>npm run build</code></h3>
+<p>Builds the app for production to the <code>build</code> folder.<br>
+It correctly bundles React in production mode and optimizes the build for the best performance.</p>
+<p>The build is minified and the filenames include the hashes.<br>
+Your app is ready to be deployed!</p>
+<p>See the section about <a href="https://facebook.github.io/create-react-app/docs/deployment">deployment</a> for more information.</p>
+<h3><code>npm run lint</code></h3>
+<p>Runs <a href="https://eslint.org/">ESLint</a> to lint and check the correctness of the code. Generates a report in console.</p>
+<h3><code>npm run lint:fix</code></h3>
+<p>Runs <a href="https://eslint.org/">ESLint</a> with the <code>--fix</code> parameter to automatically fix issues with the code that can be fixed automatically.</p>
+<h3><code>npm run format</code></h3>
+<p>Runs <a href="https://prettier.io/">Prettier</a> to automatically reformat all the code in <code>./src</code> to the format specified in our <code>package.json</code>.</p>
+<h3><code>npm run docs</code></h3>
+<p>Runs <a href="https://jsdoc.app/index.html">JSDoc</a> generate pretty documentation in the <code>./docs</code> subfolder.</p>
+<h2>Recommended Development Environment</h2>
+<p>We recommend using <a href="https://code.visualstudio.com/">Visual Studio Code</a> as it's well suited to front-end development. Make sure you have the following plugins installed for the right styling and linting to be applied during development:</p>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">Prettier on the VS Code marketplace</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode">ESLint on the VS Code marketplace</a></li>
+</ul>
+<h2>Learn More</h2>
+<p>You can learn more in the <a href="https://facebook.github.io/create-react-app/docs/getting-started">Create React App documentation</a>.</p>
+<p>To learn React, check out the <a href="https://reactjs.org/">React documentation</a>.</p>
+<h3>Code Splitting</h3>
+<p>This section has moved here: <a href="https://facebook.github.io/create-react-app/docs/code-splitting">https://facebook.github.io/create-react-app/docs/code-splitting</a></p>
+<h3>Analyzing the Bundle Size</h3>
+<p>This section has moved here: <a href="https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size">https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size</a></p>
+<h3>Advanced Configuration</h3>
+<p>This section has moved here: <a href="https://facebook.github.io/create-react-app/docs/advanced-configuration">https://facebook.github.io/create-react-app/docs/advanced-configuration</a></p>
+<h3>Deployment</h3>
+<p>This section has moved here: <a href="https://facebook.github.io/create-react-app/docs/deployment">https://facebook.github.io/create-react-app/docs/deployment</a></p></article>
+    </section>
+
+
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>
