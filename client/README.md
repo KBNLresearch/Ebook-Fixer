@@ -55,7 +55,7 @@ Runs [Prettier](https://prettier.io/) to automatically reformat all the code in 
 
 ### `npm run docs`
 
-Runs [JSDoc](https://jsdoc.app/index.html) generate pretty documentation in the `./docs` subfolder.
+Runs [JSDoc](https://jsdoc.app/index.html) generate pretty documentation in the `/docs/client` folder (from the root of the project).
 
 ## Recommended Development Environment
 
