@@ -181,7 +181,12 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                         }, 3000)
                     }
                     if (Object.prototype.hasOwnProperty.call(result, 'title')) {
-                        setEbookTitle(result.title)
+                        const {title} = result
+                        if (title.length <= 75) {
+                            setEbookTitle(title)
+                        } else {
+                            setEbookTitle(title.slice(0, 72) + "...")
+                        }
                     }
                     setStatus('success')
                 })

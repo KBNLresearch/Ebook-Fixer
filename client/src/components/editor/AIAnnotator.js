@@ -46,18 +46,9 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
      * @returns CSS classname proportional to confidence, to scale the font size
      */
     function getProportionalClass(labelObject) {
-        const classes = [
-            styles.conf_zero,
-            styles.conf_one, 
-            styles.conf_two, 
-            styles.conf_three,
-            styles.conf_four, 
-            styles.conf_five,
-            styles.conf_six, 
-            styles.conf_seven, 
-            styles.conf_eight,
-            styles.conf_nine 
-        ]
+        const classes = [styles.conf_zero, styles.conf_one, styles.conf_two, styles.conf_three,
+                        styles.conf_four, styles.conf_five, styles.conf_six, styles.conf_seven,
+                        styles.conf_eight, styles.conf_nine]
         const conf = labelObject.confidence
         switch(conf.charAt(2)) {
             case '0':
