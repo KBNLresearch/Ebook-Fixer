@@ -67,6 +67,7 @@ db.sqlite3
 
 # Sphinx documentation
 docs/_build/
+docs/
 
 # PyBuilder
 target/
@@ -92,6 +93,7 @@ ENV/
 env.bak/
 venv.bak/
 config.ini
+*.crt
 
 # Spyder project settings
 .spyderproject

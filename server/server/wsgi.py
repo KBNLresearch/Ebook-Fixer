@@ -7,26 +7,22 @@ For more information on this file, see
 https://docs.djangoproject.com/en/4.0/howto/deployment/wsgi/
 """
 
-import os
 import subprocess
 import datetime
-
 from configparser import ConfigParser
 from django.core.wsgi import get_wsgi_application
-import environ
+from os import environ
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'server.settings')
+environ.setdefault('DJANGO_SETTINGS_MODULE', 'server.settings')
 
-# Connect to the GitHub repository for pushing epub files
-config_file = 'config.ini'
-config = ConfigParser()
-config.read(config_file)
+mode = environ.get('GITHUB_MODE', 'production')
+# If set to 'development' pushing to GitHub will be enabled
+if mode == "development":
+    # Connect to the GitHub repository for pushing epub files
+    config_file = 'config.ini'
+    config = ConfigParser()
+    config.read(config_file)
 
-env = environ.Env()
-environ.Env.read_env()
-mode = env('GITHUB_MODE')
-# # If set to 'production' pushing to GitHub will be enabled
-if mode == "production":
     access_token = config.get('github_settings', 'github_token')
     email = config.get('github_settings', 'email')
     real_name = config.get('github_settings', 'real_name')

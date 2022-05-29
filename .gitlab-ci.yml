@@ -8,7 +8,7 @@ stages:
   - static analysis
   - test
   - clean-up
-#  - deploy
+  - deploy
 
 variables:
   DOCKER_HOST: tcp://docker:2375/
@@ -82,7 +82,6 @@ test-client:
     - chmod u+x wait.sh && ./wait.sh
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
-    # npm test can be replaced with another script that runs the tests
     - docker run $CLIENT_IMAGE npm test
     - echo "Tests on the client passed!"
   allow_failure: true
@@ -124,3 +123,21 @@ clean-up:
     - /usr/local/bin/reg rm -d --auth-url $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $SERVER_IMAGE
     - /usr/local/bin/reg rm -d --auth-url $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CLIENT_IMAGE
     - echo "Test images deleted from the registry!"
+
+push-container:
+  stage: deploy
+  only: [main]
+  needs: [build-main]
+  variables:
+    # Production registry
+    DIGITAL_OCEAN_REGISTRY: registry.digitalocean.com
+    DIGITAL_OCEAN_REPOSITORY: ebook-fixer
+  before_script:
+    - chmod u+x wait.sh && ./wait.sh
+    - docker info
+    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+  script:
+    - cd server
+    - docker login -u $DIGITAL_OCEAN_TOKEN -p $DIGITAL_OCEAN_TOKEN $DIGITAL_OCEAN_REGISTRY
+    - docker build -t $DIGITAL_OCEAN_REGISTRY/$DIGITAL_OCEAN_REPOSITORY:latest .
+    - docker push $DIGITAL_OCEAN_REGISTRY/$DIGITAL_OCEAN_REPOSITORY:latest

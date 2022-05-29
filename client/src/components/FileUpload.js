@@ -259,12 +259,6 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                 </button>
             </div>
 
-            {uploading || status ? (
-                <Link to="/ebook/1">Go to editor (for development only)</Link>
-            ) : (
-                ''
-            )}
-
             <div className={uploading ? '' : styles.hidden}>Uploading…</div>
             <div
                 className={
