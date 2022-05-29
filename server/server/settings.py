@@ -21,7 +21,8 @@ MEDIA_ROOT = path.join(BASE_DIR, 'test-books')
 # For development:
 google_credentials = environ.get('GOOGLE_APPLICATION_CREDENTIALS')
 if google_credentials is None:
-    environ['GOOGLE_APPLICATION_CREDENTIALS'] = google_credentials = "./arcane-pillar-349913-6276b9f35040.json"
+    environ['GOOGLE_APPLICATION_CREDENTIALS'] = google_credentials = \
+        "./arcane-pillar-349913-6276b9f35040.json"
 
 # For automatic deployment:
 if not path.isfile(google_credentials):
