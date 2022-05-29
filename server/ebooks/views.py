@@ -17,6 +17,9 @@ from os import environ
 import uuid
 
 
+mode = environ.get('GITHUB_MODE', 'production')
+
+
 def ebook_download_view(request, uuid):
     """ The endpoint for zipping the ebook contents from storage
 
@@ -49,10 +52,11 @@ def ebook_download_view(request, uuid):
             if a.image in images
             if a.type == 'HUM'
         ]
+
         # Inject image annotations into the html files
         inject_image_annotations(str(uuid), images, annotations)
         # Push new contents to GitHub if mode is 'production'
-        if environ.get('GITHUB_MODE', "development") == "production":
+        if mode == "development":
             message = f"Download {uuid}"
             push_epub_folder_to_github(str(uuid), message)
         try:
@@ -63,6 +67,7 @@ def ebook_download_view(request, uuid):
             with open(zip_file_name, 'rb') as file:
                 response = HttpResponse(file, content_type='application/epub+zip')
                 response['Content-Disposition'] = f'attachment; filename={zip_file_name}'
+                os.remove(zip_file_name)
                 return response
         except FileNotFoundError:
             return JsonResponse({'msg': f'Files for ebook with uuid {uuid} not found! '
