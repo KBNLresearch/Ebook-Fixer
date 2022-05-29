@@ -53,8 +53,7 @@ function AIDropdown({ currImage, ebookId, setImageId, aiChoice, setAiChoice, set
                                     .value)
                                 setStage("annotate")
                             }}>
-                            {' '}
-                            Save AI{' '}
+                            Save AI
                         </button>
                         
                     </div>
