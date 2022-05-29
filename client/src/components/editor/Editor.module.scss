@@ -23,7 +23,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    gap: 6em;
+    gap: 2em;
 }
 
 .container {
@@ -65,5 +65,15 @@
             border-color: #ccc;
             cursor: default;
         }
+    }
+}
+
+.back_to_overview_btn {
+    position: absolute;
+    top: 0.5em;
+    left: 2em;
+    button {
+        background-color: inherit;
+        border: 5px solid rgb(207, 164, 247);
     }
 }
