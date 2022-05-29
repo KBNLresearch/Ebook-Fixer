@@ -21,14 +21,15 @@ mode = os.environ.get('GITHUB_MODE', 'production')
 
 
 def ebook_download_view(request, uuid):
-    """ The endpoint for zipping the ebook contents from storage
+    """ GET endpoint for zipping the ebook with given uuid from storage and returns the epub
 
     Args:
-        request (request object): the request object
-        uuid (str): the UUID of an already uploaded ebook
+        request (request object): The request object
+            - uuid (str): The UUID of an already uploaded ebook (URL param)
 
     Returns:
-        JsonResponse: a message in case of an error of the zipped epub
+        JsonResponse: Response object sent to the client side
+            - .epub (File) with human annotations injected
     """
     if request.method == "GET":
         try:
@@ -80,14 +81,17 @@ def ebook_download_view(request, uuid):
 
 @csrf_exempt
 def ebook_upload_view(request):
-    """ Takes the epub from the request and unzips it under test-books/{uuid}/.
-        Starts processing the epub in a new thread.
+    """ POST endpoint for taking the uploaded epub from the request
+        and unzipping it under test-books/{uuid}/
 
         Args:
-            request (request object): the request object with an 'epub' key
+            request (request object): The request object
+                - epub: .epub file uploaded by user (body)
 
         Returns:
-            JSONResponse: a message in case of an error of uuid of the newly added book
+            JSONResponse: Response object sent to client
+                - uuid (str): id generated for new ebook entry
+                - title (str): extracted title of uploaded ebook
     """
     if request.method == "POST":
         # Generate random uuid for new ebook instance
