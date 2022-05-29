@@ -1,0 +1,268 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/editor/AIAnnotator.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Fixing E-Books Client Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#openBook">openBook</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/editor/AIAnnotator.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import PropTypes from 'prop-types'
+import { useEffect, useRef, useState } from 'react'
+import styles from './Annotator.module.scss'
+import { ImageInfo } from '../../helpers/EditorHelper'
+import { getImgFilename } from '../../helpers/EditImageHelper'
+import { getAiAnnotation } from '../../api/AnnotateImage'
+
+/**
+ * Handles generating AI image descriptions / labels
+ *
+ * @param {String[]} annotationList props all labels/descriptions generated by the AI
+ * @param {ImageInfo} currImage Metadata for image
+ * @param {String} ebookId The UUID for the ebook generated by server
+ * @param {String} imageId The image id generated by server
+ * @component
+ * @returns The AIAnnotator component
+ */
+function AIAnnotator({annotationList, currImage, ebookId, imageId}) {
+
+    const generateButtonRef = useRef(null)
+    const [labels, setLabels] = useState([])
+
+    useEffect(() => {
+        if (!currImage) {
+            generateButtonRef.current.disabled = true
+            generateButtonRef.current.innerText = "Generated"
+            
+        } else {
+            generateButtonRef.current.disabled = false
+            generateButtonRef.current.innerText = "Generate"
+            setLabels([])
+            
+        }
+
+        const list = annotationList
+        if (list.length > 0) {
+            // Display the latest ai annotation
+            setLabels(list[list.length - 1])
+        } else {
+            // No img alt attribute
+            setLabels([])
+        }
+        
+    }, [currImage, annotationList])
+
+
+    /**
+     * 
+     * @param {Annotation object} labelObject returned by server
+     * Example object:
+     * confidence: "0.8987"
+     *  id: 1253
+     * image: 264
+     * text: "Black"
+     * type: "BB"
+     * @returns CSS classname proportional to confidence, to scale the font size
+     */
+    function getProportionalClass(labelObject) {
+        const classes = [
+            styles.conf_zero,
+            styles.conf_one, 
+            styles.conf_two, 
+            styles.conf_three,
+            styles.conf_four, 
+            styles.conf_five,
+            styles.conf_six, 
+            styles.conf_seven, 
+            styles.conf_eight,
+            styles.conf_nine 
+        ]
+        const conf = labelObject.confidence
+        switch(conf.charAt(2)) {
+            case '0':
+                return classes[0]
+            case '1':
+                return classes[1]
+            case '2':
+                return classes[2]
+            case '3':
+                return classes[3]
+            case '4':
+                return classes[4]
+            case '5':
+                return classes[5]
+            case '6':
+                return classes[6]
+            case '7':
+                return classes[7]
+            case '8':
+                return classes[8]
+            case '9':
+                return classes[9]
+            default:
+                return classes[0]
+            } 
+        }
+    
+
+
+
+    function handleClick() {
+        if (currImage) {
+            // When only the client is run during development, we still want to inspect this function though
+            if (!ebookId) {
+                console.log('No e-book UUID stored on client!')
+            }
+            getAiAnnotation(
+                ebookId,
+                imageId,
+                getImgFilename(currImage)
+            ) .then(result => {
+            //    console.log(JSON.stringify(result));
+                if (Object.prototype.hasOwnProperty.call(result, "annotations")){
+                        setLabels(result.annotations)
+                   }
+            })
+            generateButtonRef.current.disabled = true
+            generateButtonRef.current.innerText = "Generated"
+            // generateRef.current.style.visibility = 'hidden'
+        }
+    }
+
+    // TODO: insert another div below the AI labels box for sentences, if any (Aratrika)
+        return (
+            &lt;div className={styles.ai_control}>
+                &lt;label htmlFor="AiLabelsBox" className={styles.box_label}> Automatic suggestions &lt;/label>
+                &lt;div className={styles.ai_labels_box} id="AiLabelsBox"> 
+                    {labels.map((obj) => (&lt;p className={getProportionalClass(obj)}> {obj.text} &lt;/p>))} 
+                &lt;/div>
+                &lt;button type="button"
+                className={styles.save_button}
+                ref={generateButtonRef}
+                onClick={() => handleClick()}>
+                Get AI suggestions
+                &lt;/button>
+            &lt;/div>
+        )
+}
+
+AIAnnotator.propTypes = {
+    annotationList: PropTypes.arrayOf(PropTypes.string).isRequired,
+    currImage: PropTypes.instanceOf(ImageInfo).isRequired,
+    ebookId: PropTypes.string.isRequired,
+    imageId: PropTypes.string.isRequired,
+}
+
+export default AIAnnotator
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

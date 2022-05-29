@@ -8,7 +8,17 @@ import logo from './assets/images/KB-logo.png'
 import EpubInfoPage from './components/EpubInfoPage'
 import NotFound from './components/errorpages/NotFound'
 
-// This code uses functional components, you could use classes instead but they're
+// This code uses functional components, you could use classes instead but they require more boilerplate
+
+/**
+ * The App component is the main container component for our system,
+ * It defines the routes to be used by React Router
+ * and has important states that are passed down to a large portion of its children
+ * (i.e. the e-book file, Id of the e-book and the title)
+ *
+ * @component
+ * @returns The App Component
+ */
 function App() {
     const [ebookFile, setEbookFile] = useState(null)
     const [ebookId, setEbookId] = useState(null)
@@ -51,7 +61,11 @@ function App() {
                     <Route
                         path="/ebook/:uuid"
                         element={
-                            <Editor ebookFile={ebookFile} ebookId={ebookId} ebookTitle={ebookTitle} />
+                            <Editor
+                                ebookFile={ebookFile}
+                                ebookId={ebookId}
+                                ebookTitle={ebookTitle}
+                            />
                         }>
                         <Route
                             path="image/:imgFilename"

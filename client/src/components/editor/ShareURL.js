@@ -3,6 +3,13 @@ import PropTypes from 'prop-types'
 import { useParams } from 'react-router-dom'
 import styles from './ShareURL.module.scss'
 
+/**
+ * This component provides a button and popup combo
+ * that let the user share the URL to the current book / image
+ *
+ * @returns The ShareURL component
+ * @component
+ */
 function ShareURL() {
     // Get e-book UUID and imgFilename (which might be undefined) from the URL
     const { uuid, imgFilename } = useParams()

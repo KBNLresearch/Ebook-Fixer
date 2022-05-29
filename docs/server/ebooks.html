@@ -1,0 +1,520 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ebooks package &#8212; Ebook Fixer 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="ebooks-package">
+<h1>ebooks package<a class="headerlink" href="#ebooks-package" title="Permalink to this headline">¶</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ebooks.migrations.html">ebooks.migrations package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ebooks.migrations.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ebooks.migrations.html#module-ebooks.migrations.0001_initial">ebooks.migrations.0001_initial module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ebooks.migrations.html#module-ebooks.migrations">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-ebooks.admin">
+<span id="ebooks-admin-module"></span><h2>ebooks.admin module<a class="headerlink" href="#module-ebooks.admin" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-ebooks.apps">
+<span id="ebooks-apps-module"></span><h2>ebooks.apps module<a class="headerlink" href="#module-ebooks.apps" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ebooks.apps.EbooksConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ebooks.apps.</span></span><span class="sig-name descname"><span class="pre">EbooksConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.apps.EbooksConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.apps.config.AppConfig</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ebooks.apps.EbooksConfig.default_auto_field">
+<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#ebooks.apps.EbooksConfig.default_auto_field" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ebooks.apps.EbooksConfig.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ebooks'</span></em><a class="headerlink" href="#ebooks.apps.EbooksConfig.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ebooks.models">
+<span id="ebooks-models-module"></span><h2>ebooks.models module<a class="headerlink" href="#module-ebooks.models" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ebooks.models.Ebook">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ebooks.models.</span></span><span class="sig-name descname"><span class="pre">Ebook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uuid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epub</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.models.Ebook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.models.base.Model</span></code></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="ebooks.models.Ebook.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#ebooks.models.Ebook.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="ebooks.models.Ebook.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#ebooks.models.Ebook.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ebooks.models.Ebook.epub">
+<span class="sig-name descname"><span class="pre">epub</span></span><a class="headerlink" href="#ebooks.models.Ebook.epub" title="Permalink to this definition">¶</a></dt>
+<dd><p>The descriptor for the file attribute on the model instance. Return a
+FieldFile when accessed so you can write code like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">myapp.models</span> <span class="kn">import</span> <span class="n">MyModel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">instance</span> <span class="o">=</span> <span class="n">MyModel</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">instance</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">size</span>
+</pre></div>
+</div>
+<p>Assign a file object on assignment so you can do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/path/to/hello.world&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">instance</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ebooks.models.Ebook.image_set">
+<span class="sig-name descname"><span class="pre">image_set</span></span><a class="headerlink" href="#ebooks.models.Ebook.image_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ebooks.models.Ebook.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#ebooks.models.Ebook.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ebooks.models.Ebook.title">
+<span class="sig-name descname"><span class="pre">title</span></span><a class="headerlink" href="#ebooks.models.Ebook.title" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ebooks.models.Ebook.uuid">
+<span class="sig-name descname"><span class="pre">uuid</span></span><a class="headerlink" href="#ebooks.models.Ebook.uuid" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ebooks.models.epub_dir_path">
+<span class="sig-prename descclassname"><span class="pre">ebooks.models.</span></span><span class="sig-name descname"><span class="pre">epub_dir_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.models.epub_dir_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-ebooks.serializers">
+<span id="ebooks-serializers-module"></span><h2>ebooks.serializers module<a class="headerlink" href="#module-ebooks.serializers" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ebooks.serializers.EbookSerializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ebooks.serializers.</span></span><span class="sig-name descname"><span class="pre">EbookSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.serializers.EbookSerializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rest_framework.serializers.ModelSerializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ebooks.serializers.EbookSerializer.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="headerlink" href="#ebooks.serializers.EbookSerializer.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ebooks.serializers.EbookSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('uuid',</span> <span class="pre">'title',</span> <span class="pre">'epub')</span></em><a class="headerlink" href="#ebooks.serializers.EbookSerializer.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="ebooks.serializers.EbookSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#ebooks.serializers.EbookSerializer.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#ebooks.models.Ebook" title="ebooks.models.Ebook"><code class="xref py py-class docutils literal notranslate"><span class="pre">ebooks.models.Ebook</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ebooks.tests">
+<span id="ebooks-tests-module"></span><h2>ebooks.tests module<a class="headerlink" href="#module-ebooks.tests" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ebooks.tests.</span></span><span class="sig-name descname"><span class="pre">EbookViewsTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.response_ebook_detail_view">
+<span class="sig-name descname"><span class="pre">response_ebook_detail_view</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.response_ebook_detail_view" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.response_ebook_download_view">
+<span class="sig-name descname"><span class="pre">response_ebook_download_view</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.response_ebook_download_view" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.test_ebook_details_view_200">
+<span class="sig-name descname"><span class="pre">test_ebook_details_view_200</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.test_ebook_details_view_200" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.test_ebook_details_view_404">
+<span class="sig-name descname"><span class="pre">test_ebook_details_view_404</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.test_ebook_details_view_404" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.test_ebook_details_view_405">
+<span class="sig-name descname"><span class="pre">test_ebook_details_view_405</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.test_ebook_details_view_405" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.test_ebook_download_view_200">
+<span class="sig-name descname"><span class="pre">test_ebook_download_view_200</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.test_ebook_download_view_200" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.test_ebook_download_view_404_ebook_not_found">
+<span class="sig-name descname"><span class="pre">test_ebook_download_view_404_ebook_not_found</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.test_ebook_download_view_404_ebook_not_found" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.test_ebook_download_view_404_file_not_found">
+<span class="sig-name descname"><span class="pre">test_ebook_download_view_404_file_not_found</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.test_ebook_download_view_404_file_not_found" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.test_ebook_download_view_405">
+<span class="sig-name descname"><span class="pre">test_ebook_download_view_405</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.test_ebook_download_view_405" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.test_ebook_upload_view_400">
+<span class="sig-name descname"><span class="pre">test_ebook_upload_view_400</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.test_ebook_upload_view_400" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.test_ebook_upload_view_405">
+<span class="sig-name descname"><span class="pre">test_ebook_upload_view_405</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.test_ebook_upload_view_405" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.test_upload_view_200">
+<span class="sig-name descname"><span class="pre">test_upload_view_200</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.test_upload_view_200" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests.EbookViewsTest.test_upload_view_404">
+<span class="sig-name descname"><span class="pre">test_upload_view_404</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.EbookViewsTest.test_upload_view_404" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ebooks.tests.dummy_mock">
+<span class="sig-prename descclassname"><span class="pre">ebooks.tests.</span></span><span class="sig-name descname"><span class="pre">dummy_mock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book_uuid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.dummy_mock" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ebooks.tests.mock_uuid">
+<span class="sig-prename descclassname"><span class="pre">ebooks.tests.</span></span><span class="sig-name descname"><span class="pre">mock_uuid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests.mock_uuid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="ebooks-tests-pipeline-module">
+<h2>ebooks.tests_pipeline module<a class="headerlink" href="#ebooks-tests-pipeline-module" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-ebooks.tests_utils">
+<span id="ebooks-tests-utils-module"></span><h2>ebooks.tests_utils module<a class="headerlink" href="#module-ebooks.tests_utils" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ebooks.tests_utils.MockedZipFile">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ebooks.tests_utils.</span></span><span class="sig-name descname"><span class="pre">MockedZipFile</span></span><a class="headerlink" href="#ebooks.tests_utils.MockedZipFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests_utils.MockedZipFile.extractall">
+<span class="sig-name descname"><span class="pre">extractall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_utils.MockedZipFile.extractall" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ebooks.tests_utils.UtilsTest">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ebooks.tests_utils.</span></span><span class="sig-name descname"><span class="pre">UtilsTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_utils.UtilsTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests_utils.UtilsTest.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_utils.UtilsTest.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests_utils.UtilsTest.test_annotations_injection_html_file_missing">
+<span class="sig-name descname"><span class="pre">test_annotations_injection_html_file_missing</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_utils.UtilsTest.test_annotations_injection_html_file_missing" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests_utils.UtilsTest.test_inject_image_annotations">
+<span class="sig-name descname"><span class="pre">test_inject_image_annotations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_utils.UtilsTest.test_inject_image_annotations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests_utils.UtilsTest.test_missing_annotations_injection">
+<span class="sig-name descname"><span class="pre">test_missing_annotations_injection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_utils.UtilsTest.test_missing_annotations_injection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ebooks.tests_utils.UtilsTest.test_unzip_epub_file_and_extract_title">
+<span class="sig-name descname"><span class="pre">test_unzip_epub_file_and_extract_title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_utils.UtilsTest.test_unzip_epub_file_and_extract_title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ebooks.tests_utils.html_files_set_up">
+<span class="sig-prename descclassname"><span class="pre">ebooks.tests_utils.</span></span><span class="sig-name descname"><span class="pre">html_files_set_up</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">html_filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_utils.html_files_set_up" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ebooks.tests_utils.mock_zip">
+<span class="sig-prename descclassname"><span class="pre">ebooks.tests_utils.</span></span><span class="sig-name descname"><span class="pre">mock_zip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rule</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.tests_utils.mock_zip" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-ebooks.urls">
+<span id="ebooks-urls-module"></span><h2>ebooks.urls module<a class="headerlink" href="#module-ebooks.urls" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-ebooks.utils">
+<span id="ebooks-utils-module"></span><h2>ebooks.utils module<a class="headerlink" href="#module-ebooks.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="ebooks.utils.add_indentation">
+<span class="sig-prename descclassname"><span class="pre">ebooks.utils.</span></span><span class="sig-name descname"><span class="pre">add_indentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indentation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.utils.add_indentation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds new spaces at the start of each new line in the text.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>text (String): the text to which we should add indentation
+indentation (Int): the number of spaces to be added to each line</p>
+</dd>
+<dt>Returns:</dt><dd><p>Text: the text with indentation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ebooks.utils.extract_title">
+<span class="sig-prename descclassname"><span class="pre">ebooks.utils.</span></span><span class="sig-name descname"><span class="pre">extract_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ebook_uuid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.utils.extract_title" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Looks for the container.exml file under test-books/{uuid}/META-INF</dt><dd><p>and extracts the path to the root file from which we get the title</p>
+</dd>
+<dt>Args:</dt><dd><p>ebook_uuid (String): uuid of ebook to extract title of</p>
+</dd>
+<dt>Returns:</dt><dd><p>String: extracted title of ebook</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ebooks.utils.inject_image_annotations">
+<span class="sig-prename descclassname"><span class="pre">ebooks.utils.</span></span><span class="sig-name descname"><span class="pre">inject_image_annotations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ebook_uuid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">images</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotations</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.utils.inject_image_annotations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Injects all human image annotations to their corresponding ALT-texts in the HTML files</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ebook_uuid (String): uuid of ebook
+images (List[Image]): all images in that ebook
+annotations (List[Annotation]): all human annotations for the images</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ebooks.utils.push_epub_folder_to_github">
+<span class="sig-prename descclassname"><span class="pre">ebooks.utils.</span></span><span class="sig-name descname"><span class="pre">push_epub_folder_to_github</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uuid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.utils.push_epub_folder_to_github" title="Permalink to this definition">¶</a></dt>
+<dd><p>Push the folder of the contents of the book to
+the GitHub repository from server/wsgi.py</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>uuid (UUID): The uuid of the e-book
+message (string): The commit message</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ebooks.utils.unzip_ebook">
+<span class="sig-prename descclassname"><span class="pre">ebooks.utils.</span></span><span class="sig-name descname"><span class="pre">unzip_ebook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ebook_uuid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebook_filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.utils.unzip_ebook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assumes the zipped epub file is stored under MEDIA_ROOT/test-books/{uuid}/{filename}
+Unzips the epub file, now under MEDIA_ROOT/{uuid}
+Calls helper to extract epub title</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ebook_uuid (String): uuid of ebook to unzip epub file for
+ebook_filename (String): name of .epub file</p>
+</dd>
+<dt>Returns:</dt><dd><p>String: extracted title of ebook</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ebooks.utils.zip_ebook">
+<span class="sig-prename descclassname"><span class="pre">ebooks.utils.</span></span><span class="sig-name descname"><span class="pre">zip_ebook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ebook_uuid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.utils.zip_ebook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assumes that there is an unzipped epub at test-books/
+Zips the ebook with that uuid and returns the path for the zipped epub</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ebook_uuid (String): uuid of ebook to zip</p>
+</dd>
+<dt>Returns:</dt><dd><p>Path: path to zipped .epub file to download</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-ebooks.views">
+<span id="ebooks-views-module"></span><h2>ebooks.views module<a class="headerlink" href="#module-ebooks.views" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="ebooks.views.ebook_detail_view">
+<span class="sig-prename descclassname"><span class="pre">ebooks.views.</span></span><span class="sig-name descname"><span class="pre">ebook_detail_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uuid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.views.ebook_detail_view" title="Permalink to this definition">¶</a></dt>
+<dd><p>The GET endpoint for an ebook instance</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>request (request object): The request object
+uuid (uuid): The UUID of an already uploaded ebook</p>
+</dd>
+<dt>Returns:</dt><dd><p>JsonResponse: Response object sent to the client side</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ebooks.views.ebook_download_view">
+<span class="sig-prename descclassname"><span class="pre">ebooks.views.</span></span><span class="sig-name descname"><span class="pre">ebook_download_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uuid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.views.ebook_download_view" title="Permalink to this definition">¶</a></dt>
+<dd><p>Endpoint for zipping the ebook with given uuid from storage and returns the epub</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>request (request object): The request object
+uuid (str): The UUID of an already uploaded ebook</p>
+</dd>
+<dt>Returns:</dt><dd><p>JsonResponse: Response object sent to the client side</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ebooks.views.ebook_upload_view">
+<span class="sig-prename descclassname"><span class="pre">ebooks.views.</span></span><span class="sig-name descname"><span class="pre">ebook_upload_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ebooks.views.ebook_upload_view" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the epub from the request and unzips it under test-books/{uuid}/</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>request (request object): client request</p>
+</dd>
+<dt>Returns:</dt><dd><p>JSONResponse: Response object sent to client
+containing the uuid for the newly created ebook</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-ebooks">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ebooks" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Ebook Fixer</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Aratrika Das, Denis Tsvetkov, Filip Nguyen Duc, Nadine Kuo, Vlad Makarov.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/ebooks.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

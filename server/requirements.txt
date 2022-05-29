@@ -18,5 +18,6 @@ pycodestyle
 pymongo==3.12.0
 pymongo[srv]
 pytest
+sphinx
 sqlparse==0.2.4
 unittest2
