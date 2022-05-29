@@ -27,11 +27,11 @@ if google_credentials is None:
 # For automatic deployment:
 if not path.isfile(google_credentials):
     with open(google_credentials, 'w') as file:
-        file.write(environ.get('GOOGLE_CREDENTIALS'))
+        file.write(environ.get('GOOGLE_CREDENTIALS', ''))
 certificate = environ.get('MONGO_DB_CA_CERT')
 if certificate is not None and not path.isfile(certificate):
     with open(certificate, 'w') as file:
-        file.write(environ.get('CA_CERTIFICATE'))
+        file.write(environ.get('CA_CERTIFICATE', ''))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
