@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import PropTypes from 'prop-types'
 import styles from './ProgressBar.module.scss'
 
@@ -9,18 +9,21 @@ import styles from './ProgressBar.module.scss'
  * @param {String} currStage Current stage in annotation process
  * @param {SetStateAction} setStage Sets next stage in annotation process
  * @param {String} classification Classification stored for current image under annotation
- * @param {String} aiChoice Most recent AI choice for current image under annotation
  * @param {String[]} userAnnotations List of human annotations for current image under annotation
  * @component
  * @returns The ProgressBar component
  */
-function ProgressBar({ currStage, setStage, classification, aiChoice, userAnnotations }) {
+function ProgressBar({ currStage, setStage, classification, userAnnotations }) {
 
     const classificationButtonRef = useRef(null)
     const aiSelectionButtonRef = useRef(null)
     const manualButtonRef = useRef(null)
-    const saveButtonRef = useRef(null)
+    const reviewButtonRef = useRef(null)
+
     const root = document.querySelector(':root');
+    const colorCurrStage = 'lightgreen'
+    const colorSavedStage = 'lightblue'
+    const colorNextStage = '#b8c1c3'
 
     /**
      * Checks current state and 
@@ -28,11 +31,11 @@ function ProgressBar({ currStage, setStage, classification, aiChoice, userAnnota
      */
     function getStyleClassification() {
         if (currStage === 'classify') {
-            root.style.setProperty('--background_class', 'skyblue');
+            root.style.setProperty('--background_class', colorCurrStage);
         } else if (classification !== null) {
-            root.style.setProperty('--background_class', 'lightblue')
+            root.style.setProperty('--background_class', colorSavedStage)
         } else {
-            root.style.setProperty('--background_class', '#b8c1c3')
+            root.style.setProperty('--background_class', colorNextStage)
         }
         return styles.class_step
     }
@@ -43,11 +46,11 @@ function ProgressBar({ currStage, setStage, classification, aiChoice, userAnnota
      */
     function getStyleAi() {
         if (currStage === 'ai-selection') {
-           root.style.setProperty('--background_ai', 'skyblue')
-        } else if (aiChoice !== null) {
-            root.style.setProperty('--background_ai', 'lightblue')
+           root.style.setProperty('--background_ai', colorCurrStage)
+        } else if (currStage === 'classify') {
+            root.style.setProperty('--background_ai', colorNextStage)
         } else {
-            root.style.setProperty('--background_ai', '#b8c1c3')
+            root.style.setProperty('--background_ai', colorSavedStage)
         }
         return styles.ai_step
     }
@@ -59,11 +62,11 @@ function ProgressBar({ currStage, setStage, classification, aiChoice, userAnnota
     function getStyleManual() {
 
         if (currStage === 'annotate') {
-            root.style.setProperty('--background_manual', 'skyblue')
+            root.style.setProperty('--background_manual', colorCurrStage)
         } else if (userAnnotations.length > 0) {
-            root.style.setProperty('--background_manual', 'lightblue')
+            root.style.setProperty('--background_manual', colorSavedStage)
         } else {
-            root.style.setProperty('--background_manual', '#b8c1c3')
+            root.style.setProperty('--background_manual', colorNextStage)
         }
         return styles.manual_step
     }
@@ -72,13 +75,13 @@ function ProgressBar({ currStage, setStage, classification, aiChoice, userAnnota
      * Checks current state and 
      * @returns the corresponding CSS class for the 'Save' button in progress bar
      */
-    function getStyleCheck() {
+    function getStyleReview() {
         if (currStage === 'overview') {
-            root.style.setProperty('--background_check', 'skyblue')
+            root.style.setProperty('--background_check', colorCurrStage)
         } else {
-            root.style.setProperty('--background_check', '#b8c1c3')
+            root.style.setProperty('--background_check', colorNextStage)
         }
-        return styles.check_step
+        return styles.review_step
     }
 
     /**
@@ -105,7 +108,7 @@ function ProgressBar({ currStage, setStage, classification, aiChoice, userAnnota
     /**
      * Makes sure user returns to overview tab
      */
-    function handleCheckClick() {
+    function handleReviewClick() {
         setStage('overview')
     }
 
@@ -120,6 +123,8 @@ function ProgressBar({ currStage, setStage, classification, aiChoice, userAnnota
                 className={getStyleClassification()}
                 ref={classificationButtonRef}
                 disabled={classification === null}
+                // onMouseOver={root.style.setProperty('--background_class', 'red')}
+                // onFocus={root.style.setProperty('--background_class', 'red')}
                 onClick={() => handleClassificationClick()}> 
                 <span> Classification </span>
             </button>
@@ -144,11 +149,11 @@ function ProgressBar({ currStage, setStage, classification, aiChoice, userAnnota
             
             <button 
                 type="button"
-                className={getStyleCheck()}
-                ref={saveButtonRef}
+                className={getStyleReview()}
+                ref={reviewButtonRef}
                 disabled={classification === null}
-                onClick={() => handleCheckClick()}> 
-                <span> Check </span>
+                onClick={() => handleReviewClick()}> 
+                <span> Review </span>
             </button> 
 
         </div>
@@ -160,7 +165,6 @@ ProgressBar.propTypes = {
     currStage: PropTypes.string.isRequired,
     setStage: PropTypes.func.isRequired,
     classification: PropTypes.string.isRequired,
-    aiChoice: PropTypes.string.isRequired,
     userAnnotations: PropTypes.arrayOf(String).isRequired
 }
 

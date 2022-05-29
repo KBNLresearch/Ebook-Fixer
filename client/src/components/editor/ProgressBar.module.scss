@@ -1,9 +1,10 @@
 // Will be set in ProgressBar.js depending on the current stage
 :root {
-  --background_class: skyblue;
-  --background_ai: skyblue;
-  --background_manual: skyblue;
-  --background_check: skyblue;
+  --page_background: #f8f8f8;
+  --background_class: #b8c1c3;
+  --background_ai: #b8c1c3;
+  --background_manual: #b8c1c3;
+  --background_check: #b8c1c3;
 }
 
 .progress_container {
@@ -23,6 +24,10 @@ button {
     &:disabled {
         cursor: default;
     }
+    &:hover {
+      font-weight: bolder;
+      font-size: 95%;
+    }
 }
 
 
@@ -31,81 +36,29 @@ button {
     height: 50px;
     background: var(--background_class);
     color: rgb(0, 0, 0);
+    font-weight: 100;
     position: relative;
     display: table;
     border-radius: 0.2em;
-}
 
-.class_step span {
-    display: table-cell;
-    vertical-align: middle;
-}
-
-.class_step:before,
-.class_step:after {
-  content: '';
-  position: absolute;
-}
-
-.class_step:after {
-  border-left: 25px solid var(--background_class);
-  border-right: 25px solid transparent;
-  border-top: 25px solid transparent;
-  border-bottom: 25px solid transparent;
-  right: -44px;
-  top: 0px;
-  width: 0;
-  height: 0;
-  display: block;
-}
-
-
-.ai_step {
-  width: 110px;
-  height: 50px;
-  background: #b8c1c3;
-  text-align: center;
-  color: rgb(0, 0, 0);
-  position: relative;
-  display: table;
-  border-radius: 0.2em;
-}
-
-.ai_step span {
-  display: table-cell;
-  position: absolute;
-  top: 14px;
-  left: 55px;
-}
-
-.ai_step:before,
-.ai_step:after {
-content: '';
-position: absolute;
-}
-
-.ai_step:after {
-border-left: 25px solid var(--background_ai);
-border-right: 25px solid transparent;
-border-top: 25px solid transparent;
-border-bottom: 25px solid transparent;
-right: -44px;
-top: 0px;
-width: 0;
-height: 0;
-display: block;
-}
-
-.ai_step:before {
-border-left: 26px solid #f8f8f8;
-border-right: 26px solid transparent;
-border-top: 26px solid transparent;
-border-bottom: 26px solid transparent;
-left: 0px;
-top: -1px;
-width: 0;
-height: 0;
-display: block;
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      border-left: 25px solid var(--background_class);
+      border-right: 25px solid transparent;
+      border-top: 25px solid transparent;
+      border-bottom: 25px solid transparent;
+      right: -44px;
+      top: 0px;
+      width: 0;
+      height: 0;
+      display: block;
+    }
+    span {
+      display: table-cell;
+      vertical-align: middle;
+    }
 }
 
 .ai_step {
@@ -117,44 +70,42 @@ display: block;
   position: relative;
   display: table;
   border-radius: 0.2em;
+
+  &:before {
+    content: '';
+    position: absolute;
+    border-left: 26px solid var(--page_background);
+    border-right: 26px solid transparent;
+    border-top: 26px solid transparent;
+    border-bottom: 26px solid transparent;
+    left: 0px;
+    top: -1px;
+    width: 0;
+    height: 0;
+    display: block;
+  } 
+  &:after {
+    content: '';
+    position: absolute;
+    border-left: 25px solid var(--background_ai);
+    border-right: 25px solid transparent;
+    border-top: 25px solid transparent;
+    border-bottom: 25px solid transparent;
+    right: -44px;
+    top: 0px;
+    width: 0;
+    height: 0;
+    display: block;
+  }
+  span {
+    display: table-cell;
+    position: absolute;
+    top: 14px;
+    left: 55px;
+  }
 }
 
-.ai_step span {
-  display: table-cell;
-  position: absolute;
-  top: 14px;
-  left: 55px;
-}
 
-.ai_step:before,
-.ai_step:after {
-content: '';
-position: absolute;
-}
-
-.ai_step:after {
-border-left: 25px solid var(--background_ai);
-border-right: 25px solid transparent;
-border-top: 25px solid transparent;
-border-bottom: 25px solid transparent;
-right: -44px;
-top: 0px;
-width: 0;
-height: 0;
-display: block;
-}
-
-.ai_step:before {
-border-left: 26px solid #f8f8f8;
-border-right: 26px solid transparent;
-border-top: 26px solid transparent;
-border-bottom: 26px solid transparent;
-left: 0px;
-top: -1px;
-width: 0;
-height: 0;
-display: block;
-}
 
 .manual_step {
     width: 110px;
@@ -165,47 +116,44 @@ display: block;
     display: table;
     border-radius: 0.2em;
     position: relative;
+
+    &:before {
+      content: '';
+      position: absolute;
+      border-left: 26px solid var(--page_background);
+      border-right: 26px solid transparent;
+      border-top: 26px solid transparent;
+      border-bottom: 26px solid transparent;
+      left: 0px;
+      top: -1px;
+      width: 0;
+      height: 0;
+      display: block;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      border-left: 25px solid var(--background_manual);
+      border-right: 25px solid transparent;
+      border-top: 25px solid transparent;
+      border-bottom: 25px solid transparent;
+      right: -44px;
+      top: 0px;
+      width: 0;
+      height: 0;
+      display: block;
+    }
+
+    span {
+      display: table-cell;
+      position: absolute;
+      top: 14px;
+      left: 40px;
+    }
 }
 
-.manual_step span {
-    display: table-cell;
-    position: absolute;
-    top: 14px;
-    left: 40px;
-}
-
-.manual_step:before,
-.manual_step:after {
-  content: '';
-  position: absolute;
-}
-
-.manual_step:after {
-  border-left: 25px solid var(--background_manual);
-  border-right: 25px solid transparent;
-  border-top: 25px solid transparent;
-  border-bottom: 25px solid transparent;
-  right: -44px;
-  top: 0px;
-  width: 0;
-  height: 0;
-  display: block;
-}
-
-.manual_step:before {
-  border-left: 26px solid #f8f8f8;
-  border-right: 26px solid transparent;
-  border-top: 26px solid transparent;
-  border-bottom: 26px solid transparent;
-  left: 0px;
-  top: -1px;
-  width: 0;
-  height: 0;
-  display: block;
-}
-
-.check_step {
-    width: 90px;
+.review_step {
+    width: 100px;
     height: 50px;
     background: var(--background_check);
     color: rgb(0, 0, 0);
@@ -213,29 +161,30 @@ display: block;
     display: table;
     border-radius: 0.2em;
     position: relative;
+
+    &:before {
+      content: '';
+      position: absolute;
+      border-left: 26px solid var(--page_background);
+      border-right: 26px solid transparent;
+      border-top: 26px solid transparent;
+      border-bottom: 26px solid transparent;
+      left: 0px;
+      top: -1px;
+      width: 0;
+      height: 0;
+      display: block;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+    }
+
+    span {
+      display: table-cell;
+      position: absolute;
+      top: 14px;
+      left: 35px;
+    }
 }
 
-.check_step span {
-    display: table-cell;
-    position: absolute;
-    top: 14px;
-    left: 35px;
-}
-
-.check_step:before,
-.check_step:after {
-  content: '';
-  position: absolute;
-}
-
-.check_step:before {
-  border-left: 26px solid #f8f8f8;
-  border-right: 26px solid transparent;
-  border-top: 26px solid transparent;
-  border-bottom: 26px solid transparent;
-  left: 0px;
-  top: -1px;
-  width: 0;
-  height: 0;
-  display: block;
-}

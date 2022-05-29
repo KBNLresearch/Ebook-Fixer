@@ -123,7 +123,6 @@ function Annotator({ currImage, ebookId }) {
                 currStage={stage}
                 setStage={setStage}
                 classification={currClassification}
-                aiChoice={currAiSelected}
                 userAnnotations={userAnnotationList}
             />
 
@@ -170,6 +169,7 @@ function Annotator({ currImage, ebookId }) {
                             imageId={imageId}
                             setImageId={setImageId}
                             existingAlt={existingAltText}
+                            setStage={setStage}
                         />
                     </div>,
 
