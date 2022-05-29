@@ -146,7 +146,7 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId, aiChoice}) {
     
         return (
             <div className={styles.ai_control}>
-                <label htmlFor="AiLabelsBox" className={styles.box_label}> Automatic suggestions </label>
+                <label htmlFor="AiLabelsBox" className={styles.box_label}> Generated Labels </label>
                 <div className={styles.ai_labels_box} id="AiLabelsBox"> 
                     {labels.map((obj) => (<p className={getProportionalClass(obj)}> {obj.text} </p>))} 
                 </div>

@@ -137,10 +137,6 @@ function Annotator({ currImage, ebookId }) {
                     </Classifier>,
                 'ai-selection':
                     <AIDropdown
-                        currImage={currImage}
-                        ebookId={ebookId}
-                        setImageId={setImageId}
-                        aiChoice={aiChoice}
                         setAiChoice={setAiChoice}
                         setStage={setStage}>
 

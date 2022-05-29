@@ -1,15 +1,15 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import PropTypes from 'prop-types'
 import styles from './Annotator.module.scss'
-import { classifyImageApiCall } from '../../api/ClassifyImage'
-import { ImageInfo } from '../../helpers/EditorHelper'
-import {
-    getImgFilename,
-    getLocation,
-    getRawContext,
-} from '../../helpers/EditImageHelper'
 
-function AIDropdown({ currImage, ebookId, setImageId, aiChoice, setAiChoice, setStage }) {
+
+/**
+ * 
+ * @param {function} setAiChoice
+ * @param {function} setStage
+ * @returns dropdown menu to select ai used
+ */
+function AIDropdown({ setAiChoice, setStage }) {
 
     const saveButtonRef = useRef(null)
     const dropdownRef = useRef(null)
@@ -35,8 +35,7 @@ function AIDropdown({ currImage, ebookId, setImageId, aiChoice, setAiChoice, set
                             </option>
                             {options.map((opt) => (
                                 <option value={opt.abr}> {opt.val} </option>
-                                // TODO: handle AI selected by user
-                                // handleMenuOption(ospt)
+                                
                             ))}
                         </select>
                         <button
@@ -61,10 +60,6 @@ function AIDropdown({ currImage, ebookId, setImageId, aiChoice, setAiChoice, set
     )
 }
 AIDropdown.propTypes = {
-    currImage: PropTypes.instanceOf(ImageInfo).isRequired,
-    ebookId: PropTypes.string.isRequired,
-    setImageId: PropTypes.func.isRequired,
-    aiChoice: PropTypes.string.isRequired,
     setAiChoice: PropTypes.func.isRequired,
     setStage: PropTypes.func.isRequired,
  
