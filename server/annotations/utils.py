@@ -7,7 +7,6 @@ import json
 import io
 import os
 from google.cloud import vision
-import sys
 import requests
 
 
@@ -87,7 +86,7 @@ def azure_api_call(image_path):
                   labels from Google's API with (description, score) as (key, value)
     """
     analysis = None
-    
+
     subscription_key = os.environ['COMPUTER_VISION_SUBSCRIPTION_KEY']
     endpoint = os.environ['COMPUTER_VISION_ENDPOINT']
 
