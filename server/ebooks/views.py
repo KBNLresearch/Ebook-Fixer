@@ -17,14 +17,15 @@ mode = env('GITHUB_MODE')
 
 
 def ebook_detail_view(request, uuid):
-    """ The GET endpoint for an ebook instance
+    """ The GET endpoint for fetching metadata of an ebook instance
 
     Args:
         request (request object): The request object
-        uuid (uuid): The UUID of an already uploaded ebook
+            - uuid (str): The UUID of an already uploaded ebook (URL param)
 
     Returns:
         JsonResponse: Response object sent to the client side
+            - .epub (File) (without human annotations injected)
     """
     if request.method == "GET":
         try:
@@ -40,14 +41,15 @@ def ebook_detail_view(request, uuid):
 
 
 def ebook_download_view(request, uuid):
-    """ Endpoint for zipping the ebook with given uuid from storage and returns the epub
+    """ GET endpoint for zipping the ebook with given uuid from storage and returns the epub
 
     Args:
         request (request object): The request object
-        uuid (str): The UUID of an already uploaded ebook
+            - uuid (str): The UUID of an already uploaded ebook (URL param)
 
     Returns:
         JsonResponse: Response object sent to the client side
+            - .epub (File) with human annotations injected
     """
     if request.method == "GET":
         try:
@@ -89,14 +91,17 @@ def ebook_download_view(request, uuid):
 
 @csrf_exempt
 def ebook_upload_view(request):
-    """ Takes the epub from the request and unzips it under test-books/{uuid}/
+    """ POST endpoint for taking the uploaded epub from the request
+        and unzipping it under test-books/{uuid}/
 
         Args:
-            request (request object): client request
+            request (request object): The request object
+                - epub: .epub file uploaded by user (body)
 
         Returns:
             JSONResponse: Response object sent to client
-            containing the uuid for the newly created ebook
+                - uuid (str): id generated for new ebook entry
+                - title (str): extracted title of uploaded ebook
     """
     if request.method == "POST":
         # Generate random uuid for new ebook instance

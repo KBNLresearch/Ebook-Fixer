@@ -11,13 +11,17 @@ import json
 
 
 def image_details_view(request):
-    """Returns the metadata and the annotations for an image
+    """ GET endpoint for returning the metadata and the annotations for an image
 
     Args:
-        request (request object): The request object with an ebook and image header
+        request (request object): The request object
+            - ebook: e-book to which the image belongs to (header)
+            - image: id of image to get metadata of (query param)
 
     Returns:
         JsonResponse: Response object sent back to the client
+            - image (Image): image object
+            - annotations (Annotation[]): list of all types of annotations for that image
     """
     if request.method == "GET":
         try:
@@ -55,15 +59,20 @@ def image_details_view(request):
 
 @csrf_exempt
 def image_classification_view(request):
-    """Receives metadata for an image entry which is
+    """ PUT endpoint for receiving metadata for an image entry which is
     added/updated in the database
 
     Args:
-        request (request object): The request object that contains
-        image metadata in the body
+        request (request object): The request object
+            - uuid (str): id of e-book which the image belongs to (body)
+            - filename (str): full path of image (body)
+            - location (str): file name in which image appears, often html (body)
+            - classification (str): classification to store for image (body)
+            - raw_context (str): textual context around image (body)
 
     Returns:
         JsonResponse: Response object sent back to the client
+            - Image (Image) with classification field updated
     """
     if request.method == "PUT":
         try:
