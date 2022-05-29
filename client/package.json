@@ -23,7 +23,8 @@
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write ./src"
+    "format": "prettier --write ./src",
+    "docs": "jsdoc -c jsdoc.conf.json"
   },
   "eslintConfig": {
     "extends": [
@@ -87,6 +88,7 @@
     ]
   },
   "devDependencies": {
+    "better-docs": "^2.7.2",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
@@ -95,6 +97,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "jsdoc": "^3.6.10",
+    "parcel": "^2.6.0",
     "prettier": "^2.6.2"
   }
 }

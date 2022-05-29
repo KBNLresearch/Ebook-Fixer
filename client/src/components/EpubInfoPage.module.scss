@@ -24,7 +24,6 @@
     }
 }
 
-
 @mixin text-3d($hue) {
     $ts: ();
     @for $i from 1 through 5 {
@@ -91,7 +90,6 @@
         line-height: 1.5em;
     }
 }
-
 
 .workflow_box {
     border-radius: 1em;
