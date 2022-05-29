@@ -6,8 +6,10 @@ import step3 from '../assets/svgs/step3.svg'
 import step4 from '../assets/svgs/step4.svg'
 
 /**
- * The EpubInfoPage component contains information about our website and epubs in general
- *
+ * The EpubInfoPage component contains information about our website and 
+ * how the image annotation process works
+ * 
+ * @component
  * @returns The EpubInfoPage component
  */
 function EpubInfoPage({}) {

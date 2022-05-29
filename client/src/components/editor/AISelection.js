@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import styles from './Annotator.module.scss'
 
 /**
- * The AISelection component handles selection of AI types
- * After this step the AIAnnotator component will deal with generating 
- * the actual annotations using that AI selected
+ * The AISelection component handles selection of various AI types, such as Google Vision or Microsoft Azure.
+ * After this step the AIAnnotator component will deal with generating the actual annotations using that AI.
  * 
- * @param {{setStage: SetStateAction}} props Sets the next stage in annotation process 
- * @param {{currAiSelected: String}} props AI type selected by user
- * @param {{setCurrAiSelected: SetStateAction}} props Sets the AI choice of the user
+ * @param {SetStateAction} setStage Sets the next stage in annotation process 
+ * @param {String} currAiSelected AI type selected by user
+ * @param {SetStateAction} setCurrAiSelected Sets the AI choice of the user
+ * @component
  * @returns the AISelection component
  */
 function AISelection({setStage, currAiSelected, setCurrAiSelected}) {

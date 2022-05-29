@@ -8,7 +8,7 @@ import logo from './assets/images/KB-logo.png'
 import EpubInfoPage from './components/EpubInfoPage'
 import NotFound from './components/errorpages/NotFound'
 
-// This code uses functional components, you could use classes instead but they're
+// This code uses functional components
 function App() {
     const [ebookFile, setEbookFile] = useState(null)
     const [ebookId, setEbookId] = useState(null)

@@ -4,13 +4,14 @@ import styles from './ProgressBar.module.scss'
 
 
 /** The ProgressBar component shows a progress bar on top of editor 
- * showing arrows that are coloured depending on the current stage
+ * showing arrows that are coloured depending on the current stage.
  * 
- * @param {{currStage: String}} props Current stage in annotation process
- * @param {{setStage: SetStateAction}} props Sets next stage in annotation process
- * @param {{classification: String}} props Classification stored for current image under annotation
- * @param {{aiChoice: String}} props Most recent AI choice for current image under annotation
- * @param {{userAnnotations: List of Strings}} props List of human annotations for current image under annotation
+ * @param {String} currStage Current stage in annotation process
+ * @param {SetStateAction} setStage Sets next stage in annotation process
+ * @param {String} classification Classification stored for current image under annotation
+ * @param {String} aiChoice Most recent AI choice for current image under annotation
+ * @param {String[]} userAnnotations List of human annotations for current image under annotation
+ * @component
  * @returns The ProgressBar component
  */
 function ProgressBar({ currStage, setStage, classification, aiChoice, userAnnotations }) {

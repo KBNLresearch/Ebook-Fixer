@@ -3,6 +3,14 @@ import PropTypes from 'prop-types'
 import { useParams } from 'react-router-dom'
 import styles from './ShareURL.module.scss'
 
+/** 
+ * The ShareURL component allows users to copy a link for either:
+ * - The URL of the e-book
+ * - The URL of the current image in the e-book
+ * 
+ * @component
+ * @returns the ShareURL component
+ */
 function ShareURL() {
     // Get e-book UUID and imgFilename (which might be undefined) from the URL
     const { uuid, imgFilename } = useParams()
