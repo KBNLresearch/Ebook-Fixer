@@ -15,5 +15,4 @@ export function fetchExampleApiCall() {
                 }
             )
     )
-    // comment
 }
