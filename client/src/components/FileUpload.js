@@ -25,9 +25,13 @@ function checkFileType(file) {
 let droppedFile = null
 
 /**
- * This component handles uploading the epub and sending it to the server.
+ * The FileUpload handles uploading the epub and sending it to the server.
  * It supports both drag and drop and choosing a file with a system window.
  * It checks the file type to be an epub.
+ * @param {SetStateAction} setEbookFile Updates the current e-book file
+ * @param {SetStateAction} setEbookIds Updates the current e-book id
+ * @param {SetStateAction} setEbookTitle Updates the current e-book title
+ * @component
  * @returns The FileUpload component, ready for rendering.
  * @component
  */
@@ -178,7 +182,12 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                         }, 3000)
                     }
                     if (Object.prototype.hasOwnProperty.call(result, 'title')) {
-                        setEbookTitle(result.title)
+                        const {title} = result
+                        if (title.length <= 75) {
+                            setEbookTitle(title)
+                        } else {
+                            setEbookTitle(title.slice(0, 72) + "...")
+                        }
                     }
                     setStatus('success')
                 })

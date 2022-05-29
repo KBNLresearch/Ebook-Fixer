@@ -2,32 +2,44 @@
     display: flex;
     flex-direction: column;
     padding: 0.5rem;
-    gap: 3em;
-    align-items: flex-end;
+    gap: 1em;
+    align-items: center;
     width: 100%;
     box-sizing: border-box;
     flex-grow: 1;
+    position: relative;
 
-    .user_control {
-        width: 100%;
-        height: 10em;
+    .start_msg {
         position: relative;
-        gap: 5em;
-        text-align: right;
     }
 
-    .ai_control {
+    .user_control {
         width: 100%;
         height: 100%;
         position: relative;
         gap: 5em;
         text-align: right;
     }
+
+    .existing_alt {
+        max-width: 50em;
+        font-size: 80%;
+        strong {
+            font-weight: bold;
+        }
+    }
+
+    .ai_control {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        gap: 1em;
+        text-align: right;
+    }
     
     .ai_labels_box {
         width: 100%;
-        height: 50%;
-        // gap: 5em;
+        height: fit-content;
         border-radius: 0.5em;
         border: 0.2em solid rgb(117, 124, 132);
         padding: 0.3em;
@@ -111,7 +123,7 @@
 
     textarea {
         width: 100%;
-        height: 100%;
+        height: 60%;
         border-radius: 0.5em;
         border: 0.2em solid skyblue;
         padding: 0.3em;
@@ -124,12 +136,37 @@
 
     button.save_button {
         font-family: inherit;
+        font-size: 80%;
         margin-top: 0.2em;
         background-color: #27ce51;
         border: 0.2em solid #ccc;
         transition: border-color 0.2s ease, background-color 0.2s ease;
         padding: 0.5em 0.7em;
         visibility: visible;
+
+        &:hover {
+            background-color: #2ebf50;
+            border-color: #eee;
+        }
+        &:disabled {
+            background-color: #b8c3b8;
+            border-color: #eee;
+            cursor: default;
+        }
+    }
+
+    button.restart_button {
+        font-family: inherit;
+        font-size: 80%;
+        margin-top: 0.2em;
+        background-color: #27ce51;
+        border: 0.2em solid #ccc;
+        transition: border-color 0.2s ease, background-color 0.2s ease;
+        padding: 0.5em 0.7em;
+        visibility: visible;
+        position: absolute;
+        left: 7em;
+        top: 10em;
 
         &:hover {
             background-color: #2ebf50;
@@ -168,15 +205,17 @@
         width: 100%;
         height: 10em;
         position: relative;
+        text-align: left;
         strong {
             font-weight: bold;
-            font-size: larger;
-        }
+            font-size: 90%;
+        }   
     }
 
     .overview_info {
-        padding-top: 2em;
-        padding-bottom: 2em;
+        font-size: 90%;
+        padding-top: 1em;
+        padding-bottom: 1em;
     }
 }
 

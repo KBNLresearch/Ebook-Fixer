@@ -6,14 +6,14 @@ import styles from './Editor.module.scss'
 import { getImgFilename } from '../../helpers/EditImageHelper'
 
 /**
- * The controls for the editor
+ * The EditorControls component handles the controls for the editor. 
  * Right now these are a bunch of buttons that scroll pictures from the book into view
- * These are passed as children via props
+ * These are passed as children via props.
  *
- * @param {ImageInfo[]} imageList currently loaded images
- * @param {Function} getImage retrieves the image element from the rendition with the index and imagelist provided
- * @param {external:Rendition} rendition Render object from ePubJS
- * @param {external:SetStateAction} setCurrentImage function for setting the image that is currently being annotated
+ * @param {ImageInfo[]} imageList List of images that epubJS found in the ebook
+ * @param {Function} getImage Retrieves the image element from the rendition with the index and imagelist provided
+ * @param {external:Render} rendition Render object from ePubJS
+ * @param {external:SetStateAction} setCurrentImage Updates the image that is currently being annotated
  * @component
  * @returns The EditorControls component
  */
