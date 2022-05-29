@@ -34,7 +34,7 @@ function AIDropdown({ currImage, ebookId, setImageId, aiChoice, setAiChoice, set
                                 Select AI
                             </option>
                             {options.map((opt) => (
-                                <option value={opt.abr}> {opt.val} </option>
+                                <option value={opt.abr} key={opt.abr}> {opt.val} </option>
                                 // TODO: handle AI selected by user
                                 // handleMenuOption(ospt)
                             ))}
