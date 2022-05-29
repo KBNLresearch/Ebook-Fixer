@@ -90,7 +90,6 @@ function Annotator({ currImage, ebookId }) {
                     if (aiLabels.length > 0) {
                         setAiAnnotationList(aiLabels)
                         // Get the most recent AI choice to display
-                        // But this may not be needed since the server overrides existing AI annotations
                         const mostRecentAiChoice = aiLabels[aiLabels.length - 1].type
                         setCurrAISelected(mostRecentAiChoice)
                     }

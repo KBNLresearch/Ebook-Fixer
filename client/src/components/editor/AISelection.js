@@ -17,11 +17,12 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
     const dropdownRef = useRef(null)
     const saveAiChoiceButtonRef = useRef(null)
 
-    // TODO: Make the abbreviations and values match the ones on the server?
+    // TODO: Make the abbreviations and values match the ones on the server once all AI endpoints are final
+    // (needed for displaying the most recent AI annotation choice in Annotator.js)
     const options = [
-        {abr: 'BB_GOOGLE', val: 'Google Vision API'},
-        {abr: 'BB_AZURE', val: 'Microsoft Azure Vision API'},
-        {abr: 'CONTEXT_BERT', val: 'BERT Context Keyword Extractor'}
+        {keys: ['BB_GOOGLE_LAB'], val: 'Google Vision API'},
+        {keys: ['BB_AZURE_LAB', 'BB_AZURE_SEN'], val: 'Microsoft Azure Vision API'},
+        {keys: ['CONTEXT_LAB'], val: 'BERT Context Keyword Extractor'}
     ]
 
     useEffect(() => {
@@ -31,7 +32,8 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
         if (currAiSelected != null) {
             saveAiChoiceButtonRef.current.disabled = true
             // Show the selected AI in dropdown menu
-            const idx = options.findIndex(opt => opt.val === currAiSelected || opt.abr === currAiSelected) + 1;
+            const idx = options.findIndex(opt => opt.val === currAiSelected || opt.keys.includes(currAiSelected)) + 1;
+            console.log('Idx: ' + idx)
             dropdownRef.current.selectedIndex = idx;
         } else {
             // Show the label

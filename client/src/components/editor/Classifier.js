@@ -84,9 +84,6 @@ function Classifier({ currImage, ebookId, setImageId, currClassification, setCur
             const choice = getClassification()
             setCurrClassification(choice)
 
-            console.log('Choice: ' + choice)
-            console.log('Curr class: '+ currClassification)
-
             classifyImageApiCall(
                 ebookId,
                 getImgFilename(currImage),
@@ -97,7 +94,6 @@ function Classifier({ currImage, ebookId, setImageId, currClassification, setCur
                 // console.log(JSON.stringify(result));
                 // Keep image id up to date after classifying
                 if (Object.prototype.hasOwnProperty.call(result, 'id')) {
-                    console.log('Image id of (new) entry: ' + result.id)
                     setImageId(result.id)
                 }
             })

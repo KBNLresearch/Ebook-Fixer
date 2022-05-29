@@ -57,7 +57,7 @@ function ProgressBar({ currStage, setStage, classification, aiChoice, userAnnota
      * Checks current state and 
      * @returns the corresponding CSS class for the 'Save' button in progress bar
      */
-    function getStyleSave() {
+    function getStyleCheck() {
         if (currStage === 'overview') {
             return styles.save_step_color
         }
@@ -68,7 +68,6 @@ function ProgressBar({ currStage, setStage, classification, aiChoice, userAnnota
      * Makes sure user returns to classification tab again
      */
     function handleClassificationClick() {        
-        console.log('Return to classification step')
         setStage('classify')
     }
 
@@ -76,7 +75,6 @@ function ProgressBar({ currStage, setStage, classification, aiChoice, userAnnota
      * Makes sure user returns to AI selection tab again
      */
     function handleAiClick() {
-        console.log('Return to AI selection step')
         setStage('ai-selection')
     }
 
@@ -84,15 +82,13 @@ function ProgressBar({ currStage, setStage, classification, aiChoice, userAnnota
      * Makes sure user returns to manual annotation (+ AI generation) tab again
      */
     function handleManualClick() {
-        console.log('Return to manual step')
         setStage('annotate')
     }
 
     /**
      * Makes sure user returns to overview tab
      */
-    function handleSaveClick() {
-        console.log('Go to save step (overview)')
+    function handleCheckClick() {
         setStage('overview')
     }
 
@@ -131,11 +127,11 @@ function ProgressBar({ currStage, setStage, classification, aiChoice, userAnnota
             
             <button 
                 type="button"
-                className={getStyleSave()}
+                className={getStyleCheck()}
                 ref={saveButtonRef}
                 disabled={classification === null}
-                onClick={() => handleSaveClick()}> 
-                <span> Save </span>
+                onClick={() => handleCheckClick()}> 
+                <span> Check </span>
             </button> 
 
         </div>
