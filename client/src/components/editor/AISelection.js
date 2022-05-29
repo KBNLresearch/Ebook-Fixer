@@ -17,9 +17,11 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
     const dropdownRef = useRef(null)
     const saveAiChoiceButtonRef = useRef(null)
 
+    // TODO: Make the abbreviations and values match the ones on the server?
     const options = [
-        {abr: 'GG', val: 'Google Vision API'},
-        {abr: 'MS', val: 'Microsoft Azure Vision API'}
+        {abr: 'BB_GOOGLE', val: 'Google Vision API'},
+        {abr: 'BB_AZURE', val: 'Microsoft Azure Vision API'},
+        {abr: 'CONTEXT_BERT', val: 'BERT Context Keyword Extractor'}
     ]
 
     useEffect(() => {
@@ -63,17 +65,7 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
         const choice = getSelectedAi()
         setCurrAiSelected(choice)
 
-
-
-
-
-         // TODO: pass selectedAi to AIAnnotator (via parent), which will make API call depending on the selected AI
-
          // TODO: enable generate button in next stage again, when new AI is selected
-
-
-
-
 
         if (choice !== 'Invalid') {
             saveAiChoiceButtonRef.current.disabled = true

@@ -31,10 +31,6 @@ function Annotator({ currImage, ebookId }) {
     const [aiAnnotationList, setAiAnnotationList] = useState([])
     const [userAnnotationList, setUserAnnotationList] = useState([])
 
-    const [classificationSaved, setClassificationSaved]  = useState(false)
-    const [aiSaved, setAiSaved] = useState(false)
-    const [userAnnotationSaved, setUserAnnotationSaved] = useState(false)
-
 
     // Executed every time the currentImage changes
     useEffect(() => {
@@ -42,9 +38,6 @@ function Annotator({ currImage, ebookId }) {
             setStage("start")
         } else {
             setStage("classify")
-            setClassificationSaved(false)
-            setAiSaved(false)
-            setUserAnnotationSaved(false)
             // Remove all AI suggestions when next image is loaded
             setCurrClassification(null)
             setCurrAISelected(null)
@@ -89,7 +82,6 @@ function Annotator({ currImage, ebookId }) {
                     result.annotations.forEach((el) => {
                         if (el.type === 'HUM') {
                             setUserAnnotationList([...userAnnotationList, el.text])
-                            setUserAnnotationSaved(true)
                         }
                     })
                     // Display previously generated AI suggestions when revisiting image
@@ -97,7 +89,6 @@ function Annotator({ currImage, ebookId }) {
                     const aiLabels = result.annotations.filter(el => el.type !== 'HUM')
                     if (aiLabels.length > 0) {
                         setAiAnnotationList(aiLabels)
-                        setAiSaved(true)
                         // Get the most recent AI choice to display
                         // But this may not be needed since the server overrides existing AI annotations
                         const mostRecentAiChoice = aiLabels[aiLabels.length - 1].type
@@ -110,7 +101,6 @@ function Annotator({ currImage, ebookId }) {
                     console.log(result.image)
                     setImageId(result.image.id)
                     setCurrClassification(result.image.classification)
-                    setClassificationSaved(true)
                 }
             },
             (error) => {
@@ -167,6 +157,7 @@ function Annotator({ currImage, ebookId }) {
                             currImage={currImage}
                             ebookId={ebookId}
                             imageId={imageId} 
+                            aiChoice={currAiSelected}
                         >
                             {' '}
                         </AIAnnotator>
