@@ -13,11 +13,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.datastructures import MultiValueDictKeyError
 from rest_framework import status
 from _thread import start_new_thread
-from os import environ
+import os
 import uuid
 
 
-mode = environ.get('GITHUB_MODE', 'production')
+mode = os.environ.get('GITHUB_MODE', 'production')
 
 
 def ebook_download_view(request, uuid):

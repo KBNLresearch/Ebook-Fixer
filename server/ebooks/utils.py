@@ -182,7 +182,7 @@ def process_ebook(ebook):
     ebook.state = 'CONVERTING'
     ebook.save(update_fields=["state", "checker_issues"])
 
-    mode = os.environ.get('GITHUB_MODE', "development")
+    mode = os.environ.get('GITHUB_MODE', 'production')
     # TODO: CONVERT TO EPUB3
     # TODO: MAKE ACCESSIBLE
 
@@ -191,7 +191,7 @@ def process_ebook(ebook):
         # Returns the extracted title, which override the title
         ebook_title = unzip_ebook(str(ebook.uuid), ebook.title)
         # Push unzipped contents to GitHub
-        if mode == "production":
+        if mode == "development":
             message = f"Upload {ebook.uuid}"
             push_epub_folder_to_github(str(ebook.uuid), message)
     except FileNotFoundError:
