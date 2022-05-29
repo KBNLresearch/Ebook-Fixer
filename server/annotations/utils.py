@@ -87,20 +87,9 @@ def azure_api_call(image_path):
                   labels from Google's API with (description, score) as (key, value)
     """
     analysis = None
-
-    # Add your (Azure) Computer Vision subscription key and endpoint to your environment variables.
-    if 'COMPUTER_VISION_SUBSCRIPTION_KEY' in os.environ:
-        subscription_key = os.environ['COMPUTER_VISION_SUBSCRIPTION_KEY']
-    else:
-        print("""\nSet the COMPUTER_VISION_SUBSCRIPTION_KEY environment variable.
-                 **Restart your shell or IDE for changes to take effect.**""")
-        sys.exit()
-
-    if 'COMPUTER_VISION_ENDPOINT' in os.environ:
-        endpoint = os.environ['COMPUTER_VISION_ENDPOINT']
-    else:
-        # if no endpoint is set, just use the default endpoint
-        endpoint = 'https://ebooks.cognitiveservices.azure.com/'
+    
+    subscription_key = os.environ['COMPUTER_VISION_SUBSCRIPTION_KEY']
+    endpoint = os.environ['COMPUTER_VISION_ENDPOINT']
 
     analyze_url = endpoint + "vision/v3.1/analyze"
     params = {'visualFeatures': 'Categories,Description,Color,Tags'}

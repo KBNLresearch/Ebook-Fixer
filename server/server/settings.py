@@ -23,6 +23,15 @@ env = environ.Env()
 environ.Env.read_env()  # reading .env file
 
 
+# Add your (Azure) Computer Vision subscription key and endpoint to your environment variables.
+if 'COMPUTER_VISION_SUBSCRIPTION_KEY' not in os.environ:
+    with open("azure-key.txt", 'r') as file:
+        os.environ['COMPUTER_VISION_SUBSCRIPTION_KEY'] = file.read()
+
+if 'COMPUTER_VISION_ENDPOINT' not in os.environ:
+    # if no endpoint is set, just use the default endpoint
+    os.environ['COMPUTER_VISION_ENDPOINT'] = 'https://ebooks.cognitiveservices.azure.com/'
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
