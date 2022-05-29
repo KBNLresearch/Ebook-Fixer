@@ -11,6 +11,6 @@ class Annotation(models.Model):
         ('SMART', 'Smart AI'),
         ('HUM', 'Human')
     ]
-    type = models.CharField(max_length=15, choices=ANNOTATION_TYPES, default='HUM')
+    type = models.CharField(max_length=30, choices=ANNOTATION_TYPES, default='HUM')
     text = models.CharField(max_length=200)
     confidence = models.DecimalField(max_digits=5, decimal_places=4, default=1.0)

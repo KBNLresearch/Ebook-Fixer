@@ -7,12 +7,12 @@ import { getImgFilename } from '../../helpers/EditImageHelper'
 import { ReactComponent as ExpandSVG } from '../../assets/svgs/fullscreen-icon.svg'
 
 /**
- * This component provides the user with a way to see all the images in the book at once,
+ * The Overview component provides the user with a way to see all the images in the book at once,
  * it also takes the place of the annotator when no image is selected
  *
  * @param {ImageInfo[]} imageList List of images that epubJS found in the ebook
  * @component
- * @returns
+ * @returns the Overview component
  */
 function Overview({ imageList }) {
     const { uuid } = useParams()
