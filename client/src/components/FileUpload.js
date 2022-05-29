@@ -33,6 +33,7 @@ let droppedFile = null
  * @param {SetStateAction} setEbookTitle Updates the current e-book title
  * @component
  * @returns The FileUpload component, ready for rendering.
+ * @component
  */
 function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
     // State of this component:
@@ -259,9 +260,7 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
             </div>
 
             {uploading || status ? (
-                <Link to="/ebook/1">
-                    Go to editor (for development only)
-                </Link>
+                <Link to="/ebook/1">Go to editor (for development only)</Link>
             ) : (
                 ''
             )}
@@ -289,9 +288,18 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
 }
 
 FileUpload.propTypes = {
+    /**
+     * Function to set the epub file once uploaded
+     */
     setEbookFile: PropTypes.func.isRequired,
+    /**
+     * Function to set epub id once received response from server
+     */
     setEbookId: PropTypes.func.isRequired,
-    setEbookTitle: PropTypes.func.isRequired
+    /**
+     * Function to set epub title
+     */
+    setEbookTitle: PropTypes.func.isRequired,
 }
 
 export default FileUpload

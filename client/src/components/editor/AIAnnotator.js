@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 import { useEffect, useRef, useState } from 'react'
 import styles from './Annotator.module.scss'
-import { ImageInfo} from '../../helpers/EditorHelper'
-import {getImgFilename} from '../../helpers/EditImageHelper'
-import {  getAiAnnotation} from '../../api/AnnotateImage'
+import { ImageInfo } from '../../helpers/EditorHelper'
+import { getImgFilename } from '../../helpers/EditImageHelper'
+import { getAiAnnotation } from '../../api/AnnotateImage'
 
 /**
  * The AIAnnotator handles generating AI image descriptions / labels

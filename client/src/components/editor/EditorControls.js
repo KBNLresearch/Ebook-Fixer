@@ -12,8 +12,8 @@ import { getImgFilename } from '../../helpers/EditImageHelper'
  *
  * @param {ImageInfo[]} imageList List of images that epubJS found in the ebook
  * @param {Function} getImage Retrieves the image element from the rendition with the index and imagelist provided
- * @param {Render} rendition Render object from ePubJS
- * @param {SetStateAction} setCurrentImage Updates the image that is currently being annotated
+ * @param {external:Render} rendition Render object from ePubJS
+ * @param {external:SetStateAction} setCurrentImage Updates the image that is currently being annotated
  * @component
  * @returns The EditorControls component
  */

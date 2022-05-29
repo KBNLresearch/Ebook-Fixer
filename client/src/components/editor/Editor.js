@@ -12,8 +12,8 @@ import EditorControls from './EditorControls'
 import Viewer from './Viewer'
 import FileDownload from '../FileDownload'
 import { getFileBlob } from '../../api/GetFile'
-import ShareURL from './ShareURL'
 import Overview from './Overview'
+import ShareURL from './ShareURL'
 
 /**
  * The editor component takes an epub file and displays it as well as a UI for interacting with it.
