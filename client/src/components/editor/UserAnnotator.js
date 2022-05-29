@@ -74,7 +74,7 @@ function UserAnnotator({ annotationList, setAnnotationList, currImage, ebookId, 
             <div className={styles.existing_alt}> 
                 <br/>
                 <br/>
-                <strong> Existing alt text: </strong> {existingAlt} 
+                <strong> {existingAlt !== null ? 'Existing alt-text: ' : 'No existing alt-text '} </strong> {existingAlt} 
                 <br/>
                 <br/>
                 <br/>

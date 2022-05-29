@@ -34,6 +34,7 @@ function Annotator({ currImage, ebookId }) {
 
     // Executed every time the currentImage changes
     useEffect(() => {
+        // Note that this start stage is overidden by the image overview
         if (!currImage) {
             setStage("start")
         } else {

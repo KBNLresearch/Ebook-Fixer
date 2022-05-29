@@ -19,14 +19,19 @@ function ProgressBar({ currStage, setStage, classification, aiChoice, userAnnota
     const aiSelectionButtonRef = useRef(null)
     const manualButtonRef = useRef(null)
     const saveButtonRef = useRef(null)
+    const root = document.querySelector(':root');
 
     /**
      * Checks current state and 
      * @returns the corresponding CSS class for the 'Classify' button in progress bar
      */
     function getStyleClassification() {
-        if (currStage === 'classify' || classification !== null) {
-            return styles.class_step_color
+        if (currStage === 'classify') {
+            root.style.setProperty('--background_class', 'skyblue');
+        } else if (classification !== null) {
+            root.style.setProperty('--background_class', 'lightblue')
+        } else {
+            root.style.setProperty('--background_class', '#b8c1c3')
         }
         return styles.class_step
     }
@@ -36,8 +41,12 @@ function ProgressBar({ currStage, setStage, classification, aiChoice, userAnnota
      * @returns the corresponding CSS class for the 'AI' button in progress bar
      */
     function getStyleAi() {
-        if (currStage === 'ai-selection' || aiChoice !== null) {
-            return styles.ai_step_color
+        if (currStage === 'ai-selection') {
+           root.style.setProperty('--background_ai', 'skyblue')
+        } else if (aiChoice !== null) {
+            root.style.setProperty('--background_ai', 'lightblue')
+        } else {
+            root.style.setProperty('--background_ai', '#b8c1c3')
         }
         return styles.ai_step
     }
@@ -47,8 +56,13 @@ function ProgressBar({ currStage, setStage, classification, aiChoice, userAnnota
      * @returns the corresponding CSS class for the 'Manual' button in progress bar
      */
     function getStyleManual() {
-        if (currStage === 'annotate' || userAnnotations.length > 0) {
-            return styles.manual_step_color
+
+        if (currStage === 'annotate') {
+            root.style.setProperty('--background_manual', 'skyblue')
+        } else if (userAnnotations.length > 0) {
+            root.style.setProperty('--background_manual', 'lightblue')
+        } else {
+            root.style.setProperty('--background_manual', '#b8c1c3')
         }
         return styles.manual_step
     }
@@ -59,9 +73,11 @@ function ProgressBar({ currStage, setStage, classification, aiChoice, userAnnota
      */
     function getStyleCheck() {
         if (currStage === 'overview') {
-            return styles.save_step_color
+            root.style.setProperty('--background_check', 'skyblue')
+        } else {
+            root.style.setProperty('--background_check', '#b8c1c3')
         }
-        return styles.save_step
+        return styles.check_step
     }
 
     /**
