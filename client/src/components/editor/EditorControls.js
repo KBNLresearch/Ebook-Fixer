@@ -50,8 +50,11 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
                 // Alert the user that this link doesn't point to an image
                 alert("The image with that name wasn't found in this book!")
             }
+        } else if (!imgFilename && currentImageIndex > -1) {
+            setCurrentImageIndex(-1)
+            setCurrentImage(null)
         }
-    }, [imageList])
+    }, [imageList, imgFilename])
 
     // Gets the next index
     function nextIndex() {
