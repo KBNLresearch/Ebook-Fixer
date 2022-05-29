@@ -154,7 +154,7 @@ function AIAnnotator({annotationList, currImage, ebookId, imageId, aiChoice}) {
                     <div className={styles.ai_control}>
                         <label htmlFor="AiSentanceBox" className={styles.box_label}> Generated Annotation </label>
                         <div className={styles.ai_labels_box}>
-                            MY SENTANCE
+                            MY SENTENCE
                         </div>
                     </div>}
                 <button type="button"
