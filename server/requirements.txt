@@ -10,11 +10,13 @@ djongo
 epubcheck
 flake8
 google-cloud-vision
+gunicorn
 html.parser
 isort==5.8.0
 lxml
 pycodestyle
 pymongo==3.12.0
+pymongo[srv]
 pytest
 sphinx
 sqlparse==0.2.4

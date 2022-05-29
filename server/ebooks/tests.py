@@ -133,7 +133,8 @@ class EbookViewsTest(TestCase):
 
         epub_path = f"./{self.uuid}.epub"
 
-        self.assertTrue(os.path.exists(f"{epub_path}"))
+        # Check that the zipped file is deleted
+        self.assertFalse(os.path.exists(f"{epub_path}"))
         self.assertEqual(response.status_code, 200)
 
         shutil.rmtree(folder_path)
