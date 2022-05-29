@@ -10,10 +10,11 @@ import { getImgFilename } from '../../helpers/EditImageHelper'
  * Right now these are a bunch of buttons that scroll pictures from the book into view
  * These are passed as children via props
  *
- * @param {{imageList: List of Images}} props currently loaded images
- * @param {{getImage: Function}} props  retrieves the image element from the rendition with the index and imagelist provided
- * @param {{rendition: Render object from ePubJS}} props
- * @param {{setCurrentImage: SetStateAction}} props function for setting the image that is currently being annotated
+ * @param {ImageInfo[]} imageList currently loaded images
+ * @param {Function} getImage retrieves the image element from the rendition with the index and imagelist provided
+ * @param {external:Rendition} rendition Render object from ePubJS
+ * @param {external:SetStateAction} setCurrentImage function for setting the image that is currently being annotated
+ * @component
  * @returns The EditorControls component
  */
 function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {

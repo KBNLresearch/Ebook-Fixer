@@ -1,7 +1,10 @@
 /**
- * makes a get request to get the file with given id to download from the server
- * @param {String} fileId
- * @returns  response
+ * Makes a get request to get the file with given id to download from the server
+ *
+ * @category API
+ * @param {String} fileId The ID of the file to download
+ * @returns  response from the server
+ * @see Server Documentation for description of request & response
  */
 export function getFile(fileId) {
     return fetch(
