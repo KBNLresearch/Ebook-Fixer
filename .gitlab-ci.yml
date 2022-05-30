@@ -140,7 +140,4 @@ push-container:
     - docker build -t $DIGITAL_OCEAN_REGISTRY/$DIGITAL_OCEAN_REPOSITORY/server:latest server/
     - docker push $DIGITAL_OCEAN_REGISTRY/$DIGITAL_OCEAN_REPOSITORY/server:latest
     - sleep 20
-    - curl -X POST -H \
-      "Content-Type: application/json" -H \
-      "Authorization: Bearer $DIGITAL_OCEAN_TOKEN" \
-      "https://api.digitalocean.com/v2/registry/$DIGITAL_OCEAN_REPOSITORY/garbage-collection"
+    - "curl -X POST -H \"Content-Type: application/json\" -H \"Authorization: Bearer $DIGITAL_OCEAN_TOKEN\" \"https://api.digitalocean.com/v2/registry/$DIGITAL_OCEAN_REPOSITORY/garbage-collection\""
