@@ -9,17 +9,17 @@
 
 .progress_container {
     width: 100%;
-    padding: 0.2em;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: 1.5em;
-    font-size: 0.7em;
+    gap: 0.5em;
+    font-size: 18px;
     box-sizing: border-box;
 
     .left_arrow:before {
+        // Left Arrow, inherits border color
         content: '';
         position: absolute;
         border-left: 26px solid var(--page_background);
@@ -34,6 +34,7 @@
     }
 
     .right_arrow:after {
+        // Right Arrow, inherits border color
         content: '';
         position: absolute;
         border-left: 25px solid transparent;
@@ -41,7 +42,8 @@
         border-right: 25px solid transparent;
         border-top: 25px solid transparent;
         border-bottom: 25px solid transparent;
-        right: -44px;
+        border-radius: 0.2em;
+        right: -46px;
         top: 0px;
         width: 0;
         height: 0;
@@ -53,82 +55,57 @@
             cursor: default;
         }
         &:hover {
-            font-weight: bolder;
-            font-size: 95%;
+            // Can use background-color instead
+            // background-color: black;
+            // border-color: black !important;
+            // color: white;
+            filter: hue-rotate(70deg) saturate(130%);
         }
-        transition: border-color 0.3s ease, background-color 0.3s ease;
+        transition: border-color 0.3s ease, background-color 0.3s ease,
+            filter 0.5s ease;
     }
-}
-
-.class_step {
-    width: 120px;
-    height: 50px;
-    background: var(--background_class);
-    border-left-color: var(--background_class) !important;
-    color: rgb(0, 0, 0);
-    font-weight: 100;
-    position: relative;
-    display: table;
-    border-radius: 0.2em;
-
-    span {
-        display: table-cell;
-        vertical-align: middle;
+    .step {
+        overflow: visible;
+        border-radius: 0.4em;
+        width: 110px;
+        height: 50px;
+        position: relative;
+        color: rgb(0, 0, 0);
+        border-color: white;
+        span {
+            position: relative;
+            left: 0.4em;
+        }
     }
-}
 
-.ai_step {
-    width: 110px;
-    height: 50px;
-    background: var(--background_ai);
-    border-left-color: var(--background_ai) !important;
-    text-align: center;
-    color: rgb(0, 0, 0);
-    position: relative;
-    display: table;
-    border-radius: 0.2em;
-    span {
-        display: table-cell;
-        position: absolute;
-        top: 14px;
-        left: 55px;
+    .class_step {
+        z-index: 10;
+        width: 130px;
+        background: var(--background_class);
+        border-left-color: var(--background_class);
     }
-}
 
-.manual_step {
-    width: 110px;
-    height: 50px;
-    background: var(--background_manual);
-    border-left-color: var(--background_manual) !important;
-    color: rgb(0, 0, 0);
-    position: relative;
-    display: table;
-    border-radius: 0.2em;
-    position: relative;
-
-    span {
-        display: table-cell;
-        position: absolute;
-        top: 14px;
-        left: 40px;
+    .ai_step {
+        z-index: 9;
+        width: 90px;
+        background: var(--background_ai);
+        border-left-color: var(--background_ai);
     }
-}
 
-.review_step {
-    width: 100px;
-    height: 50px;
-    background: var(--background_check);
-    border-left-color: var(--background_check) !important;
-    color: rgb(0, 0, 0);
-    position: relative;
-    display: table;
-    border-radius: 0.2em;
-    position: relative;
+    .manual_step {
+        z-index: 8;
+        background: var(--background_manual);
+        border-left-color: var(--background_manual);
+    }
 
-    span {
-        display: table-cell;
-        position: absolute;
-        top: 14px;
-        left: 35px;
+    .review_step {
+        z-index: 7;
+        background: var(--background_check);
+        border-left-color: var(--background_check);
+    }
+
+    .activeBtn {
+        background-color: #9fdf9f;
+        border-color: #9fdf9f;
     }
 }

@@ -1,11 +1,11 @@
-import { useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { ImageInfo } from '../../helpers/EditorHelper'
 import AIAnnotator from './AIAnnotator'
 import UserAnnotator from './UserAnnotator'
 import Classifier from './Classifier'
 import AISelection from './AISelection'
-import {getImgFilename} from '../../helpers/EditImageHelper'
+import { getImgFilename } from '../../helpers/EditImageHelper'
 import { getImageMetadataApiCall } from '../../api/GetImageMetadata'
 import styles from './Annotator.module.scss'
 import ProgressBar from './ProgressBar'
@@ -21,8 +21,7 @@ import ProgressBar from './ProgressBar'
  */
 
 function Annotator({ currImage, ebookId }) {
-
-    const [stage, setStage] = useState("")
+    const [stage, setStage] = useState('')
     const [imageId, setImageId] = useState(-1)
     const [existingAltText, setExistingAltText] = useState(null)
 
@@ -32,20 +31,19 @@ function Annotator({ currImage, ebookId }) {
     const [aiAnnotationList, setAiAnnotationList] = useState([])
     const [userAnnotationList, setUserAnnotationList] = useState([])
 
-
     // Executed every time the currentImage changes
     useEffect(() => {
         // Note that this start stage is overidden by the image overview
         if (!currImage) {
-            setStage("start")
+            setStage('start')
         } else {
-            setStage("classify")
+            setStage('classify')
             // Remove all AI suggestions when next image is loaded
             setCurrClassification(null)
             setCurrAISelected(null)
             setAiAnnotationList([])
             setUserAnnotationList([])
-            
+
             // Save existing alt-text of image
             if (currImage) {
                 const altText = currImage.element.alt
@@ -58,45 +56,50 @@ function Annotator({ currImage, ebookId }) {
         }
     }, [currImage])
 
-    
-
     /**
      * Makes API call to server for fetching image metadata
      * i.e. the image itself and all annotations linked to it
      * and updates state accordingly
      */
     function fetchImageMetadata() {
-
         console.log('Fetching image metadata...')
 
         getImageMetadataApiCall(ebookId, getImgFilename(currImage)).then(
             (result) => {
-                if (Object.prototype.hasOwnProperty.call(result, 'annotations')) {
+                if (
+                    Object.prototype.hasOwnProperty.call(result, 'annotations')
+                ) {
                     console.log('Annotations: ')
                     console.log(result.annotations)
 
                     // Decorative images don't have image descriptions
                     if (currClassification !== 'Decoration') {
-                        setStage("overview")
+                        setStage('overview')
                     }
                     // For each HUM annotation, add to user annotation list (for display in UserAnnotator)
                     // Note that for now this list always contains 1 HUM annotation
                     result.annotations.forEach((el) => {
                         if (el.type === 'HUM') {
-                            setUserAnnotationList([...userAnnotationList, el.text])
+                            setUserAnnotationList([
+                                ...userAnnotationList,
+                                el.text,
+                            ])
                         }
                     })
                     // Display previously generated AI suggestions when revisiting image
                     // TODO: distinguish between different AIs (have separate lists for labels and descriptions)
-                    const aiLabels = result.annotations.filter(el => el.type !== 'HUM')
+                    const aiLabels = result.annotations.filter(
+                        (el) => el.type !== 'HUM'
+                    )
                     if (aiLabels.length > 0) {
                         setAiAnnotationList(aiLabels)
                         // Get the most recent AI choice to display
-                        const mostRecentAiChoice = aiLabels[aiLabels.length - 1].type
+                        const mostRecentAiChoice =
+                            aiLabels[aiLabels.length - 1].type
                         setCurrAISelected(mostRecentAiChoice)
                     }
-                }    
-                
+                }
+
                 if (Object.prototype.hasOwnProperty.call(result, 'image')) {
                     console.log('Image metadata: ')
                     console.log(result.image)
@@ -113,90 +116,101 @@ function Annotator({ currImage, ebookId }) {
                 }
             }
         )
-
     }
 
     return (
         <div className={styles.container}>
-
             <ProgressBar
                 currStage={stage}
                 setStage={setStage}
                 classification={currClassification}
                 userAnnotations={userAnnotationList}
+                currAiSelected={currAiSelected}
             />
 
             {
                 {
-                'start': 
-                    <div className={styles.start_msg}> Please select an image to annotate. </div>,
-
-                'classify': 
-                    <Classifier
-                        currImage={currImage}
-                        ebookId={ebookId}
-                        setImageId={setImageId}
-                        currClassification={currClassification}
-                        setCurrClassification={setCurrClassification}
-                        setStage={setStage}>
-                        {' '}
-                    </Classifier>,
-
-                'ai-selection':
-                   <AISelection 
-                        setStage={setStage}
-                        currAiSelected={currAiSelected}
-                        setCurrAiSelected={setCurrAISelected}
-                    />,
-                
-                'annotate': 
-                    <div className={styles.container}>
-                        <AIAnnotator
-                            aiAnnotationList={aiAnnotationList}
-                            setAiAnnotationList={setAiAnnotationList}
-                            currImage={currImage}
-                            ebookId={ebookId}
-                            imageId={imageId} 
-                            aiChoice={currAiSelected}
-                        >
+                    start: (
+                        <div className={styles.start_msg}>
                             {' '}
-                        </AIAnnotator>
-                        <UserAnnotator 
-                            annotationList={userAnnotationList} 
-                            setAnnotationList={setUserAnnotationList}
+                            Please select an image to annotate.{' '}
+                        </div>
+                    ),
+
+                    classify: (
+                        <Classifier
                             currImage={currImage}
                             ebookId={ebookId}
-                            imageId={imageId}
                             setImageId={setImageId}
-                            existingAlt={existingAltText}
+                            currClassification={currClassification}
+                            setCurrClassification={setCurrClassification}
+                            setStage={setStage}>
+                            {' '}
+                        </Classifier>
+                    ),
+
+                    'ai-selection': (
+                        <AISelection
                             setStage={setStage}
+                            currAiSelected={currAiSelected}
+                            setCurrAiSelected={setCurrAISelected}
                         />
-                    </div>,
+                    ),
 
-                'overview' : 
-                    <div className={styles.overview}>
-                    <div className={styles.overview_info}>
-                        <br/>
-                        <strong> Classification: </strong> {currClassification}
-                        <br/>
-                    </div>
-                    <div className={styles.overview_info}>
-                        <strong> Image description: </strong> 
-                        {userAnnotationList[userAnnotationList.length - 1]}
-                    </div>
-                        <button type="button"
-                                    className={styles.restart_button}
-                                    onClick={() => {
-                                            setStage("classify")
-                                            setCurrClassification(null)
-                                            setCurrAISelected(null)
-                                            setAiAnnotationList([])
-                                            setUserAnnotationList([])
-                                            }}>
-                                    Restart image annotation
-                        </button>
-                    </div>
+                    annotate: (
+                        <div className={styles.container}>
+                            <AIAnnotator
+                                aiAnnotationList={aiAnnotationList}
+                                setAiAnnotationList={setAiAnnotationList}
+                                currImage={currImage}
+                                ebookId={ebookId}
+                                imageId={imageId}
+                                aiChoice={currAiSelected}>
+                                {' '}
+                            </AIAnnotator>
+                            <UserAnnotator
+                                annotationList={userAnnotationList}
+                                setAnnotationList={setUserAnnotationList}
+                                currImage={currImage}
+                                ebookId={ebookId}
+                                imageId={imageId}
+                                setImageId={setImageId}
+                                existingAlt={existingAltText}
+                                setStage={setStage}
+                            />
+                        </div>
+                    ),
 
+                    overview: (
+                        <div className={styles.overview}>
+                            <div className={styles.overview_info}>
+                                <br />
+                                <strong> Classification: </strong>{' '}
+                                {currClassification}
+                                <br />
+                            </div>
+                            <div className={styles.overview_info}>
+                                <strong> Image description: </strong>
+                                {
+                                    userAnnotationList[
+                                        userAnnotationList.length - 1
+                                    ]
+                                }
+                            </div>
+                            <button
+                                type="button"
+                                className={styles.restart_button}
+                                onClick={() => {
+                                    setStage('classify')
+                                    setCurrClassification(null)
+                                    setCurrAISelected(null)
+                                    setAiAnnotationList([])
+                                    setUserAnnotationList([])
+                                }}>
+                                Restart image annotation
+                            </button>
+                        </div>
+                    ),
                 }[stage]
             }
         </div>

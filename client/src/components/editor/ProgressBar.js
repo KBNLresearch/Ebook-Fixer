@@ -9,17 +9,23 @@ import styles from './ProgressBar.module.scss'
  * @param {SetStateAction} setStage Sets next stage in annotation process
  * @param {String} classification Classification stored for current image under annotation
  * @param {String[]} userAnnotations List of human annotations for current image under annotation
+ * @param {String} currAiSelected The AI that is currently selected, can be null if nothing is selected
  * @component
  * @returns The ProgressBar component
  */
-function ProgressBar({ currStage, setStage, classification, userAnnotations }) {
+function ProgressBar({
+    currStage,
+    setStage,
+    classification,
+    userAnnotations,
+    currAiSelected,
+}) {
     const classificationButtonRef = useRef(null)
     const aiSelectionButtonRef = useRef(null)
     const manualButtonRef = useRef(null)
     const reviewButtonRef = useRef(null)
 
     const root = document.querySelector(':root')
-    const colorCurrStage = 'lightgreen'
     const colorSavedStage = 'lightblue'
     const colorNextStage = '#b8c1c3'
 
@@ -28,9 +34,7 @@ function ProgressBar({ currStage, setStage, classification, userAnnotations }) {
      * @returns the corresponding CSS class for the 'Classify' button in progress bar
      */
     function getStyleClassification() {
-        if (currStage === 'classify') {
-            root.style.setProperty('--background_class', colorCurrStage)
-        } else if (classification !== null) {
+        if (classification !== null) {
             root.style.setProperty('--background_class', colorSavedStage)
         } else {
             root.style.setProperty('--background_class', colorNextStage)
@@ -43,12 +47,10 @@ function ProgressBar({ currStage, setStage, classification, userAnnotations }) {
      * @returns the corresponding CSS class for the 'AI' button in progress bar
      */
     function getStyleAi() {
-        if (currStage === 'ai-selection') {
-            root.style.setProperty('--background_ai', colorCurrStage)
+        if (currAiSelected !== null) {
+            root.style.setProperty('--background_ai', colorSavedStage)
         } else if (currStage === 'classify') {
             root.style.setProperty('--background_ai', colorNextStage)
-        } else {
-            root.style.setProperty('--background_ai', colorSavedStage)
         }
         return (
             styles.ai_step + ' ' + styles.left_arrow + ' ' + styles.right_arrow
@@ -60,9 +62,7 @@ function ProgressBar({ currStage, setStage, classification, userAnnotations }) {
      * @returns the corresponding CSS class for the 'Manual' button in progress bar
      */
     function getStyleManual() {
-        if (currStage === 'annotate') {
-            root.style.setProperty('--background_manual', colorCurrStage)
-        } else if (userAnnotations.length > 0) {
+        if (userAnnotations.length > 0) {
             root.style.setProperty('--background_manual', colorSavedStage)
         } else {
             root.style.setProperty('--background_manual', colorNextStage)
@@ -81,61 +81,42 @@ function ProgressBar({ currStage, setStage, classification, userAnnotations }) {
      * @returns the corresponding CSS class for the 'Save' button in progress bar
      */
     function getStyleReview() {
-        if (currStage === 'overview') {
-            root.style.setProperty('--background_check', colorCurrStage)
-        } else {
-            root.style.setProperty('--background_check', colorNextStage)
-        }
+        root.style.setProperty('--background_check', colorNextStage)
+
         return styles.review_step + ' ' + styles.left_arrow
     }
 
     /**
-     * Makes sure user returns to classification tab again
+     * A neat class to make it easier to edit / create stages
+     *
+     * @param {String} key The stage name / the key that identifies this stage
+     * @param {String} name The text displayed on the button of the stage
+     * @param {Function} className Getter for the classes for that button
+     * @param {ref} ref React reference to that button
+     * @returns
      */
-    function handleClassificationClick() {
-        setStage('classify')
-    }
-
-    /**
-     * Makes sure user returns to AI selection tab again
-     */
-    function handleAiClick() {
-        setStage('ai-selection')
-    }
-
-    /**
-     * Makes sure user returns to manual annotation (+ AI generation) tab again
-     */
-    function handleManualClick() {
-        setStage('annotate')
-    }
-
-    /**
-     * Makes sure user returns to overview tab
-     */
-    function handleReviewClick() {
-        setStage('overview')
-    }
-
-    function Stage(s, className, ref, handleClick) {
+    function Stage(key, name, className, ref) {
         return {
-            name: s,
+            key,
+            name,
             getClass: className,
             ref,
-            handleClick,
         }
     }
 
+    /**
+     * The list of stages that are part of the annotation process
+     */
     const stages = [
         Stage(
+            'classify',
             'Classification',
             getStyleClassification,
-            classificationButtonRef,
-            handleClassificationClick
+            classificationButtonRef
         ),
-        Stage('AI', getStyleAi, aiSelectionButtonRef, handleAiClick),
-        Stage('Manual', getStyleManual, manualButtonRef, handleManualClick),
-        Stage('Review', getStyleReview, reviewButtonRef, handleReviewClick),
+        Stage('ai-selection', 'AI', getStyleAi, aiSelectionButtonRef),
+        Stage('annotate', 'Manual', getStyleManual, manualButtonRef),
+        Stage('overview', 'Review', getStyleReview, reviewButtonRef),
     ]
 
     // Note that user can go back and forth to any step, unless not classified yet
@@ -144,11 +125,19 @@ function ProgressBar({ currStage, setStage, classification, userAnnotations }) {
             {stages.map((stage) => (
                 <button
                     type="button"
-                    className={stage.getClass()}
+                    className={
+                        styles.step +
+                        ' ' +
+                        stage.getClass() +
+                        ' ' +
+                        (currStage === stage.key ? styles.activeBtn : '')
+                    }
                     ref={stage.ref}
-                    key={stage.name}
+                    key={stage.key}
                     disabled={classification === null}
-                    onClick={stage.handleClick}>
+                    onClick={() => {
+                        setStage(stage.key)
+                    }}>
                     <span>{stage.name}</span>
                 </button>
             ))}
@@ -156,11 +145,16 @@ function ProgressBar({ currStage, setStage, classification, userAnnotations }) {
     )
 }
 
+ProgressBar.defaultProps = {
+    currAiSelected: null,
+}
+
 ProgressBar.propTypes = {
     currStage: PropTypes.string.isRequired,
     setStage: PropTypes.func.isRequired,
     classification: PropTypes.string.isRequired,
     userAnnotations: PropTypes.arrayOf(String).isRequired,
+    currAiSelected: PropTypes.string,
 }
 
 export default ProgressBar
