@@ -124,13 +124,13 @@ def azure_annotation_generation_view(request):
                                confidence=score))
 
         # Adds Azure's generated sentence to database
-        Annotation.objects.create(image=image,
-                                  type="BB_AZURE_SEN",
-                                  text=generated_sentence)
+        annotations.append(Annotation.objects.create(image=image,
+                           type="BB_AZURE_SEN",
+                           text=generated_sentence))
 
         annotations = list(map(lambda a: AnnotationSerializer(a).data, annotations))
 
-        return JsonResponse({"annotations": annotations, "sentence": generated_sentence},
+        return JsonResponse({"annotations": annotations},
                             status=status.HTTP_200_OK)
     else:
         return JsonResponse({'msg': 'Method Not Allowed!'},
