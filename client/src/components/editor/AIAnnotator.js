@@ -18,10 +18,10 @@ import { getGoogleAnnotation, getMicrosoftAnnotation} from '../../api/AnnotateIm
  * @component
  * @returns The AIAnnotator component
  */
-function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId, imageId, aiChoice}) {
+function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId, imageId, aiChoice,sentence, setSentence}) {
 
     const generateButtonRef = useRef(null)
-    const [sentence, setSentence] = useState("")
+
 
     useEffect(() => {
 
@@ -91,7 +91,7 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
             }
 
             switch(aiChoice) {
-                case 'Google Vision API':
+                case 'BB_GOOGLE_LAB':
                      getGoogleAnnotation(
                     ebookId,
                     imageId,
@@ -103,7 +103,7 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                 })
                 break
 
-                case 'Microsoft Azure Vision API':
+                case 'BB_AZURE_SEN':
                     // TODO: change API call when endpoints are updated
                     getMicrosoftAnnotation(
                         ebookId,
@@ -133,7 +133,7 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                 <div className={styles.ai_labels_box} id="AiLabelsBox"> 
                     {aiAnnotationList.map((obj) => (<p className={getProportionalClass(obj)}> {obj.text} </p>))} 
                 </div>
-                {aiChoice ==='Microsoft Azure Vision API' &&
+                {aiChoice === 'BB_AZURE_SEN' &&
                     <div>
                         <label htmlFor="AiSentenceBox" className={styles.box_label}> <br/> Generated description </label>
                         <div className={styles.ai_labels_box} id="AiSentenceBox">
@@ -157,6 +157,8 @@ AIAnnotator.propTypes = {
     ebookId: PropTypes.string.isRequired,
     imageId: PropTypes.string.isRequired,
     aiChoice: PropTypes.string.isRequired,
+    sentence: PropTypes.string.isRequired,
+    setSentence: PropTypes.func.isRequired,
 }
 
 export default AIAnnotator

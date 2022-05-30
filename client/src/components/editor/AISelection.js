@@ -21,7 +21,7 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
     // (needed for displaying the most recent AI annotation choice in Annotator.js)
     const options = [
         {keys: ['BB_GOOGLE_LAB'], val: 'Google Vision API'},
-        {keys: ['BB_AZURE_LAB', 'BB_AZURE_SEN'], val: 'Microsoft Azure Vision API'}
+        {keys: ['BB_AZURE_SEN'], val: 'Microsoft Azure Vision API'}
     ]
 
     useEffect(() => {
@@ -94,7 +94,7 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
                 Select AI
             </option>
             {options.map((opt) => (
-                <option value={opt.val}> {opt.val} </option>
+                <option value={opt.keys} key={opt.keys}> {opt.val} </option>
             ))}
         </select>
         <button

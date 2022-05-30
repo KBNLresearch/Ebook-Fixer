@@ -31,6 +31,7 @@ function Annotator({ currImage, ebookId }) {
     // TODO: could be used to get the annotation history
     const [aiAnnotationList, setAiAnnotationList] = useState([])
     const [userAnnotationList, setUserAnnotationList] = useState([])
+    const [sentence, setSentence] = useState("")
 
 
     // Executed every time the currentImage changes
@@ -45,6 +46,7 @@ function Annotator({ currImage, ebookId }) {
             setCurrAISelected(null)
             setAiAnnotationList([])
             setUserAnnotationList([])
+            setSentence("")
             
             // Save existing alt-text of image
             if (currImage) {
@@ -90,9 +92,12 @@ function Annotator({ currImage, ebookId }) {
                     // TODO: distinguish between different AIs (have separate lists for labels and descriptions)
                     const aiLabels = result.annotations.filter(el => el.type !== 'HUM')
                     if (aiLabels.length > 0) {
+                        const mostRecentAiChoice = aiLabels[aiLabels.length - 1].type
+                        setSentence(aiLabels.pop().text)
                         setAiAnnotationList(aiLabels)
                         // Get the most recent AI choice to display
-                        const mostRecentAiChoice = aiLabels[aiLabels.length - 1].type
+
+                        console.log(mostRecentAiChoice)
                         setCurrAISelected(mostRecentAiChoice)
                     }
                 }    
@@ -158,6 +163,8 @@ function Annotator({ currImage, ebookId }) {
                             ebookId={ebookId}
                             imageId={imageId} 
                             aiChoice={currAiSelected}
+                            sentence={sentence}
+                            setSentence={setSentence}
                         >
                             {' '}
                         </AIAnnotator>
