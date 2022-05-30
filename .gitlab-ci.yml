@@ -135,7 +135,6 @@ push-container:
   before_script:
     - chmod u+x wait.sh && ./wait.sh
     - docker info
-    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
     - cd server
     - docker login -u $DIGITAL_OCEAN_TOKEN -p $DIGITAL_OCEAN_TOKEN $DIGITAL_OCEAN_REGISTRY
