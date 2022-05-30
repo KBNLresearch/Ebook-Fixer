@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 from os import environ, path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,6 +33,15 @@ certificate = environ.get('MONGO_DB_CA_CERT')
 if certificate is not None and not path.isfile(certificate):
     with open(certificate, 'w') as file:
         file.write(environ.get('CA_CERTIFICATE', ''))
+
+# Add your (Azure) Computer Vision subscription key and endpoint to your environment variables.
+if 'COMPUTER_VISION_SUBSCRIPTION_KEY' not in os.environ:
+    with open("azure-key.txt", 'r') as file:
+        os.environ['COMPUTER_VISION_SUBSCRIPTION_KEY'] = file.read()
+
+if 'COMPUTER_VISION_ENDPOINT' not in os.environ:
+    # if no endpoint is set, just use the default endpoint
+    os.environ['COMPUTER_VISION_ENDPOINT'] = 'https://ebooks.cognitiveservices.azure.com/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
