@@ -1,7 +1,6 @@
 from .serializers import AnnotationSerializer
 from .models import Annotation
-from .utils import check_request_body, google_vision_labels
-from .utils import azure_api_call
+from .utils import check_request_body, google_vision_labels, azure_api_call
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
@@ -74,7 +73,7 @@ def google_annotation_generation_view(request):
 @csrf_exempt
 def azure_annotation_generation_view(request):
     """ Receives the metadata for an image and sends
-    a request to AZURE VISON AI to generate annotation for it
+    a request to AZURE VISION AI to generate annotation for it
     The annotations for save in the database.
 
     Args:
@@ -89,7 +88,7 @@ def azure_annotation_generation_view(request):
         if type(body) == JsonResponse:
             return body
         image = body[0]
-        image_path = f"test-books/{image.ebook}/{image.filename}"
+        image_path = f"test-books/{image.ebook.uuid}{image.filename}"
 
         # Check if annotation for given type already exists in the database
         existing_annotations = [
