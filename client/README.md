@@ -1,6 +1,18 @@
-# Getting Started with Create React App
+# Fixing E-Books Client Side
 
+This is the main User Interface for the app.
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Getting started
+
+To just run our app, follow the instructions in the main README file in the root of the project to launch it with docker.
+
+This is a great solution for showing a demo, but for development you could choose a different workflow, such as this:
+
+-   Have the backend & database running in docker
+-   Have the front end running natively so that hot reloading is available (your changes can be seeen right after you save)
+
+To achieve something like that, you have to install `npm` and run `npm install` in the `/client` directory to install all the packages required for the project. Then you can use `npm start` which is described below:
 
 ## Available Scripts
 
@@ -29,15 +41,28 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+### `npm run lint`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Runs [ESLint](https://eslint.org/) to lint and check the correctness of the code. Generates a report in console.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### `npm run lint:fix`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Runs [ESLint](https://eslint.org/) with the `--fix` parameter to automatically fix issues with the code that can be fixed automatically.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### `npm run format`
+
+Runs [Prettier](https://prettier.io/) to automatically reformat all the code in `./src` to the format specified in our `package.json`.
+
+### `npm run docs`
+
+Runs [JSDoc](https://jsdoc.app/index.html) generate pretty documentation in the `/docs/client` folder (from the root of the project).
+
+## Recommended Development Environment
+
+We recommend using [Visual Studio Code](https://code.visualstudio.com/) as it's well suited to front-end development. Make sure you have the following plugins installed for the right styling and linting to be applied during development:
+
+-   [Prettier on the VS Code marketplace](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+-   [ESLint on the VS Code marketplace](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
 ## Learn More
 
@@ -53,10 +78,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/c
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
 ### Advanced Configuration
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
@@ -64,7 +85,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/a
 ### Deployment
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

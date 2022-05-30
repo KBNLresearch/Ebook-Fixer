@@ -2,34 +2,118 @@
     display: flex;
     flex-direction: column;
     padding: 0.5rem;
-    align-items: flex-end;
+    gap: 1em;
+    align-items: center;
     width: 100%;
     box-sizing: border-box;
     flex-grow: 1;
+    position: relative;
 
-    .user_input {
-        width: 100%;
-        height: 10em;
+    .start_msg {
         position: relative;
     }
-    .ai_input {
+
+    .user_control {
         width: 100%;
-        height: 7em;
+        height: 100%;
         position: relative;
-        textarea {
-            border-color: rgb(117, 124, 132);
-            &:focus {
-                background-color: black;
-            }
-        }
-        .icon {
-            padding: 0.2em;
-            &:disabled {
-                background-color: rgb(171, 178, 186);
-                cursor: auto;
-            }
+        gap: 5em;
+        text-align: right;
+    }
+
+    .existing_alt {
+        max-width: 50em;
+        font-size: 80%;
+        strong {
+            font-weight: bold;
         }
     }
+
+    .ai_control {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        gap: 1em;
+        text-align: right;
+    }
+    
+    .ai_labels_box {
+        width: 100%;
+        height: fit-content;
+        border-radius: 0.5em;
+        border: 0.2em solid rgb(117, 124, 132);
+        padding: 0.3em;
+        box-sizing: border-box;
+        resize: none;
+        font-size: inherit;
+        outline: none;
+        font-family: 'Times New Roman', Times, serif;
+        text-align: left;
+        // .icon {
+        //     padding: 0.2em;
+        //     &:disabled {
+        //         background-color: rgb(171, 178, 186);
+        //         cursor: auto;
+        //     }
+        // }
+        .conf_zero {
+            display: inline;
+            font-size: 50%;
+            padding: 0.5em;
+        }
+        .conf_one {
+            display: inline;
+            font-size: 55%;
+            padding: 0.5em;
+        }
+        .conf_two {
+            display: inline;
+            font-size: 60%;
+            padding: 0.5em;
+        }
+        .conf_three {
+            display: inline;
+            font-size: 65%;
+            padding: 0.5em;
+        }
+        .conf_four {
+            font-size: 70%;
+            padding: 0.5em;
+        }
+        .conf_five {
+            display: inline;
+            font-size: 75%;
+            padding: 0.5em;
+        }
+        .conf_six {
+            display: inline;
+            font-size: 80%;
+            padding: 0.5em;
+        }
+        .conf_seven {
+            display: inline;
+            font-size: 100%;
+            padding: 0.5em;
+        }
+        .conf_eight {
+            display: inline;
+            font-size: 120%;
+            padding: 0.5em;
+        }
+        .conf_nine {
+            display: inline;
+            font-size: 140%;
+            padding: 0.5em;
+        }
+    }
+
+    .box_label {
+        font-size: 95%;
+        text-align: right;
+        font-weight: bold
+    }
+    
+
     .dropdown {
         width: 60%;
         height: 2em;
@@ -39,7 +123,7 @@
 
     textarea {
         width: 100%;
-        height: 100%;
+        height: 60%;
         border-radius: 0.5em;
         border: 0.2em solid skyblue;
         padding: 0.3em;
@@ -52,11 +136,37 @@
 
     button.save_button {
         font-family: inherit;
+        font-size: 80%;
         margin-top: 0.2em;
         background-color: #27ce51;
         border: 0.2em solid #ccc;
         transition: border-color 0.2s ease, background-color 0.2s ease;
         padding: 0.5em 0.7em;
+        visibility: visible;
+
+        &:hover {
+            background-color: #2ebf50;
+            border-color: #eee;
+        }
+        &:disabled {
+            background-color: #b8c3b8;
+            border-color: #eee;
+            cursor: default;
+        }
+    }
+
+    button.restart_button {
+        font-family: inherit;
+        font-size: 80%;
+        margin-top: 0.2em;
+        background-color: #27ce51;
+        border: 0.2em solid #ccc;
+        transition: border-color 0.2s ease, background-color 0.2s ease;
+        padding: 0.5em 0.7em;
+        visibility: visible;
+        position: absolute;
+        left: 7em;
+        top: 10em;
 
         &:hover {
             background-color: #2ebf50;
@@ -95,18 +205,21 @@
         width: 100%;
         height: 10em;
         position: relative;
+        text-align: left;
         strong {
             font-weight: bold;
-            font-size: larger;
-        }    
+            font-size: 90%;
+        }   
     }
 
     .overview_info {
-        padding-top: 2em;
-        padding-bottom: 2em;
+        font-size: 90%;
+        padding-top: 1em;
+        padding-bottom: 1em;
     }
 }
 
 .transparent {
     opacity: 0.3;
 }
+

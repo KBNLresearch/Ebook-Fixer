@@ -1,10 +1,13 @@
 /**
  * sends a POST request to server to save the annotation made by the user
+ *
+ * @category API
  * @param {String} ebookId id of ebook in database
  * @param {String} imageId id of image in database
  * @param {String} filen file name of image
  * @param {String} txt that user typed
  * @returns response to the request
+ * @see Server Documentation for description of request & response
  */
 
 export function saveUserAnnotation(ebookId, imageId, fileName, txt) {
@@ -38,37 +41,35 @@ export function saveUserAnnotation(ebookId, imageId, fileName, txt) {
 
 
 export function  getAiAnnotation(ebookId, imageId, fileName) {
-    return fetch(process.env.REACT_APP_API_URL + 'annotations/generate/', {
+    return fetch(process.env.REACT_APP_API_URL + 'annotations/generate/google/', {
         method: 'PUT',
         headers: {
-        'Accept' : 'application/json',
-        'Content-Type' : 'application/json',
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            "id" : imageId,
-            "ebook" : ebookId,
-            "filename": fileName
-        })
-    }).then((res) => {
-        if(res.ok ) {
-            return  res.json()
-        }
-        
-        throw new Error(res.status + ", message: " + res.statusText)
-    }) // if it's in json format
-      .then(
-          (result) => {
-            console.log(result);
-            return result
-        },
-        // Error handling
-          (error) => {
-            window.alert(
-                "error! Please try again."
-            )
-            console.log(error);
-            throw error;
-        }
-      )
+            id: imageId,
+            ebook: ebookId,
+            filename: fileName,
+        }),
+    })
+        .then((res) => {
+            if (res.ok) {
+                return res.json()
+            }
 
+            throw new Error(res.status + ', message: ' + res.statusText)
+        }) // if it's in json format
+        .then(
+            (result) => {
+                console.log(result)
+                return result
+            },
+            // Error handling
+            (error) => {
+                window.alert('error! Please try again.')
+                console.log(error)
+                throw error
+            }
+        )
 }

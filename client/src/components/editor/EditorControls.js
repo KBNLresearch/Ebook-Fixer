@@ -6,14 +6,15 @@ import styles from './Editor.module.scss'
 import { getImgFilename } from '../../helpers/EditImageHelper'
 
 /**
- * The controls for the editor
+ * The EditorControls component handles the controls for the editor. 
  * Right now these are a bunch of buttons that scroll pictures from the book into view
- * These are passed as children via props
+ * These are passed as children via props.
  *
- * @param {{imageList: List of Images}} props currently loaded images
- * @param {{getImage: Function}} props  retrieves the image element from the rendition with the index and imagelist provided
- * @param {{rendition: Render object from ePubJS}} props
- * @param {{setCurrentImage: SetStateAction}} props function for setting the image that is currently being annotated
+ * @param {ImageInfo[]} imageList List of images that epubJS found in the ebook
+ * @param {Function} getImage Retrieves the image element from the rendition with the index and imagelist provided
+ * @param {external:Render} rendition Render object from ePubJS
+ * @param {external:SetStateAction} setCurrentImage Updates the image that is currently being annotated
+ * @component
  * @returns The EditorControls component
  */
 function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
@@ -49,8 +50,11 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
                 // Alert the user that this link doesn't point to an image
                 alert("The image with that name wasn't found in this book!")
             }
+        } else if (!imgFilename && currentImageIndex > -1) {
+            setCurrentImageIndex(-1)
+            setCurrentImage(null)
         }
-    }, [imageList])
+    }, [imageList, imgFilename])
 
     // Gets the next index
     function nextIndex() {

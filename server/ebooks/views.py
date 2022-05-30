@@ -8,23 +8,22 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.datastructures import MultiValueDictKeyError
 from rest_framework import status
 import uuid
-import environ
+import os
 
 
-env = environ.Env()
-environ.Env.read_env()
-mode = env('GITHUB_MODE')
+mode = os.environ.get('GITHUB_MODE', 'production')
 
 
 def ebook_detail_view(request, uuid):
-    """ The GET endpoint for an ebook instance
+    """ The GET endpoint for fetching metadata of an ebook instance
 
     Args:
         request (request object): The request object
-        uuid (uuid): The UUID of an already uploaded ebook
+            - uuid (str): The UUID of an already uploaded ebook (URL param)
 
     Returns:
         JsonResponse: Response object sent to the client side
+            - .epub (File) (without human annotations injected)
     """
     if request.method == "GET":
         try:
@@ -40,14 +39,15 @@ def ebook_detail_view(request, uuid):
 
 
 def ebook_download_view(request, uuid):
-    """ Endpoint for zipping the ebook with given uuid from storage and returns the epub
+    """ GET endpoint for zipping the ebook with given uuid from storage and returns the epub
 
     Args:
         request (request object): The request object
-        uuid (str): The UUID of an already uploaded ebook
+            - uuid (str): The UUID of an already uploaded ebook (URL param)
 
     Returns:
         JsonResponse: Response object sent to the client side
+            - .epub (File) with human annotations injected
     """
     if request.method == "GET":
         try:
@@ -65,7 +65,7 @@ def ebook_download_view(request, uuid):
         # Inject image annotations into the html files
         inject_image_annotations(str(uuid), images, annotations)
         # Push new contents to GitHub if mode is 'production'
-        if mode == "production":
+        if mode == "development":
             message = f"Download {uuid}"
             push_epub_folder_to_github(str(uuid), message)
 
@@ -77,6 +77,7 @@ def ebook_download_view(request, uuid):
             with open(zip_file_name, 'rb') as file:
                 response = HttpResponse(file, content_type='application/epub+zip')
                 response['Content-Disposition'] = f'attachment; filename={zip_file_name}'
+                os.remove(zip_file_name)
                 return response
         except FileNotFoundError:
             return JsonResponse({'msg': f'Files for ebook with uuid {uuid} not found! '
@@ -89,14 +90,17 @@ def ebook_download_view(request, uuid):
 
 @csrf_exempt
 def ebook_upload_view(request):
-    """ Takes the epub from the request and unzips it under test-books/{uuid}/
+    """ POST endpoint for taking the uploaded epub from the request
+        and unzipping it under test-books/{uuid}/
 
         Args:
-            request (request object): client request
+            request (request object): The request object
+                - epub: .epub file uploaded by user (body)
 
         Returns:
             JSONResponse: Response object sent to client
-            containing the uuid for the newly created ebook
+                - uuid (str): id generated for new ebook entry
+                - title (str): extracted title of uploaded ebook
     """
     if request.method == "POST":
         # Generate random uuid for new ebook instance
@@ -120,7 +124,7 @@ def ebook_upload_view(request):
             try:
                 ebook_title = unzip_ebook(book_uuid, epub_name)
                 # Push unzipped contents to GitHub
-                if mode == "production":
+                if mode == "development":
                     message = f"Upload {book_uuid}"
                     push_epub_folder_to_github(book_uuid, message)
             except FileNotFoundError:
