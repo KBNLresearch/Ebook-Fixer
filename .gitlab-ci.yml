@@ -136,7 +136,6 @@ push-container:
     - chmod u+x wait.sh && ./wait.sh
     - docker info
   script:
-    - cd server
     - docker login -u $DIGITAL_OCEAN_TOKEN -p $DIGITAL_OCEAN_TOKEN $DIGITAL_OCEAN_REGISTRY
-    - docker build -t $DIGITAL_OCEAN_REGISTRY/$DIGITAL_OCEAN_REPOSITORY:latest .
-    - docker push $DIGITAL_OCEAN_REGISTRY/$DIGITAL_OCEAN_REPOSITORY:latest
+    - docker build -t $DIGITAL_OCEAN_REGISTRY/$DIGITAL_OCEAN_REPOSITORY/server:latest server/
+    - docker push $DIGITAL_OCEAN_REGISTRY/$DIGITAL_OCEAN_REPOSITORY/server:latest
