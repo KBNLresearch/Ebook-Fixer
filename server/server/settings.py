@@ -27,8 +27,11 @@ if google_credentials is None:
         "./arcane-pillar-349913-6276b9f35040.json"
 # Add your (Azure) Computer Vision subscription key and endpoint to your environment variables.
 if 'COMPUTER_VISION_SUBSCRIPTION_KEY' not in os.environ:
-    with open("azure-key.txt", 'r') as file:
-        os.environ['COMPUTER_VISION_SUBSCRIPTION_KEY'] = file.read()
+    if path.isfile("azure-key.txt"):
+        with open("azure-key.txt", 'r') as file:
+            os.environ['COMPUTER_VISION_SUBSCRIPTION_KEY'] = file.read()
+    else:
+        os.environ['COMPUTER_VISION_SUBSCRIPTION_KEY'] = ""
 
 if 'COMPUTER_VISION_ENDPOINT' not in os.environ:
     # if no endpoint is set, just use the default endpoint
