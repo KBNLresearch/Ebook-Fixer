@@ -1,5 +1,4 @@
 env/
-client/.env
 
 # Volumes
 data-db/
