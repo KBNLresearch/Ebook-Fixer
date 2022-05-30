@@ -40,8 +40,43 @@ export function saveUserAnnotation(ebookId, imageId, fileName, txt) {
 }
 
 
-export function  getAiAnnotation(ebookId, imageId, fileName) {
+export function  getGoogleAnnotation(ebookId, imageId, fileName) {
     return fetch(process.env.REACT_APP_API_URL + 'annotations/generate/google/', {
+        method: 'PUT',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id: imageId,
+            ebook: ebookId,
+            filename: fileName,
+        }),
+    })
+        .then((res) => {
+            if (res.ok) {
+                return res.json()
+            }
+
+            throw new Error(res.status + ', message: ' + res.statusText)
+        }) // if it's in json format
+        .then(
+            (result) => {
+                console.log(result)
+                return result
+            },
+            // Error handling
+            (error) => {
+                window.alert('error! Please try again.')
+                console.log(error)
+                throw error
+            }
+        )
+}
+
+
+export function  getMicrosoftAnnotation(ebookId, imageId, fileName) {
+    return fetch(process.env.REACT_APP_API_URL + 'annotations/generate/azure/', {
         method: 'PUT',
         headers: {
             Accept: 'application/json',

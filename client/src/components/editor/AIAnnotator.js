@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import styles from './Annotator.module.scss'
 import { ImageInfo } from '../../helpers/EditorHelper'
 import { getImgFilename } from '../../helpers/EditImageHelper'
-import { getAiAnnotation } from '../../api/AnnotateImage'
+import { getGoogleAnnotation, getMicrosoftAnnotation} from '../../api/AnnotateImage'
 
 /**
  * The AIAnnotator handles generating AI image descriptions / labels
@@ -91,7 +91,7 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
 
             switch(aiChoice) {
                 case 'Google Vision API':
-                     getAiAnnotation(
+                     getGoogleAnnotation(
                     ebookId,
                     imageId,
                     getImgFilename(currImage)
@@ -104,7 +104,7 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
 
                 case 'Microsoft Azure Vision API':
                     // TODO: change API call when endpoints are updated
-                    getAiAnnotation(
+                    getMicrosoftAnnotation(
                         ebookId,
                         imageId,
                         getImgFilename(currImage)
