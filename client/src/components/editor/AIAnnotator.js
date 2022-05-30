@@ -21,6 +21,7 @@ import { getGoogleAnnotation, getMicrosoftAnnotation} from '../../api/AnnotateIm
 function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId, imageId, aiChoice}) {
 
     const generateButtonRef = useRef(null)
+    const [sentence, setSentence] = useState("")
 
     useEffect(() => {
 
@@ -110,6 +111,7 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                         getImgFilename(currImage)
                     ) .then(result => {
                         if (Object.prototype.hasOwnProperty.call(result, "annotations")){
+                                setSentence(result.annotations.pop().text)
                                 setAiAnnotationList(result.annotations)
                            }
                     })
@@ -135,7 +137,7 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                     <div>
                         <label htmlFor="AiSentenceBox" className={styles.box_label}> <br/> Generated description </label>
                         <div className={styles.ai_labels_box} id="AiSentenceBox">
-                            MY SENTENCE
+                            {sentence}
                         </div>
                     </div>}
                 <button type="button"
