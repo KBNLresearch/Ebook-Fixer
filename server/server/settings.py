@@ -19,11 +19,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/test-books/'
 MEDIA_ROOT = path.join(BASE_DIR, 'test-books')
 
+
 # For development:
 google_credentials = environ.get('GOOGLE_APPLICATION_CREDENTIALS')
 if google_credentials is None:
     environ['GOOGLE_APPLICATION_CREDENTIALS'] = google_credentials = \
         "./arcane-pillar-349913-6276b9f35040.json"
+# Add your (Azure) Computer Vision subscription key and endpoint to your environment variables.
+if 'COMPUTER_VISION_SUBSCRIPTION_KEY' not in os.environ:
+    with open("azure-key.txt", 'r') as file:
+        os.environ['COMPUTER_VISION_SUBSCRIPTION_KEY'] = file.read()
+
+if 'COMPUTER_VISION_ENDPOINT' not in os.environ:
+    # if no endpoint is set, just use the default endpoint
+    os.environ['COMPUTER_VISION_ENDPOINT'] = 'https://ebooks.cognitiveservices.azure.com/'
+
 
 # For automatic deployment:
 if not path.isfile(google_credentials):
@@ -34,14 +44,6 @@ if certificate is not None and not path.isfile(certificate):
     with open(certificate, 'w') as file:
         file.write(environ.get('CA_CERTIFICATE', ''))
 
-# Add your (Azure) Computer Vision subscription key and endpoint to your environment variables.
-if 'COMPUTER_VISION_SUBSCRIPTION_KEY' not in os.environ:
-    with open("azure-key.txt", 'r') as file:
-        os.environ['COMPUTER_VISION_SUBSCRIPTION_KEY'] = file.read()
-
-if 'COMPUTER_VISION_ENDPOINT' not in os.environ:
-    # if no endpoint is set, just use the default endpoint
-    os.environ['COMPUTER_VISION_ENDPOINT'] = 'https://ebooks.cognitiveservices.azure.com/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
