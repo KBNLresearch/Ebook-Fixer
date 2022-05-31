@@ -1,5 +1,7 @@
-from django.urls import path
 from .views import annotation_generation_view, annotation_save_view
+
+from django.urls import path
+
 
 app_name = 'annotations'
 urlpatterns = [

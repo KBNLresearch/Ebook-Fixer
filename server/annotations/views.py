@@ -1,6 +1,7 @@
-from .serializers import AnnotationSerializer
 from .models import Annotation
+from .serializers import AnnotationSerializer
 from .utils import check_request_body, google_vision_labels
+
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status

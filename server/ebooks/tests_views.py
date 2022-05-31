@@ -1,13 +1,15 @@
-from django.contrib.auth.models import AnonymousUser
-from django.test import RequestFactory, TestCase
-from uuid import uuid4
-from unittest.mock import patch
-from .views import ebook_download_view, ebook_upload_view
-from .models import Ebook
-from .serializers import EbookSerializer
 import os
 import shutil
+
+from .models import Ebook
+from .serializers import EbookSerializer
+from .views import ebook_download_view, ebook_upload_view
+
+from django.contrib.auth.models import AnonymousUser
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import RequestFactory, TestCase
+from unittest.mock import patch
+from uuid import uuid4
 
 
 mocked_uuid = uuid4()

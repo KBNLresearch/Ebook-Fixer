@@ -1,5 +1,6 @@
-from rest_framework import serializers
 from .models import Ebook
+
+from rest_framework import serializers
 
 
 class EbookSerializer(serializers.ModelSerializer):

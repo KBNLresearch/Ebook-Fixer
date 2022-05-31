@@ -1,8 +1,9 @@
+from .models import Ebook
+from .utils import check_ebook, process_ebook
+
 from django.test import TestCase
 from unittest.mock import patch
 from uuid import uuid4
-from .models import Ebook
-from .utils import check_ebook, process_ebook
 
 
 class MockedMessage:

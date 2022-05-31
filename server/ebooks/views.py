@@ -1,20 +1,22 @@
-from .serializers import EbookSerializer
+import os
+import uuid
+
 from .models import Ebook
+from .serializers import EbookSerializer
 from .utils import (
     inject_image_annotations,
     zip_ebook,
     push_epub_folder_to_github,
     process_ebook
 )
-from images.models import Image
 from annotations.models import Annotation
+from images.models import Image
+
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.datastructures import MultiValueDictKeyError
 from rest_framework import status
 from _thread import start_new_thread
-import os
-import uuid
 
 
 mode = os.environ.get('GITHUB_MODE', 'production')

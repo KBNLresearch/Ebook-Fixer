@@ -1,12 +1,14 @@
-from django.test import TestCase
-from uuid import uuid4
-from unittest.mock import patch
 import os
 import shutil
-from .utils import inject_image_annotations, unzip_ebook
+
 from .models import Ebook
-from images.models import Image
+from .utils import inject_image_annotations, unzip_ebook
 from annotations.models import Annotation
+from images.models import Image
+
+from django.test import TestCase
+from unittest.mock import patch
+from uuid import uuid4
 
 
 def mock_zip(filepath, rule):

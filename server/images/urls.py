@@ -1,5 +1,6 @@
-from django.urls import path
 from .views import image_details_view, image_classification_view
+
+from django.urls import path
 
 
 app_name = 'images'

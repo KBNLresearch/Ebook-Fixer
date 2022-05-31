@@ -1,13 +1,15 @@
 import json
-from django.contrib.auth.models import AnonymousUser
-from django.test import RequestFactory, TestCase
-from django.http import JsonResponse
-from ebooks.models import Ebook
-from annotations.models import Annotation
-from uuid import uuid4
-from .views import image_details_view, image_classification_view
+
 from .models import Image
-from.serializers import ImageSerializer
+from .serializers import ImageSerializer
+from .views import image_details_view, image_classification_view
+from annotations.models import Annotation
+from ebooks.models import Ebook
+
+from django.contrib.auth.models import AnonymousUser
+from django.http import JsonResponse
+from django.test import RequestFactory, TestCase
+from uuid import uuid4
 
 
 def decode_message(msg):

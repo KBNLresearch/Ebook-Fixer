@@ -1,10 +1,11 @@
 import os
-from bs4 import BeautifulSoup
 import shutil
-from zipfile import ZipFile
 import subprocess
-from pathlib import Path
+
+from bs4 import BeautifulSoup
 from epubcheck import EpubCheck
+from pathlib import Path
+from zipfile import ZipFile
 
 
 def inject_image_annotations(ebook_uuid, images, annotations):
@@ -195,7 +196,7 @@ def process_ebook(ebook):
 
     ebook.title = ebook_title
     ebook.state = 'CONVERTING'
-    ebook.save(update_fields=["title", "checker_issues"])
+    ebook.save(update_fields=["title", "state"])
 
     # TODO: CONVERT TO EPUB3
     # TODO: MAKE ACCESSIBLE
