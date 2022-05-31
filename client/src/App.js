@@ -1,7 +1,7 @@
 import { Routes, Route, Link } from 'react-router-dom'
 import './App.scss'
 import { useState } from 'react'
-import FileUpload from './components/FileUpload'
+import FileUpload from './components/epubfiles/FileUpload'
 import Editor from './components/editor/Editor'
 import { ReactComponent as GoBackArrowSVG } from './assets/svgs/go-back-arrow.svg'
 import logo from './assets/svgs/logo.svg'
@@ -31,14 +31,17 @@ function App() {
                     <Route
                         path="/"
                         element={
-                        <div>
-                            <img alt="" className="logo" src={logo} />
-                            <h1 className="logo_title"> E-BOOK FIXER </h1>
-                            <h2 className="logo_subtitle"> Improve image descriptions for ePubs! </h2>
-                            <br/>
-                            <br/>
-                        </div>
-                    }
+                            <div>
+                                <img alt="" className="logo" src={logo} />
+                                <h1 className="logo_title"> E-BOOK FIXER </h1>
+                                <h2 className="logo_subtitle">
+                                    {' '}
+                                    Improve image descriptions for ePubs!{' '}
+                                </h2>
+                                <br />
+                                <br />
+                            </div>
+                        }
                     />
                     <Route
                         path="*"

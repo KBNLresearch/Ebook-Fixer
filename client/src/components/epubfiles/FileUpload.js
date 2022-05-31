@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link, useNavigate } from 'react-router-dom'
-import { sendFile } from '../api/SendFile'
+import { sendFile } from '../../api/SendFile'
 import styles from './FileUpload.module.css'
-import { ReactComponent as UploadSVG } from '../assets/svgs/upload-sign.svg'
+import { ReactComponent as UploadSVG } from '../../assets/svgs/upload-sign.svg'
 
 // Tests that drag and drop features and File reading are available
 // in the user's browser. The code will use a workaround if they're not.
@@ -33,7 +33,6 @@ let droppedFile = null
  * @param {SetStateAction} setEbookTitle Updates the current e-book title
  * @component
  * @returns The FileUpload component, ready for rendering.
- * @component
  */
 function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
     // State of this component:
@@ -179,14 +178,14 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                         setEbookId(result.book_id)
                         setTimeout(() => {
                             navigate(`/ebook/${result.book_id}`)
-                        }, 3000)
+                        }, 2000)
                     }
                     if (Object.prototype.hasOwnProperty.call(result, 'title')) {
-                        const {title} = result
+                        const { title } = result
                         if (title.length <= 75) {
                             setEbookTitle(title)
                         } else {
-                            setEbookTitle(title.slice(0, 72) + "...")
+                            setEbookTitle(title.slice(0, 72) + '...')
                         }
                     }
                     setStatus('success')
@@ -264,7 +263,7 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                 className={
                     status === 'success' ? styles.success : styles.hidden
                 }>
-                Done! Redirecting to editor...
+                Uploaded!
             </div>
             <div className={status === 'error' ? styles.error : styles.hidden}>
                 Error! Please try again!
