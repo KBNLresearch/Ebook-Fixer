@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { sendFile } from '../../api/SendFile'
 import styles from './FileUpload.module.css'
 import { ReactComponent as UploadSVG } from '../../assets/svgs/upload-sign.svg'
+import FetchWithStatus from './FetchWithStatus'
 
 // Tests that drag and drop features and File reading are available
 // in the user's browser. The code will use a workaround if they're not.
@@ -44,6 +45,8 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
     const [filename, setFilename] = useState('')
     // Status when the user uploads a file
     const [status, setStatus] = useState('')
+    // File id from uploading
+    const [fileId, setFileId] = useState('')
 
     // A reference to the form that is returned below,
     // Used for adding event listeners to it.
@@ -176,9 +179,7 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                         Object.prototype.hasOwnProperty.call(result, 'book_id')
                     ) {
                         setEbookId(result.book_id)
-                        setTimeout(() => {
-                            navigate(`/ebook/${result.book_id}`)
-                        }, 2000)
+                        setFileId(result.book_id)
                     }
                     if (Object.prototype.hasOwnProperty.call(result, 'title')) {
                         const { title } = result
@@ -188,7 +189,6 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                             setEbookTitle(title.slice(0, 72) + '...')
                         }
                     }
-                    setStatus('success')
                 })
                 .catch((error) => {
                     setUploading(false)
@@ -263,7 +263,7 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                 className={
                     status === 'success' ? styles.success : styles.hidden
                 }>
-                Uploaded!
+                Uploaded! Redirecting to Editor
             </div>
             <div className={status === 'error' ? styles.error : styles.hidden}>
                 Error! Please try again!
@@ -276,6 +276,20 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                 <br />
                 Please submit an epub file.
             </div>
+            {fileId === '' ? (
+                ''
+            ) : (
+                <FetchWithStatus
+                    fileId={fileId}
+                    setEbookFile={(file) => {
+                        setEbookFile(file)
+                        setStatus('success')
+                        setTimeout(() => {
+                            navigate(`/ebook/${fileId}`)
+                        }, 2000)
+                    }}
+                />
+            )}
         </form>
     )
 }

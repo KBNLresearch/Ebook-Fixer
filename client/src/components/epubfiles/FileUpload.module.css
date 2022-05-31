@@ -34,7 +34,7 @@ div.error {
     outline: 0.2em dashed black;
     outline-offset: -10px;
     transition: background-color 0.5s ease, outline-offset 0.5s ease,
-        outline 0.5s ease;
+        outline 0.5s ease, height 0.5s ease;
 }
 .box.dragging {
     background-color: skyblue;

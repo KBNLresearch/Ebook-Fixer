@@ -38,13 +38,22 @@ export function getFileBlob(fileId) {
         })
 }
 
-export async function pollForFile(fileId, processStatusFunc) {
-    const file = await getFileBlob(fileId)
-    if (file.status) {
-        // Process status
-        console.log(file)
-        processStatusFunc(file.status)
-        return setTimeout(() => pollForFile(fileId, processStatusFunc), 1000)
-    }
-    return file
+export function pollForFile(fileId, processStatusFunc) {
+    processStatusFunc('Polling...')
+    processStatusFunc('Polling...')
+    return getFileBlob(fileId)
+        .then((file) => {
+            if (file.status) {
+                // Process status
+                console.log(file)
+                processStatusFunc(file.status)
+                setTimeout(() => pollForFile(fileId, processStatusFunc), 1000)
+            } else {
+                return file
+            }
+        })
+        .catch((err) => {
+            processStatusFunc(err.message)
+            throw err
+        })
 }
