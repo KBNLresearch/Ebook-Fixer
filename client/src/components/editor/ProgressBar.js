@@ -1,4 +1,3 @@
-import { useRef } from 'react'
 import PropTypes from 'prop-types'
 import styles from './ProgressBar.module.scss'
 
