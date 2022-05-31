@@ -22,7 +22,7 @@ import ProgressBar from './ProgressBar'
 
 function Annotator({ currImage, ebookId }) {
 
-    const [stage, setStage] = useState("")
+    const [stage, setStage] = useState(null)
     const [imageId, setImageId] = useState(-1)
     const [existingAltText, setExistingAltText] = useState(null)
 
@@ -31,7 +31,7 @@ function Annotator({ currImage, ebookId }) {
     // TODO: could be used to get the annotation history
     const [aiAnnotationList, setAiAnnotationList] = useState([])
     const [userAnnotationList, setUserAnnotationList] = useState([])
-    const [sentence, setSentence] = useState("")
+    const [sentence, setSentence] = useState(null)
 
 
     // Executed every time the currentImage changes
@@ -46,7 +46,7 @@ function Annotator({ currImage, ebookId }) {
             setCurrAISelected(null)
             setAiAnnotationList([])
             setUserAnnotationList([])
-            setSentence("")
+            setSentence(null)
             
             // Save existing alt-text of image
             if (currImage) {
@@ -59,6 +59,12 @@ function Annotator({ currImage, ebookId }) {
             fetchImageMetadata()
         }
     }, [currImage])
+
+    // // Every time the AI choice changes, the AI suggestions disappear and "Generate" button enables again
+    // useEffect(() => {
+    //     setAiAnnotationList([])
+    //     setSentence(null)
+    // }, [currAiSelected])
 
     
 

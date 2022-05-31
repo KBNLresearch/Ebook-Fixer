@@ -23,19 +23,29 @@ import { getGoogleAnnotation, getMicrosoftAnnotation} from '../../api/AnnotateIm
 function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId, imageId, aiChoice, sentence, setSentence}) {
 
     const generateButtonRef = useRef(null)
+    const savedTextButton = "Generated"
+    const notSavedTextButton = "Get AI suggestions"
 
 
     useEffect(() => {
 
         if (aiAnnotationList.length > 0) {
             generateButtonRef.current.disabled = true
-            console.log(aiChoice)
-            generateButtonRef.current.innerText = "Generated" 
+            generateButtonRef.current.innerText = savedTextButton
         } else {
             generateButtonRef.current.disabled = false
         }
 
     }, [])
+
+    
+    // Every time the AI choice changes, the AI suggestions disappear and "Generate" button enables again
+    useEffect(() => {
+        setAiAnnotationList([])
+        setSentence(null)
+        generateButtonRef.current.disabled = false
+        generateButtonRef.current.innerText = notSavedTextButton
+    }, [aiChoice])
 
 
     /**
@@ -127,7 +137,7 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
             }
             
             generateButtonRef.current.disabled = true
-            generateButtonRef.current.innerText = "Generated"
+            generateButtonRef.current.innerText = savedTextButton
         }
     }
 
@@ -149,7 +159,7 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                     className={styles.save_button}
                     ref={generateButtonRef}
                     onClick={() => handleClick()}>
-                    Get AI suggestions
+                        {notSavedTextButton}
                 </button>
             </div>
         )
