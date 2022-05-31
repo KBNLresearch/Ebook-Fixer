@@ -38,7 +38,7 @@ function Annotator({ currImage, ebookId }) {
     useEffect(() => {
         // Note that this start stage is overidden by the image overview
         if (!currImage) {
-            setStage("start")
+            setStage("loading")
         } else {
             setStage("classify")
             // Remove all AI suggestions when next image is loaded
@@ -49,11 +49,9 @@ function Annotator({ currImage, ebookId }) {
             setSentence(null)
             
             // Save existing alt-text of image
-            if (currImage) {
-                const altText = currImage.element.alt
-                if (altText) {
-                    setExistingAltText(altText)
-                }
+            const altText = currImage.element.alt
+            if (altText) {
+                setExistingAltText(altText)
             }
             // For each image that is loaded, client fetches all metadata from server (even if the image does not exist yet)
             fetchImageMetadata()
@@ -67,10 +65,15 @@ function Annotator({ currImage, ebookId }) {
      */
     function fetchImageMetadata() {
 
+        // As the user is waiting for the server's response
+        setStage("loading")
+
         console.log('Fetching image metadata...')
 
         getImageMetadataApiCall(ebookId, getImgFilename(currImage)).then(
+            
             (result) => {
+                setStage("overview")
                 if (Object.prototype.hasOwnProperty.call(result, 'annotations')) {
                     console.log('Annotations: ')
                     console.log(result.annotations)
@@ -113,6 +116,7 @@ function Annotator({ currImage, ebookId }) {
             },
             (error) => {
                 if (error.cause === 404) {
+                    setStage("classify")
                     console.log(
                         'Image does not exist on server yet, will be created after the first time classifying.'
                     )
@@ -135,8 +139,8 @@ function Annotator({ currImage, ebookId }) {
 
             {
                 {
-                'start': 
-                    <div className={styles.start_msg}> Please select an image to annotate. </div>,
+                'loading': 
+                    <div className={styles.loader}> Loading... </div>,
 
                 'classify': 
                     <Classifier
@@ -169,6 +173,7 @@ function Annotator({ currImage, ebookId }) {
                             aiChoice={currAiSelected}
                             sentence={sentence}
                             setSentence={setSentence}
+                            setStage={setStage}
                         >
                             {' '}
                         </AIAnnotator>
