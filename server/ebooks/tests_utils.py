@@ -139,7 +139,7 @@ class UtilsTest(TestCase):
         opf_file_content = '<metadata><dc:title>Hamlet</dc:title></metadata>'
 
         # Unzip the test.epub file, now containing 2 files
-        title = unzip_ebook("test-uuid", "test.zip")
+        title = unzip_ebook(f"{filepath}/test.zip", f"{filepath}")
 
         # Check the title
         self.assertEqual(title, 'Hamlet')

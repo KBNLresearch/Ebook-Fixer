@@ -19,6 +19,7 @@ MEDIA_URL = '/test-books/'
 MEDIA_ROOT = path.join(BASE_DIR, 'test-books')
 
 # For development:
+# environ['GITHUB_MODE'] = "development"
 google_credentials = environ.get('GOOGLE_APPLICATION_CREDENTIALS')
 if google_credentials is None:
     environ['GOOGLE_APPLICATION_CREDENTIALS'] = google_credentials = \

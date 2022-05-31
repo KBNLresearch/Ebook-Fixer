@@ -40,8 +40,12 @@ class MockInvalidEpubCheck:
                          MockedMessage("1", "ERROR", "file.html", "ERROR_MESSAGE")]
 
 
-def mock_unzipping(ebook_uuid, ebook_title):
+def mock_unzipping(epub_path, contents_dir):
     return "MOCKED_TITLE"
+
+
+def mock_unzipping_with_error(epub_path, contents_dir):
+    raise FileNotFoundError
 
 
 def dummy_mock(filepath):
@@ -70,6 +74,7 @@ class DataProcessingPipelineTests(TestCase):
         self.assertEqual(message, [MockedMessage("0", "WARNING", "file.html", "MESSAGE")])
 
     @patch("ebooks.utils.EpubCheck", MockValidEpubCheck)
+    @patch("ebooks.utils.unzip_ebook", mock_unzipping_with_error)
     @patch("ebooks.utils.os.path.isfile", dummy_mock)
     def test_process_valid_ebook_no_file_found(self):
         process_ebook(self.ebook)

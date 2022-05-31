@@ -18,10 +18,11 @@ class Ebook(models.Model):
         # First step of the pipeline
         ('VALIDATING', 'validating'),
         # If this is the state we can conclude that the book is valid
+        ('UNZIPPING', 'unzipping'),
+        # If this is the state we can conclude that the book is valid, and it was unzipped
         ('CONVERTING', 'converting'),
         # If this is the state we can conclude that the book is valid and an ePub3
         ('MAKING_ACCESSIBLE', 'making_accessible'),
-        ('UNZIPPING', 'unzipping'),
         # If this is the state we can conclude that the book is valid, an ePub3 and accessible
         ('PROCESSED', 'processed')
     ]
@@ -29,9 +30,9 @@ class Ebook(models.Model):
     # the metadata for this book, it will be deleted
     INVALID_STATES = [
         ('INVALID', 'invalid'),
-        ('CONVERSION_FAILED', 'conversion_failed'),
-        ('NOT_ACCESSIBLE', 'not_accessible'),
         ('UNZIPPING_FAILED', 'unzipping_failed'),
+        ('CONVERSION_FAILED', 'conversion_failed'),
+        ('NOT_ACCESSIBLE', 'not_accessible')
     ]
     STATES = VALID_STATES + INVALID_STATES
     state = models.CharField(max_length=17, choices=STATES, default='VALIDATING')
