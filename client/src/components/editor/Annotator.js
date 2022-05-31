@@ -58,15 +58,7 @@ function Annotator({ currImage, ebookId }) {
             // For each image that is loaded, client fetches all metadata from server (even if the image does not exist yet)
             fetchImageMetadata()
         }
-    }, [currImage])
-
-    // // Every time the AI choice changes, the AI suggestions disappear and "Generate" button enables again
-    // useEffect(() => {
-    //     setAiAnnotationList([])
-    //     setSentence(null)
-    // }, [currAiSelected])
-
-    
+    }, [currImage])    
 
     /**
      * Makes API call to server for fetching image metadata
