@@ -30,7 +30,9 @@ export function getFileBlob(fileId) {
                 // loading or rejected epub
                 return response.json()
             }
-            throw new Error('Response code: ' + response.status)
+            throw new Error('Response code: ' + response.status, {
+                cause: response.status,
+            })
         })
         .then((response) => response)
         .catch((error) => {
@@ -53,7 +55,6 @@ export function pollForFile(fileId, processStatusFunc) {
             }
         })
         .catch((err) => {
-            processStatusFunc(err.message)
             throw err
         })
 }

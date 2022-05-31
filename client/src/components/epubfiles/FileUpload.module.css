@@ -21,6 +21,7 @@ div.error {
 
 .box {
     min-height: 8em;
+    height: fit-content;
     width: 70%;
     color: black;
     background-color: #e1cff2;

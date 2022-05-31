@@ -14,28 +14,32 @@ import styles from './FetchWithStatus.module.scss'
  * @returns The FetchWithStatus component, ready for rendering.
  */
 function FetchWithStatus({ fileId, setEbookFile }) {
-    const [messages, setMessages] = useState(<p></p>)
+    const [messages, setMessages] = useState(<p />)
 
     function addMessage(msg) {
-        console.log(msg.toString())
         const message = <p key={messages.length}>{msg.toString()}</p>
         setMessages(message)
     }
 
     useEffect(() => {
         if (fileId) {
-            console.log('stuff')
             const result = pollForFile(fileId, addMessage)
-            result.then((file) => {
-                addMessage('File Received. Redirecting to editor...')
-                setEbookFile(file)
-            })
+            result
+                .then((file) => {
+                    addMessage('File Received.')
+                    setEbookFile(file)
+                })
+                .catch((err) => {
+                    if (err.cause === 404) {
+                        addMessage('Ebook not found')
+                    }
+                })
         }
     }, [fileId])
 
     return (
         <div className={styles.container}>
-            <div className={styles.loader}></div>
+            <div className={styles.loader} />
             <div>{messages}</div>
         </div>
     )
