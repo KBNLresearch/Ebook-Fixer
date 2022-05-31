@@ -94,6 +94,7 @@ env.bak/
 venv.bak/
 config.ini
 *.crt
+azure-key.txt
 
 # Spyder project settings
 .spyderproject

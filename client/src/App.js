@@ -4,7 +4,7 @@ import { useState } from 'react'
 import FileUpload from './components/FileUpload'
 import Editor from './components/editor/Editor'
 import { ReactComponent as GoBackArrowSVG } from './assets/svgs/go-back-arrow.svg'
-import logo from './assets/images/KB-logo.png'
+import logo from './assets/svgs/logo.svg'
 import EpubInfoPage from './components/EpubInfoPage'
 import NotFound from './components/errorpages/NotFound'
 
@@ -30,7 +30,15 @@ function App() {
                 <Routes>
                     <Route
                         path="/"
-                        element={<img alt="" className="logo" src={logo} />}
+                        element={
+                        <div>
+                            <img alt="" className="logo" src={logo} />
+                            <h1 className="logo_title"> E-BOOK FIXER </h1>
+                            <h2 className="logo_subtitle"> Improve image descriptions for ePubs! </h2>
+                            <br/>
+                            <br/>
+                        </div>
+                    }
                     />
                     <Route
                         path="*"

@@ -6,23 +6,22 @@ import styles from './Annotator.module.scss'
  * The AISelection component handles selection of various AI types, such as Google Vision or Microsoft Azure.
  * After this step the AIAnnotator component will deal with generating the actual annotations using that AI.
  * 
- * @param {SetStateAction} setStage Sets the next stage in annotation process 
+ * @param {external:SetStateAction} setStage Sets the next stage in annotation process 
  * @param {String} currAiSelected AI type selected by user
- * @param {SetStateAction} setCurrAiSelected Sets the AI choice of the user
+ * @param {external:SetStateAction} setCurrAiSelected Sets the AI choice of the user
  * @component
  * @returns the AISelection component
  */
-function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
+function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotationList, setSentence}) {
     
     const dropdownRef = useRef(null)
     const saveAiChoiceButtonRef = useRef(null)
 
-    // TODO: Make the abbreviations and values match the ones on the server once all AI endpoints are final
+    // TODO: Make the types match the ones on the server once all AI endpoints are final
     // (needed for displaying the most recent AI annotation choice in Annotator.js)
     const options = [
-        {keys: ['BB_GOOGLE_LAB'], val: 'Google Vision API'},
-        {keys: ['BB_AZURE_LAB', 'BB_AZURE_SEN'], val: 'Microsoft Azure Vision API'},
-        {keys: ['CONTEXT_LAB'], val: 'BERT Context Keyword Extractor'}
+        {key: 'GG', val: 'Google Vision', types: ['BB_GOOGLE_LAB']},
+        {key: 'MS', val: 'Microsoft Azure', types: ['BB_AZURE_LAB', 'BB_AZURE_SEN']}
     ]
 
     useEffect(() => {
@@ -32,8 +31,8 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
         if (currAiSelected != null) {
             saveAiChoiceButtonRef.current.disabled = true
             // Show the selected AI in dropdown menu
-            const idx = options.findIndex(opt => opt.val === currAiSelected || opt.keys.includes(currAiSelected)) + 1;
-            console.log('Idx: ' + idx)
+            const idx = options.findIndex(opt => opt.val === currAiSelected || opt.key === currAiSelected 
+                                            || opt.types.includes(currAiSelected)) + 1;
             dropdownRef.current.selectedIndex = idx;
         } else {
             // Show the label
@@ -63,11 +62,9 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
      * and disables the "Save AI" button
      */
     function handleAiClick() {
-
         const choice = getSelectedAi()
+        console.log('Choice: ' + choice)
         setCurrAiSelected(choice)
-
-         // TODO: enable generate button in next stage again, when new AI is selected
 
         if (choice !== 'Invalid') {
             saveAiChoiceButtonRef.current.disabled = true
@@ -90,12 +87,14 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
             className={styles.dropdown}
             onChange={() => {
                 saveAiChoiceButtonRef.current.disabled = false
+                setAiAnnotationList([])
+                setSentence(null)
             }}>
             <option value="none" selected disabled hidden>
                 Select AI
             </option>
             {options.map((opt) => (
-                <option value={opt.val}> {opt.val} </option>
+                <option value={opt.val} key={opt.key}> {opt.val} </option>
             ))}
         </select>
         <button
@@ -113,7 +112,9 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
 AISelection.propTypes = {
     setStage: PropTypes.func.isRequired,
     currAiSelected: PropTypes.string.isRequired,
-    setCurrAiSelected: PropTypes.func.isRequired
+    setCurrAiSelected: PropTypes.func.isRequired,
+    setAiAnnotationList: PropTypes.func.isRequired,
+    setSentence: PropTypes.func.isRequired
 }
 
 export default AISelection

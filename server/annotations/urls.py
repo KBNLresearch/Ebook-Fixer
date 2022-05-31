@@ -1,10 +1,12 @@
-from .views import annotation_generation_view, annotation_save_view
+from .views import azure_annotation_generation_view, google_annotation_generation_view, annotation_save_view
 
 from django.urls import path
 
 
 app_name = 'annotations'
 urlpatterns = [
-    path('generate/', annotation_generation_view, name='annotation-generation'),
+    path('generate/google/',
+         google_annotation_generation_view, name='google-annotation-generation'),
+    path('generate/azure/', azure_annotation_generation_view, name='azure-annotation-generation'),
     path('save/', annotation_save_view, name='annotation-save')
 ]
