@@ -44,7 +44,7 @@ function EpubInfoPage() {
                 />
             </div>
             <div className={styles.info_title_container}>
-                <h1>How to annotate images?</h1>
+                <h1 >How to annotate images?</h1>
                 <div className={styles.workflow_box}>
                     <div className={styles.step_box}>
                         <img alt="" className={styles.step_icon} src={step1} />
