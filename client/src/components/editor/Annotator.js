@@ -21,7 +21,8 @@ import ProgressBar from './ProgressBar'
  */
 
 function Annotator({ currImage, ebookId }) {
-    const [stage, setStage] = useState('')
+
+    const [stage, setStage] = useState(null)
     const [imageId, setImageId] = useState(-1)
     const [existingAltText, setExistingAltText] = useState(null)
 
@@ -30,12 +31,13 @@ function Annotator({ currImage, ebookId }) {
     // TODO: could be used to get the annotation history
     const [aiAnnotationList, setAiAnnotationList] = useState([])
     const [userAnnotationList, setUserAnnotationList] = useState([])
+    const [sentence, setSentence] = useState(null)
 
     // Executed every time the currentImage changes
     useEffect(() => {
         // Note that this start stage is overidden by the image overview
         if (!currImage) {
-            setStage('start')
+            setStage("loading")
         } else {
             setStage('classify')
             // Remove all AI suggestions when next image is loaded
@@ -43,32 +45,35 @@ function Annotator({ currImage, ebookId }) {
             setCurrAISelected(null)
             setAiAnnotationList([])
             setUserAnnotationList([])
-
+            setSentence(null)
+            
             // Save existing alt-text of image
-            if (currImage) {
-                const altText = currImage.element.alt
-                if (altText) {
-                    setExistingAltText(altText)
-                }
+            const altText = currImage.element.alt
+            if (altText) {
+                setExistingAltText(altText)
             }
             // For each image that is loaded, client fetches all metadata from server (even if the image does not exist yet)
             fetchImageMetadata()
         }
     }, [currImage])
-
+    
     /**
      * Makes API call to server for fetching image metadata
      * i.e. the image itself and all annotations linked to it
      * and updates state accordingly
      */
     function fetchImageMetadata() {
+
+        // As the user is waiting for the server's response
+        setStage("loading")
+
         console.log('Fetching image metadata...')
 
         getImageMetadataApiCall(ebookId, getImgFilename(currImage)).then(
+            
             (result) => {
-                if (
-                    Object.prototype.hasOwnProperty.call(result, 'annotations')
-                ) {
+                setStage("overview")
+                if (Object.prototype.hasOwnProperty.call(result, 'annotations')) {
                     console.log('Annotations: ')
                     console.log(result.annotations)
 
@@ -86,17 +91,21 @@ function Annotator({ currImage, ebookId }) {
                             ])
                         }
                     })
-                    // Display previously generated AI suggestions when revisiting image
-                    // TODO: distinguish between different AIs (have separate lists for labels and descriptions)
-                    const aiLabels = result.annotations.filter(
-                        (el) => el.type !== 'HUM'
-                    )
-                    if (aiLabels.length > 0) {
-                        setAiAnnotationList(aiLabels)
-                        // Get the most recent AI choice to display
-                        const mostRecentAiChoice =
-                            aiLabels[aiLabels.length - 1].type
-                        setCurrAISelected(mostRecentAiChoice)
+                    // TODO: use timestamp of annotation?
+                    const allAiLabels = result.annotations.filter(el => el.type !== 'HUM')
+                    if (allAiLabels.length > 0) {
+                        const mostRecentAiChoice = allAiLabels[allAiLabels.length - 2].type
+                        if (currAiSelected === null) {
+                            // To display most recently selected AI in dropdown
+                            // TODO: either use key or value of AI choice (now we use both)
+                            setCurrAISelected(mostRecentAiChoice)
+                             // To display most recently generated AI suggestions when revisiting image
+                            setAiAnnotationList(allAiLabels.filter(el => el.type === mostRecentAiChoice))
+                            // To display most recently generated AI description
+                            if (mostRecentAiChoice === 'BB_AZURE_SEN' || mostRecentAiChoice === 'BB_AZURE_LAB'){
+                                setSentence(allAiLabels.pop().text)
+                            }
+                        }
                     }
                 }
 
@@ -109,6 +118,7 @@ function Annotator({ currImage, ebookId }) {
             },
             (error) => {
                 if (error.cause === 404) {
+                    setStage("classify")
                     console.log(
                         'Image does not exist on server yet, will be created after the first time classifying.'
                     )
@@ -130,8 +140,42 @@ function Annotator({ currImage, ebookId }) {
 
             {
                 {
-                    start: (
-                        <div className={styles.start_msg}>
+                'loading': 
+                    <div className={styles.loader}> Loading... </div>,
+
+                'classify': 
+                    <Classifier
+                        currImage={currImage}
+                        ebookId={ebookId}
+                        setImageId={setImageId}
+                        currClassification={currClassification}
+                        setCurrClassification={setCurrClassification}
+                        setStage={setStage}>
+                        {' '}
+                    </Classifier>,
+
+                'ai-selection':
+                   <AISelection 
+                        setStage={setStage}
+                        currAiSelected={currAiSelected}
+                        setCurrAiSelected={setCurrAISelected}
+                        setAiAnnotationList={setAiAnnotationList}
+                        setSentence={setSentence}
+                    />,
+                
+                'annotate': 
+                    <div className={styles.container}>
+                        <AIAnnotator
+                            aiAnnotationList={aiAnnotationList}
+                            setAiAnnotationList={setAiAnnotationList}
+                            currImage={currImage}
+                            ebookId={ebookId}
+                            imageId={imageId} 
+                            aiChoice={currAiSelected}
+                            sentence={sentence}
+                            setSentence={setSentence}
+                            setStage={setStage}
+                        >
                             {' '}
                             Please select an image to annotate.{' '}
                         </div>

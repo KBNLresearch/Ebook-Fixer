@@ -5,7 +5,7 @@ import styles from './ProgressBar.module.scss'
  * showing arrows that are coloured depending on the current stage.
  *
  * @param {String} currStage Current stage in annotation process
- * @param {SetStateAction} setStage Sets next stage in annotation process
+ * @param {external:SetStateAction} setStage Sets next stage in annotation process
  * @param {String} classification Classification stored for current image under annotation
  * @param {String[]} userAnnotations List of human annotations for current image under annotation
  * @param {String} currAiSelected The AI that is currently selected, can be null if nothing is selected
@@ -43,7 +43,7 @@ function ProgressBar({
     function getStyleAi() {
         if (currAiSelected !== null) {
             root.style.setProperty('--background_ai', colorSavedStage)
-        } else if (currStage === 'classify') {
+        } if (currStage === 'classify' || currStage === 'loading') {
             root.style.setProperty('--background_ai', colorNextStage)
         }
         return (

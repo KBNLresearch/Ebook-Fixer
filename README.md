@@ -2,8 +2,9 @@
 [![tests](https://img.shields.io/badge/total%20tests-42-9cf)]()
 [![client](https://img.shields.io/badge/client-react-blue)]()
 [![client](https://img.shields.io/badge/server-django-success)]()
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d31339bb-30ae-4785-b43b-ba2c91fe9c93/deploy-status/?branch=main)](https://app.netlify.com/sites/amazing-dusk-2e2000/deploys)
 
-# E-books Fixer
+# E-book Fixer
 
 E-books Fixer is a cloud-based web application for making epub files more accessible to visually impaired people. 
 Its main focus is on automatically generating image descriptions using already existing AIs, such as the Google Vision API.
