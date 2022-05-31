@@ -42,17 +42,19 @@ export function getFileBlob(fileId) {
 
 export function pollForFile(fileId, processStatusFunc) {
     processStatusFunc('Polling...')
-    processStatusFunc('Polling...')
     return getFileBlob(fileId)
         .then((file) => {
-            if (file.status) {
+            if (file.state) {
                 // Process status
-                console.log(file)
-                processStatusFunc(file.status)
-                setTimeout(() => pollForFile(fileId, processStatusFunc), 1000)
-            } else {
-                return file
+                processStatusFunc(file.state)
+                return new Promise((resolve, reject) => {
+                    setTimeout(
+                        () => resolve(pollForFile(fileId, processStatusFunc)),
+                        3000
+                    )
+                })
             }
+            return file
         })
         .catch((err) => {
             throw err

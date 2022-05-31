@@ -111,10 +111,11 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
                     <ShareURL />
                 </div>
             )}
-            {fetchingEbookFile ? (
+            {fetchingEbookFile && ebookFile === null ? (
                 <FetchWithStatus
                     fileId={getEbookUUID()}
                     setEbookFile={(file) => {
+                        console.log('rec from editor')
                         readFile(file)
                         setFetchingEbookFile(false)
                     }}
