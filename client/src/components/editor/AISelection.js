@@ -17,11 +17,11 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
     const dropdownRef = useRef(null)
     const saveAiChoiceButtonRef = useRef(null)
 
-    // TODO: Make the abbreviations and values match the ones on the server once all AI endpoints are final
+    // TODO: Make the types match the ones on the server once all AI endpoints are final
     // (needed for displaying the most recent AI annotation choice in Annotator.js)
     const options = [
-        {keys: ['BB_GOOGLE_LAB'], val: 'Google Vision API'},
-        {keys: ['BB_AZURE_SEN'], val: 'Microsoft Azure Vision API'}
+        {key: 'GG', val: 'Google Vision', types: ['BB_GOOGLE_LAB']},
+        {key: 'MS', val: 'Microsoft Azure', types: ['BB_AZURE_LAB', 'BB_AZURE_SEN']}
     ]
 
     useEffect(() => {
@@ -31,7 +31,8 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
         if (currAiSelected != null) {
             saveAiChoiceButtonRef.current.disabled = true
             // Show the selected AI in dropdown menu
-            const idx = options.findIndex(opt => opt.val === currAiSelected || opt.keys.includes(currAiSelected)) + 1;
+            const idx = options.findIndex(opt => opt.val === currAiSelected || opt.key === currAiSelected 
+                                            || opt.types.includes(currAiSelected)) + 1;
             dropdownRef.current.selectedIndex = idx;
         } else {
             // Show the label
@@ -40,15 +41,6 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
         }
 
     }, [])
-
-        
-    // Every time the AI choice changes, the AI suggestions disappear and "Generate" button enables again
-    // useEffect(() => {
-    //     setAiAnnotationList([])
-    //     setSentence(null)
-    //     // generateButtonRef.current.disabled = false
-    //     // generateButtonRef.current.innerText = notSavedTextButton
-    // }, [currAiSelected])
 
 
 
@@ -70,11 +62,9 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
      * and disables the "Save AI" button
      */
     function handleAiClick() {
-
         const choice = getSelectedAi()
+        console.log('Choice: ' + choice)
         setCurrAiSelected(choice)
-
-         // TODO: enable generate button in next stage again, when new AI is selected
 
         if (choice !== 'Invalid') {
             saveAiChoiceButtonRef.current.disabled = true
@@ -104,7 +94,7 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
                 Select AI
             </option>
             {options.map((opt) => (
-                <option value={opt.keys} key={opt.keys}> {opt.val} </option>
+                <option value={opt.val} key={opt.key}> {opt.val} </option>
             ))}
         </select>
         <button

@@ -29,6 +29,12 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
     useEffect(() => {
 
         if (aiAnnotationList.length > 0) {
+            // Order annotation labels by confidence descendingly  
+            aiAnnotationList.sort((a, b) => b.confidence - a.confidence)
+            // Remove duplicate annotations
+            // TODO: server should not send duplicates in image metadata view?
+            // const uniqueAnnotations = [...new Set(aiAnnotationList)];
+            // setAiAnnotationList(uniqueAnnotations)
             generateButtonRef.current.disabled = true
             generateButtonRef.current.innerText = savedTextButton
         } else {
@@ -82,7 +88,6 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                 return classes[0]
             } 
         }
-    
 
     /**
      * Makes API call to server for fetching AI annotations
@@ -97,20 +102,21 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
             }
 
             switch(aiChoice) {
-                case 'BB_GOOGLE_LAB':
+                case 'Google Vision':
                     console.log('Fetching Google Vision labels...')
                      getGoogleAnnotation(
                     ebookId,
                     imageId,
                     getImgFilename(currImage)
                 ) .then(result => {
-                    if (Object.prototype.hasOwnProperty.call(result, "annotations")){
-                            setAiAnnotationList(result.annotations)
+                    if (Object.prototype.hasOwnProperty.call(result, "annotations")){ 
+                        // Order annotation labels by confidence ascendingly  
+                        setAiAnnotationList(result.annotations)
                        }
                 })
                 break
 
-                case 'BB_AZURE_SEN':
+                case 'Microsoft Azure':
                     console.log('Fetching Microsoft Azure labels and description...')
                     getMicrosoftAnnotation(
                         ebookId,
@@ -119,6 +125,7 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                     ) .then(result => {
                         if (Object.prototype.hasOwnProperty.call(result, "annotations")){
                                 setSentence(result.annotations.pop().text)
+                                // Order annotation labels by confidence ascendingly
                                 setAiAnnotationList(result.annotations)
                            }
                     })
@@ -140,7 +147,7 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                 <div className={styles.ai_labels_box} id="AiLabelsBox"> 
                     {aiAnnotationList.map((obj) => (<p className={getProportionalClass(obj)}> {obj.text} </p>))} 
                 </div>
-                {aiChoice === 'BB_AZURE_SEN' &&
+                {aiChoice === 'Microsoft Azure' &&
                     <div>
                         <label htmlFor="AiSentenceBox" className={styles.box_label}> <br/> Generated description </label>
                         <div className={styles.ai_labels_box} id="AiSentenceBox">

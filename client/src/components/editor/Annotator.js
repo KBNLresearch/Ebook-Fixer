@@ -86,29 +86,21 @@ function Annotator({ currImage, ebookId }) {
                             setUserAnnotationList([...userAnnotationList, el.text])
                         }
                     })
-                    // Display previously generated AI suggestions when revisiting image
-                    // TODO: distinguish between different AIs (have separate lists for labels and descriptions)
-                    const aiLabels = result.annotations.filter(el => el.type !== 'HUM')
-                    if (aiLabels.length > 0) {
-                        console.log(currAiSelected)
-                        const mostRecentAiChoice = aiLabels[aiLabels.length - 1].type
-                        if(currAiSelected == null || currAiSelected==mostRecentAiChoice) {
+                    // TODO: use timestamp of annotation?
+                    const allAiLabels = result.annotations.filter(el => el.type !== 'HUM')
+                    if (allAiLabels.length > 0) {
+                        const mostRecentAiChoice = allAiLabels[allAiLabels.length - 2].type
+                        if (currAiSelected === null) {
+                            // To display most recently selected AI in dropdown
+                            // TODO: either use key or value of AI choice (now we use both)
                             setCurrAISelected(mostRecentAiChoice)
-                            if(mostRecentAiChoice === 'BB_AZURE_SEN'){
-                                setSentence(aiLabels.pop().text)
+                             // To display most recently generated AI suggestions when revisiting image
+                            setAiAnnotationList(allAiLabels.filter(el => el.type === mostRecentAiChoice))
+                            // To display most recently generated AI description
+                            if (mostRecentAiChoice === 'BB_AZURE_SEN' || mostRecentAiChoice === 'BB_AZURE_LAB'){
+                                setSentence(allAiLabels.pop().text)
                             }
-                            
-                            setAiAnnotationList(aiLabels)
                         }
-                        // else if(currAiSelected != mostRecentAiChoice) {
-                        //     setAiAnnotationList([])
-                        //     setSentence("")
-                        // }
-                        
-                        // Get the most recent AI choice to display
-
-                        console.log(mostRecentAiChoice)
-                        
                     }
                 }    
                 
