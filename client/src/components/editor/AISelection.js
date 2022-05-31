@@ -6,9 +6,9 @@ import styles from './Annotator.module.scss'
  * The AISelection component handles selection of various AI types, such as Google Vision or Microsoft Azure.
  * After this step the AIAnnotator component will deal with generating the actual annotations using that AI.
  * 
- * @param {SetStateAction} setStage Sets the next stage in annotation process 
+ * @param {external:SetStateAction} setStage Sets the next stage in annotation process 
  * @param {String} currAiSelected AI type selected by user
- * @param {SetStateAction} setCurrAiSelected Sets the AI choice of the user
+ * @param {external:SetStateAction} setCurrAiSelected Sets the AI choice of the user
  * @component
  * @returns the AISelection component
  */
@@ -32,7 +32,6 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
             saveAiChoiceButtonRef.current.disabled = true
             // Show the selected AI in dropdown menu
             const idx = options.findIndex(opt => opt.val === currAiSelected || opt.keys.includes(currAiSelected)) + 1;
-            console.log('Idx: ' + idx)
             dropdownRef.current.selectedIndex = idx;
         } else {
             // Show the label
