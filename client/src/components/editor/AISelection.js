@@ -6,13 +6,13 @@ import styles from './Annotator.module.scss'
  * The AISelection component handles selection of various AI types, such as Google Vision or Microsoft Azure.
  * After this step the AIAnnotator component will deal with generating the actual annotations using that AI.
  * 
- * @param {SetStateAction} setStage Sets the next stage in annotation process 
+ * @param {external:SetStateAction} setStage Sets the next stage in annotation process 
  * @param {String} currAiSelected AI type selected by user
- * @param {SetStateAction} setCurrAiSelected Sets the AI choice of the user
+ * @param {external:SetStateAction} setCurrAiSelected Sets the AI choice of the user
  * @component
  * @returns the AISelection component
  */
-function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
+function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotationList, setSentence}) {
     
     const dropdownRef = useRef(null)
     const saveAiChoiceButtonRef = useRef(null)
@@ -21,8 +21,7 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
     // (needed for displaying the most recent AI annotation choice in Annotator.js)
     const options = [
         {keys: ['BB_GOOGLE_LAB'], val: 'Google Vision API'},
-        {keys: ['BB_AZURE_LAB', 'BB_AZURE_SEN'], val: 'Microsoft Azure Vision API'},
-        {keys: ['CONTEXT_LAB'], val: 'BERT Context Keyword Extractor'}
+        {keys: ['BB_AZURE_SEN'], val: 'Microsoft Azure Vision API'}
     ]
 
     useEffect(() => {
@@ -33,7 +32,6 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
             saveAiChoiceButtonRef.current.disabled = true
             // Show the selected AI in dropdown menu
             const idx = options.findIndex(opt => opt.val === currAiSelected || opt.keys.includes(currAiSelected)) + 1;
-            console.log('Idx: ' + idx)
             dropdownRef.current.selectedIndex = idx;
         } else {
             // Show the label
@@ -42,6 +40,15 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
         }
 
     }, [])
+
+        
+    // Every time the AI choice changes, the AI suggestions disappear and "Generate" button enables again
+    // useEffect(() => {
+    //     setAiAnnotationList([])
+    //     setSentence(null)
+    //     // generateButtonRef.current.disabled = false
+    //     // generateButtonRef.current.innerText = notSavedTextButton
+    // }, [currAiSelected])
 
 
 
@@ -90,12 +97,14 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
             className={styles.dropdown}
             onChange={() => {
                 saveAiChoiceButtonRef.current.disabled = false
+                setAiAnnotationList([])
+                setSentence(null)
             }}>
             <option value="none" selected disabled hidden>
                 Select AI
             </option>
             {options.map((opt) => (
-                <option value={opt.val}> {opt.val} </option>
+                <option value={opt.keys} key={opt.keys}> {opt.val} </option>
             ))}
         </select>
         <button
@@ -113,7 +122,9 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
 AISelection.propTypes = {
     setStage: PropTypes.func.isRequired,
     currAiSelected: PropTypes.string.isRequired,
-    setCurrAiSelected: PropTypes.func.isRequired
+    setCurrAiSelected: PropTypes.func.isRequired,
+    setAiAnnotationList: PropTypes.func.isRequired,
+    setSentence: PropTypes.func.isRequired
 }
 
 export default AISelection
