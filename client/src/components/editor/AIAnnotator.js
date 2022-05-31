@@ -27,6 +27,7 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
 
         if (aiAnnotationList.length > 0) {
             generateButtonRef.current.disabled = true
+            console.log(aiChoice)
             generateButtonRef.current.innerText = "Generated" 
         } else {
             generateButtonRef.current.disabled = false

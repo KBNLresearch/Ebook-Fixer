@@ -12,7 +12,7 @@ import styles from './Annotator.module.scss'
  * @component
  * @returns the AISelection component
  */
-function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
+function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotationList}) {
     
     const dropdownRef = useRef(null)
     const saveAiChoiceButtonRef = useRef(null)
@@ -32,15 +32,18 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
             saveAiChoiceButtonRef.current.disabled = true
             // Show the selected AI in dropdown menu
             const idx = options.findIndex(opt => opt.val === currAiSelected || opt.keys.includes(currAiSelected)) + 1;
-            console.log('Idx: ' + idx)
+            // console.log('Idx: ' + idx)
+            setAiAnnotationList([])
             dropdownRef.current.selectedIndex = idx;
         } else {
             // Show the label
             dropdownRef.current.selectedIndex = 0
             saveAiChoiceButtonRef.current.disabled = false
+            setAiAnnotationList([])
+            
         }
 
-    }, [])
+    }, [currAiSelected])
 
 
 
@@ -74,6 +77,7 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
             setStage('annotate')
         } else {
             saveAiChoiceButtonRef.current.disabled = false
+            setAiAnnotationList([])
         } 
     }
 
@@ -112,7 +116,8 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
 AISelection.propTypes = {
     setStage: PropTypes.func.isRequired,
     currAiSelected: PropTypes.string.isRequired,
-    setCurrAiSelected: PropTypes.func.isRequired
+    setCurrAiSelected: PropTypes.func.isRequired,
+    setAiAnnotationList: PropTypes.func.isRequired
 }
 
 export default AISelection

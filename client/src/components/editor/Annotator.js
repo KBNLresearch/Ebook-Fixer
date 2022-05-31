@@ -92,13 +92,25 @@ function Annotator({ currImage, ebookId }) {
                     // TODO: distinguish between different AIs (have separate lists for labels and descriptions)
                     const aiLabels = result.annotations.filter(el => el.type !== 'HUM')
                     if (aiLabels.length > 0) {
+                        console.log(currAiSelected)
                         const mostRecentAiChoice = aiLabels[aiLabels.length - 1].type
-                        setSentence(aiLabels.pop().text)
-                        setAiAnnotationList(aiLabels)
+                        if(currAiSelected == null || currAiSelected==mostRecentAiChoice) {
+                            setCurrAISelected(mostRecentAiChoice)
+                            if(mostRecentAiChoice === 'BB_AZURE_SEN'){
+                                setSentence(aiLabels.pop().text)
+                            }
+                            
+                            setAiAnnotationList(aiLabels)
+                        }
+                        // else if(currAiSelected != mostRecentAiChoice) {
+                        //     setAiAnnotationList([])
+                        //     setSentence("")
+                        // }
+                        
                         // Get the most recent AI choice to display
 
                         console.log(mostRecentAiChoice)
-                        setCurrAISelected(mostRecentAiChoice)
+                        
                     }
                 }    
                 
@@ -152,6 +164,7 @@ function Annotator({ currImage, ebookId }) {
                         setStage={setStage}
                         currAiSelected={currAiSelected}
                         setCurrAiSelected={setCurrAISelected}
+                        setAiAnnotationList={setAiAnnotationList}
                     />,
                 
                 'annotate': 
