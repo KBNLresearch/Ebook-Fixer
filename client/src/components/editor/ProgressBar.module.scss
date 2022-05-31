@@ -1,10 +1,13 @@
 // Will be set in ProgressBar.js depending on the current stage
 :root {
     --page_background: #f8f8f8;
-    --background_class: #b8c1c3;
-    --background_ai: #b8c1c3;
-    --background_manual: #b8c1c3;
-    --background_check: #b8c1c3;
+    $disabled-color: #b8c1c3;
+
+    // Color for each stage:
+    --background_class: $disabled-color;
+    --background_ai: $disabled-color;
+    --background_manual: $disabled-color;
+    --background_check: $disabled-color;
 }
 
 .progress_container {
@@ -103,6 +106,8 @@
         background: var(--background_check);
         border-left-color: var(--background_check);
     }
+
+    // Add new steps here:
 
     .activeBtn {
         background-color: #9fdf9f;

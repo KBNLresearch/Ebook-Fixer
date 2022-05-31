@@ -20,11 +20,6 @@ function ProgressBar({
     userAnnotations,
     currAiSelected,
 }) {
-    const classificationButtonRef = useRef(null)
-    const aiSelectionButtonRef = useRef(null)
-    const manualButtonRef = useRef(null)
-    const reviewButtonRef = useRef(null)
-
     const root = document.querySelector(':root')
     const colorSavedStage = 'lightblue'
     const colorNextStage = '#b8c1c3'
@@ -92,7 +87,6 @@ function ProgressBar({
      * @param {String} key The stage name / the key that identifies this stage
      * @param {String} name The text displayed on the button of the stage
      * @param {Function} className Getter for the classes for that button
-     * @param {ref} ref React reference to that button
      * @returns
      */
     function Stage(key, name, className, ref) {
@@ -108,15 +102,10 @@ function ProgressBar({
      * The list of stages that are part of the annotation process
      */
     const stages = [
-        Stage(
-            'classify',
-            'Classification',
-            getStyleClassification,
-            classificationButtonRef
-        ),
-        Stage('ai-selection', 'AI', getStyleAi, aiSelectionButtonRef),
-        Stage('annotate', 'Manual', getStyleManual, manualButtonRef),
-        Stage('overview', 'Review', getStyleReview, reviewButtonRef),
+        Stage('classify', 'Classification', getStyleClassification),
+        Stage('ai-selection', 'AI', getStyleAi),
+        Stage('annotate', 'Manual', getStyleManual),
+        Stage('overview', 'Review', getStyleReview),
     ]
 
     // Note that user can go back and forth to any step, unless not classified yet
