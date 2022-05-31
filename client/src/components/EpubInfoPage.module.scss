@@ -21,6 +21,24 @@
         font-weight: 100;
         font-size: 1.5em;
         line-height: 2em;
+
+        --x-offset: -0.0625em;
+        --y-offset: 0.0625em;
+        --stroke: 0.125em;
+        --background-color: white;
+        --stroke-color: lightblue;
+        
+        text-shadow: 
+          
+          var(--x-offset)
+          var(--y-offset)
+          0px
+          var(--background-color), 
+          
+          calc( var(--x-offset) - var(--stroke) )
+          calc( var(--y-offset) + var(--stroke) )
+          0px
+          var(--stroke-color);
     }
 }
 
