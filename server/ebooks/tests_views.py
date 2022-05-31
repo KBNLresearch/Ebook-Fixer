@@ -32,7 +32,7 @@ class EbookViewsTest(TestCase):
         self.uuid = uuid4()
 
     def response_ebook_download_view(self):
-        request = self.factory.get(f'/download/{self.uuid}/')
+        request = self.factory.get(f'/download/{self.uuid}/', {"inject": "true"})
         request.user = self.user
 
         response = ebook_download_view(request, self.uuid)
@@ -100,7 +100,7 @@ class EbookViewsTest(TestCase):
 
         shutil.rmtree(folder_path)
 
-    def test_ebook_download_200_invalid_book(self):
+    def test_ebook_download_204_invalid_book(self):
         ebook = Ebook.objects.create(uuid=self.uuid,
                                      title="TEST_TITLE",
                                      epub=None,
@@ -110,12 +110,12 @@ class EbookViewsTest(TestCase):
 
         response, msg = self.response_ebook_download_view()
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 204)
         self.assertEqual(msg, bytes(expected_msg, 'utf-8'))
         # Check that the ebook DB entry was deleted
         self.assertEqual(Ebook.objects.filter(uuid=self.uuid).count(), 0)
 
-    def test_ebook_download_200_unprocessed_book(self):
+    def test_ebook_download_202_unprocessed_book(self):
         ebook = Ebook.objects.create(uuid=self.uuid,
                                      title="TEST_TITLE",
                                      epub=None,

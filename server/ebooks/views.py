@@ -21,11 +21,12 @@ mode = os.environ.get('GITHUB_MODE', 'production')
 
 
 def ebook_download_view(request, uuid):
-    """ GET endpoint for zipping the ebook with given uuid from storage and returns the epub
+    """ GET endpoint for zipping the ebook with given uuid from storage.
+    Injects the latest human annotations corresponding to the images found in the ePub.
 
     Args:
         request (request object): The request object
-            - uuid (str): The UUID of an already uploaded ebook (URL param)
+        uuid (str): The UUID of an already uploaded ebook (URL param)
 
     Returns:
         JsonResponse: Response object sent to the client side
@@ -34,32 +35,36 @@ def ebook_download_view(request, uuid):
     if request.method == "GET":
         try:
             ebook = Ebook.objects.all().filter(uuid=uuid).get()
-            # If the book is in one of the invalid states its entry will be deleted
-            if ebook.state in list(map(lambda t: t[0], Ebook.INVALID_STATES)):
-                serializer = EbookSerializer(ebook)
-                response = JsonResponse(serializer.data, status=status.HTTP_200_OK)
-                ebook.delete()
-                return response
-            # The book needs to be processed before it can be downloaded
-            elif ebook.state != "PROCESSED":
-                serializer = EbookSerializer(ebook)
-                return JsonResponse(serializer.data, status=status.HTTP_202_ACCEPTED)
         except Ebook.DoesNotExist:
             return JsonResponse({'msg': f'Ebook with uuid {uuid} not found!'},
                                 status=status.HTTP_404_NOT_FOUND)
-        images = Image.objects.all().filter(ebook=ebook).all()
-        annotations = [
-            a for a in Annotation.objects.all()
-            if a.image in images
-            if a.type == 'HUM'
-        ]
 
-        # Inject image annotations into the html files
-        inject_image_annotations(str(uuid), images, annotations)
-        # Push new contents to GitHub if mode is 'production'
-        if mode == "development":
-            message = f"Download {uuid}"
-            push_epub_folder_to_github(str(uuid), message)
+        # If the book is in one of the invalid states its entry will be deleted
+        if ebook.state in list(map(lambda t: t[0], Ebook.INVALID_STATES)):
+            serializer = EbookSerializer(ebook)
+            response = JsonResponse(serializer.data, status=status.HTTP_204_NO_CONTENT)
+            ebook.delete()
+            return response
+        # The book needs to be processed before it can be downloaded
+        elif ebook.state != "PROCESSED":
+            serializer = EbookSerializer(ebook)
+            return JsonResponse(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+        inject = request.GET.get("inject")
+        if inject == "true":
+            images = Image.objects.all().filter(ebook=ebook).all()
+            annotations = [
+                a for a in Annotation.objects.all()
+                if a.image in images
+                if a.type == 'HUM'
+            ]
+            # Inject image annotations into the html files
+            inject_image_annotations(str(uuid), images, annotations)
+            # Push new contents to GitHub if mode is 'production'
+            if mode == "development":
+                message = f"Download {uuid}"
+                push_epub_folder_to_github(str(uuid), message)
+
         try:
             # Zip contents
             zip_file_name = zip_ebook(str(uuid))
