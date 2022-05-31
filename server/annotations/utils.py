@@ -1,13 +1,15 @@
-from images.models import Image
-from ebooks.models import Ebook
-from django.http import JsonResponse
-from rest_framework import status
-from json import JSONDecodeError
-import json
 import io
+import json
 import os
-from google.cloud import vision
 import requests
+
+from ebooks.models import Ebook
+from images.models import Image
+
+from django.http import JsonResponse
+from google.cloud import vision
+from json import JSONDecodeError
+from rest_framework import status
 
 
 def check_request_body(request):
@@ -114,8 +116,8 @@ def azure_api_call(image_path):
     for label in analysis['tags']:
         generated_labels[label['name']] = round(label['confidence'], 4)
 
-    # Get only the first 5 labels
-    if len(generated_labels) > 5:
-        generated_labels = dict(list(generated_labels.items())[:5])
+    # Get only the first 10 labels
+    if len(generated_labels) > 10:
+        generated_labels = dict(list(generated_labels.items())[:10])
 
     return description['text'], generated_labels
