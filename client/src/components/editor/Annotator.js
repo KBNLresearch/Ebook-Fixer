@@ -58,8 +58,8 @@ function Annotator({ currImage, ebookId }) {
             // For each image that is loaded, client fetches all metadata from server (even if the image does not exist yet)
             fetchImageMetadata()
         }
-    }, [currImage])    
-
+    }, [currImage])
+    
     /**
      * Makes API call to server for fetching image metadata
      * i.e. the image itself and all annotations linked to it
@@ -163,6 +163,7 @@ function Annotator({ currImage, ebookId }) {
                         currAiSelected={currAiSelected}
                         setCurrAiSelected={setCurrAISelected}
                         setAiAnnotationList={setAiAnnotationList}
+                        setSentence={setSentence}
                     />,
                 
                 'annotate': 

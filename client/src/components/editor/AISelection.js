@@ -12,7 +12,7 @@ import styles from './Annotator.module.scss'
  * @component
  * @returns the AISelection component
  */
-function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
+function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotationList, setSentence}) {
     
     const dropdownRef = useRef(null)
     const saveAiChoiceButtonRef = useRef(null)
@@ -40,6 +40,15 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
         }
 
     }, [])
+
+        
+    // Every time the AI choice changes, the AI suggestions disappear and "Generate" button enables again
+    // useEffect(() => {
+    //     setAiAnnotationList([])
+    //     setSentence(null)
+    //     // generateButtonRef.current.disabled = false
+    //     // generateButtonRef.current.innerText = notSavedTextButton
+    // }, [currAiSelected])
 
 
 
@@ -88,6 +97,8 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
             className={styles.dropdown}
             onChange={() => {
                 saveAiChoiceButtonRef.current.disabled = false
+                setAiAnnotationList([])
+                setSentence(null)
             }}>
             <option value="none" selected disabled hidden>
                 Select AI
@@ -111,7 +122,9 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
 AISelection.propTypes = {
     setStage: PropTypes.func.isRequired,
     currAiSelected: PropTypes.string.isRequired,
-    setCurrAiSelected: PropTypes.func.isRequired
+    setCurrAiSelected: PropTypes.func.isRequired,
+    setAiAnnotationList: PropTypes.func.isRequired,
+    setSentence: PropTypes.func.isRequired
 }
 
 export default AISelection

@@ -26,7 +26,6 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
     const savedTextButton = "Generated"
     const notSavedTextButton = "Get AI suggestions"
 
-
     useEffect(() => {
 
         if (aiAnnotationList.length > 0) {
@@ -37,15 +36,6 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
         }
 
     }, [])
-
-    
-    // Every time the AI choice changes, the AI suggestions disappear and "Generate" button enables again
-    useEffect(() => {
-        setAiAnnotationList([])
-        setSentence(null)
-        generateButtonRef.current.disabled = false
-        generateButtonRef.current.innerText = notSavedTextButton
-    }, [aiChoice])
 
 
     /**
@@ -108,6 +98,7 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
 
             switch(aiChoice) {
                 case 'BB_GOOGLE_LAB':
+                    console.log('Fetching Google Vision labels...')
                      getGoogleAnnotation(
                     ebookId,
                     imageId,
@@ -120,6 +111,7 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                 break
 
                 case 'BB_AZURE_SEN':
+                    console.log('Fetching Microsoft Azure labels and description...')
                     getMicrosoftAnnotation(
                         ebookId,
                         imageId,
