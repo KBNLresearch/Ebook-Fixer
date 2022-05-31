@@ -1,7 +1,12 @@
 import json
 
 from .models import Annotation
-from .views import annotation_save_view, google_annotation_generation_view, azure_annotation_generation_view
+from .views import (
+    annotation_save_view,
+    azure_annotation_generation_view,
+    google_annotation_generation_view
+)
+
 from ebooks.models import Ebook
 from images.models import Image
 

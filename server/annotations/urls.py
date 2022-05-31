@@ -1,4 +1,8 @@
-from .views import azure_annotation_generation_view, google_annotation_generation_view, annotation_save_view
+from .views import (
+    annotation_save_view,
+    azure_annotation_generation_view,
+    google_annotation_generation_view
+)
 
 from django.urls import path
 

@@ -5,9 +5,9 @@ from .models import Ebook
 from .serializers import EbookSerializer
 from .utils import (
     inject_image_annotations,
-    zip_ebook,
+    process_ebook,
     push_epub_folder_to_github,
-    process_ebook
+    zip_ebook
 )
 from annotations.models import Annotation
 from images.models import Image

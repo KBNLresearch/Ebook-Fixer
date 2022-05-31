@@ -1,4 +1,4 @@
-from .views import image_details_view, image_classification_view
+from .views import image_classification_view, image_details_view
 
 from django.urls import path
 
