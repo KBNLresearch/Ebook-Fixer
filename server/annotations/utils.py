@@ -49,6 +49,10 @@ def google_vision_labels(image_path):
     # Performs label detection on the image file
     response = client.label_detection(image=image)
     labels = response.label_annotations
+    print(f"Response type: {type(response)}")
+    print(f"Response: {response}")
+    print(f"Labels type: {type(labels)}")
+    print(f"Labels: {labels}")
 
     # Creates a dictionary that has (description, score) as (key, value)
     generated_labels = dict()
