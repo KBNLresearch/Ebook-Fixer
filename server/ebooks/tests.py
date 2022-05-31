@@ -125,7 +125,7 @@ class EbookViewsTest(TestCase):
 
         serializer = EbookSerializer(ebook)
         expected_msg = f'{serializer.data}'.replace("'", '"')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 202)
         self.assertEqual(msg, bytes(expected_msg, 'utf-8'))
 
     def test_ebook_upload_view_400(self):

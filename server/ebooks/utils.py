@@ -189,13 +189,16 @@ def process_ebook(ebook):
     try:
         # Unzip the epub file stored on the server, under MEDIA_ROOT/{uuid}
         # Returns the extracted title, which override the title
+        ebook.state = 'UNZIPPING'
+        ebook.save(update_fields=["state"])
         ebook_title = unzip_ebook(str(ebook.uuid), ebook.title)
         # Push unzipped contents to GitHub
         if mode == "development":
             message = f"Upload {ebook.uuid}"
             push_epub_folder_to_github(str(ebook.uuid), message)
     except FileNotFoundError:
-        ebook.delete()
+        ebook.state = 'UNZIPPING_FAILED'
+        ebook.save(update_fields=["state"])
         return
     ebook.title = ebook_title
     ebook.state = 'PROCESSED'

@@ -43,7 +43,7 @@ def ebook_download_view(request, uuid):
             # The book needs to be processed before it can be downloaded
             elif ebook.state != "PROCESSED":
                 serializer = EbookSerializer(ebook)
-                return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+                return JsonResponse(serializer.data, status=status.HTTP_202_ACCEPTED)
         except Ebook.DoesNotExist:
             return JsonResponse({'msg': f'Ebook with uuid {uuid} not found!'},
                                 status=status.HTTP_404_NOT_FOUND)

@@ -74,10 +74,8 @@ class DataProcessingPipelineTests(TestCase):
     def test_process_valid_ebook_no_file_found(self):
         process_ebook(self.ebook)
 
-        self.assertEqual(self.ebook.state, "CONVERTING")
+        self.assertEqual(self.ebook.state, "UNZIPPING_FAILED")
         self.assertEqual(self.ebook.checker_issues, "[]")
-        # Check that the ebook got deleted
-        self.assertEqual(Ebook.objects.filter(uuid=self.uuid).count(), 0)
 
     @patch("ebooks.utils.EpubCheck", MockValidEpubCheck)
     @patch("ebooks.utils.unzip_ebook", mock_unzipping)
