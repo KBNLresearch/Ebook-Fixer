@@ -47,7 +47,7 @@ function ProgressBar({ currStage, setStage, classification, userAnnotations }) {
     function getStyleAi() {
         if (currStage === 'ai-selection') {
            root.style.setProperty('--background_ai', colorCurrStage)
-        } else if (currStage === 'classify') {
+        } else if (currStage === 'classify' || currStage === 'loading') {
             root.style.setProperty('--background_ai', colorNextStage)
         } else {
             root.style.setProperty('--background_ai', colorSavedStage)

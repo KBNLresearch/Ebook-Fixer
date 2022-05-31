@@ -20,7 +20,7 @@ import { getGoogleAnnotation, getMicrosoftAnnotation} from '../../api/AnnotateIm
  * @component
  * @returns The AIAnnotator component
  */
-function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId, imageId, aiChoice, sentence, setSentence}) {
+function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId, imageId, aiChoice, sentence, setSentence, setStage}) {
 
     const generateButtonRef = useRef(null)
     const savedTextButton = "Generated"
@@ -103,12 +103,15 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
 
             switch(aiChoice) {
                 case 'Google Vision':
+                    // Loading spinner while user waits for AI annotations
+                    setStage('loading')
                     console.log('Fetching Google Vision labels...')
                      getGoogleAnnotation(
                     ebookId,
                     imageId,
                     getImgFilename(currImage)
                 ) .then(result => {
+                    setStage('annotate')
                     if (Object.prototype.hasOwnProperty.call(result, "annotations")){ 
                         // Order annotation labels by confidence ascendingly  
                         setAiAnnotationList(result.annotations)
@@ -117,12 +120,15 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                 break
 
                 case 'Microsoft Azure':
+                    // Loading spinner while user waits for AI annotations
+                    setStage('loading')
                     console.log('Fetching Microsoft Azure labels and description...')
                     getMicrosoftAnnotation(
                         ebookId,
                         imageId,
                         getImgFilename(currImage)
                     ) .then(result => {
+                        setStage('annotate')
                         if (Object.prototype.hasOwnProperty.call(result, "annotations")){
                                 setSentence(result.annotations.pop().text)
                                 // Order annotation labels by confidence ascendingly
@@ -173,6 +179,7 @@ AIAnnotator.propTypes = {
     aiChoice: PropTypes.string.isRequired,
     sentence: PropTypes.string.isRequired,
     setSentence: PropTypes.func.isRequired,
+    setStage: PropTypes.func.isRequired
 }
 
 export default AIAnnotator
