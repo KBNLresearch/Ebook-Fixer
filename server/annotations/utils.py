@@ -33,23 +33,6 @@ def check_request_body(request):
     return image, data
 
 
-def mocked_azure_api_call():
-    description = "This is an example automated sentecne."
-    generated_labels = dict()
-    generated_labels["Development"] = 0.9582
-    generated_labels["Mocked"] = 0.8346
-    generated_labels["Testing"] = 0.8313
-    return description, generated_labels
-
-
-def mocked_google_vision_labels():
-    generated_labels = dict()
-    generated_labels["Development"] = 0.9582
-    generated_labels["Mocked"] = 0.8346
-    generated_labels["Testing"] = 0.8313
-    return generated_labels
-
-
 def google_vision_labels(image_path):
     # Instantiates a client
     client = vision.ImageAnnotatorClient()

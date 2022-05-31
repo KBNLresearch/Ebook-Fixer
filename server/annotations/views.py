@@ -1,7 +1,6 @@
 from .serializers import AnnotationSerializer
 from .models import Annotation
 from .utils import check_request_body, google_vision_labels, azure_api_call
-# from .utils import mocked_azure_api_call, mocked_google_vision_labels
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
@@ -45,9 +44,6 @@ def google_annotation_generation_view(request):
 
         try:
             # Calls the helper method in utils
-
-            # TODO For production comment line below and uncomment line below that
-            # generated_labels = mocked_google_vision_labels()
             generated_labels = google_vision_labels(image_path)
         except FileNotFoundError:
             return JsonResponse({'msg': f'Img {image.filename} in ebook {image.ebook} not found'},
@@ -109,9 +105,6 @@ def azure_annotation_generation_view(request):
 
         try:
             # Calls the helper method in utils
-
-            # TODO For production comment line below and uncomment line below that
-            # generated_sentence, generated_labels = mocked_azure_api_call()
             generated_sentence, generated_labels = azure_api_call(image_path)
         except FileNotFoundError:
             return JsonResponse({'msg': f'Img {image.filename} in ebook {image.ebook} not found'},
