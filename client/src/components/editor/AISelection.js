@@ -6,13 +6,13 @@ import styles from './Annotator.module.scss'
  * The AISelection component handles selection of various AI types, such as Google Vision or Microsoft Azure.
  * After this step the AIAnnotator component will deal with generating the actual annotations using that AI.
  * 
- * @param {SetStateAction} setStage Sets the next stage in annotation process 
+ * @param {external:SetStateAction} setStage Sets the next stage in annotation process 
  * @param {String} currAiSelected AI type selected by user
- * @param {SetStateAction} setCurrAiSelected Sets the AI choice of the user
+ * @param {external:SetStateAction} setCurrAiSelected Sets the AI choice of the user
  * @component
  * @returns the AISelection component
  */
-function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotationList}) {
+function AISelection({setStage, currAiSelected, setCurrAiSelected}) {
     
     const dropdownRef = useRef(null)
     const saveAiChoiceButtonRef = useRef(null)
@@ -32,18 +32,14 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
             saveAiChoiceButtonRef.current.disabled = true
             // Show the selected AI in dropdown menu
             const idx = options.findIndex(opt => opt.val === currAiSelected || opt.keys.includes(currAiSelected)) + 1;
-            // console.log('Idx: ' + idx)
-            setAiAnnotationList([])
             dropdownRef.current.selectedIndex = idx;
         } else {
             // Show the label
             dropdownRef.current.selectedIndex = 0
             saveAiChoiceButtonRef.current.disabled = false
-            setAiAnnotationList([])
-            
         }
 
-    }, [currAiSelected])
+    }, [])
 
 
 
@@ -77,7 +73,6 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
             setStage('annotate')
         } else {
             saveAiChoiceButtonRef.current.disabled = false
-            setAiAnnotationList([])
         } 
     }
 
@@ -116,8 +111,7 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
 AISelection.propTypes = {
     setStage: PropTypes.func.isRequired,
     currAiSelected: PropTypes.string.isRequired,
-    setCurrAiSelected: PropTypes.func.isRequired,
-    setAiAnnotationList: PropTypes.func.isRequired
+    setCurrAiSelected: PropTypes.func.isRequired
 }
 
 export default AISelection
