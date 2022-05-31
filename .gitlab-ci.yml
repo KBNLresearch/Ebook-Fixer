@@ -133,6 +133,7 @@ push-container:
     DIGITAL_OCEAN_REGISTRY: registry.digitalocean.com
     DIGITAL_OCEAN_REPOSITORY: ebook-fixer
   before_script:
+    - apk add --no-cache curl
     - chmod u+x wait.sh && ./wait.sh
     - docker info
   script:
