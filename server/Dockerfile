@@ -1,4 +1,4 @@
-FROM python:3.10-alpine3.14
+FROM python:3.7-alpine
 
 ENV PYTHONUNBUFFERED 1
 
@@ -6,12 +6,19 @@ WORKDIR /app
 
 COPY requirements.txt ./
 
-RUN pip install -r requirements.txt --quiet && \
+RUN apk add --no-cache --update \
+    python3 python3-dev gcc \
+    gfortran musl-dev
+
+RUN pip install --upgrade pip setuptools && \
+    pip install -r requirements.txt --quiet && \
     apk add --no-cache bash && \
     apk add git && \
     apk add make && \
-    apk add --no-cache openjdk8-jre \
-    pip install git+https://github.com/LIAAD/yake
+    apk add --no-cache openjdk8-jre
+
+RUN pip install "git+https://github.com/LIAAD/yake"
+
 COPY . ./
 
 EXPOSE 8000
