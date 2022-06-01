@@ -88,8 +88,7 @@ def ebook_download_view(request, uuid):
 
 @csrf_exempt
 def ebook_upload_view(request):
-    """ POST endpoint for taking the uploaded epub from the request
-        and unzipping it under test-books/{uuid}/
+    """ POST endpoint for taking the uploaded epub from the request and unzipping it under test-books/{uuid}/. # noqa: E501
 
         Args:
             request (request object): The request object
