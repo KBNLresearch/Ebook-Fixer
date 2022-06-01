@@ -21,7 +21,6 @@ import ProgressBar from './ProgressBar'
  */
 
 function Annotator({ currImage, ebookId }) {
-
     const [stage, setStage] = useState(null)
     const [imageId, setImageId] = useState(-1)
     const [existingAltText, setExistingAltText] = useState(null)
@@ -37,7 +36,7 @@ function Annotator({ currImage, ebookId }) {
     useEffect(() => {
         // Note that this start stage is overidden by the image overview
         if (!currImage) {
-            setStage("loading")
+            setStage('loading')
         } else {
             setStage('classify')
             // Remove all AI suggestions when next image is loaded
@@ -46,7 +45,7 @@ function Annotator({ currImage, ebookId }) {
             setAiAnnotationList([])
             setUserAnnotationList([])
             setSentence(null)
-            
+
             // Save existing alt-text of image
             const altText = currImage.element.alt
             if (altText) {
@@ -56,24 +55,24 @@ function Annotator({ currImage, ebookId }) {
             fetchImageMetadata()
         }
     }, [currImage])
-    
+
     /**
      * Makes API call to server for fetching image metadata
      * i.e. the image itself and all annotations linked to it
      * and updates state accordingly
      */
     function fetchImageMetadata() {
-
         // As the user is waiting for the server's response
-        setStage("loading")
+        setStage('loading')
 
         console.log('Fetching image metadata...')
 
         getImageMetadataApiCall(ebookId, getImgFilename(currImage)).then(
-            
             (result) => {
-                setStage("overview")
-                if (Object.prototype.hasOwnProperty.call(result, 'annotations')) {
+                setStage('overview')
+                if (
+                    Object.prototype.hasOwnProperty.call(result, 'annotations')
+                ) {
                     console.log('Annotations: ')
                     console.log(result.annotations)
 
@@ -92,17 +91,27 @@ function Annotator({ currImage, ebookId }) {
                         }
                     })
                     // TODO: use timestamp of annotation?
-                    const allAiLabels = result.annotations.filter(el => el.type !== 'HUM')
+                    const allAiLabels = result.annotations.filter(
+                        (el) => el.type !== 'HUM'
+                    )
                     if (allAiLabels.length > 0) {
-                        const mostRecentAiChoice = allAiLabels[allAiLabels.length - 2].type
+                        const mostRecentAiChoice =
+                            allAiLabels[allAiLabels.length - 2].type
                         if (currAiSelected === null) {
                             // To display most recently selected AI in dropdown
                             // TODO: either use key or value of AI choice (now we use both)
                             setCurrAISelected(mostRecentAiChoice)
-                             // To display most recently generated AI suggestions when revisiting image
-                            setAiAnnotationList(allAiLabels.filter(el => el.type === mostRecentAiChoice))
+                            // To display most recently generated AI suggestions when revisiting image
+                            setAiAnnotationList(
+                                allAiLabels.filter(
+                                    (el) => el.type === mostRecentAiChoice
+                                )
+                            )
                             // To display most recently generated AI description
-                            if (mostRecentAiChoice === 'BB_AZURE_SEN' || mostRecentAiChoice === 'BB_AZURE_LAB'){
+                            if (
+                                mostRecentAiChoice === 'BB_AZURE_SEN' ||
+                                mostRecentAiChoice === 'BB_AZURE_LAB'
+                            ) {
                                 setSentence(allAiLabels.pop().text)
                             }
                         }
@@ -118,7 +127,7 @@ function Annotator({ currImage, ebookId }) {
             },
             (error) => {
                 if (error.cause === 404) {
-                    setStage("classify")
+                    setStage('classify')
                     console.log(
                         'Image does not exist on server yet, will be created after the first time classifying.'
                     )
@@ -140,46 +149,7 @@ function Annotator({ currImage, ebookId }) {
 
             {
                 {
-                'loading': 
-                    <div className={styles.loader}> Loading... </div>,
-
-                'classify': 
-                    <Classifier
-                        currImage={currImage}
-                        ebookId={ebookId}
-                        setImageId={setImageId}
-                        currClassification={currClassification}
-                        setCurrClassification={setCurrClassification}
-                        setStage={setStage}>
-                        {' '}
-                    </Classifier>,
-
-                'ai-selection':
-                   <AISelection 
-                        setStage={setStage}
-                        currAiSelected={currAiSelected}
-                        setCurrAiSelected={setCurrAISelected}
-                        setAiAnnotationList={setAiAnnotationList}
-                        setSentence={setSentence}
-                    />,
-                
-                'annotate': 
-                    <div className={styles.container}>
-                        <AIAnnotator
-                            aiAnnotationList={aiAnnotationList}
-                            setAiAnnotationList={setAiAnnotationList}
-                            currImage={currImage}
-                            ebookId={ebookId}
-                            imageId={imageId} 
-                            aiChoice={currAiSelected}
-                            sentence={sentence}
-                            setSentence={setSentence}
-                            setStage={setStage}
-                        >
-                            {' '}
-                            Please select an image to annotate.{' '}
-                        </div>
-                    ),
+                    loading: <div className={styles.loader}> Loading... </div>,
 
                     classify: (
                         <Classifier
@@ -198,6 +168,8 @@ function Annotator({ currImage, ebookId }) {
                             setStage={setStage}
                             currAiSelected={currAiSelected}
                             setCurrAiSelected={setCurrAISelected}
+                            setAiAnnotationList={setAiAnnotationList}
+                            setSentence={setSentence}
                         />
                     ),
 
@@ -209,7 +181,10 @@ function Annotator({ currImage, ebookId }) {
                                 currImage={currImage}
                                 ebookId={ebookId}
                                 imageId={imageId}
-                                aiChoice={currAiSelected}>
+                                aiChoice={currAiSelected}
+                                sentence={sentence}
+                                setSentence={setSentence}
+                                setStage={setStage}>
                                 {' '}
                             </AIAnnotator>
                             <UserAnnotator
