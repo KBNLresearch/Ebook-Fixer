@@ -74,6 +74,11 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
         } 
     }
 
+    function handleSkip() {
+        setCurrAiSelected("skipped")
+        setStage("annotate")
+    }
+
 
     return (
         <div className={styles.ai_input}>
@@ -81,6 +86,7 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
         <label htmlFor="selectClass">
             Please select AI to generate annotations
         </label>
+        
         <select
             ref={dropdownRef}
             className={styles.dropdown}
@@ -96,14 +102,25 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
                 <option value={opt.val} key={opt.key}> {opt.val} </option>
             ))}
         </select>
+        
+        <div>
         <button
             type="button"
             className={styles.save_button}
             ref={saveAiChoiceButtonRef}
             onClick={() => handleAiClick()}>
             {' '}
-            Save AI{' '}
+            Save{' '}
         </button>
+        <button
+            type="button"
+            className={styles.skip}
+            onClick={() => handleSkip()}
+            >
+            {' '}
+            Skip{' '}
+        </button>
+        </div>
         </div> 
     )
 }
