@@ -45,9 +45,12 @@ function FetchWithStatus({ fileId, setEbookFile, onError }) {
     // When the fileId is set, so when the component is initiated
     useEffect(() => {
         if (fileId) {
+            // Poll for file
             const result = pollForFile(fileId, addMessage)
+            // Once polling finishes
             result
                 .then((file) => {
+                    // Successfully get ePub
                     addMessage('File Received.')
                     setEbookFile(file)
                 })
@@ -55,6 +58,7 @@ function FetchWithStatus({ fileId, setEbookFile, onError }) {
                     if (err.statusCode === 404) {
                         addMessage('Ebook cannot be found on the server')
                     } else if (err.statusCode === 403) {
+                        // Problem with the ebook
                         err.json.then((json) => {
                             console.log(json)
                             if (json.state)
@@ -64,6 +68,7 @@ function FetchWithStatus({ fileId, setEbookFile, onError }) {
                     onError(err)
                 })
                 .finally(() => {
+                    // Hide spinner / loader
                     setStopped(true)
                 })
         }

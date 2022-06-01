@@ -39,6 +39,7 @@ export function getFileBlob(fileId) {
         })
 }
 
+// Error with json and statusCode as well as message
 export class BadEpubError extends Error {
     constructor(response) {
         if (response.status === 404) {
@@ -66,6 +67,7 @@ const invalidstateMessages = {
     NOT_ACCESSIBLE: 'The e-Pub is not accessible.',
 }
 
+// compares the state of the message to pre-defined states above
 export function interpretServerMessage(msg) {
     if (!msg.state) return 'Received file'
     // Ok state
@@ -80,6 +82,15 @@ export function interpretServerMessage(msg) {
     return 'Unknown'
 }
 
+/**
+ * This function polls the server for the ePub file every 1 second,
+ * logging intermediate results and
+ * throwing errors if the server rejects / doesn't find the e-book
+ *
+ * @param {String} fileId The id of the file to poll for
+ * @param {Function} processStateFunc the function used to log / process the intermediate respenses of the server
+ * @returns
+ */
 export function pollForFile(fileId, processStateFunc) {
     processStateFunc('Fetching e-Pub Status...')
     return getFileBlob(fileId)
