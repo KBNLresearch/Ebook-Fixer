@@ -10,8 +10,8 @@ RUN pip install -r requirements.txt --quiet && \
     apk add --no-cache bash && \
     apk add git && \
     apk add make && \
-    apk add --no-cache openjdk8-jre
-
+    apk add --no-cache openjdk8-jre \
+    pip install git+https://github.com/LIAAD/yake
 COPY . ./
 
 EXPOSE 8000

@@ -25,11 +25,13 @@ full_text = "Sources tell us that Google is acquiring Kaggle, a platform that ho
 "Google chief economist Hal Varian, Khosla Ventures and Yuri Milner "
 
 # TEXT RANK
-# TR_keywords = keywords.keywords(full_text, scores=True)
-# print(TR_keywords[0:10])
+TR_keywords = keywords.keywords(full_text, scores=True)
+print(TR_keywords[0:10])
+for kw, v in TR_keywords[0:10]:
+  print("Keyphrase: ",kw, ": score", round(1-v, 4))
 
 # YAKE
-kw_extractor = yake.KeywordExtractor(top=10, stopwords=None)
-keywords = kw_extractor.extract_keywords(full_text)
-for kw, v in keywords:
-  print("Keyphrase: ",kw, ": score", round(1-v, 4))
+# kw_extractor = yake.KeywordExtractor(top=10, stopwords=None)
+# keywords = kw_extractor.extract_keywords(full_text)
+# for kw, v in keywords:
+#   print("Keyphrase: ",kw, ": score", round(1-v, 4))
