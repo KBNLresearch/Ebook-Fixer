@@ -11,7 +11,6 @@ import styles from './Editor.module.scss'
 import EditorControls from './EditorControls'
 import Viewer from './Viewer'
 import FileDownload from '../epubfiles/FileDownload'
-import { getFileBlob } from '../../api/GetFile'
 import Overview from './Overview'
 import ShareURL from './ShareURL'
 import FetchWithStatus from '../epubfiles/FetchWithStatus'
@@ -115,9 +114,14 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
                 <FetchWithStatus
                     fileId={getEbookUUID()}
                     setEbookFile={(file) => {
-                        console.log('rec from editor')
                         readFile(file)
                         setFetchingEbookFile(false)
+                        setEbookNotFound(false)
+                    }}
+                    onError={(err) => {
+                        if (err.statusCode === 404) {
+                            setEbookNotFound(true)
+                        }
                     }}
                 />
             ) : (

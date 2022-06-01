@@ -27,12 +27,11 @@ export function getFileBlob(fileId) {
                     return response.blob()
                 }
 
-                // loading or rejected epub
+                // loading epub
                 return response.json()
             }
-            throw new Error('Response code: ' + response.status, {
-                cause: response.status,
-            })
+            // Error occured
+            throw new BadEpubError(response)
         })
         .then((response) => response)
         .catch((error) => {
@@ -40,17 +39,59 @@ export function getFileBlob(fileId) {
         })
 }
 
-export function pollForFile(fileId, processStatusFunc) {
-    processStatusFunc('Polling...')
+export class BadEpubError extends Error {
+    constructor(response) {
+        if (response.status === 404) {
+            super('Not Found')
+        } else {
+            super('Invalid State')
+        }
+        this.json = response.json()
+        this.statusCode = response.status
+    }
+}
+
+const stateMessages = {
+    VALIDATING: 'Validating e-Pub...',
+    UNZIPPING: 'Unzipping e-Pub...',
+    CONVERTING: 'Converting e-Pub...',
+    MAKING_ACCESSIBLE: 'Making the e-Pub accessible...',
+    PROCESSED: 'Processing complete.',
+}
+
+const invalidstateMessages = {
+    INVALID: 'The e-Pub is invalid.',
+    UNZIPPING_FAILED: 'Unzipping the e-Pub failed.',
+    CONVERSION_FAILED: 'Converting the e-Pub failed.',
+    NOT_ACCESSIBLE: 'The e-Pub is not accessible.',
+}
+
+export function interpretServerMessage(msg) {
+    if (!msg.state) return 'Received file'
+    // Ok state
+    if (stateMessages[msg.state]) {
+        return stateMessages[msg.state]
+    }
+    // Error state
+    if (invalidstateMessages[msg.state]) {
+        return invalidstateMessages[msg.state]
+    }
+    // Unknown state
+    return 'Unknown'
+}
+
+export function pollForFile(fileId, processStateFunc) {
+    processStateFunc('Fetching e-Pub Status...')
     return getFileBlob(fileId)
         .then((file) => {
             if (file.state) {
-                // Process status
-                processStatusFunc(file.state)
+                // Process stat
+                processStateFunc(interpretServerMessage(file))
+
                 return new Promise((resolve, reject) => {
                     setTimeout(
-                        () => resolve(pollForFile(fileId, processStatusFunc)),
-                        3000
+                        () => resolve(pollForFile(fileId, processStateFunc)),
+                        1000
                     )
                 })
             }

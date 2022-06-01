@@ -157,8 +157,6 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
             }
 
             setUploading(true)
-            console.log('uploading')
-            console.log(droppedFile)
 
             // -----------------------------------------------------
             // TODO: Remove the next line of code once the endpoint for downloading ebooks is done
@@ -174,7 +172,6 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
             formdata.append('epub', droppedFile[0])
             sendFile(formdata)
                 .then((result) => {
-                    setUploading(false)
                     if (
                         Object.prototype.hasOwnProperty.call(result, 'book_id')
                     ) {
@@ -266,7 +263,8 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                 Uploaded! Redirecting to Editor
             </div>
             <div className={status === 'error' ? styles.error : styles.hidden}>
-                Error! Please try again!
+                Error! This ebook cannot be processed by our system. <br />
+                Please try another ebook
             </div>
             <div
                 className={
@@ -286,6 +284,14 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                         setStatus('success')
                         setTimeout(() => {
                             navigate(`/ebook/${fileId}`)
+                        }, 2000)
+                    }}
+                    onError={(err) => {
+                        setStatus('error')
+                        setTimeout(() => {
+                            setUploading(false)
+                            setFilename('')
+                            setFileId('')
                         }, 2000)
                     }}
                 />
