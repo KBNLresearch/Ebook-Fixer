@@ -132,6 +132,7 @@ def azure_annotation_generation_view(request):
         return JsonResponse({'msg': 'Method Not Allowed!'},
                             status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
+
 @csrf_exempt
 def yake_annotation_generation_view(request):
     """ Receives the metadata for an image and uses
@@ -188,6 +189,7 @@ def yake_annotation_generation_view(request):
     else:
         return JsonResponse({'msg': 'Method Not Allowed!'},
                             status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
 
 @csrf_exempt
 def annotation_save_view(request):
