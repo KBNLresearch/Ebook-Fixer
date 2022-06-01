@@ -1,12 +1,14 @@
-from django.test import TestCase
-from uuid import uuid4
-from unittest.mock import patch
 import os
 import shutil
-from .utils import inject_image_annotations, unzip_ebook
+
 from .models import Ebook
-from images.models import Image
+from .utils import inject_image_annotations, unzip_ebook
 from annotations.models import Annotation
+from images.models import Image
+
+from django.test import TestCase
+from unittest.mock import patch
+from uuid import uuid4
 
 
 def mock_zip(filepath, rule):
@@ -139,15 +141,13 @@ class UtilsTest(TestCase):
         opf_file_content = '<metadata><dc:title>Hamlet</dc:title></metadata>'
 
         # Unzip the test.epub file, now containing 2 files
-        title = unzip_ebook("test-uuid", "test.zip")
+        title = unzip_ebook(f"{filepath}/test.zip", f"{filepath}")
 
         # Check the title
         self.assertEqual(title, 'Hamlet')
         # Check that the zip contents indeed exist
         self.assertTrue(os.path.isfile("test-books/test-uuid/META-INF/" + test_file_1))
         self.assertTrue(os.path.isfile("test-books/test-uuid/" + test_file_2))
-        # Check that the original zip file is removed
-        self.assertFalse(os.path.exists("test-books/test-uuid/" + "test.zip"))
         # Check that the contents remained the same
         with open(filepath + "META-INF/" + test_file_1, "r") as file1:
             self.assertEqual(file1.readline(), container_content)

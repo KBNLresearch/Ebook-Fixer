@@ -1,7 +1,8 @@
-from .serializers import AnnotationSerializer
 from .models import Annotation
-from .utils import check_request_body, google_vision_labels, azure_api_call
+from .serializers import AnnotationSerializer
+from .utils import azure_api_call, check_request_body, google_vision_labels
 # from .utils import mocked_azure_api_call, mocked_google_vision_labels
+
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status

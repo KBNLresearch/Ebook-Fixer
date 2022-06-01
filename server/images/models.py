@@ -1,5 +1,6 @@
-from django.db import models
 from ebooks.models import Ebook
+
+from django.db import models
 
 
 class Image(models.Model):

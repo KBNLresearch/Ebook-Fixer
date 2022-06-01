@@ -1,13 +1,15 @@
-from .serializers import ImageSerializer
+import json
+
 from .models import Image
-from ebooks.models import Ebook
+from .serializers import ImageSerializer
 from annotations.models import Annotation
 from annotations.serializers import AnnotationSerializer
+from ebooks.models import Ebook
+
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import status
 from json import JSONDecodeError
-import json
+from rest_framework import status
 
 
 def image_details_view(request):
