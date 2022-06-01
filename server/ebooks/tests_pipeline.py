@@ -1,3 +1,6 @@
+import os
+import shutil
+
 from .models import Ebook
 from .utils import check_ebook, process_ebook
 
@@ -86,14 +89,14 @@ class DataProcessingPipelineTests(TestCase):
     @patch("ebooks.utils.EpubCheck", MockValidEpubCheck)
     @patch("ebooks.utils.unzip_ebook", mock_unzipping)
     @patch("ebooks.utils.os.path.isfile", dummy_mock)
-    def test_process_valid_ebook_updated_title(self):
+    def test_process_valid_ebook_updated_title_missing_files(self):
         process_ebook(self.ebook)
 
         self.assertEqual(self.ebook.state, "CONVERSION_FAILED")
         self.assertEqual(self.ebook.title, "MOCKED_TITLE")
 
     @patch("ebooks.utils.EpubCheck", MockInvalidEpubCheck)
-    @patch("ebooks.utils.os.remove", dummy_mock)
+    @patch("ebooks.utils.shutil.rmtree", dummy_mock)
     @patch("ebooks.utils.os.path.isfile", dummy_mock)
     def test_process_invalid_ebook(self):
         process_ebook(self.ebook)
@@ -102,3 +105,37 @@ class DataProcessingPipelineTests(TestCase):
         self.assertEqual(self.ebook.checker_issues,
                          "['WARNING - 0 - file.html - WARNING_MESSAGE', "
                          "'ERROR - 1 - file.html - ERROR_MESSAGE']")
+
+    @patch("ebooks.utils.EpubCheck", MockValidEpubCheck)
+    @patch("ebooks.utils.unzip_ebook", mock_unzipping)
+    @patch("ebooks.utils.os.path.isfile", dummy_mock)
+    def test_process_valid_ebook(self):
+        ebook_dir = f"test-books/{self.ebook.uuid}"
+        os.mkdir(ebook_dir)
+        os.mkdir(f"{ebook_dir}/META-INF")
+        container_content = '<?xml version="1.0" encoding="UTF-8"?>' \
+                            '<container version="1.0" ' \
+                            'xmlns="urn:oasis:names:tc:opendocument:xmlns:container">' \
+                            '<rootfiles>' \
+                            '<rootfile full-path="content.opf" ' \
+                            'media-type="application/oebps-package+xml"/>' \
+                            '</rootfiles>' \
+                            '</container>'
+        opf_file_content = '<metadata><dc:language>en-US</dc:language></metadata>'
+        html_content = '<html xmlns="test"></html>'
+        with open(f"{ebook_dir}/META-INF/container.xml", 'w') as file:
+            file.write(container_content)
+        with open(f"{ebook_dir}/content.opf", 'w') as file:
+            file.write(opf_file_content)
+        with open(f"{ebook_dir}/test.html", 'w') as file:
+            file.write(html_content)
+        process_ebook(self.ebook)
+
+        expected_html_content = ['<html lang="en" xml:lang="en" xmlns="test">\n',
+                                 '</html>']
+        with open(f"{ebook_dir}/test.html", 'r') as file:
+            self.assertEqual(file.readlines(), expected_html_content)
+        self.assertEqual(self.ebook.state, "PROCESSED")
+        self.assertEqual(self.ebook.title, "MOCKED_TITLE")
+
+        shutil.rmtree(ebook_dir)

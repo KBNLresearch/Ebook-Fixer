@@ -185,6 +185,7 @@ def process_ebook(ebook):
         ebook (Ebook): the ebook object to be processed
     """
     epub_path = f"test-books/{ebook.epub.name}"
+    ebook_dir = f"test-books/{ebook.uuid}"
     valid, messages = check_ebook(epub_path)
     ebook.checker_issues = str(list(map(lambda m: f"{m.level} - {m.id} "
                                                   f"- {m.location} - {m.message}",
@@ -193,12 +194,11 @@ def process_ebook(ebook):
         ebook.state = 'INVALID'
         ebook.save(update_fields=["state", "checker_issues"])
         # Remove the original .epub file
-        os.remove(epub_path)
+        shutil.rmtree(ebook_dir)
         return
     ebook.state = 'UNZIPPING'
     ebook.save(update_fields=["state", "checker_issues"])
 
-    ebook_dir = f"test-books/{ebook.uuid}"
     try:
         ebook_title = unzip_ebook(epub_path, ebook_dir)
     except FileNotFoundError:
