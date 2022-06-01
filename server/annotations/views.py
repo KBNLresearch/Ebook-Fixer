@@ -135,7 +135,7 @@ def azure_annotation_generation_view(request):
 @csrf_exempt
 def yake_annotation_generation_view(request):
     """ Receives the metadata for an image and uses
-    BERT to generate annotation for it
+    Yake to generate annotation for it
     The annotations for save in the database.
 
     Args:

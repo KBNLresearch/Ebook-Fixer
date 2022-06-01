@@ -1,4 +1,4 @@
-FROM python:3.7-alpine
+FROM python:3.10-alpine3.14
 
 ENV PYTHONUNBUFFERED 1
 
@@ -8,7 +8,8 @@ COPY requirements.txt ./
 
 RUN apk add --no-cache --update \
     python3 python3-dev gcc \
-    gfortran musl-dev
+    gfortran musl-dev \
+    g++ zlib-dev jpeg-dev
 
 RUN pip install --upgrade pip setuptools && \
     pip install -r requirements.txt --quiet && \
