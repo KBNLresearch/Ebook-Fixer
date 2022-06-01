@@ -44,7 +44,7 @@ def ebook_download_view(request, uuid):
         # If the book is in one of the invalid states its entry will be deleted
         if ebook.state in list(map(lambda t: t[0], Ebook.INVALID_STATES)):
             serializer = EbookSerializer(ebook)
-            response = JsonResponse(serializer.data, status=status.HTTP_204_NO_CONTENT)
+            response = JsonResponse(serializer.data, status=status.HTTP_403_FORBIDDEN)
             ebook.delete()
             return response
         # The book needs to be processed before it can be downloaded
