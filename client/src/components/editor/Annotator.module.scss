@@ -187,6 +187,8 @@
     .dropdown {
         width: 60%;
         height: 2em;
+        margin-top: 10px;
+        margin-bottom: 10px;
         position: relative;
         font-size: medium;
     }
@@ -208,8 +210,9 @@
         font-family: inherit;
         font-size: 80%;
         margin-top: 0.2em;
+        border-radius: 7px;
         background-color: #27ce51;
-        border: 0.2em solid #ccc;
+        border: 0.1em solid #ccc;
         transition: border-color 0.2s ease, background-color 0.2s ease;
         padding: 0.5em 0.7em;
         visibility: visible;
@@ -225,6 +228,29 @@
         }
     }
 
+    button.skip {
+        font-family: inherit;
+        font-size: 80%;
+        margin-left: 0.3em;
+        margin-top: 0.2em;
+        border:0.1em solid  #191d1a;
+        color: #191d1a;
+        border-radius: 7px;
+        padding: 0.5em 0.7em;
+        visibility: visible;
+
+        &:hover {
+            background-color: #2ebf50;
+            border-color: #eee;
+        }
+        &:disabled {
+            background-color: #b8c3b8;
+            border-color: #eee;
+            cursor: default;
+        }
+    }
+    
+    
     button.restart_button {
         font-family: inherit;
         font-size: 80%;
