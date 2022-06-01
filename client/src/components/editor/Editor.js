@@ -93,7 +93,7 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>Editor</h1>
-            {ebookNotFound ? (
+            {ebookNotFound && !fetchingEbookFile ? (
                 <span style={{ color: 'red' }}>E-book not found!</span>
             ) : (
                 <div>
@@ -110,7 +110,7 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
                     <ShareURL />
                 </div>
             )}
-            {fetchingEbookFile && ebookFile === null ? (
+            {fetchingEbookFile || ebookNotFound ? (
                 <FetchWithStatus
                     fileId={getEbookUUID()}
                     setEbookFile={(file) => {
@@ -122,6 +122,7 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
                         if (err.statusCode === 404) {
                             setEbookNotFound(true)
                         }
+                        setFetchingEbookFile(false)
                     }}
                 />
             ) : (
@@ -142,7 +143,12 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
                     />
                     <Viewer id={viewerId} />
                 </div>
-                <div className={styles.annotator_container}>
+                <div
+                    className={
+                        styles.annotator_container +
+                        ' ' +
+                        (!rendition ? styles.invisible : '')
+                    }>
                     {currentImage && imgFilename ? (
                         <Annotator
                             currImage={currentImage}

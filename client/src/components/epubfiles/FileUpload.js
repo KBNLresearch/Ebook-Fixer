@@ -255,7 +255,9 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                 </button>
             </div>
 
-            <div className={uploading ? '' : styles.hidden}>Uploading…</div>
+            <div className={uploading ? '' : styles.hidden}>
+                {fileId ? 'Processing file...' : 'Uploading…'}
+            </div>
             <div
                 className={
                     status === 'success' ? styles.success : styles.hidden
