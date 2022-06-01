@@ -1,3 +1,4 @@
+import glob
 import os
 import shutil
 import subprocess
@@ -28,11 +29,14 @@ def inject_image_annotations(ebook_uuid, images, annotations):
                 html_content = open(storage_path + html_file)
                 data = BeautifulSoup(html_content, 'html.parser')
                 images_in_html = data.find_all('img', src=True)
+
+                # Inject the image annotations
                 for im in images_in_html:
                     basename = os.path.basename(image.filename)
                     if str(im['src']).endswith(basename):
                         im['alt'] = image_annotation.text
 
+                # Update the html files
                 with open(storage_path + html_file, "w") as file:
                     text = data.prettify()
                     text = add_indentation(text, 3)
@@ -66,10 +70,10 @@ def zip_ebook(ebook_uuid):
     Zips the ebook with that uuid and returns the path to the zipped epub.
 
     Args:
-        ebook_uuid (String): uuid of ebook to zip
+        ebook_uuid (String): the uuid of the ebook to zip
 
     Returns:
-        Path: path to zipped .epub file to download
+        Path: path to the zipped .epub file to download
     """
     path_name = f"test-books/{ebook_uuid}/"
     zipfile_name = shutil.make_archive(ebook_uuid, 'zip', path_name)
@@ -79,14 +83,13 @@ def zip_ebook(ebook_uuid):
 
 
 def extract_title(epub_path):
-    """ Looks for the container.xml file under the path send as parameter
-        and extracts the path to the root file from which we can get the title.
+    """ Looks for the container.xml file under the path send as parameter and extracts the path to the root file from which we can get the title. # noqa: E501
 
     Args:
         epub_path (String): the path to the unzipped contents
 
     Returns:
-        String: extracted title of ebook
+        String: extracted title of the ebook
     """
     filepath = epub_path + "/META-INF/container.xml"
     with open(filepath, 'r') as file:
@@ -100,7 +103,7 @@ def extract_title(epub_path):
 
 def unzip_ebook(epub_path, contents_dir):
     """ Unzips the epub file found at 'epub_path' under the 'contents_dir'.
-    Calls helper to extract the epub title.
+    Calls a helper method to extract the epub title.
 
     Args:
         epub_path (String): the path to the .epub file
@@ -117,9 +120,24 @@ def unzip_ebook(epub_path, contents_dir):
     return extract_title(contents_dir)
 
 
-def push_epub_folder_to_github(folder, message):
-    """ Push the folder of the contents of the book to
-    the GitHub repository from server/wsgi.py
+def reformat_html_files(html_files, language_tag=None):
+    for html_file in html_files:
+        html_content = open(html_file)
+        data = BeautifulSoup(html_content, 'html.parser')
+        html = data.find('html')
+
+        if language_tag is not None:
+            html['xml:lang'] = language_tag
+            html['lang'] = language_tag
+
+        with open(html_file, "w") as file:
+            text = data.prettify()
+            text = add_indentation(text, 3)
+            file.write(text)
+
+
+def push_ebook_folder_to_github(folder, message):
+    """ Push the folder of the contents of the book to the GitHub repository from server/wsgi.py.
 
     Args:
         folder (String): the folder with the book contents
@@ -138,10 +156,9 @@ def check_ebook(ebook_filepath):
         ebook_filepath (String): the local filepath where the book can be found
 
     Returns:
-        boolean, list: returns the messages received from the EpubCheck
-        and true if the book is valid or false otherwise
+        Boolean, List: returns the messages received from the EpubCheck and true if the book is valid or false otherwise # noqa: E501
     """
-    epub_path = f"/app/{ebook_filepath}"
+    epub_path = os.path.join(os.path.basename("."), ebook_filepath)
     if not os.path.isfile(epub_path):
         return False, ["Original .epub file not found!"]
     result = EpubCheck(epub_path)
@@ -158,11 +175,11 @@ def check_ebook(ebook_filepath):
 
 
 def process_ebook(ebook):
-    """ The main method that is invoked in the upload view and runs
-    all tasks of the data processing pipeline.
+    """ The main method that is invoked in the upload view and runs all tasks of the data processing pipeline. # noqa: E501
     Checks whether the uploaded book is valid.
     Converts a valid ePub2 into an ePub3.
     Makes the new ePub3 accessible.
+    Extracts the contents of the original .epub file and saves them in local storage.
 
     Args:
         ebook (Ebook): the ebook object to be processed
@@ -182,21 +199,42 @@ def process_ebook(ebook):
     ebook.save(update_fields=["state", "checker_issues"])
 
     ebook_dir = f"test-books/{ebook.uuid}"
-    mode = os.environ.get('GITHUB_MODE', 'production')
     try:
         ebook_title = unzip_ebook(epub_path, ebook_dir)
-        # Push unzipped contents to GitHub
-        if mode == "development":
-            message = f"Upload {ebook.uuid}"
-            push_epub_folder_to_github(ebook_dir, message)
     except FileNotFoundError:
         ebook.state = 'UNZIPPING_FAILED'
         ebook.save(update_fields=["state"])
         return
 
+    html_files = glob.glob(f"{ebook_dir}/**/*html", recursive=True)
+    # Push unzipped contents to GitHub
+    mode = os.environ.get('GITHUB_MODE', 'production')
+    if mode == "development":
+        message = f"{ebook.uuid}: upload"
+        reformat_html_files(html_files)
+        push_ebook_folder_to_github(ebook_dir, message)
+
     ebook.title = ebook_title
     ebook.state = 'CONVERTING'
     ebook.save(update_fields=["title", "state"])
+
+    try:
+        # Retrieve the language tag from the root file and add it to all html files
+        filepath = f"{ebook_dir}/META-INF/container.xml"
+        with open(filepath, 'r') as file:
+            content = BeautifulSoup(file, 'xml')
+            opf_path = ebook_dir + "/" + content.find('rootfile')["full-path"]
+            with open(opf_path, 'r') as f:
+                opf_content = BeautifulSoup(f, 'xml')
+                language = opf_content.find('language').string[:2]
+        reformat_html_files(html_files, language)
+        if mode == "development":
+            message = f"{ebook.uuid}: add language tags"
+            push_ebook_folder_to_github(ebook_dir, message)
+    except FileNotFoundError:
+        ebook.state = 'CONVERSION_FAILED'
+        ebook.save(update_fields=["state"])
+        return
 
     # TODO: CONVERT TO EPUB3
     # TODO: MAKE ACCESSIBLE

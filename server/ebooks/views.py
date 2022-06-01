@@ -6,7 +6,7 @@ from .serializers import EbookSerializer
 from .utils import (
     inject_image_annotations,
     process_ebook,
-    push_epub_folder_to_github,
+    push_ebook_folder_to_github,
     zip_ebook
 )
 from annotations.models import Annotation
@@ -64,8 +64,8 @@ def ebook_download_view(request, uuid):
             inject_image_annotations(str(uuid), images, annotations)
             # Push new contents to GitHub if mode is 'production'
             if mode == "development":
-                message = f"Download {uuid}"
-                push_epub_folder_to_github(str(uuid), message)
+                message = f"{uuid}: download"
+                push_ebook_folder_to_github(str(uuid), message)
 
         try:
             # Zip contents
