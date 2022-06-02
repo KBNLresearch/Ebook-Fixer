@@ -56,6 +56,10 @@ def dummy_mock(filepath):
     return True
 
 
+def mock_pushing_to_github(ebook_dir, message):
+    pass
+
+
 class DataProcessingPipelineTests(TestCase):
     def setUp(self) -> None:
         self.uuid = uuid4()
@@ -89,6 +93,7 @@ class DataProcessingPipelineTests(TestCase):
     @patch("ebooks.utils.EpubCheck", MockValidEpubCheck)
     @patch("ebooks.utils.unzip_ebook", mock_unzipping)
     @patch("ebooks.utils.os.path.isfile", dummy_mock)
+    @patch("ebooks.utils.push_ebook_folder_to_github", mock_pushing_to_github)
     def test_process_valid_ebook_updated_title_missing_files(self):
         process_ebook(self.ebook)
 
@@ -109,6 +114,7 @@ class DataProcessingPipelineTests(TestCase):
     @patch("ebooks.utils.EpubCheck", MockValidEpubCheck)
     @patch("ebooks.utils.unzip_ebook", mock_unzipping)
     @patch("ebooks.utils.os.path.isfile", dummy_mock)
+    @patch("ebooks.utils.push_ebook_folder_to_github", mock_pushing_to_github)
     def test_process_valid_ebook(self):
         ebook_dir = f"test-books/{self.ebook.uuid}"
         os.mkdir(ebook_dir)
