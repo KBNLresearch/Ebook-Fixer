@@ -9,15 +9,14 @@ from pathlib import Path
 from zipfile import ZipFile
 
 
-def inject_image_annotations(ebook_uuid, images, annotations):
+def inject_image_annotations(storage_path, images, annotations):
     """ Injects all human image annotations to their corresponding ALT-texts in the HTML files.
 
         Args:
-            ebook_uuid (String): uuid of ebook
+            storage_path (String): the path to the contents of the ebook
             images (List[Image]): all images in that ebook
             annotations (List[Annotation]): all human annotations for the images
     """
-    storage_path = f"test-books/{ebook_uuid}"
     for image in images:
         try:
             image_annotation = filter(lambda a: a.image == image, annotations).__next__()

@@ -61,11 +61,12 @@ def ebook_download_view(request, uuid):
                 if a.type == 'HUM'
             ]
             # Inject image annotations into the html files
-            inject_image_annotations(str(uuid), images, annotations)
+            ebook_dir = f"test-books/{uuid}"
+            inject_image_annotations(ebook_dir, images, annotations)
             # Push new contents to GitHub if mode is 'production'
             if mode == "development":
                 message = f"{uuid}: download"
-                push_ebook_folder_to_github(str(uuid), message)
+                push_ebook_folder_to_github(ebook_dir, message)
 
         try:
             # Zip contents
