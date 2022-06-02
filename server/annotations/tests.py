@@ -275,7 +275,6 @@ class AnnotationViewsTest(TestCase):
         response, msg = self.azure_response_annotation_generation_view(content)
 
         self.assertEqual(response.status_code, 200)
-    
 
     def yake_response_annotation_generation_view(self, content):
         request = self.factory.put("generate/",
