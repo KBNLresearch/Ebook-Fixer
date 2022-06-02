@@ -126,7 +126,7 @@ function ProgressBar({ currStage, setStage, classification, userAnnotations }) {
                 // onMouseOver={root.style.setProperty('--background_class', 'red')}
                 // onFocus={root.style.setProperty('--background_class', 'red')}
                 onClick={() => handleClassificationClick()}> 
-                <span> Classification </span>
+                <span> Classify </span>
             </button>
 
             <button 
@@ -144,7 +144,7 @@ function ProgressBar({ currStage, setStage, classification, userAnnotations }) {
                 ref={manualButtonRef}
                 disabled={classification === null}
                 onClick={() => handleManualClick()}> 
-                <span> Manual </span>
+                <span> Annotate </span>
             </button>
             
             <button 

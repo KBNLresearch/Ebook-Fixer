@@ -32,7 +32,7 @@ button {
 
 
 .class_step {
-    width: 120px;
+    width: 100px;
     height: 50px;
     background: var(--background_class);
     color: rgb(0, 0, 0);
@@ -57,12 +57,14 @@ button {
     }
     span {
       display: table-cell;
-      vertical-align: middle;
+      position: absolute;
+      top: 14px;
+      left: 25px;
     }
 }
 
 .ai_step {
-  width: 110px;
+  width: 100px;
   height: 50px;
   background: var(--background_ai);
   text-align: center;
@@ -108,7 +110,7 @@ button {
 
 
 .manual_step {
-    width: 110px;
+    width: 120px;
     height: 50px;
     background: var(--background_manual);
     color: rgb(0, 0, 0);

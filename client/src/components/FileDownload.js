@@ -15,7 +15,7 @@ function FileDownload({ ebookId }) {
         <div id="container" className={styles.container}>
             <div className={styles.popup}>Download annotated ePub file</div>
             <button type="button" onClick={() => getFile(ebookId)}>
-                Download
+                Download e-book
             </button>
         </div>
     )

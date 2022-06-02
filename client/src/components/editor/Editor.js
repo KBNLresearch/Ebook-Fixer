@@ -96,22 +96,19 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>Editor</h1>
             {ebookNotFound ? (
                 <span style={{ color: 'red' }}>E-book not found!</span>
             ) : (
                 <div>
-                    {currentImage && imgFilename ? (
+                    {/* {currentImage && imgFilename ? (
                         <div className={styles.back_to_overview_btn}>
                             <Link to={`/ebook/${uuid}`}>
-                                <button type="button">Back to Overview</button>
+                                <button type="button">Back to overview</button>
                             </Link>
                         </div>
                     ) : (
                         ''
-                    )}
-                    <span> Editing e-book: {ebookTitle} </span>
-                    <ShareURL />
+                    )} */}
                 </div>
             )}
 
@@ -134,8 +131,6 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
                     ) : (
                         <Overview imageList={imageList} />
                     )}
-
-                    <FileDownload ebookId={getEbookUUID()} />
                 </div>
             </div>
         </div>
