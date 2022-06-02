@@ -8,9 +8,9 @@
     flex-grow: 1;
 }
 
-// .viewer {
-//     min-height: 600px;
-// }
+.invisible {
+    visibility: hidden;
+}
 
 .viewer_container {
     grid-area: viewer_container;

@@ -120,32 +120,37 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
         setCurrentImageIndex(newIndex)
     }
 
-    return (
-        <div className={styles.editor_controls}>
-            <button
-                type="button"
-                disabled={prevDisabled}
-                className={styles.navigation_button}
-                onClick={handlePrev}>
-                Previous Image
-            </button>
-            <button
-                type="button"
-                disabled={nextDisabled}
-                className={styles.navigation_button}
-                onClick={handleNext}>
-                {currentImageIndex === -1
-                    ? 'Begin Annotating the First Image'
-                    : 'Next Image'}
-            </button>
-        </div>
-    )
+    if (rendition)
+        return (
+            <div className={styles.editor_controls}>
+                <button
+                    type="button"
+                    disabled={prevDisabled}
+                    className={styles.navigation_button}
+                    onClick={handlePrev}>
+                    Previous Image
+                </button>
+                <button
+                    type="button"
+                    disabled={nextDisabled}
+                    className={styles.navigation_button}
+                    onClick={handleNext}>
+                    {currentImageIndex === -1
+                        ? 'Begin Annotating the First Image'
+                        : 'Next Image'}
+                </button>
+            </div>
+        )
+}
+
+EditorControls.defaultProps = {
+    rendition: null,
 }
 
 EditorControls.propTypes = {
     imageList: PropTypes.arrayOf(PropTypes.instanceOf(ImageInfo)).isRequired,
     getImage: PropTypes.func.isRequired,
-    rendition: PropTypes.shape({}).isRequired,
+    rendition: PropTypes.shape({}),
     setCurrentImage: PropTypes.func.isRequired,
 }
 
