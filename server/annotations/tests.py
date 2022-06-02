@@ -126,6 +126,21 @@ class AnnotationViewsTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
+    # TODO Fix this test
+    # @patch("annotations.views.google_vision_labels", mock_google_vision_labels)
+    # def test_google_annotation_generation_view_200_annotations_already_exists(self):
+    #     uuid = uuid4()
+    #     image_id = 1
+    #     ebook = Ebook.objects.create(uuid=uuid, title="Test title", epub="test.epub")
+    #     image1 = Image.objects.create(id=image_id, ebook=ebook,
+    #                                  filename="test.jpg", location="test.html")
+    #     Annotation.objects.create(image=image1, type="BB_GOOGLE_LAB", text="Already existing")
+
+    #     content = {"ebook": str(uuid), "id": image_id, "filename": "test.jpg"}
+    #     response, msg = self.response_annotation_generation_view(content)
+
+    #     self.assertEqual(response.status_code, 200)
+
     def test_annotation_save_view_405(self):
         request = self.factory.get("save/")
         request.user = self.user
