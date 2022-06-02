@@ -1,6 +1,9 @@
 import { useEffect, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import styles from './Annotator.module.scss'
+import { ImageInfo } from '../../helpers/EditorHelper'
+import { getImgFilename } from '../../helpers/EditImageHelper'
+import { getGoogleAnnotation, getMicrosoftAnnotation} from '../../api/AnnotateImage'
 
 /**
  * The AISelection component handles selection of various AI types, such as Google Vision or Microsoft Azure.
@@ -12,7 +15,7 @@ import styles from './Annotator.module.scss'
  * @component
  * @returns the AISelection component
  */
-function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotationList, setSentence}) {
+function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotationList, setSentence, currImage, ebookId, imageId}) {
     
     const dropdownRef = useRef(null)
     const saveAiChoiceButtonRef = useRef(null)
@@ -64,11 +67,19 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
     function handleAiClick() {
         const choice = getSelectedAi()
         setCurrAiSelected(choice)
+        console.log(currAiSelected)
+        console.log(choice)
+
 
         if (choice !== 'Invalid') {
+            
+            // setStage('annotate')
+            display(choice)
             saveAiChoiceButtonRef.current.disabled = true
-            saveAiChoiceButtonRef.current.innerText = 'AI saved'
-            setStage('annotate')
+            saveAiChoiceButtonRef.current.innerText = 'Generated'
+            console.log(currAiSelected)
+            console.log(currImage)
+
         } else {
             saveAiChoiceButtonRef.current.disabled = false
         } 
@@ -77,6 +88,64 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
     function handleSkip() {
         setCurrAiSelected("skipped")
         setStage("annotate")
+    }
+
+     /**
+     * Makes API call to server for fetching AI annotations
+     * and disables "Generate" button
+     */
+      function display(choice) {
+        if (currImage) {
+            
+            // When only the client is run during development, we still want to inspect this function though
+            // if (!ebookId) {
+            //     console.log('No e-book UUID stored on client!')
+            // }
+
+            switch(choice) {
+                case 'Google Vision':
+                    // Loading spinner while user waits for AI annotations
+                    setStage('loading')
+                    console.log('Fetching Google Vision labels...')
+                     getGoogleAnnotation(
+                    ebookId,
+                    imageId,
+                    getImgFilename(currImage)
+                ) .then(result => {
+                    setStage("annotate")
+                    if (Object.prototype.hasOwnProperty.call(result, "annotations")){ 
+                        // Order annotation labels by confidence ascendingly  
+                        setAiAnnotationList(result.annotations)
+                       }
+                })
+                break
+
+                case 'Microsoft Azure':
+                    // Loading spinner while user waits for AI annotations
+                    setStage('loading')
+                    console.log('Fetching Microsoft Azure labels and description...')
+                    getMicrosoftAnnotation(
+                        ebookId,
+                        imageId,
+                        getImgFilename(currImage)
+                    ) .then(result => {
+                        setStage('annotate')
+                        if (Object.prototype.hasOwnProperty.call(result, "annotations")){
+                                setSentence(result.annotations.pop().text)
+                                // Order annotation labels by confidence ascendingly
+                                setAiAnnotationList(result.annotations)
+                           }
+                    })
+                    break
+                
+                default :
+                    // TODO: hide AI annotator boxes
+            }
+        }
+            
+            // generateButtonRef.current.disabled = true
+            // generateButtonRef.current.innerText = savedTextButton
+        
     }
 
 
@@ -130,7 +199,10 @@ AISelection.propTypes = {
     currAiSelected: PropTypes.string.isRequired,
     setCurrAiSelected: PropTypes.func.isRequired,
     setAiAnnotationList: PropTypes.func.isRequired,
-    setSentence: PropTypes.func.isRequired
+    setSentence: PropTypes.func.isRequired,
+    currImage: PropTypes.instanceOf(ImageInfo).isRequired,
+    ebookId: PropTypes.string.isRequired,
+    imageId: PropTypes.string.isRequired,
 }
 
 export default AISelection

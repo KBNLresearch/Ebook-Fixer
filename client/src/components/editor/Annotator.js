@@ -160,6 +160,9 @@ function Annotator({ currImage, ebookId }) {
                         setCurrAiSelected={setCurrAISelected}
                         setAiAnnotationList={setAiAnnotationList}
                         setSentence={setSentence}
+                        currImage={currImage}
+                        ebookId={ebookId}
+                        imageId={imageId} 
                     />,
                 
                 'annotate': 

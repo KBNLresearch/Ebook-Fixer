@@ -94,77 +94,77 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                 return classes[0]
             } 
         }
-        function getDisplayList() {
-            display()
-            return(
-                 aiAnnotationList.map((obj) => (<p className={getProportionalClass(obj)}> {obj.text} </p>))
-            )
+        // function getDisplayList() {
+        
+        //     return(
+        //          aiAnnotationList.map((obj) => (<p className={getProportionalClass(obj)}> {obj.text} </p>))
+        //     )
 
-        }
+        // }
 
-    /**
-     * Makes API call to server for fetching AI annotations
-     * and disables "Generate" button
-     */
-    function display() {
-        if (currImage) {
+    // /**
+    //  * Makes API call to server for fetching AI annotations
+    //  * and disables "Generate" button
+    //  */
+    // function display() {
+    //     if (currImage) {
             
-            // When only the client is run during development, we still want to inspect this function though
-            if (!ebookId) {
-                console.log('No e-book UUID stored on client!')
-            }
+    //         // When only the client is run during development, we still want to inspect this function though
+    //         if (!ebookId) {
+    //             console.log('No e-book UUID stored on client!')
+    //         }
 
-            switch(aiChoice) {
-                case 'Google Vision':
-                    // Loading spinner while user waits for AI annotations
-                    // setStage('loading')
-                    console.log('Fetching Google Vision labels...')
-                     getGoogleAnnotation(
-                    ebookId,
-                    imageId,
-                    getImgFilename(currImage)
-                ) .then(result => {
-                    setStage("annotate")
-                    if (Object.prototype.hasOwnProperty.call(result, "annotations")){ 
-                        // Order annotation labels by confidence ascendingly  
-                        setAiAnnotationList(result.annotations)
-                       }
-                })
-                break
+    //         switch(aiChoice) {
+    //             case 'Google Vision':
+    //                 // Loading spinner while user waits for AI annotations
+    //                 // setStage('loading')
+    //                 console.log('Fetching Google Vision labels...')
+    //                  getGoogleAnnotation(
+    //                 ebookId,
+    //                 imageId,
+    //                 getImgFilename(currImage)
+    //             ) .then(result => {
+    //                 setStage("annotate")
+    //                 if (Object.prototype.hasOwnProperty.call(result, "annotations")){ 
+    //                     // Order annotation labels by confidence ascendingly  
+    //                     setAiAnnotationList(result.annotations)
+    //                    }
+    //             })
+    //             break
 
-                case 'Microsoft Azure':
-                    // Loading spinner while user waits for AI annotations
-                    setStage('loading')
-                    console.log('Fetching Microsoft Azure labels and description...')
-                    getMicrosoftAnnotation(
-                        ebookId,
-                        imageId,
-                        getImgFilename(currImage)
-                    ) .then(result => {
-                        setStage('annotate')
-                        if (Object.prototype.hasOwnProperty.call(result, "annotations")){
-                                setSentence(result.annotations.pop().text)
-                                // Order annotation labels by confidence ascendingly
-                                setAiAnnotationList(result.annotations)
-                           }
-                    })
-                    break
+    //             case 'Microsoft Azure':
+    //                 // Loading spinner while user waits for AI annotations
+    //                 setStage('loading')
+    //                 console.log('Fetching Microsoft Azure labels and description...')
+    //                 getMicrosoftAnnotation(
+    //                     ebookId,
+    //                     imageId,
+    //                     getImgFilename(currImage)
+    //                 ) .then(result => {
+    //                     setStage('annotate')
+    //                     if (Object.prototype.hasOwnProperty.call(result, "annotations")){
+    //                             setSentence(result.annotations.pop().text)
+    //                             // Order annotation labels by confidence ascendingly
+    //                             setAiAnnotationList(result.annotations)
+    //                        }
+    //                 })
+    //                 break
                 
-                default :
-                    // TODO: hide AI annotator boxes
-            }
+    //             default :
+    //                 // TODO: hide AI annotator boxes
+    //         }
             
-            // generateButtonRef.current.disabled = true
-            // generateButtonRef.current.innerText = savedTextButton
-        }
-    }
+    //         // generateButtonRef.current.disabled = true
+    //         // generateButtonRef.current.innerText = savedTextButton
+    //     }
+    // }
 
     
         return (
             <div className={styles.ai_control}>
                 <label htmlFor="AiLabelsBox" className={styles.box_label}> Generated labels </label>
                 <div  className={styles.ai_labels_box} id="AiLabelsBox" > 
-                    { getDisplayList()} 
+                    {                 aiAnnotationList.map((obj) => (<p className={getProportionalClass(obj)}> {obj.text} </p>))} 
                 </div>
                 {aiChoice === 'Microsoft Azure' &&
                     <div>
