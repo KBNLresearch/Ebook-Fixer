@@ -7,6 +7,17 @@ import { ReactComponent as MenuSVG } from '../assets/svgs/menu-icon.svg'
 import { ReactComponent as GoBackArrowSVG } from '../assets/svgs/go-back-arrow.svg'
 import FileDownload from './FileDownload'
 
+/**
+ * This component creates an expandable sidebar which is used for navigation
+ * and accessing extra functionality (e.g. exporting epubs) in our app.
+ * it aso links to external resources, like the W3C annotation guidelines and
+ * our github and developer docs.
+ *
+ * @param {bool} download Whether the user can download an ebook
+ * @param {bool} imageSelected Whether the user selected an image
+ * @component
+ * @returns
+ */
 function Sidebar({ download, imageSelected }) {
     const { uuid, imgFilename } = useParams()
 
@@ -19,7 +30,7 @@ function Sidebar({ download, imageSelected }) {
      * If it detects one outside the container for the share button & popup then it closes the popup
      *
      * One problem is that if the use clicks on disabled elements, then there is no mousedown event.
-     * So if the user clicks on a disabled button outside the popup, it won't be closed.
+     * So if the user clicks on a disabled button outside the sidebar, it won't be closed.
      * I don't think that's a big problem that really needs solving.
      *
      * @param {Event} e MouseDown Event

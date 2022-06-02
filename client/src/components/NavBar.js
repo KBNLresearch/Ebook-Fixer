@@ -1,25 +1,19 @@
-import {
-    Link,
-    Routes,
-    Route,
-    useLocation,
-    useNavigate,
-    useParams,
-} from 'react-router-dom'
-import { useEffect, useRef, useState } from 'react'
-import PropTypes from 'prop-types'
-import styles from './NavBar.module.scss'
-import { ReactComponent as MenuSVG } from '../assets/svgs/menu-icon.svg'
-import { ReactComponent as GoBackArrowSVG } from '../assets/svgs/go-back-arrow.svg'
-import FileDownload from './FileDownload'
-import Sidebar from './Sidebar'
-
+import { Link, Route, Routes, useParams } from 'react-router-dom'
 import logo from '../assets/svgs/logo.svg'
 import ShareURL from './editor/ShareURL'
+import styles from './NavBar.module.scss'
+import Sidebar from './Sidebar'
 
-function NavBar({}) {
-    const { uuid, imgFilename } = useParams()
-
+/**
+ * Provides the user with orientation and navigation in our app.
+ * Has a sidebar, a logo leading to the front page.
+ * If the user is currently editing an ebook, then it will show:
+ * a share link, and the title of the e-book.
+ *
+ * @returns The NavBar component
+ * @component
+ */
+function NavBar() {
     return (
         <Routes>
             <Route
