@@ -1,7 +1,7 @@
 from .models import Annotation
 from .serializers import AnnotationSerializer
 from .utils import azure_api_call, check_request_body, google_vision_labels
-# from .utils import mocked_azure_api_call, mocked_google_vision_labels
+from .utils import mocked_azure_api_call, mocked_google_vision_labels
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -48,8 +48,8 @@ def google_annotation_generation_view(request):
             # Calls the helper method in utils
 
             # TODO For production comment line below and uncomment line below that
-            # generated_labels = mocked_google_vision_labels()
-            generated_labels = google_vision_labels(image_path)
+            generated_labels = mocked_google_vision_labels()
+            # generated_labels = google_vision_labels(image_path)
         except FileNotFoundError:
             return JsonResponse({'msg': f'Img {image.filename} in ebook {image.ebook} not found'},
                                 status=status.HTTP_404_NOT_FOUND)
@@ -112,8 +112,8 @@ def azure_annotation_generation_view(request):
             # Calls the helper method in utils
 
             # TODO For production comment line below and uncomment line below that
-            # generated_sentence, generated_labels = mocked_azure_api_call()
-            generated_sentence, generated_labels = azure_api_call(image_path)
+            generated_sentence, generated_labels = mocked_azure_api_call()
+            # generated_sentence, generated_labels = azure_api_call(image_path)
         except FileNotFoundError:
             return JsonResponse({'msg': f'Img {image.filename} in ebook {image.ebook} not found'},
                                 status=status.HTTP_404_NOT_FOUND)

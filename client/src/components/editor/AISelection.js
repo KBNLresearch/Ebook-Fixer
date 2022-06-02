@@ -110,7 +110,7 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
             ref={saveAiChoiceButtonRef}
             onClick={() => handleAiClick()}>
             {' '}
-            Save{' '}
+            Generate Suggestions{' '}
         </button>
         <button
             type="button"

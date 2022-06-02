@@ -23,26 +23,31 @@ import { getGoogleAnnotation, getMicrosoftAnnotation} from '../../api/AnnotateIm
  */
 function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId, imageId, aiChoice, sentence, setSentence, setStage}) {
 
-    const generateButtonRef = useRef(null)
+    // const generateButtonRef = useRef(null)
     const savedTextButton = "Generated"
     const notSavedTextButton = "Get AI suggestions"
 
-    useEffect(() => {
+    // useEffect(() => {
+        
 
-        if (aiAnnotationList.length > 0) {
-            // Order annotation labels by confidence descendingly  
-            aiAnnotationList.sort((a, b) => b.confidence - a.confidence)
-            // Remove duplicate annotations
-            // TODO: server should not send duplicates in image metadata view?
-            // const uniqueAnnotations = [...new Set(aiAnnotationList)];
-            // setAiAnnotationList(uniqueAnnotations)
-            generateButtonRef.current.disabled = true
-            generateButtonRef.current.innerText = savedTextButton
-        } else {
-            generateButtonRef.current.disabled = false
-        }
-
-    }, [])
+    //     if (aiAnnotationList.length > 0) {
+    //     //     // Order annotation labels by confidence descendingly  
+    //          aiAnnotationList.sort((a, b) => b.confidence - a.confidence)
+        
+            
+    //     //     // Remove duplicate annotations
+    //     //     // TODO: server should not send duplicates in image metadata view?
+    //     //     // const uniqueAnnotations = [...new Set(aiAnnotationList)];
+    //     //     // setAiAnnotationList(uniqueAnnotations)
+    //     //     // generateButtonRef.current.disabled = true
+    //     //     // generateButtonRef.current.innerText = savedTextButton
+    //     } else {
+    //     //     // generateButtonRef.current.disabled = false
+            
+    //     }
+        
+        
+    // }, [])
 
 
     /**
@@ -89,12 +94,19 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                 return classes[0]
             } 
         }
+        function getDisplayList() {
+            display()
+            return(
+                 aiAnnotationList.map((obj) => (<p className={getProportionalClass(obj)}> {obj.text} </p>))
+            )
+
+        }
 
     /**
      * Makes API call to server for fetching AI annotations
      * and disables "Generate" button
      */
-    function handleClick() {
+    function display() {
         if (currImage) {
             
             // When only the client is run during development, we still want to inspect this function though
@@ -105,14 +117,14 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
             switch(aiChoice) {
                 case 'Google Vision':
                     // Loading spinner while user waits for AI annotations
-                    setStage('loading')
+                    // setStage('loading')
                     console.log('Fetching Google Vision labels...')
                      getGoogleAnnotation(
                     ebookId,
                     imageId,
                     getImgFilename(currImage)
                 ) .then(result => {
-                    setStage('annotate')
+                    setStage("annotate")
                     if (Object.prototype.hasOwnProperty.call(result, "annotations")){ 
                         // Order annotation labels by confidence ascendingly  
                         setAiAnnotationList(result.annotations)
@@ -142,8 +154,8 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                     // TODO: hide AI annotator boxes
             }
             
-            generateButtonRef.current.disabled = true
-            generateButtonRef.current.innerText = savedTextButton
+            // generateButtonRef.current.disabled = true
+            // generateButtonRef.current.innerText = savedTextButton
         }
     }
 
@@ -151,8 +163,8 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
         return (
             <div className={styles.ai_control}>
                 <label htmlFor="AiLabelsBox" className={styles.box_label}> Generated labels </label>
-                <div className={styles.ai_labels_box} id="AiLabelsBox"> 
-                    {aiAnnotationList.map((obj) => (<p className={getProportionalClass(obj)}> {obj.text} </p>))} 
+                <div  className={styles.ai_labels_box} id="AiLabelsBox" > 
+                    { getDisplayList()} 
                 </div>
                 {aiChoice === 'Microsoft Azure' &&
                     <div>
@@ -161,12 +173,6 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                             {sentence}
                         </div>
                     </div>}
-                <button type="button"
-                    className={styles.save_button}
-                    ref={generateButtonRef}
-                    onClick={() => handleClick()}>
-                        {notSavedTextButton}
-                </button>
             </div>
         )
 }
