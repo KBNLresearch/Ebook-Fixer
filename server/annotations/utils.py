@@ -106,8 +106,8 @@ def azure_api_call(image_path):
     )
     response.raise_for_status()
 
-    # The 'analysis' object contains various fields that describe the image. The most
-    # relevant (=highest confidence) caption for the image is obtained from the 'description' property. # noqa: E501
+    # The 'analysis' object contains various fields that describe the image.
+    # The most relevant (=highest confidence) caption for the image is obtained from the 'description' property. # noqa: E501
     analysis = response.json()
     description = analysis['description']['captions'][0]
 
