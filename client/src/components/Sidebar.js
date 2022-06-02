@@ -82,7 +82,7 @@ function Sidebar({ download, imageSelected }) {
                 </button>
                 <div className={styles.heading}>
                     <Link to="/" className={styles.logo}>
-                        <LogoSVG />
+                        <LogoSVG aria-hidden />
                         E-book Fixer
                     </Link>
                 </div>

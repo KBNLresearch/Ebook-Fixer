@@ -8,6 +8,7 @@ import logo from './assets/svgs/logo.svg'
 import EpubInfoPage from './components/EpubInfoPage'
 import NotFound from './components/errorpages/NotFound'
 import Sidebar from './components/Sidebar'
+import NavBar from './components/NavBar'
 
 // This code uses functional components, you could use classes instead but they require more boilerplate
 
@@ -29,50 +30,25 @@ function App() {
         <div className="App">
             <header>
                 <Routes>
-                    <Route
-                        path="*"
-                        element={
-                            <div className="App-navbar">
-                                <Sidebar />
-                            </div>
-                        }
-                    />
+                    <Route path="*" element={<NavBar />} />
                     <Route
                         path="/"
                         element={
                             <div className="App-header">
-                                <div className="App-navbar">
-                                    <Sidebar />
-                                </div>
+                                <NavBar />
                                 <div>
-                                    <img alt="" className="logo" src={logo} />
-                                    <h1 className="logo_title">
-                                        {' '}
-                                        E-BOOK FIXER{' '}
-                                    </h1>
+                                    <img
+                                        alt="E-BOOK FIXER Logo"
+                                        className="logo"
+                                        src={logo}
+                                    />
+                                    <h1 className="logo_title">E-BOOK FIXER</h1>
                                     <h2 className="logo_subtitle">
-                                        {' '}
-                                        Improve image descriptions for ePubs!{' '}
+                                        Improve image descriptions for ePubs!
                                     </h2>
                                     <br />
                                     <br />
                                 </div>
-                            </div>
-                        }
-                    />
-                    <Route
-                        path="ebook/:uuid"
-                        element={
-                            <div className="App-navbar">
-                                <Sidebar download />
-                            </div>
-                        }
-                    />
-                    <Route
-                        path="ebook/:uuid/image/:imgFilename"
-                        element={
-                            <div className="App-navbar">
-                                <Sidebar download imageSelected />
                             </div>
                         }
                     />
