@@ -92,7 +92,6 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>Editor</h1>
             {ebookNotFound && !fetchingEbookFile ? (
                 <span style={{ color: 'red' }}>E-book not found!</span>
             ) : (

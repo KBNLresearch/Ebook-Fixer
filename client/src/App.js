@@ -38,6 +38,7 @@ function App() {
                                 <img alt="" className="logo" src={logo} />
                                 <h1 className="logo_title"> E-BOOK FIXER </h1>
                                 <h2 className="logo_subtitle">
+                                    <br/>
                                     Improve image descriptions for ePubs!
                                 </h2>
                                 <br />
