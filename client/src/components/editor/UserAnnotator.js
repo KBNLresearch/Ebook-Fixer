@@ -81,7 +81,6 @@ function UserAnnotator({ annotationList, setAnnotationList, currImage, ebookId, 
                 <br/>
             </div>
 
-             <label htmlFor="userTextArea" className={styles.box_label}> Manual image description </label>
             <textarea
                 value={textValue}
                 id="userTextArea"

@@ -211,6 +211,18 @@ function Annotator({ currImage, ebookId }) {
                                             }}>
                                     Restart image annotation
                         </button>
+                        {/* <button type="button"
+                        // TODO: add another button for continuing with the next image
+                                    className={styles.restart_button}
+                                    onClick={() => {
+                                            setStage("classify")
+                                            setCurrClassification(null)
+                                            setCurrAISelected(null)
+                                            setAiAnnotationList([])
+                                            setUserAnnotationList([])
+                                            }}>
+                                    Continue annotating next image
+                        </button> */}
                     </div>
 
                 }[stage]
