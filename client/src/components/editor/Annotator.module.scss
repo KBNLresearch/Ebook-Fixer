@@ -244,10 +244,11 @@
 
         button {
             font-family: inherit;
+            font-size: smaller;
             margin-top: 1em;
             border: 0.2em solid #ccc;
             transition: border-color 0.2s ease, background-color 0.2s ease;
-            padding: 0.5em 0.7em;
+            padding: 0.3em 0.4em;
             align-self: center;
 
             &:hover {
@@ -259,7 +260,7 @@
                 cursor: default;
             }
             &.restart_button {
-                background-color: hsl(0, 70%, 70%);
+                background-color: hsl(0, 82%, 78%);
             }
             &.continue_button {
                 background-color: skyblue;

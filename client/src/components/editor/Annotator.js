@@ -238,7 +238,7 @@ function Annotator({ currImage, ebookId }) {
                                     onClick={() => {
                                         nextImageFunc()
                                     }}>
-                                    Continue
+                                    Continue next image
                                 </button>
                             ) : (
                                 ''
