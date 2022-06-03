@@ -1,13 +1,15 @@
 import os
-from bs4 import BeautifulSoup
 import shutil
-from zipfile import ZipFile
 import subprocess
+
+from bs4 import BeautifulSoup
+from epubcheck import EpubCheck
 from pathlib import Path
+from zipfile import ZipFile
 
 
 def inject_image_annotations(ebook_uuid, images, annotations):
-    """ Injects all human image annotations to their corresponding ALT-texts in the HTML files
+    """ Injects all human image annotations to their corresponding ALT-texts in the HTML files.
 
         Args:
             ebook_uuid (String): uuid of ebook
@@ -60,8 +62,8 @@ def add_indentation(text, indentation):
 
 
 def zip_ebook(ebook_uuid):
-    """ Assumes that there is an unzipped epub at test-books/
-    Zips the ebook with that uuid and returns the path for the zipped epub
+    """ Assumes that there is an unzipped epub at test-books/{ebook_uuid}.
+    Zips the ebook with that uuid and returns the path to the zipped epub.
 
     Args:
         ebook_uuid (String): uuid of ebook to zip
@@ -76,57 +78,128 @@ def zip_ebook(ebook_uuid):
     return path
 
 
-def extract_title(ebook_uuid):
-    """ Looks for the container.exml file under test-books/{uuid}/META-INF
-        and extracts the path to the root file from which we get the title
+def extract_title(epub_path):
+    """ Looks for the container.xml file under the path send as parameter
+        and extracts the path to the root file from which we can get the title.
 
     Args:
-        ebook_uuid (String): uuid of ebook to extract title of
+        epub_path (String): the path to the unzipped contents
 
     Returns:
         String: extracted title of ebook
     """
-    filepath = f"test-books/{ebook_uuid}/" "META-INF/container.xml"
+    filepath = epub_path + "/META-INF/container.xml"
     with open(filepath, 'r') as file:
         content = BeautifulSoup(file, 'xml')
-        opf_path = f"test-books/{ebook_uuid}/" + content.find('rootfile')["full-path"]
+        opf_path = epub_path + "/" + content.find('rootfile')["full-path"]
         with open(opf_path, 'r') as f:
             opf_content = BeautifulSoup(f, 'xml')
             title = opf_content.find('title').string
             return title
 
 
-def unzip_ebook(ebook_uuid, ebook_filename):
-    """ Assumes the zipped epub file is stored under MEDIA_ROOT/test-books/{uuid}/{filename}
-    Unzips the epub file, now under MEDIA_ROOT/{uuid}
-    Calls helper to extract epub title
+def unzip_ebook(epub_path, contents_dir):
+    """ Unzips the epub file found at 'epub_path' under the 'contents_dir'.
+    Calls helper to extract the epub title.
 
     Args:
-        ebook_uuid (String): uuid of ebook to unzip epub file for
-        ebook_filename (String): name of .epub file
+        epub_path (String): the path to the .epub file
+        contents_dir (String): the directory to which the contents should be extracted
 
     Returns:
         String: extracted title of ebook
     """
-    epub_path = f"test-books/{ebook_uuid}/{ebook_filename}"
     # Turns epub file into zip archive
     with ZipFile(epub_path, 'r') as zipped_epub:
-        zipped_epub.extractall(f"test-books/{ebook_uuid}/")
+        zipped_epub.extractall(contents_dir)
         # Remove the original .epub file
         os.remove(epub_path)
-    return extract_title(ebook_uuid)
+    return extract_title(contents_dir)
 
 
-def push_epub_folder_to_github(uuid, message):
+def push_epub_folder_to_github(folder, message):
     """ Push the folder of the contents of the book to
     the GitHub repository from server/wsgi.py
 
     Args:
-        uuid (UUID): The uuid of the e-book
-        message (string): The commit message
+        folder (String): the folder with the book contents
+        message (String): the commit message
     """
-    folder = f"test-books/{uuid}/"
     subprocess.run(["git", "add", folder])
     subprocess.run(["git", "commit", "--quiet", "-m", message])
     subprocess.run(["git", "pull", "--allow-unrelated-histories"])
     subprocess.run(["git", "push", "--quiet"])
+
+
+def check_ebook(ebook_filepath):
+    """ Runs EpubCheck on the book corresponding to the path.
+
+    Args:
+        ebook_filepath (String): the local filepath where the book can be found
+
+    Returns:
+        boolean, list: returns the messages received from the EpubCheck
+        and true if the book is valid or false otherwise
+    """
+    epub_path = f"/app/{ebook_filepath}"
+    if not os.path.isfile(epub_path):
+        return False, ["Original .epub file not found!"]
+    result = EpubCheck(epub_path)
+    valid = result.valid
+    messages = result.messages
+    if valid:
+        return valid, messages
+    valid = True
+    for message in messages:
+        if message.level == 'ERROR':
+            valid = False
+            break
+    return valid, messages
+
+
+def process_ebook(ebook):
+    """ The main method that is invoked in the upload view and runs
+    all tasks of the data processing pipeline.
+    Checks whether the uploaded book is valid.
+    Converts a valid ePub2 into an ePub3.
+    Makes the new ePub3 accessible.
+
+    Args:
+        ebook (Ebook): the ebook object to be processed
+    """
+    epub_path = f"test-books/{ebook.epub.name}"
+    valid, messages = check_ebook(epub_path)
+    ebook.checker_issues = str(list(map(lambda m: f"{m.level} - {m.id} "
+                                                  f"- {m.location} - {m.message}",
+                                        messages)))
+    if not valid:
+        ebook.state = 'INVALID'
+        ebook.save(update_fields=["state", "checker_issues"])
+        # Remove the original .epub file
+        os.remove(epub_path)
+        return
+    ebook.state = 'UNZIPPING'
+    ebook.save(update_fields=["state", "checker_issues"])
+
+    ebook_dir = f"test-books/{ebook.uuid}"
+    mode = os.environ.get('GITHUB_MODE', 'production')
+    try:
+        ebook_title = unzip_ebook(epub_path, ebook_dir)
+        # Push unzipped contents to GitHub
+        if mode == "development":
+            message = f"Upload {ebook.uuid}"
+            push_epub_folder_to_github(ebook_dir, message)
+    except FileNotFoundError:
+        ebook.state = 'UNZIPPING_FAILED'
+        ebook.save(update_fields=["state"])
+        return
+
+    ebook.title = ebook_title
+    ebook.state = 'CONVERTING'
+    ebook.save(update_fields=["title", "state"])
+
+    # TODO: CONVERT TO EPUB3
+    # TODO: MAKE ACCESSIBLE
+
+    ebook.state = 'PROCESSED'
+    ebook.save(update_fields=["state"])

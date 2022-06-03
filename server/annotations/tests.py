@@ -1,7 +1,5 @@
 import json
 
-from ebooks.models import Ebook
-from images.models import Image
 from .models import Annotation
 from .views import (
     annotation_save_view,
@@ -9,6 +7,8 @@ from .views import (
     google_annotation_generation_view,
     yake_annotation_generation_view
 )
+from ebooks.models import Ebook
+from images.models import Image
 
 from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory, TestCase

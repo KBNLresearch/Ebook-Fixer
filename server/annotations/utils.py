@@ -4,12 +4,12 @@ import os
 import requests
 import yake
 
-from images.models import Image
 from ebooks.models import Ebook
+from images.models import Image
 
 from django.http import JsonResponse
-from json import JSONDecodeError
 from google.cloud import vision
+from json import JSONDecodeError
 from rest_framework import status
 
 

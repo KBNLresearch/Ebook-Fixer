@@ -237,7 +237,7 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                     {filename === '' ? (
                         <div>
                             <strong className={styles.chooseFile}>
-                                Choose a file
+                                Choose an .epub file
                             </strong>
                             <span className={styles.dragndrop}>
                                 {' '}

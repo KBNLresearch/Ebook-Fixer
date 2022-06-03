@@ -1,5 +1,6 @@
-from django.db import models
 from images.models import Image
+
+from django.db import models
 
 
 class Annotation(models.Model):
