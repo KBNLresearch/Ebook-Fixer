@@ -126,9 +126,9 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
                 <button
                     type="button"
                     disabled={prevDisabled}
-                    className={styles.navigation_button}
+                    className={styles.paginate }
                     onClick={handlePrev}>
-                    Previous Image
+                    Prev
                 </button>
                 <button
                     type="button"
@@ -137,7 +137,7 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
                     onClick={handleNext}>
                     {currentImageIndex === -1
                         ? 'Begin Annotating the First Image'
-                        : 'Next Image'}
+                        : 'Next'}
                 </button>
             </div>
         )
