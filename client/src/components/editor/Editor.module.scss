@@ -77,14 +77,10 @@
         
         color: rgb(0, 0, 0);
         cursor: pointer;
-        // display: block;
         align-items: flex-start;
         position: relative;
-        // transition: transform 0.6s;
         font-family: inherit;
         background-color: var(--page_background);
-        // border: 0.2em solid #fff;
-        // transition: border-color 0.2s ease, background-color 0.2s ease;
         padding: 0em 1.5em;
         width: fit-content;
         
@@ -97,16 +93,13 @@
         }
 
         &:hover {
-            // background-color: skyblue;
-            // border-color: #ccc;
             span {
                 opacity: 1;
                 transition: opacity 0.3s 0.1s;
+                font-size: smaller;
             }
         }
         &:disabled {
-            // background-color: #b8c1c3;
-            // border-color: #ccc;
             cursor: default;
         }
         
