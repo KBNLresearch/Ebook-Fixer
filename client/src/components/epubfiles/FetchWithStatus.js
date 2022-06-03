@@ -24,8 +24,10 @@ function FetchWithStatus({ fileId, setEbookFile, onError }) {
     // Stores & Displays messages to the user in the space below the loader
     function addMessage(message) {
         const msg = message.toString()
+        let changed = false
         // Store message if it isn't the same
         if (msgArray[msgArray.length - 1] !== msg) {
+            changed = true
             msgArray.push(msg)
         }
         // Get latest 3
@@ -41,7 +43,7 @@ function FetchWithStatus({ fileId, setEbookFile, onError }) {
         // Add fade animation so that the displaying isn't too jarring
         messagesRef.current.classList.add(styles.update_messages)
         setTimeout(() => {
-            setMessages(messageElements)
+            if (changed) setMessages(messageElements)
             messagesRef.current.classList.remove(styles.update_messages)
         }, 200)
     }

@@ -92,11 +92,10 @@ export function interpretServerMessage(msg) {
  * @returns
  */
 export function pollForFile(fileId, processStateFunc) {
-    processStateFunc('Fetching ePub status...')
     return getFileBlob(fileId)
         .then((file) => {
             if (file.state) {
-                // Process stat
+                // Process state
                 processStateFunc(interpretServerMessage(file))
 
                 return new Promise((resolve, reject) => {
