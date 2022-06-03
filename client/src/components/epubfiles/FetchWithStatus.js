@@ -60,7 +60,7 @@ function FetchWithStatus({ fileId, setEbookFile, onError }) {
                 })
                 .catch((err) => {
                     if (err.statusCode === 404) {
-                        addMessage('Ebook cannot be found on the server')
+                        addMessage('E-book cannot be found on the server')
                     } else if (err.statusCode === 403) {
                         // Problem with the ebook
                         err.json.then((json) => {
