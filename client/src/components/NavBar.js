@@ -37,7 +37,8 @@ function NavBar() {
                                     src={logo}
                                 />
                             </Link>
-                            <h1>E-Book Title</h1>
+                            { // TODO: extract title on client using ePubJS
+                            /* <h1>E-Book title: </h1> */}
                         </div>
                         <ShareURL />
                     </div>
@@ -56,7 +57,8 @@ function NavBar() {
                                     src={logo}
                                 />
                             </Link>
-                            <h1>E-Book Title</h1>
+                            { // TODO: extract title on client using ePubJS
+                            /* <h1>E-Book title: </h1> */}
                         </div>
                         <ShareURL />
                     </div>
