@@ -1,13 +1,19 @@
-from django.contrib.auth.models import AnonymousUser
-from django.test import RequestFactory, TestCase
-from .views import annotation_save_view, yake_annotation_generation_view
-from .views import google_annotation_generation_view, azure_annotation_generation_view
-from .models import Annotation
+import json
+
 from ebooks.models import Ebook
 from images.models import Image
-from uuid import uuid4
-import json
+from .models import Annotation
+from .views import (
+    annotation_save_view,
+    azure_annotation_generation_view,
+    google_annotation_generation_view,
+    yake_annotation_generation_view
+)
+
+from django.contrib.auth.models import AnonymousUser
+from django.test import RequestFactory, TestCase
 from unittest.mock import patch
+from uuid import uuid4
 
 
 def decode_message(msg):
