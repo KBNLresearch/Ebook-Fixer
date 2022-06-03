@@ -34,25 +34,22 @@ function App() {
                     <Route
                         path="/"
                         element={
-                            <div>
-                                <img alt="" className="logo" src={logo} />
-                                <h1 className="logo_title"> E-BOOK FIXER </h1>
-                                <h2 className="logo_subtitle">
-                                    <br/>
-                                    Improve image descriptions for ePubs!
-                                </h2>
-                                <br />
-                                <br />
+                            <div className="App-header">
+                                <NavBar />
+                                <div>
+                                    <img
+                                        alt="E-BOOK FIXER Logo"
+                                        className="logo"
+                                        src={logo}
+                                    />
+                                    <h1 className="logo_title">E-BOOK FIXER</h1>
+                                    <h2 className="logo_subtitle">
+                                        Improve image descriptions for ePubs!
+                                    </h2>
+                                    <br />
+                                    <br />
+                                </div>
                             </div>
-                        }
-                    />
-                    <Route
-                        path="*"
-                        element={
-                            <Link to="/" className="home-navigation">
-                                <GoBackArrowSVG />
-                                Go Back
-                            </Link>
                         }
                     />
                 </Routes>
