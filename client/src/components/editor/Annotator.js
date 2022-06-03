@@ -234,7 +234,7 @@ function Annotator({ currImage, ebookId }) {
                             {nextImageFunc ? (
                                 <button
                                     type="button"
-                                    className={styles.restart_button}
+                                    className={styles.continue_button}
                                     onClick={() => {
                                         nextImageFunc()
                                     }}>
