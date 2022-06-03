@@ -119,7 +119,7 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
                         setEbookNotFound(false)
                     }}
                     onError={(err) => {
-                        if (err.statusCode === 404) {
+                        if (err.statusCode === 404 && !fetchingEbookFile) {
                             setEbookNotFound(true)
                         }
                         setFetchingEbookFile(false)

@@ -39,16 +39,19 @@ function FetchWithStatus({ fileId, setEbookFile, onError }) {
         ))
 
         // Add fade animation so that the displaying isn't too jarring
-        messagesRef.current.classList.add(styles.update_messages)
+        if (messagesRef.current)
+            messagesRef.current.classList.add(styles.update_messages)
         setTimeout(() => {
             setMessages(messageElements)
-            messagesRef.current.classList.remove(styles.update_messages)
+            if (messagesRef.current)
+                messagesRef.current.classList.remove(styles.update_messages)
         }, 200)
     }
 
     // When the fileId is set, so when the component is initiated
     useEffect(() => {
         if (fileId) {
+            if (stopped) setStopped(false)
             // Poll for file
             const result = pollForFile(fileId, addMessage)
             // Once polling finishes
