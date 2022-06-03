@@ -8,7 +8,7 @@ COPY requirements.txt ./
 
 RUN apk add --no-cache --update \
     python3 python3-dev gcc \
-    # gfortran musl-dev \
+    gfortran musl-dev \
     g++ zlib-dev jpeg-dev
 
 RUN pip install --upgrade pip setuptools && \
