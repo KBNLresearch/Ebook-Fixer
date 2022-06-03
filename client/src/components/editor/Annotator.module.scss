@@ -34,7 +34,7 @@
         transform: translateZ(0);
         -webkit-animation: load8 1.1s infinite linear;
         animation: load8 1.1s infinite linear;
-    
+
         &.invisible {
             visibility: hidden;
             opacity: 0;
@@ -60,7 +60,6 @@
             transform: rotate(360deg);
         }
     }
-    
 
     .user_control {
         width: 100%;
@@ -85,7 +84,7 @@
         gap: 1em;
         text-align: right;
     }
-    
+
     .ai_labels_box {
         width: 100%;
         height: fit-content;
@@ -157,16 +156,15 @@
         .conf_ten {
             display: inline;
             font-size: 150%;
-            padding: 0.5em; 
+            padding: 0.5em;
         }
     }
 
     .box_label {
         font-size: 95%;
         text-align: right;
-        font-weight: bold
+        font-weight: bold;
     }
-    
 
     .dropdown {
         width: 60%;
@@ -209,30 +207,6 @@
         }
     }
 
-    button.restart_button {
-        font-family: inherit;
-        font-size: 80%;
-        margin-top: 0.2em;
-        background-color: #27ce51;
-        border: 0.2em solid #ccc;
-        transition: border-color 0.2s ease, background-color 0.2s ease;
-        padding: 0.5em 0.7em;
-        visibility: visible;
-        position: absolute;
-        left: 7em;
-        top: 10em;
-
-        &:hover {
-            background-color: #2ebf50;
-            border-color: #eee;
-        }
-        &:disabled {
-            background-color: #b8c3b8;
-            border-color: #eee;
-            cursor: default;
-        }
-    }
-
     .icon {
         width: 1.5em;
         height: 1.5em;
@@ -257,13 +231,40 @@
 
     .overview {
         width: 100%;
-        height: 10em;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5em;
         position: relative;
         text-align: left;
         strong {
             font-weight: bold;
             font-size: 90%;
-        }   
+        }
+
+        button {
+            font-family: inherit;
+            margin-top: 1em;
+            border: 0.2em solid #ccc;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+            padding: 0.5em 0.7em;
+            align-self: center;
+
+            &:hover {
+                border-color: #eee;
+            }
+            &:disabled {
+                background-color: #b8c3b8;
+                border-color: #eee;
+                cursor: default;
+            }
+            &.restart_button {
+                background-color: hsl(0, 70%, 70%);
+            }
+            &.continue_button {
+                background-color: skyblue;
+            }
+        }
     }
 
     .overview_info {
@@ -276,4 +277,3 @@
 .transparent {
     opacity: 0.3;
 }
-
