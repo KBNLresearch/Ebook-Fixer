@@ -96,13 +96,13 @@ function Annotator({ currImage, ebookId }) {
                         if (currAiSelected === null) {
                             // To display most recently selected AI in dropdown
                             // TODO: either use key or value of AI choice (now we use both)
-                            setCurrAISelected(mostRecentAiChoice)
-                             // To display most recently generated AI suggestions when revisiting image
-                            setAiAnnotationList(allAiLabels.filter(el => el.type === mostRecentAiChoice))
+                            setCurrAISelected(mostRecentAiChoice)                            
                             // To display most recently generated AI description
-                            if (mostRecentAiChoice === 'BB_AZURE_SEN' || mostRecentAiChoice === 'BB_AZURE_LAB'){
+                            if ( mostRecentAiChoice === 'BB_AZURE_LAB'){
                                 setSentence(allAiLabels.pop().text)
                             }
+                             // To display most recently generated AI suggestions when revisiting image
+                            setAiAnnotationList(allAiLabels)
                         }
                     }
                 }    
@@ -167,7 +167,8 @@ function Annotator({ currImage, ebookId }) {
                 
                 'annotate': 
                     <div className={styles.container}>
-                        <AIAnnotator
+                        {currAiSelected !='skipped' &&
+                            <AIAnnotator
                             aiAnnotationList={aiAnnotationList}
                             setAiAnnotationList={setAiAnnotationList}
                             currImage={currImage}
@@ -179,7 +180,7 @@ function Annotator({ currImage, ebookId }) {
                             setStage={setStage}
                         >
                             {' '}
-                        </AIAnnotator>
+                        </AIAnnotator>}
                         <UserAnnotator 
                             annotationList={userAnnotationList} 
                             setAnnotationList={setUserAnnotationList}

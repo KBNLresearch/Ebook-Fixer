@@ -23,8 +23,8 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
     // TODO: Make the types match the ones on the server once all AI endpoints are final
     // (needed for displaying the most recent AI annotation choice in Annotator.js)
     const options = [
-        {key: 'GG', val: 'Google Vision', types: ['BB_GOOGLE_LAB']},
-        {key: 'MS', val: 'Microsoft Azure', types: ['BB_AZURE_LAB', 'BB_AZURE_SEN']}
+        {key: 'BB_GOOGLE_LAB', val: 'Google Vision'},
+        {key: 'BB_AZURE_LAB', val: 'Microsoft Azure'}
     ]
 
     useEffect(() => {
@@ -66,19 +66,16 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
      */
     function handleAiClick() {
         const choice = getSelectedAi()
-        setCurrAiSelected(choice)
-        console.log(currAiSelected)
         console.log(choice)
+        setCurrAiSelected(choice)
 
 
         if (choice !== 'Invalid') {
             
-            // setStage('annotate')
             display(choice)
             saveAiChoiceButtonRef.current.disabled = true
             saveAiChoiceButtonRef.current.innerText = 'Generated'
-            console.log(currAiSelected)
-            console.log(currImage)
+            
 
         } else {
             saveAiChoiceButtonRef.current.disabled = false
@@ -98,12 +95,12 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
         if (currImage) {
             
             // When only the client is run during development, we still want to inspect this function though
-            // if (!ebookId) {
-            //     console.log('No e-book UUID stored on client!')
-            // }
+            if (!ebookId) {
+                console.log('No e-book UUID stored on client!')
+            }
 
             switch(choice) {
-                case 'Google Vision':
+                case 'BB_GOOGLE_LAB':
                     // Loading spinner while user waits for AI annotations
                     setStage('loading')
                     console.log('Fetching Google Vision labels...')
@@ -120,7 +117,7 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
                 })
                 break
 
-                case 'Microsoft Azure':
+                case 'BB_AZURE_LAB':
                     // Loading spinner while user waits for AI annotations
                     setStage('loading')
                     console.log('Fetching Microsoft Azure labels and description...')
@@ -139,12 +136,11 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
                     break
                 
                 default :
-                    // TODO: hide AI annotator boxes
+                   
             }
         }
             
-            // generateButtonRef.current.disabled = true
-            // generateButtonRef.current.innerText = savedTextButton
+           
         
     }
 
@@ -168,7 +164,7 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
                 Select AI
             </option>
             {options.map((opt) => (
-                <option value={opt.val} key={opt.key}> {opt.val} </option>
+                <option value={opt.key} key={opt.key}> {opt.val} </option>
             ))}
         </select>
         
