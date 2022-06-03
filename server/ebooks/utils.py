@@ -120,6 +120,17 @@ def unzip_ebook(epub_path, contents_dir):
 
 
 def reformat_html_files(html_files, language_tag=None):
+    """ Reformat the list of html files to follow this structure:
+    <TAG_1>
+        <TAG_2>
+            ....
+        </TAG_2>
+    </TAG_1>
+
+    Args:
+        html_files (List): a list of the paths to the html files
+        language_tag (String, optional): 2-character string that should be added to each html. Defaults to None. If None we only reformat the files but do not add the tag. # noqa: E501
+    """
     for html_file in html_files:
         html_content = open(html_file)
         data = BeautifulSoup(html_content, 'html.parser')
@@ -216,6 +227,11 @@ def process_ebook(ebook):
     ebook.title = ebook_title
     ebook.state = 'CONVERTING'
     ebook.save(update_fields=["title", "state"])
+    # TODO: CONVERT TO EPUB3
+
+    ebook.state = 'MAKING_ACCESSIBLE'
+    ebook.save(update_fields=["state"])
+    # TODO: MAKE ACCESSIBLE
 
     try:
         # Retrieve the language tag from the root file and add it to all html files
@@ -231,12 +247,9 @@ def process_ebook(ebook):
             message = f"{ebook.uuid}: add language tags"
             push_ebook_folder_to_github(ebook_dir, message)
     except FileNotFoundError:
-        ebook.state = 'CONVERSION_FAILED'
+        ebook.state = 'NOT_ACCESSIBLE'
         ebook.save(update_fields=["state"])
         return
-
-    # TODO: CONVERT TO EPUB3
-    # TODO: MAKE ACCESSIBLE
 
     ebook.state = 'PROCESSED'
     ebook.save(update_fields=["state"])

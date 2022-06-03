@@ -97,7 +97,7 @@ class DataProcessingPipelineTests(TestCase):
     def test_process_valid_ebook_updated_title_missing_files(self):
         process_ebook(self.ebook)
 
-        self.assertEqual(self.ebook.state, "CONVERSION_FAILED")
+        self.assertEqual(self.ebook.state, "NOT_ACCESSIBLE")
         self.assertEqual(self.ebook.title, "MOCKED_TITLE")
 
     @patch("ebooks.utils.EpubCheck", MockInvalidEpubCheck)
