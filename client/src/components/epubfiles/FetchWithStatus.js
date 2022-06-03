@@ -57,7 +57,7 @@ function FetchWithStatus({ fileId, setEbookFile, onError }) {
             result
                 .then((file) => {
                     // Successfully get ePub
-                    addMessage('File Received.')
+                    addMessage('File received.')
                     setEbookFile(file)
                 })
                 .catch((err) => {
