@@ -148,6 +148,7 @@ function Annotator({ currImage, ebookId }) {
                 setStage={setStage}
                 classification={currClassification}
                 userAnnotations={userAnnotationList}
+                currAiSelected={currAiSelected}
             />
 
             {
