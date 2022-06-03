@@ -1,32 +1,48 @@
-# TODO Fix this file
-# from django.test import TestCase
-# from uuid import uuid4
-# from unittest.mock import patch
-# from .utils import google_vision_labels
+from django.test import TestCase
+from uuid import uuid4
+from unittest.mock import patch
+from .utils import google_vision_labels
+
+class MockIo:
+    def __init__(self, path, mode):
+        pass
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        pass
+
+    def read(self):
+        return None
 
 
-# def mock_label_detection():
-#     return MockedImageAnnotatorClient()
+class MockGoogleLabel:
+    def __init__(self, description, score):
+        self.description = description
+        self.score = score
+
+class MockedVisionImage:
+    def __init__(self, content):
+        pass
+
+class MockedImageAnnotatorClient:
+    def __init__(self):
+        self.label_annotations = [MockGoogleLabel("House", 0.9422), MockGoogleLabel("Sky", 0.8424), MockGoogleLabel("Tile", 0.8421)]
+
+    def label_detection(self, image):
+        return self
 
 
-# class MockedImageAnnotatorClient:
-#     def __enter__(self):
-#         return self
+class UtilsTest(TestCase):
+    def setUp(self):
+        self.uuid = uuid4()
 
-#     def __exit__(self, exc_type, exc_val, exc_tb):
-#         pass
-
-#     def label_detection(image):
-#         return
-
-
-# class UtilsTest(TestCase):
-#     def setUp(self):
-#         self.uuid = uuid4()
-
-#     @patch("annotations.utils.vision.ImageAnnotatorClient", mock_label_detection)
-#     def test_google_vision_labels(self):
-
-#         generated_labels = google_vision_labels()
-#         expected = {'House': 0.9422, 'Sky': 0.8424, 'Tile': 0.8421}
-#         self.assertEquals(expected, generated_labels)
+    @patch("annotations.utils.vision.ImageAnnotatorClient", MockedImageAnnotatorClient)
+    @patch("annotations.utils.vision.Image", MockedVisionImage)
+    @patch("annotations.utils.io.open", MockIo)
+    def test_google_vision_labels(self):
+        test_image_path = "test.jpg"
+        generated_labels = google_vision_labels(test_image_path)
+        expected = {'House': 0.9422, 'Sky': 0.8424, 'Tile': 0.8421}
+        self.assertEquals(expected, generated_labels)
