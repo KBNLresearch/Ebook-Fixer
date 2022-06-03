@@ -37,6 +37,14 @@ def check_request_body(request):
 
 
 def google_vision_labels(image_path):
+    """Calls Google Vision API on the given image path
+
+    Args:
+        image_path (str): The path in storage to the image file
+
+    Returns:
+        dict: The labels from Google's API with (description, score) as (key, value)
+    """
     # Instantiates a client
     client = vision.ImageAnnotatorClient()
 
@@ -68,8 +76,8 @@ def azure_api_call(image_path):
         image_path (str): The path in storage to the image file
 
     Returns:
-        str, dict: The generated description and the top 5 generated
-                  labels from Google's API with (description, score) as (key, value)
+        str, dict: The generated description and the top 10 generated
+                  labels from Azures's API with (description, score) as (key, value)
     """
     analysis = None
 
@@ -108,6 +116,14 @@ def azure_api_call(image_path):
 
 
 def yake_labels(image_path):
+    """Performs keyword extraction on the textual context of the image
+
+    Args:
+        image_path (str): The path in storage to the image file
+
+    Returns:
+        dict: The keyword and the confidence with (description, score) as (key, value)
+    """
     full_text = """Sources tell us that Google is acquiring Kaggle, a platform that hosts data
     science and machine learning competitions. Details about the transaction remain somewhat
     vague, but given that Google is hosting its Cloud Next conference in San Francisco this

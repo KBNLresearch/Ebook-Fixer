@@ -5,7 +5,6 @@ from uuid import uuid4
 from unittest.mock import patch
 
 
-
 def mockPost(analyze_url, headers, params, data):
     return MockResponse({'tags': 'test'})
 
