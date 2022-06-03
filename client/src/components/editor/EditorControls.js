@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useAtom } from 'jotai'
 import { highlightElement, ImageInfo } from '../../helpers/EditorHelper'
 import styles from './Editor.module.scss'
 import { getImgFilename } from '../../helpers/EditImageHelper'
+import { nextImage } from '../../helpers/EbookContext'
 
 /**
  * The EditorControls component handles the controls for the editor.
@@ -23,6 +25,8 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
 
     const [nextDisabled, setNextDisabled] = useState(false)
     const [prevDisabled, setPrevDisabled] = useState(true)
+
+    const [nextImageFunc, setNextImage] = useAtom(nextImage)
 
     const navigate = useNavigate()
 
@@ -87,8 +91,10 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
         }
         if (currentImageIndex === imageList.length - 1) {
             setNextDisabled(true)
+            setNextImage(null)
         } else {
             setNextDisabled(false)
+            setNextImage(() => handleNext)
         }
     }
 
