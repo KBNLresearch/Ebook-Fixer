@@ -123,22 +123,38 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
     if (rendition)
         return (
             <div className={styles.editor_controls}>
-                <button
-                    type="button"
-                    disabled={prevDisabled}
-                    className={styles.paginate }
-                    onClick={handlePrev}>
-                    Prev
-                </button>
-                <button
-                    type="button"
-                    disabled={nextDisabled}
-                    className={styles.navigation_button}
-                    onClick={handleNext}>
-                    {currentImageIndex === -1
-                        ? 'Begin Annotating the First Image'
-                        : 'Next'}
-                </button>
+                    
+                    <button
+                        type="button"
+                        disabled={prevDisabled}
+                        className={styles.arrow + ' ' + styles['arrow--left']}
+                        onClick={handlePrev}>    
+                        <span> {prevDisabled
+                            ? ''
+                            : 'Previous image'} </span>
+                    </button>
+                    
+                    <div className={styles.block}>
+                        <h1>
+                            {currentImageIndex === -1
+                            ? 'Press arrow to start annotating first image'
+                            : currentImageIndex + 1 + '/' + imageList.length} 
+                        </h1>
+                    </div>
+                    
+                    <button
+                        type="button"
+                        disabled={nextDisabled}
+                        className={styles.arrow + ' ' + styles['arrow--right']}
+                        onClick={handleNext}>
+                         {currentImageIndex === -1 
+                            ? <span> Go to image 1 </span>
+                            : <span>{nextDisabled
+                                ? ''
+                                : 'Next image'} </span> 
+                        }   
+                       
+                    </button>
             </div>
         )
 }
