@@ -24,8 +24,10 @@ function FetchWithStatus({ fileId, setEbookFile, onError }) {
     // Stores & Displays messages to the user in the space below the loader
     function addMessage(message) {
         const msg = message.toString()
+        let changed = false
         // Store message if it isn't the same
         if (msgArray[msgArray.length - 1] !== msg) {
+            changed = true
             msgArray.push(msg)
         }
         // Get latest 3
@@ -41,8 +43,8 @@ function FetchWithStatus({ fileId, setEbookFile, onError }) {
         // Add fade animation so that the displaying isn't too jarring
         if (messagesRef.current)
             messagesRef.current.classList.add(styles.update_messages)
-        setTimeout(() => {
-            setMessages(messageElements)
+        setTimeout(() => {            
+            if (changed) setMessages(messageElements)
             if (messagesRef.current)
                 messagesRef.current.classList.remove(styles.update_messages)
         }, 200)
@@ -58,7 +60,7 @@ function FetchWithStatus({ fileId, setEbookFile, onError }) {
             result
                 .then((file) => {
                     // Successfully get ePub
-                    addMessage('File Received.')
+                    addMessage('File received.')
                     setEbookFile(file)
                 })
                 .catch((err) => {

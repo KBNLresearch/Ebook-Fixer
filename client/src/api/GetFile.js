@@ -53,18 +53,18 @@ export class BadEpubError extends Error {
 }
 
 const stateMessages = {
-    VALIDATING: 'Validating e-Pub...',
-    UNZIPPING: 'Unzipping e-Pub...',
-    CONVERTING: 'Converting e-Pub...',
-    MAKING_ACCESSIBLE: 'Making the e-Pub accessible...',
+    VALIDATING: 'Validating ePub...',
+    UNZIPPING: 'Unzipping ePub...',
+    CONVERTING: 'Converting ePub...',
+    MAKING_ACCESSIBLE: 'Making the ePub accessible...',
     PROCESSED: 'Processing complete.',
 }
 
 const invalidstateMessages = {
-    INVALID: 'The e-Pub is invalid.',
-    UNZIPPING_FAILED: 'Unzipping the e-Pub failed.',
-    CONVERSION_FAILED: 'Converting the e-Pub failed.',
-    NOT_ACCESSIBLE: 'The e-Pub is not accessible.',
+    INVALID: 'The ePub is invalid.',
+    UNZIPPING_FAILED: 'Unzipping the ePub failed.',
+    CONVERSION_FAILED: 'Converting the ePub failed.',
+    NOT_ACCESSIBLE: 'The ePub is not accessible.',
 }
 
 // compares the state of the message to pre-defined states above
@@ -92,11 +92,10 @@ export function interpretServerMessage(msg) {
  * @returns
  */
 export function pollForFile(fileId, processStateFunc) {
-    processStateFunc('Fetching ePub status...')
     return getFileBlob(fileId)
         .then((file) => {
             if (file.state) {
-                // Process stat
+                // Process state
                 processStateFunc(interpretServerMessage(file))
 
                 return new Promise((resolve, reject) => {

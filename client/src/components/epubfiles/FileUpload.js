@@ -233,7 +233,7 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                     {filename === '' ? (
                         <div>
                             <strong className={styles.chooseFile}>
-                                Choose a file
+                                Choose an .epub file
                             </strong>
                             <span className={styles.dragndrop}>
                                 {' '}
@@ -262,11 +262,11 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                 className={
                     status === 'success' ? styles.success : styles.hidden
                 }>
-                Uploaded! Redirecting to Editor
+                Uploaded! Redirecting to editor...
             </div>
             <div className={status === 'error' ? styles.error : styles.hidden}>
-                Error! This ebook cannot be processed by our system. <br />
-                Please try another ebook
+                This e-book contains errors, thus cannot be processed by the system... <br />
+                Please try another e-book or fix the errors.
             </div>
             <div
                 className={
@@ -274,7 +274,7 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                 }>
                 The chosen file has the wrong file type!
                 <br />
-                Please submit an epub file.
+                Please submit an .epub file.
             </div>
             {fileId === '' ? (
                 ''

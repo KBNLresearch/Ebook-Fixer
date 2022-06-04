@@ -27,7 +27,7 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
     const navigate = useNavigate()
 
     // Get the Image filename from the url
-    const { imgFilename } = useParams()
+    const { uuid, imgFilename } = useParams()
 
     // When the imageList is instantiated / filled up (only happens at the beginning)
     useEffect(() => {
@@ -110,7 +110,9 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
         highlightElement(newImage)
         // Set the URL to be of that Image
         navigate(
-            'image/' + encodeURIComponent(getImgFilename(imageList[newIndex]))
+            `/ebook/${uuid}/image/${encodeURIComponent(
+                getImgFilename(imageList[newIndex])
+            )}`
         )
         // Set the current image via the props from the parent
         setCurrentImage(imageList[newIndex])

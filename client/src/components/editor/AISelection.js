@@ -63,7 +63,6 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
      */
     function handleAiClick() {
         const choice = getSelectedAi()
-        console.log('Choice: ' + choice)
         setCurrAiSelected(choice)
 
         if (choice !== 'Invalid') {
