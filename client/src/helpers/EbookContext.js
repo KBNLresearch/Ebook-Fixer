@@ -9,3 +9,5 @@ import { atom } from 'jotai'
  * @private
  */
 export const nextImage = atom(null)
+
+export const titleContext = atom('')

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link, useParams } from 'react-router-dom'
+import { useAtom } from 'jotai'
 import {
     getImageFromRendition,
     openBook,
@@ -14,6 +15,7 @@ import FileDownload from '../epubfiles/FileDownload'
 import Overview from './Overview'
 import ShareURL from './ShareURL'
 import FetchWithStatus from '../epubfiles/FetchWithStatus'
+import { titleContext } from '../../helpers/EbookContext'
 
 /**
  * The editor component takes an epub file and displays it as well as a UI for interacting with it.
@@ -34,6 +36,8 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
     const [fetchingEbookFile, setFetchingEbookFile] = useState(true)
 
     const { uuid, imgFilename } = useParams()
+
+    const [, setTitle] = useAtom(titleContext)
 
     // Whether the component is already rendering / rendered the epub,
     // This is a fix for a bug that causes the epub to be rendered twice
@@ -69,7 +73,8 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
                     getRendered,
                     setRendered,
                     setImageList,
-                    setRendition
+                    setRendition,
+                    setTitle
                 )
             }
             if (file) reader.readAsArrayBuffer(file)
