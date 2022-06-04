@@ -5,7 +5,7 @@ import styles from './Sidebar.module.scss'
 import { ReactComponent as LogoSVG } from '../assets/svgs/logo.svg'
 import { ReactComponent as MenuSVG } from '../assets/svgs/menu-icon.svg'
 import { ReactComponent as GoBackArrowSVG } from '../assets/svgs/go-back-arrow.svg'
-import FileDownload from './FileDownload'
+import FileDownload from './epubfiles/FileDownload'
 
 /**
  * This component creates an expandable sidebar which is used for navigation
