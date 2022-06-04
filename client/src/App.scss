@@ -8,7 +8,7 @@
         font-size: inherit;
         padding: 0.3em 0.5em;
         border-radius: 0.6em;
-        border: 0px;
+        border: 0;
         transition: background-color 0.2s ease;
         cursor: pointer;
     }
@@ -54,47 +54,31 @@ body,
 .logo_title {
     font-size: 300%;
     font-weight: 800;
-    
+
     --x-offset: -0.0625em;
     --y-offset: 0.0625em;
     --stroke: 0.125em;
     --background-color: white;
     --stroke-color: lightblue;
-    
-    text-shadow: 
-      
-      var(--x-offset)
-      var(--y-offset)
-      0px
-      var(--background-color), 
-      
-      calc( var(--x-offset) - var(--stroke) )
-      calc( var(--y-offset) + var(--stroke) )
-      0px
-      var(--stroke-color);
+
+    text-shadow: var(--x-offset) var(--y-offset) 0px var(--background-color),
+        calc(var(--x-offset) - var(--stroke))
+            calc(var(--y-offset) + var(--stroke)) 0px var(--stroke-color);
 }
 
 .logo_subtitle {
     font-size: 100%;
     font-weight: 600;
-    
+
     --x-offset: -0.0625em;
     --y-offset: 0.0625em;
     --stroke: 0.025em;
     --background-color: white;
     --stroke-color: rgb(230, 173, 215);
-    
-    text-shadow: 
-      
-      var(--x-offset)
-      var(--y-offset)
-      0px
-      var(--background-color), 
-      
-      calc( var(--x-offset) - var(--stroke) )
-      calc( var(--y-offset) + var(--stroke) )
-      0px
-      var(--stroke-color);
+
+    text-shadow: var(--x-offset) var(--y-offset) 0px var(--background-color),
+        calc(var(--x-offset) - var(--stroke))
+            calc(var(--y-offset) + var(--stroke)) 0px var(--stroke-color);
 }
 
 .home-navigation {

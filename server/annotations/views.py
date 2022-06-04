@@ -10,9 +10,8 @@ from rest_framework import status
 
 @csrf_exempt
 def google_annotation_generation_view(request):
-    """ PUT endpoint for receiving the metadata for an image and sending
-    a request to the AI to generate annotation for it
-    The annotations for save in the database.
+    """ PUT endpoint for receiving the metadata for an image and sending a request to the AI to generate annotation for it. # noqa: E501
+    The annotations are added to the database.
 
     Args:
         request (request object): The request object
@@ -47,7 +46,7 @@ def google_annotation_generation_view(request):
         try:
             # Calls the helper method in utils
 
-            # TODO For production comment line below and uncomment line below that
+            # TODO For development used the mocked version
             # generated_labels = mocked_google_vision_labels()
             generated_labels = google_vision_labels(image_path)
         except FileNotFoundError:
@@ -74,8 +73,7 @@ def google_annotation_generation_view(request):
 
 @csrf_exempt
 def azure_annotation_generation_view(request):
-    """ Receives the metadata for an image and sends
-    a request to AZURE VISION AI to generate annotation for it
+    """ Receives the metadata for an image and sends a request to AZURE VISION AI to generate annotation for it. # noqa: E501
     The annotations for save in the database.
 
     Args:
@@ -111,7 +109,7 @@ def azure_annotation_generation_view(request):
         try:
             # Calls the helper method in utils
 
-            # TODO For production comment line below and uncomment line below that
+            # TODO For development use the mocked version
             # generated_sentence, generated_labels = mocked_azure_api_call()
             generated_sentence, generated_labels = azure_api_call(image_path)
         except FileNotFoundError:
@@ -143,9 +141,7 @@ def azure_annotation_generation_view(request):
 
 @csrf_exempt
 def annotation_save_view(request):
-    """ POST endpoint for receiving the metadata for an image and updates the text of
-    its human annotation if the entry exists, otherwise, it creates
-    a new one
+    """ POST endpoint for receiving the metadata for an image and updates the text of its human annotation if the entry exists, otherwise, it creates a new one. # noqa: E501
 
     Args:
         request (request object): The request object

@@ -13,7 +13,7 @@ from rest_framework import status
 
 
 def image_details_view(request):
-    """ GET endpoint for returning the metadata and the annotations for an image
+    """ GET endpoint for returning the metadata and the annotations for an image.
 
     Args:
         request (request object): The request object
@@ -61,8 +61,7 @@ def image_details_view(request):
 
 @csrf_exempt
 def image_classification_view(request):
-    """ PUT endpoint for receiving metadata for an image entry which is
-    added/updated in the database
+    """ PUT endpoint for receiving metadata for an image entry which is added/updated in the database. # noqa: E501
 
     Args:
         request (request object): The request object

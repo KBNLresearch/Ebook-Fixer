@@ -1,11 +1,11 @@
-import { useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { ImageInfo } from '../../helpers/EditorHelper'
 import AIAnnotator from './AIAnnotator'
 import UserAnnotator from './UserAnnotator'
 import Classifier from './Classifier'
 import AISelection from './AISelection'
-import {getImgFilename} from '../../helpers/EditImageHelper'
+import { getImgFilename } from '../../helpers/EditImageHelper'
 import { getImageMetadataApiCall } from '../../api/GetImageMetadata'
 import styles from './Annotator.module.scss'
 import ProgressBar from './ProgressBar'
@@ -21,7 +21,6 @@ import ProgressBar from './ProgressBar'
  */
 
 function Annotator({ currImage, ebookId }) {
-
     const [stage, setStage] = useState(null)
     const [imageId, setImageId] = useState(-1)
     const [existingAltText, setExistingAltText] = useState(null)
@@ -33,21 +32,20 @@ function Annotator({ currImage, ebookId }) {
     const [userAnnotationList, setUserAnnotationList] = useState([])
     const [sentence, setSentence] = useState(null)
 
-
     // Executed every time the currentImage changes
     useEffect(() => {
         // Note that this start stage is overidden by the image overview
         if (!currImage) {
-            setStage("loading")
+            setStage('loading')
         } else {
-            setStage("classify")
+            setStage('classify')
             // Remove all AI suggestions when next image is loaded
             setCurrClassification(null)
             setCurrAISelected(null)
             setAiAnnotationList([])
             setUserAnnotationList([])
             setSentence(null)
-            
+
             // Save existing alt-text of image
             const altText = currImage.element.alt
             if (altText) {
@@ -57,40 +55,45 @@ function Annotator({ currImage, ebookId }) {
             fetchImageMetadata()
         }
     }, [currImage])
-    
+
     /**
      * Makes API call to server for fetching image metadata
      * i.e. the image itself and all annotations linked to it
      * and updates state accordingly
      */
     function fetchImageMetadata() {
-
         // As the user is waiting for the server's response
-        setStage("loading")
+        setStage('loading')
 
         console.log('Fetching image metadata...')
 
         getImageMetadataApiCall(ebookId, getImgFilename(currImage)).then(
-            
             (result) => {
-                setStage("overview")
-                if (Object.prototype.hasOwnProperty.call(result, 'annotations')) {
+                setStage('overview')
+                if (
+                    Object.prototype.hasOwnProperty.call(result, 'annotations')
+                ) {
                     console.log('Annotations: ')
                     console.log(result.annotations)
 
                     // Decorative images don't have image descriptions
                     if (currClassification !== 'Decoration') {
-                        setStage("overview")
+                        setStage('overview')
                     }
                     // For each HUM annotation, add to user annotation list (for display in UserAnnotator)
                     // Note that for now this list always contains 1 HUM annotation
                     result.annotations.forEach((el) => {
                         if (el.type === 'HUM') {
-                            setUserAnnotationList([...userAnnotationList, el.text])
+                            setUserAnnotationList([
+                                ...userAnnotationList,
+                                el.text,
+                            ])
                         }
                     })
                     // TODO: use timestamp of annotation?
-                    const allAiLabels = result.annotations.filter(el => el.type !== 'HUM')
+                    const allAiLabels = result.annotations.filter(
+                        (el) => el.type !== 'HUM'
+                    )
                     if (allAiLabels.length > 0) {
                         const mostRecentAiChoice = allAiLabels[allAiLabels.length - 2].type
                         console.log(mostRecentAiChoice)
@@ -108,8 +111,8 @@ function Annotator({ currImage, ebookId }) {
                             setAiAnnotationList(allAiLabels)
                         }
                     }
-                }    
-                
+                }
+
                 if (Object.prototype.hasOwnProperty.call(result, 'image')) {
                     console.log('Image metadata: ')
                     console.log(result.image)
@@ -119,7 +122,7 @@ function Annotator({ currImage, ebookId }) {
             },
             (error) => {
                 if (error.cause === 404) {
-                    setStage("classify")
+                    setStage('classify')
                     console.log(
                         'Image does not exist on server yet, will be created after the first time classifying.'
                     )
@@ -127,21 +130,21 @@ function Annotator({ currImage, ebookId }) {
                 }
             }
         )
-
     }
 
     return (
         <div className={styles.container}>
-
             <ProgressBar
                 currStage={stage}
                 setStage={setStage}
                 classification={currClassification}
                 userAnnotations={userAnnotationList}
+                currAiSelected={currAiSelected}
             />
 
             {
                 {
+
                 'loading': 
                     <div className={styles.loader}> Loading... </div>,
 
@@ -193,33 +196,40 @@ function Annotator({ currImage, ebookId }) {
                             setImageId={setImageId}
                             existingAlt={existingAltText}
                             setStage={setStage}
-                        />
-                    </div>,
+                            />
+                        </div>
+                    ,
 
-                'overview' : 
-                    <div className={styles.overview}>
-                    <div className={styles.overview_info}>
-                        <br/>
-                        <strong> Classification: </strong> {currClassification}
-                        <br/>
-                    </div>
-                    <div className={styles.overview_info}>
-                        <strong> Image description: </strong> 
-                        {userAnnotationList[userAnnotationList.length - 1]}
-                    </div>
-                        <button type="button"
-                                    className={styles.restart_button}
-                                    onClick={() => {
-                                            setStage("classify")
-                                            setCurrClassification(null)
-                                            setCurrAISelected(null)
-                                            setAiAnnotationList([])
-                                            setUserAnnotationList([])
-                                            }}>
-                                    Restart image annotation
-                        </button>
-                    </div>
-
+                    overview: (
+                        <div className={styles.overview}>
+                            <div className={styles.overview_info}>
+                                <br />
+                                <strong> Classification: </strong>{' '}
+                                {currClassification}
+                                <br />
+                            </div>
+                            <div className={styles.overview_info}>
+                                <strong> Image description: </strong>
+                                {
+                                    userAnnotationList[
+                                        userAnnotationList.length - 1
+                                    ]
+                                }
+                            </div>
+                            <button
+                                type="button"
+                                className={styles.restart_button}
+                                onClick={() => {
+                                    setStage('classify')
+                                    setCurrClassification(null)
+                                    setCurrAISelected(null)
+                                    setAiAnnotationList([])
+                                    setUserAnnotationList([])
+                                }}>
+                                Restart image annotation
+                            </button>
+                        </div>
+                    ),
                 }[stage]
             }
         </div>
