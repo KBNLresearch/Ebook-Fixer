@@ -1,0 +1,144 @@
+.sidebar {
+    height: 100%; /* 100% Full-height */
+    $width: 12em;
+    width: $width; /* 0 width - change this with JavaScript */
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.28);
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    visibility: hidden;
+    top: 0; /* Stay at the top */
+    left: 0;
+    transform: translateX(-$width);
+    background-color: #fff; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding: 1em 0em; /* Place content 60px from the top */
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5em;
+
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        visibility 0s linear 0.25s; /* 0.5 second transition effect to slide in the sidenav */
+
+    &.sidebarVisible {
+        visibility: visible;
+        transform: translateX(0);
+        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+            visibility 0s linear 0s;
+    }
+
+    .heading a {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.4em;
+        margin-bottom: 1em;
+        margin-left: 0.4em;
+    }
+    .content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5em;
+        svg {
+            height: 1em;
+            margin-right: 0.3em;
+        }
+    }
+
+    .content > a,
+    .footer > a {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.2em;
+        border: 3px solid rgba(0, 0, 200, 0.1);
+        border-left: none;
+        transition: border-color 0.3s ease;
+        padding: 0.4em 0.8em;
+        border-radius: 0 1em 1em 0;
+
+        &:hover {
+            border-color: rgba(0, 0, 200, 0.4);
+        }
+    }
+
+    a {
+        color: #111;
+        text-decoration: none;
+        font-weight: normal;
+    }
+
+    .footer {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5em;
+    }
+
+    .download {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin: 1em 0;
+    }
+}
+
+.menu {
+    margin-top: 0.2em;
+    font-size: 0.9em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    button {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        background: none;
+    }
+}
+
+.logo {
+    font-size: 1.1em;
+    svg {
+        height: 1.5em;
+        margin-top: 0.1em;
+    }
+}
+
+.close {
+    padding: 0.5em;
+    line-height: 0em;
+    border-radius: 20em;
+    height: 1.5em;
+    position: absolute;
+    top: 0.2em;
+    right: 0.2em;
+}
+
+.bars {
+    $size: 1.3em;
+    height: $size + 1em;
+    width: $size + 1em;
+    display: inline-block;
+    margin-right: 0.1em;
+    padding: 0.5em;
+    border-radius: 50%;
+    svg {
+        height: $size;
+    }
+}
+
+.bars,
+.close {
+    color: #333;
+    background: none;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+}
