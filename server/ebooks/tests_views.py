@@ -112,7 +112,7 @@ class EbookViewsTest(TestCase):
 
         response, msg = self.response_ebook_download_view()
 
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 403)
         self.assertEqual(msg, bytes(expected_msg, 'utf-8'))
         # Check that the ebook DB entry was deleted
         self.assertEqual(Ebook.objects.filter(uuid=self.uuid).count(), 0)

@@ -1,7 +1,7 @@
 import { Routes, Route, Link } from 'react-router-dom'
 import './App.scss'
 import { useState } from 'react'
-import FileUpload from './components/FileUpload'
+import FileUpload from './components/epubfiles/FileUpload'
 import Editor from './components/editor/Editor'
 import { ReactComponent as GoBackArrowSVG } from './assets/svgs/go-back-arrow.svg'
 import logo from './assets/svgs/logo.svg'
