@@ -91,7 +91,7 @@
             font-size: smaller;
         }
 
-        &:hover {
+        &:hover:enabled {
             span {
                 opacity: 1;
                 transition: opacity 0.3s 0.1s;
