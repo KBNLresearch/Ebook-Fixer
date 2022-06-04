@@ -41,7 +41,7 @@ function NavBar() {
                                     src={logo}
                                 />
                             </Link>
-                            {title === '' ? '' : <h1>Editing e-book: {title} </h1>}
+                            {title === '' ? '' : <h1>Editing: {title} </h1>}
                         </div>
                         <ShareURL />
                     </div>
@@ -60,7 +60,7 @@ function NavBar() {
                                     src={logo}
                                 />
                             </Link>
-                            {title === '' ? '' : <h1>Editing e-book: {title} </h1>}
+                            {title === '' ? '' : <h1>Editing: {title} </h1>}
                         </div>
                         <ShareURL />
                     </div>
