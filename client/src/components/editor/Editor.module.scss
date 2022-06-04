@@ -161,7 +161,7 @@
             right: 0;
         }
 
-        &:hover:after {
+        &:hover:enabled:after {
             transform: scaleX(1);
             background-color: rgba(0, 0, 100, $alpha: 0.05);
         }
