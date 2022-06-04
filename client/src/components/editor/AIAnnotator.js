@@ -27,27 +27,30 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
     const savedTextButton = "Generated"
     const notSavedTextButton = "Get AI suggestions"
 
-    // useEffect(() => {
+    useEffect(() => {
         
 
-    //     if (aiAnnotationList.length > 0) {
-    //     //     // Order annotation labels by confidence descendingly  
-    //          aiAnnotationList.sort((a, b) => b.confidence - a.confidence)
+        if (aiAnnotationList.length > 0) {
+        //     // Order annotation labels by confidence descendingly  
+             aiAnnotationList.sort((a, b) => b.confidence - a.confidence)
+             console.log(aiAnnotationList)
         
             
-    //     //     // Remove duplicate annotations
-    //     //     // TODO: server should not send duplicates in image metadata view?
-    //     //     // const uniqueAnnotations = [...new Set(aiAnnotationList)];
-    //     //     // setAiAnnotationList(uniqueAnnotations)
-    //     //     // generateButtonRef.current.disabled = true
-    //     //     // generateButtonRef.current.innerText = savedTextButton
-    //     } else {
-    //     //     // generateButtonRef.current.disabled = false
+        //     // Remove duplicate annotations
+        //     // TODO: server should not send duplicates in image metadata view?
+        //     // const uniqueAnnotations = [...new Set(aiAnnotationList)];
+        //     // setAiAnnotationList(uniqueAnnotations)
+        //     // generateButtonRef.current.disabled = true
+        //     // generateButtonRef.current.innerText = savedTextButton
+        } else {
+            console.log(aiAnnotationList)
+            console.log(aiChoice)
+        //     // generateButtonRef.current.disabled = false
             
-    //     }
+        }
         
         
-    // }, [])
+    }, [])
 
 
     /**
@@ -166,7 +169,7 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                 <div  className={styles.ai_labels_box} id="AiLabelsBox" > 
                     {                 aiAnnotationList.map((obj) => (<p className={getProportionalClass(obj)}> {obj.text} </p>))} 
                 </div>
-                {aiChoice === 'Microsoft Azure' &&
+                {aiChoice === 'BB_AZURE_LAB' &&
                     <div>
                         <label htmlFor="AiSentenceBox" className={styles.box_label}> <br/> Generated description </label>
                         <div className={styles.ai_labels_box} id="AiSentenceBox">

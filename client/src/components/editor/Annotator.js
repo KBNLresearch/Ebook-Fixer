@@ -93,10 +93,13 @@ function Annotator({ currImage, ebookId }) {
                     const allAiLabels = result.annotations.filter(el => el.type !== 'HUM')
                     if (allAiLabels.length > 0) {
                         const mostRecentAiChoice = allAiLabels[allAiLabels.length - 2].type
-                        if (currAiSelected === null) {
+                        console.log(mostRecentAiChoice)
+                        console.log(currAiSelected)
+                        if (currAiSelected != mostRecentAiChoice) {
                             // To display most recently selected AI in dropdown
                             // TODO: either use key or value of AI choice (now we use both)
-                            setCurrAISelected(mostRecentAiChoice)                            
+                            setCurrAISelected(mostRecentAiChoice)   
+                            console.log(currAiSelected)                         
                             // To display most recently generated AI description
                             if ( mostRecentAiChoice === 'BB_AZURE_LAB'){
                                 setSentence(allAiLabels.pop().text)

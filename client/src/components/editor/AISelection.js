@@ -34,8 +34,7 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
         if (currAiSelected != null) {
             saveAiChoiceButtonRef.current.disabled = true
             // Show the selected AI in dropdown menu
-            const idx = options.findIndex(opt => opt.val === currAiSelected || opt.key === currAiSelected 
-                                            || opt.types.includes(currAiSelected)) + 1;
+            const idx = options.findIndex(opt =>  opt.key === currAiSelected ) + 1;
             dropdownRef.current.selectedIndex = idx;
         } else {
             // Show the label
