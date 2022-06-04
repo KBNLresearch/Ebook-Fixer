@@ -163,7 +163,7 @@ def yake_annotation_generation_view(request):
         existing_annotations = [
             a for a in Annotation.objects.all()
             if a.image == image
-            if a.type == "BB_YAKE_LAB"
+            if a.type == "CXT_YAKE_LAB"
         ]
         if len(existing_annotations) != 0:
             existing_annotations = list(map(lambda a: AnnotationSerializer(a).data,
@@ -184,7 +184,7 @@ def yake_annotation_generation_view(request):
         # Adds each annotation from YAKE as a database entry
         for description, score in generated_labels.items():
             annotations.append(Annotation.objects.create(image=image,
-                               type="BB_YAKE_LAB",
+                               type="CXT_YAKE_LAB",
                                text=description,
                                confidence=score))
 
