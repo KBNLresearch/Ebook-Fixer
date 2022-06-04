@@ -18,6 +18,7 @@
     }
     .loader {
         visibility: visible;
+        overflow: hidden;
         opacity: 1;
         transition: visibility 0.3s ease, opacity 0.3s ease;
         margin: 1.5em auto;
