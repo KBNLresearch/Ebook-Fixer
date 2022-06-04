@@ -10,6 +10,14 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    position: relative;
+    h1 {
+        position: absolute; 
+        left: 20em;
+    }
+    strong {
+        font-weight: 150px;
+    }
 }
 
 .logo {
