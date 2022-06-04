@@ -293,7 +293,35 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                         setTimeout(() => {
                             setUploading(false)
                             setFilename('')
-                            setFileId('')
+                            // Generating a file with the epubchecker result
+                            if (err.json) {
+                                err.json.then((res) => {
+                                    if (
+                                        res.checker_issues &&
+                                        // eslint-disable-next-line no-restricted-globals
+                                        confirm(
+                                            'Do you want to save the epubcheck report for this book?'
+                                        )
+                                    ) {
+                                        const textToSave =
+                                            res.checker_issues.replaceAll(
+                                                ',',
+                                                ',\n'
+                                            )
+
+                                        const hiddenElement =
+                                            document.createElement('a')
+
+                                        hiddenElement.href =
+                                            'data:attachment/text,' +
+                                            encodeURI(textToSave)
+                                        hiddenElement.target = '_blank'
+                                        hiddenElement.download =
+                                            'epubcheck_report.txt'
+                                        hiddenElement.click()
+                                    }
+                                })
+                            }
                         }, 2000)
                     }}
                 />
