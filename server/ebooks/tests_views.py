@@ -69,7 +69,7 @@ class EbookViewsTest(TestCase):
         self.assertEqual(response.status_code, 405)
         self.assertEqual(msg, b'{"msg": "Method Not Allowed!"}')
 
-    @patch("ebooks.views.push_epub_folder_to_github", dummy_mock)
+    @patch("ebooks.views.push_ebook_folder_to_github", dummy_mock)
     def test_ebook_download_view_404_file_not_found(self):
         ebook = Ebook.objects.create(uuid=self.uuid,
                                      title="TEST_TITLE",
@@ -84,7 +84,7 @@ class EbookViewsTest(TestCase):
         self.assertEqual(msg, bytes(expected_msg, 'utf-8'))
         self.assertEqual(ebook.__str__(), self.uuid)
 
-    @patch("ebooks.views.push_epub_folder_to_github", dummy_mock)
+    @patch("ebooks.views.push_ebook_folder_to_github", dummy_mock)
     def test_ebook_download_view_200(self):
         test_filename = "test_content.txt"
         test_txt_content = b"Represents an unzipped ebook"

@@ -9,10 +9,8 @@ def epub_dir_path(instance, filename):
 class Ebook(models.Model):
     uuid = models.CharField(primary_key=True, max_length=100, default="DEFAULT_UUID", unique=True)
     title = models.CharField(max_length=100, blank=True, default='DEFAULT_TITLE')
-    # The files uploaded to FileField are not stored in the database
-    # but in the filesystem (under MEDIA_ROOT/...)
-    # FileField is created as a string field in the database (usually VARCHAR),
-    # containing the reference to the actual file
+    # The files uploaded to FileField are not stored in the database but in the filesystem (under MEDIA_ROOT/...) # noqa: E501
+    # FileField is created as a string field in the database (usually VARCHAR), containing the reference to the actual file # noqa: E501
     epub = models.FileField(upload_to=epub_dir_path)
     VALID_STATES = [
         # First step of the pipeline
@@ -26,8 +24,7 @@ class Ebook(models.Model):
         # If this is the state we can conclude that the book is valid, an ePub3 and accessible
         ('PROCESSED', 'processed')
     ]
-    # If the state is any of these then the first time the client requests
-    # the metadata for this book, it will be deleted
+    # If the state is any of these then the first time the client requests the metadata for this book, it will be deleted # noqa: E501
     INVALID_STATES = [
         ('INVALID', 'invalid'),
         ('UNZIPPING_FAILED', 'unzipping_failed'),

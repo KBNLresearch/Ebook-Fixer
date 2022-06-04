@@ -6,7 +6,7 @@ from .serializers import EbookSerializer
 from .utils import (
     inject_image_annotations,
     process_ebook,
-    push_epub_folder_to_github,
+    push_ebook_folder_to_github,
     zip_ebook
 )
 from annotations.models import Annotation
@@ -61,11 +61,12 @@ def ebook_download_view(request, uuid):
                 if a.type == 'HUM'
             ]
             # Inject image annotations into the html files
-            inject_image_annotations(str(uuid), images, annotations)
+            ebook_dir = f"test-books/{uuid}"
+            inject_image_annotations(ebook_dir, images, annotations)
             # Push new contents to GitHub if mode is 'production'
             if mode == "development":
-                message = f"Download {uuid}"
-                push_epub_folder_to_github(str(uuid), message)
+                message = f"{uuid}: download"
+                push_ebook_folder_to_github(ebook_dir, message)
 
         try:
             # Zip contents
@@ -88,8 +89,7 @@ def ebook_download_view(request, uuid):
 
 @csrf_exempt
 def ebook_upload_view(request):
-    """ POST endpoint for taking the uploaded epub from the request
-        and unzipping it under test-books/{uuid}/
+    """ POST endpoint for taking the uploaded epub from the request and unzipping it under test-books/{uuid}/. # noqa: E501
 
         Args:
             request (request object): The request object

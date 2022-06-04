@@ -78,7 +78,7 @@ def google_vision_labels(image_path):
 
 
 def azure_api_call(image_path):
-    """Calls Microsoft's Azure Vision API on the given image path
+    """ Calls Microsoft's Azure Vision API on the given image path.
 
     Args:
         image_path (str): The path in storage to the image file
@@ -106,9 +106,8 @@ def azure_api_call(image_path):
     )
     response.raise_for_status()
 
-    # The 'analysis' object contains various fields that describe the image. The most
-    # relevant (=highest confidence) caption for the image is obtained
-    # from the 'description' property.
+    # The 'analysis' object contains various fields that describe the image.
+    # The most relevant (=highest confidence) caption for the image is obtained from the 'description' property. # noqa: E501
     analysis = response.json()
     description = analysis['description']['captions'][0]
 

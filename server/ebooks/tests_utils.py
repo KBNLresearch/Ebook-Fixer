@@ -70,7 +70,7 @@ class UtilsTest(TestCase):
         annotation = Annotation.objects.create(image=image, type="HUM",
                                                text="TEST ANNOTATION")
 
-        inject_image_annotations(self.uuid, [image], [annotation])
+        inject_image_annotations(html_path, [image], [annotation])
 
         with open(html_path + "/OEBPS/" + html_filename, "r") as file:
             self.assertEqual(file.readlines(),
@@ -96,7 +96,7 @@ class UtilsTest(TestCase):
         annotation = Annotation.objects.create(image=image, type="HUM",
                                                text="TEST ANNOTATION")
 
-        inject_image_annotations(uuid_test, [image], [annotation])
+        inject_image_annotations(f"test-books/{uuid_test}", [image], [annotation])
 
         with open(html_path + "/OEBPS/" + html_filename, "r") as file:
             self.assertEqual(file.readline(),
@@ -115,7 +115,7 @@ class UtilsTest(TestCase):
         annotation2 = Annotation.objects.create(image=image2, type="HUM",
                                                 text="TEST ANNOTATION")
 
-        inject_image_annotations(self.uuid, [image1, image2], [annotation1, annotation2])
+        inject_image_annotations(html_path, [image1, image2], [annotation1, annotation2])
 
         with open(html_path + "/OEBPS/" + html_filename, "r") as file:
             self.assertEqual(file.readline(),
