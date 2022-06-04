@@ -129,38 +129,33 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
     if (rendition)
         return (
             <div className={styles.editor_controls}>
-                    
-                    <button
-                        type="button"
-                        disabled={prevDisabled}
-                        className={styles.arrow + ' ' + styles['arrow--left']}
-                        onClick={handlePrev}>    
-                        <span> {prevDisabled
-                            ? ''
-                            : 'Previous image'} </span>
-                    </button>
-                    
-                    <div className={styles.block}>
-                        <h1>
-                            {currentImageIndex === -1
+                <button
+                    type="button"
+                    disabled={prevDisabled}
+                    className={styles.arrow + ' ' + styles['arrow--left']}
+                    onClick={handlePrev}>
+                    <span>Previous image</span>
+                </button>
+
+                <div className={styles.block}>
+                    <h1>
+                        {currentImageIndex === -1
                             ? 'Press arrow to start annotating first image'
-                            : currentImageIndex + 1 + '/' + imageList.length} 
-                        </h1>
-                    </div>
-                    
-                    <button
-                        type="button"
-                        disabled={nextDisabled}
-                        className={styles.arrow + ' ' + styles['arrow--right']}
-                        onClick={handleNext}>
-                         {currentImageIndex === -1 
-                            ? <span> Go to image 1 </span>
-                            : <span>{nextDisabled
-                                ? ''
-                                : 'Next image'} </span> 
-                        }   
-                       
-                    </button>
+                            : currentImageIndex + 1 + '/' + imageList.length}
+                    </h1>
+                </div>
+
+                <button
+                    type="button"
+                    disabled={nextDisabled}
+                    className={styles.arrow + ' ' + styles['arrow--right']}
+                    onClick={handleNext}>
+                    {currentImageIndex === -1 ? (
+                        <span> First Image </span>
+                    ) : (
+                        <span>Next image</span>
+                    )}
+                </button>
             </div>
         )
 }
