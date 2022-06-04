@@ -205,6 +205,22 @@
         outline: none;
         font-family: 'Times New Roman', Times, serif;
     }
+    .moreinfobtn {
+        font-size: 1em;
+        svg {
+            height: 1em;
+            fill: currentColor
+            
+
+        }
+        opacity: 0.8;
+        
+        // background-color:  #ffffff;
+        // padding: 0.5em 0.7em;
+        // margin: 0.2em 10%;
+        border-radius: 5em;
+    }
+
 
     button.save_button {
         font-family: inherit;

@@ -4,6 +4,7 @@ import styles from './Annotator.module.scss'
 import { ImageInfo } from '../../helpers/EditorHelper'
 import { getImgFilename } from '../../helpers/EditImageHelper'
 import { getGoogleAnnotation, getMicrosoftAnnotation} from '../../api/AnnotateImage'
+import { ReactComponent as MoreInfoSVG } from '../../assets/svgs/information-button.svg'
 
 /**
  * The AISelection component handles selection of various AI types, such as Google Vision or Microsoft Azure.
@@ -166,6 +167,13 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
                 <option value={opt.key} key={opt.key}> {opt.val} </option>
             ))}
         </select>
+        <button
+                type="button"
+                className={styles.moreinfobtn}
+                >
+                <MoreInfoSVG />
+                
+            </button>
         
         <div>
         <button
