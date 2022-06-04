@@ -20,6 +20,23 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
     
     const dropdownRef = useRef(null)
     const saveAiChoiceButtonRef = useRef(null)
+    const [moreInfo,setMoreInfo]=useState(false);
+
+    const extraContent=<div>
+      <p className="extra-content" style={{fontSize : '16px'}}>
+          <p>
+            Google Cloud Vision API: Generates labels with a corresponding confidence.
+            Best used for flags, covers, text and logos.
+        </p>
+        <p>
+            Microsoft Computer Vision: Generates labels with a corresponding confidence as well as a sentence describing the image.
+            Best used for art, drawings, icons and photographs
+
+        </p>
+
+        
+      </p>
+  </div>
 
     // TODO: Make the types match the ones on the server once all AI endpoints are final
     // (needed for displaying the most recent AI annotation choice in Annotator.js)
@@ -170,11 +187,14 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
         <button
                 type="button"
                 className={styles.moreinfobtn}
+                onClick={() => setMoreInfo(!moreInfo)}
                 >
                 <MoreInfoSVG />
                 
             </button>
-        
+        <div>
+            {moreInfo ? extraContent: ""}
+        </div>
         <div>
         <button
             type="button"

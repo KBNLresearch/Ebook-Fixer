@@ -206,18 +206,18 @@
         font-family: 'Times New Roman', Times, serif;
     }
     .moreinfobtn {
-        font-size: 1em;
+        font-size: 0.9em;
         svg {
-            height: 1em;
+            height: 0.9em;
             fill: currentColor
             
 
         }
         opacity: 0.8;
+        &:hover {
+            background-color: #4a4a4a
+        }
         
-        // background-color:  #ffffff;
-        // padding: 0.5em 0.7em;
-        // margin: 0.2em 10%;
         border-radius: 5em;
     }
 
