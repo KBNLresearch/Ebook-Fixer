@@ -72,7 +72,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#openBook">openBook</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="AISelection.html">AISelection</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FetchWithStatus.html">FetchWithStatus</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="NavBar.html">NavBar</a></li><li><a href="Overview.html">Overview</a></li><li><a href="ProgressBar.html">ProgressBar</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="Sidebar.html">Sidebar</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#openBook">openBook</a></li><li><a href="global.html#pollForFile">pollForFile</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getGoogleAnnotation">getGoogleAnnotation</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#getMicrosoftAnnotation">getMicrosoftAnnotation</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
                 
             </nav>
         </div>
@@ -149,16 +149,18 @@ export class ImageInfo {
  *
  * @param {ArrayBuffer} e Returned by the FileReader
  * @param {Function} getRendered : () => boolean Getter for the rendered variable, to see if the editor is already rendered
- * @param {function} setRendered : (boolean) => void Setter for the rendered variable, to set it to true
+ * @param {Function} setRendered : (boolean) => void Setter for the rendered variable, to set it to true
  * @param {external:SetStateAction} setImageList {@link ImageInfo}[] Setter for the image list state
  * @param {external:SetStateAction} setRendition {@link external:Rendition} Setter for the rendition
+ * @param {Function} setTitle Setter for the e-book title (uses {@link https://jotai.org/})
  */
 export function openBook(
     e,
     getRendered,
     setRendered,
     setImageList,
-    setRendition
+    setRendition,
+    setTitle
 ) {
     // Get the opened book
     const bookData = e.target.result
@@ -205,6 +207,13 @@ export function openBook(
             getAllImages(rendition).then((imgs) => {
                 setImageList(imgs)
             })
+        })
+        book.loaded.metadata.then((metadata) => {
+            if (metadata.title) {
+                const title = metadata.title.slice(0, 72) + '...'
+
+                setTitle(metadata.title)
+            }
         })
     })
 

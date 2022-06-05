@@ -6,7 +6,6 @@ from .views import (
     azure_annotation_generation_view,
     google_annotation_generation_view
 )
-
 from ebooks.models import Ebook
 from images.models import Image
 
