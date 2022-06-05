@@ -19,22 +19,23 @@ import { ReactComponent as MoreInfoSVG } from '../../assets/svgs/information-but
 function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotationList, setSentence, currImage, ebookId, imageId}) {
     
     const dropdownRef = useRef(null)
-    const saveAiChoiceButtonRef = useRef(null)
-    const [moreInfo,setMoreInfo]=useState(false);
+    const generateButtonRef = useRef(null)
+    const savedTextButton = "Generated"
+    const notSavedTextButton = "Get AI suggestions"
+    const [moreInfo, setMoreInfo] = useState(false);
 
-    const extraContent=<div>
+    const extraContent = <div>
       <p className="extra-content" style={{fontSize : '16px'}}>
           <p>
-            Google Cloud Vision API: Generates labels with a corresponding confidence.
+            Google Cloud Vision API: generates image labels with a corresponding confidence.
             Best used for flags, covers, text and logos.
         </p>
+        <br/>
         <p>
-            Microsoft Computer Vision: Generates labels with a corresponding confidence as well as a sentence describing the image.
-            Best used for art, drawings, icons and photographs
-
+            Microsoft Computer Vision: generates image labels with a corresponding confidence as well as a sentence describing the image.
+            Best used for art, drawings, icons and photographs.
         </p>
 
-        
       </p>
   </div>
 
@@ -47,17 +48,19 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
 
     useEffect(() => {
         
-        saveAiChoiceButtonRef.current.disabled = false
+        generateButtonRef.current.disabled = false
 
-        if (currAiSelected != null) {
-            saveAiChoiceButtonRef.current.disabled = true
+        if (currAiSelected !== null && currAiSelected !== 'skipped') {
+            generateButtonRef.current.disabled = true
+            generateButtonRef.current.innerText = savedTextButton
             // Show the selected AI in dropdown menu
             const idx = options.findIndex(opt =>  opt.key === currAiSelected ) + 1;
             dropdownRef.current.selectedIndex = idx;
         } else {
             // Show the label
             dropdownRef.current.selectedIndex = 0
-            saveAiChoiceButtonRef.current.disabled = false
+            generateButtonRef.current.disabled = false
+            generateButtonRef.current.innerText = notSavedTextButton
         }
 
     }, [])
@@ -83,19 +86,18 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
      */
     function handleAiClick() {
         const choice = getSelectedAi()
-        console.log(choice)
         setCurrAiSelected(choice)
 
 
         if (choice !== 'Invalid') {
             
             display(choice)
-            saveAiChoiceButtonRef.current.disabled = true
-            saveAiChoiceButtonRef.current.innerText = 'Generated'
-            
+            generateButtonRef.current.disabled = true
+            generateButtonRef.current.innerText = savedTextButton
 
         } else {
-            saveAiChoiceButtonRef.current.disabled = false
+            generateButtonRef.current.disabled = false
+            generateButtonRef.current.innerText = notSavedTextButton
         } 
     }
 
@@ -165,54 +167,53 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
     return (
         <div className={styles.ai_input}>
 
-        <label htmlFor="selectClass">
-            Please select AI to generate annotations
-        </label>
-        
-        <select
-            ref={dropdownRef}
-            className={styles.dropdown}
-            onChange={() => {
-                saveAiChoiceButtonRef.current.disabled = false
-                setAiAnnotationList([])
-                setSentence(null)
-            }}>
-            <option value="none" selected disabled hidden>
-                Select AI
-            </option>
-            {options.map((opt) => (
-                <option value={opt.key} key={opt.key}> {opt.val} </option>
-            ))}
-        </select>
-        <button
+            <label htmlFor="selectClass">
+                Please select AI to generate annotations
+            </label>
+            
+            <select
+                ref={dropdownRef}
+                className={styles.dropdown}
+                onChange={() => {
+                    generateButtonRef.current.disabled = false
+                    generateButtonRef.current.innerText = notSavedTextButton
+                    setAiAnnotationList([])
+                    setSentence(null)
+                }}>
+                <option value="none" selected disabled hidden>
+                    Select AI
+                </option>
+                {options.map((opt) => (
+                    <option value={opt.key} key={opt.key}> {opt.val} </option>
+                ))}
+            </select>
+            <button
+                    type="button"
+                    className={styles.moreinfobtn}
+                    onClick={() => setMoreInfo(!moreInfo)}
+                    >
+                    <MoreInfoSVG />       
+                </button>
+            <div>
+                {moreInfo ? extraContent: ""}
+            </div>
+            <div>
+            <button
                 type="button"
-                className={styles.moreinfobtn}
-                onClick={() => setMoreInfo(!moreInfo)}
-                >
-                <MoreInfoSVG />
-                
+                className={styles.save_button}
+                ref={generateButtonRef}
+                onClick={() => handleAiClick()}>
+                {notSavedTextButton}
             </button>
-        <div>
-            {moreInfo ? extraContent: ""}
-        </div>
-        <div>
-        <button
-            type="button"
-            className={styles.save_button}
-            ref={saveAiChoiceButtonRef}
-            onClick={() => handleAiClick()}>
-            {' '}
-            Generate Suggestions{' '}
-        </button>
-        <button
-            type="button"
-            className={styles.skip}
-            onClick={() => handleSkip()}
-            >
-            {' '}
-            Skip{' '}
-        </button>
-        </div>
+            <button
+                type="button"
+                className={styles.skip}
+                onClick={() => handleSkip()}
+                >
+                {' '}
+                Skip{' '}
+            </button>
+            </div>
         </div> 
     )
 }

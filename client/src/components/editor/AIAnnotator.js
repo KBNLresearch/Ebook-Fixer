@@ -2,8 +2,6 @@ import PropTypes from 'prop-types'
 import { useEffect, useRef, useState } from 'react'
 import styles from './Annotator.module.scss'
 import { ImageInfo } from '../../helpers/EditorHelper'
-import { getImgFilename } from '../../helpers/EditImageHelper'
-import { getGoogleAnnotation, getMicrosoftAnnotation} from '../../api/AnnotateImage'
 
 /**
  * The AIAnnotator handles generating AI image descriptions / labels
@@ -23,33 +21,14 @@ import { getGoogleAnnotation, getMicrosoftAnnotation} from '../../api/AnnotateIm
  */
 function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId, imageId, aiChoice, sentence, setSentence, setStage}) {
 
-    // const generateButtonRef = useRef(null)
-    const savedTextButton = "Generated"
-    const notSavedTextButton = "Get AI suggestions"
 
     useEffect(() => {
-        
-
         if (aiAnnotationList.length > 0) {
-        //     // Order annotation labels by confidence descendingly  
+            // Order annotation labels by confidence descendingly  
              aiAnnotationList.sort((a, b) => b.confidence - a.confidence)
-             console.log(aiAnnotationList)
-        
-            
-        //     // Remove duplicate annotations
-        //     // TODO: server should not send duplicates in image metadata view?
-        //     // const uniqueAnnotations = [...new Set(aiAnnotationList)];
-        //     // setAiAnnotationList(uniqueAnnotations)
-        //     // generateButtonRef.current.disabled = true
-        //     // generateButtonRef.current.innerText = savedTextButton
         } else {
-            console.log(aiAnnotationList)
-            console.log(aiChoice)
-        //     // generateButtonRef.current.disabled = false
-            
+            console.log('No AI annotations to display')
         }
-        
-        
     }, [])
 
 
@@ -97,71 +76,6 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                 return classes[0]
             } 
         }
-        // function getDisplayList() {
-        
-        //     return(
-        //          aiAnnotationList.map((obj) => (<p className={getProportionalClass(obj)}> {obj.text} </p>))
-        //     )
-
-        // }
-
-    // /**
-    //  * Makes API call to server for fetching AI annotations
-    //  * and disables "Generate" button
-    //  */
-    // function display() {
-    //     if (currImage) {
-            
-    //         // When only the client is run during development, we still want to inspect this function though
-    //         if (!ebookId) {
-    //             console.log('No e-book UUID stored on client!')
-    //         }
-
-    //         switch(aiChoice) {
-    //             case 'Google Vision':
-    //                 // Loading spinner while user waits for AI annotations
-    //                 // setStage('loading')
-    //                 console.log('Fetching Google Vision labels...')
-    //                  getGoogleAnnotation(
-    //                 ebookId,
-    //                 imageId,
-    //                 getImgFilename(currImage)
-    //             ) .then(result => {
-    //                 setStage("annotate")
-    //                 if (Object.prototype.hasOwnProperty.call(result, "annotations")){ 
-    //                     // Order annotation labels by confidence ascendingly  
-    //                     setAiAnnotationList(result.annotations)
-    //                    }
-    //             })
-    //             break
-
-    //             case 'Microsoft Azure':
-    //                 // Loading spinner while user waits for AI annotations
-    //                 setStage('loading')
-    //                 console.log('Fetching Microsoft Azure labels and description...')
-    //                 getMicrosoftAnnotation(
-    //                     ebookId,
-    //                     imageId,
-    //                     getImgFilename(currImage)
-    //                 ) .then(result => {
-    //                     setStage('annotate')
-    //                     if (Object.prototype.hasOwnProperty.call(result, "annotations")){
-    //                             setSentence(result.annotations.pop().text)
-    //                             // Order annotation labels by confidence ascendingly
-    //                             setAiAnnotationList(result.annotations)
-    //                        }
-    //                 })
-    //                 break
-                
-    //             default :
-    //                 // TODO: hide AI annotator boxes
-    //         }
-            
-    //         // generateButtonRef.current.disabled = true
-    //         // generateButtonRef.current.innerText = savedTextButton
-    //     }
-    // }
-
     
         return (
             <div className={styles.ai_control}>
