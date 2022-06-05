@@ -9,6 +9,7 @@ django-rest-framework
 djongo
 epubcheck
 flake8
+git+https://github.com/LIAAD/yake
 google-cloud-vision
 gunicorn
 html.parser
