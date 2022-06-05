@@ -161,12 +161,10 @@ def annotation_save_view(request):
         image = body[0]
         data = body[1]
         try:
-            # Check if a human annotation already exists
-            annotation = Annotation.objects.filter(image=image, type="HUM").get()
-        except Annotation.DoesNotExist:
-            annotation = Annotation.objects.create(image=image, type="HUM")
-        annotation.text = data["text"]
-        annotation.save(update_fields=["text"])
+            annotation = Annotation.objects.create(image=image, type="HUM", text=data["text"])
+        except KeyError:
+            return JsonResponse({'msg': 'Text parameter missing in the request body!'},
+                                status=status.HTTP_400_BAD_REQUEST)
         serializer = AnnotationSerializer(annotation)
         return JsonResponse(serializer.data, status=status.HTTP_200_OK)
     else:
