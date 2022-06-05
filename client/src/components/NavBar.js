@@ -1,5 +1,7 @@
+import { useAtom } from 'jotai'
 import { Link, Route, Routes, useParams } from 'react-router-dom'
 import logo from '../assets/svgs/logo.svg'
+import { titleContext } from '../helpers/EbookContext'
 import ShareURL from './editor/ShareURL'
 import styles from './NavBar.module.scss'
 import Sidebar from './Sidebar'
@@ -14,6 +16,8 @@ import Sidebar from './Sidebar'
  * @component
  */
 function NavBar() {
+    const [title] = useAtom(titleContext)
+
     return (
         <Routes>
             <Route
@@ -37,7 +41,7 @@ function NavBar() {
                                     src={logo}
                                 />
                             </Link>
-                            <h1>E-Book Title</h1>
+                            {title === '' ? '' : <h1>Editing: {title} </h1>}
                         </div>
                         <ShareURL />
                     </div>
@@ -56,7 +60,7 @@ function NavBar() {
                                     src={logo}
                                 />
                             </Link>
-                            <h1>E-Book Title</h1>
+                            {title === '' ? '' : <h1>Editing: {title} </h1>}
                         </div>
                         <ShareURL />
                     </div>

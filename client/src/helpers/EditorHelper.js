@@ -58,16 +58,18 @@ export class ImageInfo {
  *
  * @param {ArrayBuffer} e Returned by the FileReader
  * @param {Function} getRendered : () => boolean Getter for the rendered variable, to see if the editor is already rendered
- * @param {function} setRendered : (boolean) => void Setter for the rendered variable, to set it to true
+ * @param {Function} setRendered : (boolean) => void Setter for the rendered variable, to set it to true
  * @param {external:SetStateAction} setImageList {@link ImageInfo}[] Setter for the image list state
  * @param {external:SetStateAction} setRendition {@link external:Rendition} Setter for the rendition
+ * @param {Function} setTitle Setter for the e-book title (uses {@link https://jotai.org/})
  */
 export function openBook(
     e,
     getRendered,
     setRendered,
     setImageList,
-    setRendition
+    setRendition,
+    setTitle
 ) {
     // Get the opened book
     const bookData = e.target.result
@@ -114,6 +116,13 @@ export function openBook(
             getAllImages(rendition).then((imgs) => {
                 setImageList(imgs)
             })
+        })
+        book.loaded.metadata.then((metadata) => {
+            if (metadata.title) {
+                const title = metadata.title.slice(0, 72) + '...'
+
+                setTitle(metadata.title)
+            }
         })
     })
 

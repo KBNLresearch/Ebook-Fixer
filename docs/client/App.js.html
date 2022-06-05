@@ -72,7 +72,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#openBook">openBook</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="AISelection.html">AISelection</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FetchWithStatus.html">FetchWithStatus</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="NavBar.html">NavBar</a></li><li><a href="Overview.html">Overview</a></li><li><a href="ProgressBar.html">ProgressBar</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="Sidebar.html">Sidebar</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#openBook">openBook</a></li><li><a href="global.html#pollForFile">pollForFile</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getGoogleAnnotation">getGoogleAnnotation</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#getMicrosoftAnnotation">getMicrosoftAnnotation</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
                 
             </nav>
         </div>
@@ -92,12 +92,14 @@
             <pre class="prettyprint source linenums"><code>import { Routes, Route, Link } from 'react-router-dom'
 import './App.scss'
 import { useState } from 'react'
-import FileUpload from './components/FileUpload'
+import FileUpload from './components/epubfiles/FileUpload'
 import Editor from './components/editor/Editor'
 import { ReactComponent as GoBackArrowSVG } from './assets/svgs/go-back-arrow.svg'
-import logo from './assets/images/KB-logo.png'
+import logo from './assets/svgs/logo.svg'
 import EpubInfoPage from './components/EpubInfoPage'
 import NotFound from './components/errorpages/NotFound'
+import Sidebar from './components/Sidebar'
+import NavBar from './components/NavBar'
 
 // This code uses functional components, you could use classes instead but they require more boilerplate
 
@@ -117,19 +119,28 @@ function App() {
 
     return (
         &lt;div className="App">
-            &lt;header className="App-header">
+            &lt;header>
                 &lt;Routes>
+                    &lt;Route path="*" element={&lt;NavBar />} />
                     &lt;Route
                         path="/"
-                        element={&lt;img alt="" className="logo" src={logo} />}
-                    />
-                    &lt;Route
-                        path="*"
                         element={
-                            &lt;Link to="/" className="home-navigation">
-                                &lt;GoBackArrowSVG />
-                                Go Back
-                            &lt;/Link>
+                            &lt;div className="App-header">
+                                &lt;NavBar />
+                                &lt;div>
+                                    &lt;img
+                                        alt="E-BOOK FIXER Logo"
+                                        className="logo"
+                                        src={logo}
+                                    />
+                                    &lt;h1 className="logo_title">E-BOOK FIXER&lt;/h1>
+                                    &lt;h2 className="logo_subtitle">
+                                        Improve image descriptions for ePubs!
+                                    &lt;/h2>
+                                    &lt;br />
+                                    &lt;br />
+                                &lt;/div>
+                            &lt;/div>
                         }
                     />
                 &lt;/Routes>
@@ -157,18 +168,18 @@ function App() {
                                 ebookId={ebookId}
                                 ebookTitle={ebookTitle}
                             />
-                        }>
-                        &lt;Route
-                            path="image/:imgFilename"
-                            element={
-                                &lt;Editor
-                                    ebookFile={ebookFile}
-                                    ebookId={ebookId}
-                                    ebookTitle={ebookTitle}
-                                />
-                            }
-                        />
-                    &lt;/Route>
+                        }
+                    />
+                    &lt;Route
+                        path="/ebook/:uuid/image/:imgFilename"
+                        element={
+                            &lt;Editor
+                                ebookFile={ebookFile}
+                                ebookId={ebookId}
+                                ebookTitle={ebookTitle}
+                            />
+                        }
+                    />
                     &lt;Route path="*" element={&lt;NotFound />} />
                 &lt;/Routes>
             &lt;/main>

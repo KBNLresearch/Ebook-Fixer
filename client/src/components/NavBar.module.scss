@@ -3,6 +3,8 @@
     display: flex;
     flex-direction: row;
     align-items: stretch;
+    font-size: 0.85em;
+    color: rgb(80, 80, 80);
 }
 
 .title {
@@ -10,6 +12,11 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    position: relative;
+    h1 {
+        position: relative; 
+        left: 2vw;
+    }
 }
 
 .logo {

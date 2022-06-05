@@ -72,7 +72,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#openBook">openBook</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="AISelection.html">AISelection</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FetchWithStatus.html">FetchWithStatus</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="NavBar.html">NavBar</a></li><li><a href="Overview.html">Overview</a></li><li><a href="ProgressBar.html">ProgressBar</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="Sidebar.html">Sidebar</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#openBook">openBook</a></li><li><a href="global.html#pollForFile">pollForFile</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getGoogleAnnotation">getGoogleAnnotation</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#getMicrosoftAnnotation">getMicrosoftAnnotation</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
                 
             </nav>
         </div>
@@ -101,36 +101,24 @@ import {
 } from '../../helpers/EditImageHelper'
 
 /**
- * The AI annotator component is in charge of classifying the image
- * and querying the server for a black-box AI description for it
- * @param {ImageInfo} currImage metadata for the image
- *  Note that changing of the image is propagated to this child
+ * The Classifier component is in charge of letting the user classify the image under annotation.
+ * Decorative images will not be annotated.
+ * 
+ * @param {ImageInfo} currImage Metadata for current image under annotation
+ * Note that changing of the image is propagated to this child
  * @param {String} ebookId The UUID for the ebook generated by server
  * @param {external:SetStateAction} setImageId Updates image id stored on client, generated by server
  * @param {String} currClassification Classification for this image stored on server
- * @param {external:SetStateAction} setStage Sets the current stage in annotation processA
+ * @param {external:SetStateAction} setCurrClassification Sets the current classification
+ * @param {external:SetStateAction} setStage Sets next stage in annotation process 
  * @component
  * @returns The Classifier component
  */
-function Classifier({
-    currImage,
-    ebookId,
-    setImageId,
-    currClassification,
-    setStage,
-}) {
-    // TODO: switch to AI generation view --> show textArea instead of dropdown menu
-
-    // TODO: split into Classification and AIAnnotator components
-
-    // TODO: allow user to change classification later again, after AI generation
+function Classifier({ currImage, ebookId, setImageId, currClassification, setCurrClassification, setStage }) {
 
     // References/hooks to React DOM elements
     const saveButtonRef = useRef(null)
     const dropdownRef = useRef(null)
-
-    // Creates a hook that executes the arrow func. every time imageSelected changes
-    // TODO: also hide button for User annotation after saving
 
     // Creates a hook that executes the arrow func. every time imageSelected or classification changes
     useEffect(() => {
@@ -144,13 +132,12 @@ function Classifier({
             if (currClassification != null) {
                 saveButtonRef.current.disabled = true
                 // Show the selected classification
-                const idx =
-                    options.findIndex((opt) => opt.val === currClassification) +
-                    1
-                dropdownRef.current.selectedIndex = idx
+                const idx = options.findIndex(opt => opt.val === currClassification || opt.abr === currClassification) + 1;
+                dropdownRef.current.selectedIndex = idx;
             } else {
                 // Show the label
                 dropdownRef.current.selectedIndex = 0
+                saveButtonRef.current.disabled = false
             }
         }
     }, [currImage, currClassification])
@@ -186,23 +173,25 @@ function Classifier({
             if (!ebookId) {
                 console.log('No e-book UUID stored on client!')
             }
-            const selectedClassification = getClassification()
+            // Store current classification for this image on client (but will only be fetched from server when image changes)
+            const choice = getClassification()
+            setCurrClassification(choice)
+
             classifyImageApiCall(
                 ebookId,
                 getImgFilename(currImage),
                 getLocation(currImage),
-                selectedClassification,
+                choice,
                 getRawContext(currImage)
             ).then((result) => {
                 // console.log(JSON.stringify(result));
                 // Keep image id up to date after classifying
                 if (Object.prototype.hasOwnProperty.call(result, 'id')) {
-                    console.log('Image id of (new) entry: ' + result.id)
                     setImageId(result.id)
                 }
             })
 
-            if (selectedClassification !== 'Invalid') {
+            if (choice !== 'Invalid') {
                 saveButtonRef.current.disabled = true
                 saveButtonRef.current.innerText = 'Classification Saved'
             } else {
@@ -210,27 +199,27 @@ function Classifier({
             }
 
             // For decorative images, user will not proceed to next stage
-            if (
-                selectedClassification !== 'Decoration' &amp;&amp;
-                selectedClassification !== 'Invalid'
-            ) {
+            if (choice !== 'Decoration' &amp;&amp; choice !== 'Invalid') {
                 setStage('ai-selection')
-            }
+            } 
         }
     }
 
     const options = [
-        { abr: 'DECO', val: 'Decoration' },
-        { abr: 'INFO', val: 'Information' },
-        { abr: 'PHOTO', val: 'Photo' },
-        { abr: 'ILLUS', val: 'Illustration' },
-        { abr: 'FIG', val: 'Figure' },
-        { abr: 'SYM', val: 'Symbol' },
-        { abr: 'DRAW', val: 'Drawing' },
-        { abr: 'COM', val: 'Comic' },
-        { abr: 'LOGO', val: 'Logo' },
-        { abr: 'GRAPH', val: 'Graph' },
-        { abr: 'MAP', val: 'Map' },
+        {abr: 'DECO', val: 'Decoration'},
+        {abr: 'INFO', val: 'Information'},
+        {abr: 'PHOTO', val: 'Photo'},
+        {abr: 'ILLUS', val: 'Illustration'},
+        {abr: 'FIG', val: 'Figure'},
+        {abr: 'SYM', val: 'Symbol'},
+        {abr: 'ART', val: 'Art'},
+        {abr: 'SIG', val: 'Signature'},
+        {abr: 'TXT', val: 'Text'},
+        {abr: 'FLAG', val: 'Flag'},
+        {abr: 'COM', val: 'Comic'},
+        {abr: 'LOGO', val: 'Logo'},
+        {abr: 'GRAPH', val: 'Graph'},
+        {abr: 'MAP', val: 'Map'},
     ]
 
     return (
@@ -251,7 +240,6 @@ function Classifier({
                 &lt;/option>
                 {options.map((opt) => (
                     &lt;option value={opt.val}> {opt.val} &lt;/option>
-                    // handleMenuOption(ospt)
                 ))}
             &lt;/select>
             &lt;button
@@ -271,6 +259,7 @@ Classifier.propTypes = {
     ebookId: PropTypes.string.isRequired,
     setImageId: PropTypes.func.isRequired,
     currClassification: PropTypes.string.isRequired,
+    setCurrClassification: PropTypes.func.isRequired,
     setStage: PropTypes.func.isRequired,
 }
 

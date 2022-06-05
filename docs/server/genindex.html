@@ -51,6 +51,7 @@
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
  | <a href="#Z"><strong>Z</strong></a>
  
 </div>
@@ -64,8 +65,6 @@
       <li><a href="annotations.html#annotations.models.Annotation.DoesNotExist">Annotation.DoesNotExist</a>
 </li>
       <li><a href="annotations.html#annotations.models.Annotation.MultipleObjectsReturned">Annotation.MultipleObjectsReturned</a>
-</li>
-      <li><a href="annotations.html#annotations.views.annotation_generation_view">annotation_generation_view() (in module annotations.views)</a>
 </li>
       <li><a href="annotations.html#annotations.views.annotation_save_view">annotation_save_view() (in module annotations.views)</a>
 </li>
@@ -108,8 +107,6 @@
         <li><a href="annotations.migrations.html#module-annotations.migrations.0001_initial">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     annotations.models
 
@@ -117,6 +114,8 @@
         <li><a href="annotations.html#module-annotations.models">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     annotations.serializers
 
@@ -160,16 +159,26 @@
 </li>
       <li><a href="annotations.html#annotations.tests.AnnotationViewsTest">AnnotationViewsTest (class in annotations.tests)</a>
 </li>
+      <li><a href="annotations.html#annotations.views.azure_annotation_generation_view">azure_annotation_generation_view() (in module annotations.views)</a>
+</li>
+      <li><a href="annotations.html#annotations.utils.azure_api_call">azure_api_call() (in module annotations.utils)</a>
+</li>
+      <li><a href="annotations.html#annotations.tests.AnnotationViewsTest.azure_response_annotation_generation_view">azure_response_annotation_generation_view() (annotations.tests.AnnotationViewsTest method)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ebooks.html#ebooks.utils.check_ebook">check_ebook() (in module ebooks.utils)</a>
+</li>
       <li><a href="annotations.html#annotations.utils.check_request_body">check_request_body() (in module annotations.utils)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ebooks.html#ebooks.models.Ebook.checker_issues">checker_issues (ebooks.models.Ebook attribute)</a>
+</li>
       <li><a href="images.html#images.models.Image.classification">classification (images.models.Image attribute)</a>
 </li>
       <li><a href="annotations.html#annotations.models.Annotation.confidence">confidence (annotations.models.Annotation attribute)</a>
@@ -180,6 +189,8 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ebooks.html#ebooks.tests_pipeline.DataProcessingPipelineTests">DataProcessingPipelineTests (class in ebooks.tests_pipeline)</a>
+</li>
       <li><a href="annotations.html#annotations.tests.decode_message">decode_message() (in module annotations.tests)</a>
 
       <ul>
@@ -204,7 +215,7 @@
         <li><a href="images.migrations.html#images.migrations.0001_initial.Migration.dependencies">(images.migrations.0001_initial.Migration attribute)</a>
 </li>
       </ul></li>
-      <li><a href="ebooks.html#ebooks.tests.dummy_mock">dummy_mock() (in module ebooks.tests)</a>
+      <li><a href="ebooks.html#ebooks.tests_pipeline.dummy_mock">dummy_mock() (in module ebooks.tests_pipeline)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -219,8 +230,6 @@
       <li><a href="ebooks.html#ebooks.models.Ebook.DoesNotExist">Ebook.DoesNotExist</a>
 </li>
       <li><a href="ebooks.html#ebooks.models.Ebook.MultipleObjectsReturned">Ebook.MultipleObjectsReturned</a>
-</li>
-      <li><a href="ebooks.html#ebooks.views.ebook_detail_view">ebook_detail_view() (in module ebooks.views)</a>
 </li>
       <li><a href="ebooks.html#ebooks.views.ebook_download_view">ebook_download_view() (in module ebooks.views)</a>
 </li>
@@ -280,10 +289,10 @@
 </li>
       </ul></li>
       <li>
-    ebooks.tests
+    ebooks.tests_pipeline
 
       <ul>
-        <li><a href="ebooks.html#module-ebooks.tests">module</a>
+        <li><a href="ebooks.html#module-ebooks.tests_pipeline">module</a>
 </li>
       </ul></li>
       <li>
@@ -320,8 +329,6 @@
 </li>
       <li><a href="ebooks.html#ebooks.serializers.EbookSerializer.Meta">EbookSerializer.Meta (class in ebooks.serializers)</a>
 </li>
-      <li><a href="ebooks.html#ebooks.tests.EbookViewsTest">EbookViewsTest (class in ebooks.tests)</a>
-</li>
       <li><a href="ebooks.html#ebooks.models.Ebook.epub">epub (ebooks.models.Ebook attribute)</a>
 </li>
       <li><a href="ebooks.html#ebooks.models.epub_dir_path">epub_dir_path() (in module ebooks.models)</a>
@@ -356,9 +363,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="images.html#images.models.Image.get_classification_display">get_classification_display() (images.models.Image method)</a>
 </li>
+      <li><a href="ebooks.html#ebooks.models.Ebook.get_state_display">get_state_display() (ebooks.models.Ebook method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="annotations.html#annotations.models.Annotation.get_type_display">get_type_display() (annotations.models.Annotation method)</a>
+</li>
+      <li><a href="annotations.html#annotations.views.google_annotation_generation_view">google_annotation_generation_view() (in module annotations.views)</a>
 </li>
       <li><a href="annotations.html#annotations.utils.google_vision_labels">google_vision_labels() (in module annotations.utils)</a>
 </li>
@@ -428,8 +439,6 @@
         <li><a href="images.migrations.html#module-images.migrations">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     images.migrations.0001_initial
 
@@ -437,6 +446,8 @@
         <li><a href="images.migrations.html#module-images.migrations.0001_initial">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     images.models
 
@@ -490,6 +501,8 @@
       </ul></li>
       <li><a href="ebooks.html#ebooks.utils.inject_image_annotations">inject_image_annotations() (in module ebooks.utils)</a>
 </li>
+      <li><a href="ebooks.html#ebooks.models.Ebook.INVALID_STATES">INVALID_STATES (ebooks.models.Ebook attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -521,15 +534,31 @@
         <li><a href="images.migrations.html#images.migrations.0001_initial.Migration">(class in images.migrations.0001_initial)</a>
 </li>
       </ul></li>
+      <li><a href="annotations.html#annotations.tests.mock_azure_utils">mock_azure_utils() (in module annotations.tests)</a>
+</li>
       <li><a href="annotations.html#annotations.tests.mock_google_vision_labels">mock_google_vision_labels() (in module annotations.tests)</a>
 </li>
-      <li><a href="annotations.html#annotations.tests.mock_google_vision_labels_image_not_found">mock_google_vision_labels_image_not_found() (in module annotations.tests)</a>
+      <li><a href="annotations.html#annotations.tests.mock_image_not_found">mock_image_not_found() (in module annotations.tests)</a>
 </li>
-      <li><a href="ebooks.html#ebooks.tests.mock_uuid">mock_uuid() (in module ebooks.tests)</a>
+      <li><a href="ebooks.html#ebooks.tests_pipeline.mock_unzipping">mock_unzipping() (in module ebooks.tests_pipeline)</a>
+</li>
+      <li><a href="ebooks.html#ebooks.tests_pipeline.mock_unzipping_with_error">mock_unzipping_with_error() (in module ebooks.tests_pipeline)</a>
 </li>
       <li><a href="ebooks.html#ebooks.tests_utils.mock_zip">mock_zip() (in module ebooks.tests_utils)</a>
 </li>
+      <li><a href="annotations.html#annotations.utils.mocked_azure_api_call">mocked_azure_api_call() (in module annotations.utils)</a>
+</li>
+      <li><a href="annotations.html#annotations.utils.mocked_google_vision_labels">mocked_google_vision_labels() (in module annotations.utils)</a>
+</li>
+      <li><a href="ebooks.html#ebooks.tests_pipeline.MockedMessage">MockedMessage (class in ebooks.tests_pipeline)</a>
+</li>
       <li><a href="ebooks.html#ebooks.tests_utils.MockedZipFile">MockedZipFile (class in ebooks.tests_utils)</a>
+</li>
+      <li><a href="ebooks.html#ebooks.tests_pipeline.MockInvalidEpubCheck">MockInvalidEpubCheck (class in ebooks.tests_pipeline)</a>
+</li>
+      <li><a href="ebooks.html#ebooks.tests_pipeline.MockValidEpubCheck">MockValidEpubCheck (class in ebooks.tests_pipeline)</a>
+</li>
+      <li><a href="ebooks.html#ebooks.tests_pipeline.MockValidEpubWithWarningsCheck">MockValidEpubWithWarningsCheck (class in ebooks.tests_pipeline)</a>
 </li>
       <li><a href="annotations.html#annotations.serializers.AnnotationSerializer.Meta.model">model (annotations.serializers.AnnotationSerializer.Meta attribute)</a>
 
@@ -579,7 +608,7 @@
 </li>
         <li><a href="ebooks.html#module-ebooks.serializers">ebooks.serializers</a>
 </li>
-        <li><a href="ebooks.html#module-ebooks.tests">ebooks.tests</a>
+        <li><a href="ebooks.html#module-ebooks.tests_pipeline">ebooks.tests_pipeline</a>
 </li>
         <li><a href="ebooks.html#module-ebooks.tests_utils">ebooks.tests_utils</a>
 </li>
@@ -666,6 +695,10 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ebooks.html#ebooks.utils.process_ebook">process_ebook() (in module ebooks.utils)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ebooks.html#ebooks.utils.push_epub_folder_to_github">push_epub_folder_to_github() (in module ebooks.utils)</a>
 </li>
   </ul></td>
@@ -678,12 +711,8 @@
 </li>
       <li><a href="annotations.html#annotations.tests.AnnotationViewsTest.response_annotation_generation_view">response_annotation_generation_view() (annotations.tests.AnnotationViewsTest method)</a>
 </li>
-      <li><a href="ebooks.html#ebooks.tests.EbookViewsTest.response_ebook_detail_view">response_ebook_detail_view() (ebooks.tests.EbookViewsTest method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ebooks.html#ebooks.tests.EbookViewsTest.response_ebook_download_view">response_ebook_download_view() (ebooks.tests.EbookViewsTest method)</a>
-</li>
       <li><a href="images.html#images.tests.ImageViewsTest.response_image_classification_view">response_image_classification_view() (images.tests.ImageViewsTest method)</a>
 </li>
       <li><a href="images.html#images.tests.ImageViewsTest.response_image_details_view">response_image_details_view() (images.tests.ImageViewsTest method)</a>
@@ -717,8 +746,6 @@
         <li><a href="server.html#module-server.settings">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     server.urls
 
@@ -726,6 +753,8 @@
         <li><a href="server.html#module-server.urls">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     server.wsgi
 
@@ -736,13 +765,17 @@
       <li><a href="annotations.html#annotations.tests.AnnotationViewsTest.setUp">setUp() (annotations.tests.AnnotationViewsTest method)</a>
 
       <ul>
-        <li><a href="ebooks.html#ebooks.tests.EbookViewsTest.setUp">(ebooks.tests.EbookViewsTest method)</a>
+        <li><a href="ebooks.html#ebooks.tests_pipeline.DataProcessingPipelineTests.setUp">(ebooks.tests_pipeline.DataProcessingPipelineTests method)</a>
 </li>
         <li><a href="ebooks.html#ebooks.tests_utils.UtilsTest.setUp">(ebooks.tests_utils.UtilsTest method)</a>
 </li>
         <li><a href="images.html#images.tests.ImageViewsTest.setUp">(images.tests.ImageViewsTest method)</a>
 </li>
       </ul></li>
+      <li><a href="ebooks.html#ebooks.models.Ebook.state">state (ebooks.models.Ebook attribute)</a>
+</li>
+      <li><a href="ebooks.html#ebooks.models.Ebook.STATES">STATES (ebooks.models.Ebook attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -773,32 +806,30 @@
 </li>
       <li><a href="ebooks.html#ebooks.tests_utils.UtilsTest.test_annotations_injection_html_file_missing">test_annotations_injection_html_file_missing() (ebooks.tests_utils.UtilsTest method)</a>
 </li>
-      <li><a href="ebooks.html#ebooks.tests.EbookViewsTest.test_ebook_details_view_200">test_ebook_details_view_200() (ebooks.tests.EbookViewsTest method)</a>
+      <li><a href="annotations.html#annotations.tests.AnnotationViewsTest.test_azure_annotation_generation_view_200">test_azure_annotation_generation_view_200() (annotations.tests.AnnotationViewsTest method)</a>
 </li>
-      <li><a href="ebooks.html#ebooks.tests.EbookViewsTest.test_ebook_details_view_404">test_ebook_details_view_404() (ebooks.tests.EbookViewsTest method)</a>
+      <li><a href="annotations.html#annotations.tests.AnnotationViewsTest.test_azure_annotation_generation_view_400_missing_body">test_azure_annotation_generation_view_400_missing_body() (annotations.tests.AnnotationViewsTest method)</a>
 </li>
-      <li><a href="ebooks.html#ebooks.tests.EbookViewsTest.test_ebook_details_view_405">test_ebook_details_view_405() (ebooks.tests.EbookViewsTest method)</a>
+      <li><a href="annotations.html#annotations.tests.AnnotationViewsTest.test_azure_annotation_generation_view_400_missing_entries_body">test_azure_annotation_generation_view_400_missing_entries_body() (annotations.tests.AnnotationViewsTest method)</a>
 </li>
-      <li><a href="ebooks.html#ebooks.tests.EbookViewsTest.test_ebook_download_view_200">test_ebook_download_view_200() (ebooks.tests.EbookViewsTest method)</a>
+      <li><a href="annotations.html#annotations.tests.AnnotationViewsTest.test_azure_annotation_generation_view_404_image_not_found">test_azure_annotation_generation_view_404_image_not_found() (annotations.tests.AnnotationViewsTest method)</a>
 </li>
-      <li><a href="ebooks.html#ebooks.tests.EbookViewsTest.test_ebook_download_view_404_ebook_not_found">test_ebook_download_view_404_ebook_not_found() (ebooks.tests.EbookViewsTest method)</a>
+      <li><a href="annotations.html#annotations.tests.AnnotationViewsTest.test_azure_annotation_generation_view_405">test_azure_annotation_generation_view_405() (annotations.tests.AnnotationViewsTest method)</a>
 </li>
-      <li><a href="ebooks.html#ebooks.tests.EbookViewsTest.test_ebook_download_view_404_file_not_found">test_ebook_download_view_404_file_not_found() (ebooks.tests.EbookViewsTest method)</a>
+      <li><a href="annotations.html#annotations.tests.AnnotationViewsTest.test_azure_annotation_generation_view_405_missing_ebook">test_azure_annotation_generation_view_405_missing_ebook() (annotations.tests.AnnotationViewsTest method)</a>
 </li>
-      <li><a href="ebooks.html#ebooks.tests.EbookViewsTest.test_ebook_download_view_405">test_ebook_download_view_405() (ebooks.tests.EbookViewsTest method)</a>
+      <li><a href="annotations.html#annotations.tests.AnnotationViewsTest.test_azure_annotation_generation_view_405_missing_image">test_azure_annotation_generation_view_405_missing_image() (annotations.tests.AnnotationViewsTest method)</a>
 </li>
-      <li><a href="ebooks.html#ebooks.tests.EbookViewsTest.test_ebook_upload_view_400">test_ebook_upload_view_400() (ebooks.tests.EbookViewsTest method)</a>
-</li>
-      <li><a href="ebooks.html#ebooks.tests.EbookViewsTest.test_ebook_upload_view_405">test_ebook_upload_view_405() (ebooks.tests.EbookViewsTest method)</a>
+      <li><a href="ebooks.html#ebooks.tests_pipeline.DataProcessingPipelineTests.test_check_missing_book">test_check_missing_book() (ebooks.tests_pipeline.DataProcessingPipelineTests method)</a>
 </li>
       <li><a href="images.html#images.tests.ImageViewsTest.test_image_classification_view_200_excluding_optional_fields">test_image_classification_view_200_excluding_optional_fields() (images.tests.ImageViewsTest method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="images.html#images.tests.ImageViewsTest.test_image_classification_view_200_including_decorative_classification">test_image_classification_view_200_including_decorative_classification() (images.tests.ImageViewsTest method)</a>
 </li>
       <li><a href="images.html#images.tests.ImageViewsTest.test_image_classification_view_200_including_optional_fields">test_image_classification_view_200_including_optional_fields() (images.tests.ImageViewsTest method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="images.html#images.tests.ImageViewsTest.test_image_classification_view_200_update_existing_annotation">test_image_classification_view_200_update_existing_annotation() (images.tests.ImageViewsTest method)</a>
 </li>
       <li><a href="images.html#images.tests.ImageViewsTest.test_image_classification_view_400_empty_body">test_image_classification_view_400_empty_body() (images.tests.ImageViewsTest method)</a>
@@ -829,11 +860,15 @@
 </li>
       <li><a href="ebooks.html#ebooks.tests_utils.UtilsTest.test_missing_annotations_injection">test_missing_annotations_injection() (ebooks.tests_utils.UtilsTest method)</a>
 </li>
+      <li><a href="ebooks.html#ebooks.tests_pipeline.DataProcessingPipelineTests.test_process_invalid_ebook">test_process_invalid_ebook() (ebooks.tests_pipeline.DataProcessingPipelineTests method)</a>
+</li>
+      <li><a href="ebooks.html#ebooks.tests_pipeline.DataProcessingPipelineTests.test_process_valid_ebook_no_file_found">test_process_valid_ebook_no_file_found() (ebooks.tests_pipeline.DataProcessingPipelineTests method)</a>
+</li>
+      <li><a href="ebooks.html#ebooks.tests_pipeline.DataProcessingPipelineTests.test_process_valid_ebook_updated_title">test_process_valid_ebook_updated_title() (ebooks.tests_pipeline.DataProcessingPipelineTests method)</a>
+</li>
+      <li><a href="ebooks.html#ebooks.tests_pipeline.DataProcessingPipelineTests.test_process_valid_ebook_with_warnings">test_process_valid_ebook_with_warnings() (ebooks.tests_pipeline.DataProcessingPipelineTests method)</a>
+</li>
       <li><a href="ebooks.html#ebooks.tests_utils.UtilsTest.test_unzip_epub_file_and_extract_title">test_unzip_epub_file_and_extract_title() (ebooks.tests_utils.UtilsTest method)</a>
-</li>
-      <li><a href="ebooks.html#ebooks.tests.EbookViewsTest.test_upload_view_200">test_upload_view_200() (ebooks.tests.EbookViewsTest method)</a>
-</li>
-      <li><a href="ebooks.html#ebooks.tests.EbookViewsTest.test_upload_view_404">test_upload_view_404() (ebooks.tests.EbookViewsTest method)</a>
 </li>
       <li><a href="annotations.html#annotations.models.Annotation.text">text (annotations.models.Annotation attribute)</a>
 </li>
@@ -854,6 +889,14 @@
       <li><a href="ebooks.html#ebooks.tests_utils.UtilsTest">UtilsTest (class in ebooks.tests_utils)</a>
 </li>
       <li><a href="ebooks.html#ebooks.models.Ebook.uuid">uuid (ebooks.models.Ebook attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ebooks.html#ebooks.models.Ebook.VALID_STATES">VALID_STATES (ebooks.models.Ebook attribute)</a>
 </li>
   </ul></td>
 </tr></table>

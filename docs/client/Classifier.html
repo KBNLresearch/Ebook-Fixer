@@ -70,7 +70,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#openBook">openBook</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="AISelection.html">AISelection</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FetchWithStatus.html">FetchWithStatus</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="NavBar.html">NavBar</a></li><li><a href="Overview.html">Overview</a></li><li><a href="ProgressBar.html">ProgressBar</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="Sidebar.html">Sidebar</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#openBook">openBook</a></li><li><a href="global.html#pollForFile">pollForFile</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getGoogleAnnotation">getGoogleAnnotation</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#getMicrosoftAnnotation">getMicrosoftAnnotation</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
                 
             </nav>
         </div>
@@ -90,7 +90,7 @@
 <header>
     
         <h2>
-            &ltClassifier <i>currImage</i> <i>ebookId</i> <i>setImageId</i> <i>currClassification</i> <i>setStage</i> /&gt
+            &ltClassifier <i>currImage</i> <i>ebookId</i> <i>setImageId</i> <i>currClassification</i> <i>setCurrClassification</i> <i>setStage</i> /&gt
         </h2>
         
     
@@ -115,7 +115,7 @@
         
         <span class="code-name">
             
-                &ltClassifier <i>currImage</i> <i>ebookId</i> <i>setImageId</i> <i>currClassification</i> <i>setStage</i> /&gt
+                &ltClassifier <i>currImage</i> <i>ebookId</i> <i>setImageId</i> <i>currClassification</i> <i>setCurrClassification</i> <i>setStage</i> /&gt
             
         </span>
     </h4>
@@ -124,8 +124,8 @@
     
     
     <div class="description">
-        <p>The AI annotator component is in charge of classifying the image
-and querying the server for a black-box AI description for it</p>
+        <p>The Classifier component is in charge of letting the user classify the image under annotation.
+Decorative images will not be annotated.</p>
     </div>
     
 
@@ -197,6 +197,17 @@ and querying the server for a black-box AI description for it</p>
           
     
           <tr class="deep-level-0">
+            <td class="name"><code>setCurrClassification</code></td>
+            <td>
+              func
+            </td>
+            <td>Yes</td>
+            <td></td>
+            <td></td>
+          </tr>
+          
+    
+          <tr class="deep-level-0">
             <td class="name"><code>setStage</code></td>
             <td>
               func
@@ -256,7 +267,7 @@ and querying the server for a black-box AI description for it</p>
 
   
 
-  <td class="description last"><p>metadata for the image
+  <td class="description last"><p>Metadata for current image under annotation
 Note that changing of the image is propagated to this child</p></td>
 </tr>
 
@@ -341,6 +352,31 @@ Note that changing of the image is propagated to this child</p></td>
             
 <tr class="deep-level-0">
   
+      <td class="name"><code>setCurrClassification</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="external-SetStateAction.html">external:SetStateAction</a></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>Sets the current classification</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
       <td class="name"><code>setStage</code></td>
   
 
@@ -357,7 +393,7 @@ Note that changing of the image is propagated to this child</p></td>
 
   
 
-  <td class="description last"><p>Sets the current stage in annotation processA</p></td>
+  <td class="description last"><p>Sets next stage in annotation process</p></td>
 </tr>
 
 
@@ -405,7 +441,7 @@ Note that changing of the image is propagated to this child</p></td>
         <p class="tag-source">
             <a href="components_editor_Classifier.js.html" class="button">View Source</a>
             <span>
-                <a href="components_editor_Classifier.js.html">components/editor/Classifier.js</a>, <a href="components_editor_Classifier.js.html#line24">line 24</a>
+                <a href="components_editor_Classifier.js.html">components/editor/Classifier.js</a>, <a href="components_editor_Classifier.js.html#line26">line 26</a>
             </span>
         </p>
     
@@ -546,7 +582,7 @@ Note that changing of the image is propagated to this child</p></td>
         <p class="tag-source">
             <a href="components_editor_Classifier.js.html" class="button">View Source</a>
             <span>
-                <a href="components_editor_Classifier.js.html">components/editor/Classifier.js</a>, <a href="components_editor_Classifier.js.html#line70">line 70</a>
+                <a href="components_editor_Classifier.js.html">components/editor/Classifier.js</a>, <a href="components_editor_Classifier.js.html#line57">line 57</a>
             </span>
         </p>
     
@@ -664,7 +700,7 @@ Note that changing of the image is propagated to this child</p></td>
         <p class="tag-source">
             <a href="components_editor_Classifier.js.html" class="button">View Source</a>
             <span>
-                <a href="components_editor_Classifier.js.html">components/editor/Classifier.js</a>, <a href="components_editor_Classifier.js.html#line92">line 92</a>
+                <a href="components_editor_Classifier.js.html">components/editor/Classifier.js</a>, <a href="components_editor_Classifier.js.html#line79">line 79</a>
             </span>
         </p>
     
