@@ -76,14 +76,15 @@
         color: rgb(0, 0, 0);
         border-color: white;
         span {
+            font-size: 17px;
             position: relative;
-            left: 0.4em;
+            left: 0.8em;
         }
     }
 
     .class_step {
         z-index: 10;
-        width: 130px;
+        width: 100px;
         background: var(--background_class);
         border-left-color: var(--background_class);
     }

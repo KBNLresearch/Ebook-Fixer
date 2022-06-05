@@ -101,9 +101,9 @@ function ProgressBar({
      * The list of stages that are part of the annotation process
      */
     const stages = [
-        Stage('classify', 'Classification', getStyleClassification),
+        Stage('classify', 'Classify', getStyleClassification),
         Stage('ai-selection', 'AI', getStyleAi),
-        Stage('annotate', 'Manual', getStyleManual),
+        Stage('annotate', 'Annotate', getStyleManual),
         Stage('overview', 'Review', getStyleReview),
     ]
 

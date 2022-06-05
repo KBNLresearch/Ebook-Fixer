@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import { useAtom } from 'jotai'
 import { ImageInfo } from '../../helpers/EditorHelper'
 import AIAnnotator from './AIAnnotator'
 import UserAnnotator from './UserAnnotator'
@@ -9,6 +10,7 @@ import { getImgFilename } from '../../helpers/EditImageHelper'
 import { getImageMetadataApiCall } from '../../api/GetImageMetadata'
 import styles from './Annotator.module.scss'
 import ProgressBar from './ProgressBar'
+import { nextImage } from '../../helpers/EbookContext'
 
 /**
  * The Annotator component is meant to help the user produce an annotation for an image as an end result
@@ -31,6 +33,8 @@ function Annotator({ currImage, ebookId }) {
     const [aiAnnotationList, setAiAnnotationList] = useState([])
     const [userAnnotationList, setUserAnnotationList] = useState([])
     const [sentence, setSentence] = useState(null)
+
+    const [nextImageFunc] = useAtom(nextImage)
 
     // Executed every time the currentImage changes
     useEffect(() => {
@@ -228,6 +232,18 @@ function Annotator({ currImage, ebookId }) {
                                 }}>
                                 Restart image annotation
                             </button>
+                            {nextImageFunc ? (
+                                <button
+                                    type="button"
+                                    className={styles.continue_button}
+                                    onClick={() => {
+                                        nextImageFunc()
+                                    }}>
+                                    Continue next image
+                                </button>
+                            ) : (
+                                ''
+                            )}
                         </div>
                     ),
                 }[stage]
