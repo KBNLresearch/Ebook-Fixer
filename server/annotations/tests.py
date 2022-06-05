@@ -1,6 +1,5 @@
 import json
 
-from .models import Annotation
 from .views import (
     annotation_save_view,
     azure_annotation_generation_view,
