@@ -6,11 +6,10 @@ WORKDIR /app
 
 COPY requirements.txt ./
 
-RUN pip install -r requirements.txt --quiet && \
-    apk add --no-cache bash && \
-    apk add git && \
-    apk add make && \
-    apk add --no-cache openjdk8-jre
+RUN apk add --no-cache --update \
+    gcc g++ bash git make openjdk8-jre && \
+    pip install --upgrade pip setuptools wheel && \
+    pip install -r requirements.txt
 
 COPY . ./
 

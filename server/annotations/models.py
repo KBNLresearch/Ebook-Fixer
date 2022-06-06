@@ -9,7 +9,7 @@ class Annotation(models.Model):
         ('BB_GOOGLE_LAB', 'Black-box Google Label'),
         ('BB_AZURE_LAB', 'Black-box Azure Label'),
         ('BB_AZURE_SEN', 'Black-box Azure Sentence'),
-        ('SMART', 'Smart AI'),
+        ('CXT_YAKE_LAB', 'Context Yake Label'),
         ('HUM', 'Human')
     ]
     type = models.CharField(max_length=30, choices=ANNOTATION_TYPES, default='HUM')
