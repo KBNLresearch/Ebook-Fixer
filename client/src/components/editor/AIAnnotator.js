@@ -86,7 +86,6 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
         function handleCopy() {
             setCopied(true)
             copyButton.current.disabled=true
-            console.log("copied")
             
         }
     

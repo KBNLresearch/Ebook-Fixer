@@ -43,7 +43,6 @@ function UserAnnotator({ annotationList, setAnnotationList, currImage, ebookId, 
             }
             if(copied) {
                 setTextValue(sentence)
-                console.log(sentence)
             } 
     
         
