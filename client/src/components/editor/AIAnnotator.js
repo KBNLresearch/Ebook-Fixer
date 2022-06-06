@@ -30,7 +30,8 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
         } else {
             console.log('No AI annotations to display')
         }
-    }, [])
+        setCopied(false)
+    }, [aiAnnotationList])
 
 
     /**
