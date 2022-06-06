@@ -1,13 +1,16 @@
-from images.models import Image
-from ebooks.models import Ebook
-from django.http import JsonResponse
-from rest_framework import status
-from json import JSONDecodeError
-import json
 import io
+import json
 import os
-from google.cloud import vision
 import requests
+import yake
+
+from ebooks.models import Ebook
+from images.models import Image
+
+from django.http import JsonResponse
+from google.cloud import vision
+from json import JSONDecodeError
+from rest_framework import status
 
 
 def check_request_body(request):
@@ -33,24 +36,15 @@ def check_request_body(request):
     return image, data
 
 
-def mocked_azure_api_call():
-    description = "This is an example automated sentecne."
-    generated_labels = dict()
-    generated_labels["Development"] = 0.9582
-    generated_labels["Mocked"] = 0.8346
-    generated_labels["Testing"] = 0.8313
-    return description, generated_labels
-
-
-def mocked_google_vision_labels():
-    generated_labels = dict()
-    generated_labels["Development"] = 0.9582
-    generated_labels["Mocked"] = 0.8346
-    generated_labels["Testing"] = 0.8313
-    return generated_labels
-
-
 def google_vision_labels(image_path):
+    """Calls Google Vision API on the given image path
+
+    Args:
+        image_path (str): The path in storage to the image file
+
+    Returns:
+        dict: The labels from Google's API with (description, score) as (key, value)
+    """
     # Instantiates a client
     client = vision.ImageAnnotatorClient()
 
@@ -76,14 +70,14 @@ def google_vision_labels(image_path):
 
 
 def azure_api_call(image_path):
-    """Calls Microsoft's Azure Vision API on the given image path
+    """ Calls Microsoft's Azure Vision API on the given image path.
 
     Args:
         image_path (str): The path in storage to the image file
 
     Returns:
-        str, dict: The generated description and the top 5 generated
-                  labels from Google's API with (description, score) as (key, value)
+        str, dict: The generated description and the top 10 generated
+                  labels from Azures's API with (description, score) as (key, value)
     """
     analysis = None
 
@@ -104,9 +98,8 @@ def azure_api_call(image_path):
     )
     response.raise_for_status()
 
-    # The 'analysis' object contains various fields that describe the image. The most
-    # relevant (=highest confidence) caption for the image is obtained
-    # from the 'description' property.
+    # The 'analysis' object contains various fields that describe the image.
+    # The most relevant (=highest confidence) caption for the image is obtained from the 'description' property. # noqa: E501
     analysis = response.json()
     description = analysis['description']['captions'][0]
 
@@ -119,3 +112,34 @@ def azure_api_call(image_path):
         generated_labels = dict(list(generated_labels.items())[:10])
 
     return description['text'], generated_labels
+
+
+def yake_labels(image_path):
+    """Performs keyword extraction on the textual context of the image
+
+    Args:
+        image_path (str): The path in storage to the image file
+
+    Returns:
+        dict: The keyword and the confidence with (description, score) as (key, value)
+    """
+    full_text = """Sources tell us that Google is acquiring Kaggle, a platform that hosts data
+    science and machine learning competitions. Details about the transaction remain somewhat
+    vague, but given that Google is hosting its Cloud Next conference in San Francisco this
+    week, the official announcement could come as early as tomorrow. Reached by phone, Kaggle
+    co-founder CEO Anthony Goldbloom declined to deny that the acquisition is happening.
+    Google itself declined 'to comment on rumors'. Kaggle, which has about half a million
+    data scientists on its platform, was founded by Goldbloom  and Ben Hamner in 2010.
+    The service got an early start and even though it has a few competitors like DrivenData,
+    TopCoder and HackerRank, it has managed to stay well ahead of them by focusing on its
+    specific niche. The service is basically the de facto home for running data science and
+    machine learning competitions."""
+
+    kw_extractor = yake.KeywordExtractor(top=10, stopwords=None)
+    keywords = kw_extractor.extract_keywords(full_text)
+    generated_labels = dict()
+    for kw, v in keywords:
+        generated_labels[kw] = round(1-v, 4)
+    print(generated_labels)
+
+    return generated_labels

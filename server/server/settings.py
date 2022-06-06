@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-from pathlib import Path
 from os import environ, path
+from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,6 +21,7 @@ MEDIA_ROOT = path.join(BASE_DIR, 'test-books')
 
 
 # For development:
+# environ['GITHUB_MODE'] = "development"
 google_credentials = environ.get('GOOGLE_APPLICATION_CREDENTIALS')
 if google_credentials is None:
     environ['GOOGLE_APPLICATION_CREDENTIALS'] = google_credentials = \

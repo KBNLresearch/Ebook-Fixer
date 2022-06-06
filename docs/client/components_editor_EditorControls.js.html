@@ -72,7 +72,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#openBook">openBook</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="AISelection.html">AISelection</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FetchWithStatus.html">FetchWithStatus</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="NavBar.html">NavBar</a></li><li><a href="Overview.html">Overview</a></li><li><a href="ProgressBar.html">ProgressBar</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="Sidebar.html">Sidebar</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#openBook">openBook</a></li><li><a href="global.html#pollForFile">pollForFile</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getGoogleAnnotation">getGoogleAnnotation</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#getMicrosoftAnnotation">getMicrosoftAnnotation</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
                 
             </nav>
         </div>
@@ -92,19 +92,21 @@
             <pre class="prettyprint source linenums"><code>import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useAtom } from 'jotai'
 import { highlightElement, ImageInfo } from '../../helpers/EditorHelper'
 import styles from './Editor.module.scss'
 import { getImgFilename } from '../../helpers/EditImageHelper'
+import { nextImage } from '../../helpers/EbookContext'
 
 /**
- * The controls for the editor
+ * The EditorControls component handles the controls for the editor.
  * Right now these are a bunch of buttons that scroll pictures from the book into view
- * These are passed as children via props
+ * These are passed as children via props.
  *
- * @param {ImageInfo[]} imageList currently loaded images
- * @param {Function} getImage retrieves the image element from the rendition with the index and imagelist provided
- * @param {external:Rendition} rendition Render object from ePubJS
- * @param {external:SetStateAction} setCurrentImage function for setting the image that is currently being annotated
+ * @param {ImageInfo[]} imageList List of images that epubJS found in the ebook
+ * @param {Function} getImage Retrieves the image element from the rendition with the index and imagelist provided
+ * @param {external:Render} rendition Render object from ePubJS
+ * @param {external:SetStateAction} setCurrentImage Updates the image that is currently being annotated
  * @component
  * @returns The EditorControls component
  */
@@ -115,10 +117,12 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
     const [nextDisabled, setNextDisabled] = useState(false)
     const [prevDisabled, setPrevDisabled] = useState(true)
 
+    const [nextImageFunc, setNextImage] = useAtom(nextImage)
+
     const navigate = useNavigate()
 
     // Get the Image filename from the url
-    const { imgFilename } = useParams()
+    const { uuid, imgFilename } = useParams()
 
     // When the imageList is instantiated / filled up (only happens at the beginning)
     useEffect(() => {
@@ -141,8 +145,11 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
                 // Alert the user that this link doesn't point to an image
                 alert("The image with that name wasn't found in this book!")
             }
+        } else if (!imgFilename &amp;&amp; currentImageIndex > -1) {
+            setCurrentImageIndex(-1)
+            setCurrentImage(null)
         }
-    }, [imageList])
+    }, [imageList, imgFilename])
 
     // Gets the next index
     function nextIndex() {
@@ -175,8 +182,10 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
         }
         if (currentImageIndex === imageList.length - 1) {
             setNextDisabled(true)
+            setNextImage(null)
         } else {
             setNextDisabled(false)
+            setNextImage(() => handleNext)
         }
     }
 
@@ -198,7 +207,9 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
         highlightElement(newImage)
         // Set the URL to be of that Image
         navigate(
-            'image/' + encodeURIComponent(getImgFilename(imageList[newIndex]))
+            `/ebook/${uuid}/image/${encodeURIComponent(
+                getImgFilename(imageList[newIndex])
+            )}`
         )
         // Set the current image via the props from the parent
         setCurrentImage(imageList[newIndex])
@@ -206,32 +217,48 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
         setCurrentImageIndex(newIndex)
     }
 
-    return (
-        &lt;div className={styles.editor_controls}>
-            &lt;button
-                type="button"
-                disabled={prevDisabled}
-                className={styles.navigation_button}
-                onClick={handlePrev}>
-                Previous Image
-            &lt;/button>
-            &lt;button
-                type="button"
-                disabled={nextDisabled}
-                className={styles.navigation_button}
-                onClick={handleNext}>
-                {currentImageIndex === -1
-                    ? 'Begin Annotating the First Image'
-                    : 'Next Image'}
-            &lt;/button>
-        &lt;/div>
-    )
+    if (rendition)
+        return (
+            &lt;div className={styles.editor_controls}>
+                &lt;button
+                    type="button"
+                    disabled={prevDisabled}
+                    className={styles.arrow + ' ' + styles['arrow--left']}
+                    onClick={handlePrev}>
+                    &lt;span>Previous image&lt;/span>
+                &lt;/button>
+
+                &lt;div className={styles.block}>
+                    &lt;h1>
+                        {currentImageIndex === -1
+                            ? 'Press arrow to start annotating first image'
+                            : currentImageIndex + 1 + '/' + imageList.length}
+                    &lt;/h1>
+                &lt;/div>
+
+                &lt;button
+                    type="button"
+                    disabled={nextDisabled}
+                    className={styles.arrow + ' ' + styles['arrow--right']}
+                    onClick={handleNext}>
+                    {currentImageIndex === -1 ? (
+                        &lt;span> First Image &lt;/span>
+                    ) : (
+                        &lt;span>Next image&lt;/span>
+                    )}
+                &lt;/button>
+            &lt;/div>
+        )
+}
+
+EditorControls.defaultProps = {
+    rendition: null,
 }
 
 EditorControls.propTypes = {
     imageList: PropTypes.arrayOf(PropTypes.instanceOf(ImageInfo)).isRequired,
     getImage: PropTypes.func.isRequired,
-    rendition: PropTypes.shape({}).isRequired,
+    rendition: PropTypes.shape({}),
     setCurrentImage: PropTypes.func.isRequired,
 }
 

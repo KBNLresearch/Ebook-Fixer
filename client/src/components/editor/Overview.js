@@ -33,7 +33,7 @@ function Overview({ imageList }) {
                 }}>
                 <ExpandSVG aria-hidden="true" />
                 {expanded ? 'Collapse ' : 'Expand '}
-                Overview
+                overview
             </button>
             <div className={styles.overview_info}>
                 Showing{' '}

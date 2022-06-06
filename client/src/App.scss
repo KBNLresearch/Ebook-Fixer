@@ -8,11 +8,14 @@
         font-size: inherit;
         padding: 0.3em 0.5em;
         border-radius: 0.6em;
-        border: 0px;
+        border: 0;
         transition: background-color 0.2s ease;
         cursor: pointer;
     }
     box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
 }
 
 html,
@@ -30,7 +33,7 @@ body,
     justify-content: center;
     color: black;
     h1 {
-        font-size: 2.5rem;
+        font-size: 4rem;
         font-weight: 800;
         line-height: 1.5em;
         color: #444;
@@ -39,6 +42,7 @@ body,
 
 .App-main {
     // min-height: 90vh;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -47,54 +51,28 @@ body,
 }
 
 .logo {
-    width: 40%;
+    width: 30%;
     margin: 0.5em;
 }
 
 .logo_title {
-    font-size: 300%;
+    font-size: 200%;
     font-weight: 800;
-    
+
     --x-offset: -0.0625em;
     --y-offset: 0.0625em;
-    --stroke: 0.125em;
+    --stroke: 0.095em;
     --background-color: white;
-    --stroke-color: lightblue;
-    
-    text-shadow: 
-      
-      var(--x-offset)
-      var(--y-offset)
-      0px
-      var(--background-color), 
-      
-      calc( var(--x-offset) - var(--stroke) )
-      calc( var(--y-offset) + var(--stroke) )
-      0px
-      var(--stroke-color);
+    --stroke-color: rgba(173, 216, 230, 0.527);
+
+    text-shadow: var(--x-offset) var(--y-offset) 0px var(--background-color),
+        calc(var(--x-offset) - var(--stroke))
+            calc(var(--y-offset) + var(--stroke)) 0px var(--stroke-color);
 }
 
 .logo_subtitle {
-    font-size: 100%;
-    font-weight: 600;
-    
-    --x-offset: -0.0625em;
-    --y-offset: 0.0625em;
-    --stroke: 0.025em;
-    --background-color: white;
-    --stroke-color: rgb(230, 173, 215);
-    
-    text-shadow: 
-      
-      var(--x-offset)
-      var(--y-offset)
-      0px
-      var(--background-color), 
-      
-      calc( var(--x-offset) - var(--stroke) )
-      calc( var(--y-offset) + var(--stroke) )
-      0px
-      var(--stroke-color);
+    font-size: 2rem;
+    font-weight: 400;
 }
 
 .home-navigation {

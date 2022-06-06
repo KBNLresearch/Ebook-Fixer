@@ -42,19 +42,36 @@ If you want to learn more about the topics of image annotation and accessibility
 * External resources - the systems makes use of the Google Vision API to create image annotations
 and the GitHub API to store the contents of the epub files (for research purposes).
 
+## Documentation
+
+Documentation for the client and server code can be found on our [GitHub page](https://revirator.github.io/Ebook-Fixer/).
+
+To update the documentation run the following commands (you need to have the docker containers running):
+* For the client:
+```shell
+docker exec frontend npx run docs
+```
+* For the server:
+```shell
+docker exec backend bash -c 'cd docs && make html'
+```
+
+[comment]: <> (TODO: ADD THE LINK TO THE REPORT)
+For more information about the system architecture, list of requirements, ethical issues and more check our [report]().
+
 ## Installation
 
-First, you need to [download the scripts](https://gitlab.ewi.tudelft.nl/cse2000-software-project/2021-2022-q4/cluster-00/fixing-e-books-with-image-description/fixing-e-books-with-image-description-for-visually-impaired-users/-/archive/main/fixing-e-books-with-image-description-for-visually-impaired-users-main.zip) 
+First, you need to [download the scripts](https://github.com/Revirator/Ebook-Fixer/archive/refs/heads/main.zip) 
 or clone the repository.
 
 To clone the repository using SSH run the following command in Git Bash.
 ```shell
-git clone git@gitlab.ewi.tudelft.nl:cse2000-software-project/2021-2022-q4/cluster-00/fixing-e-books-with-image-description/fixing-e-books-with-image-description-for-visually-impaired-users.git path_to_local_directory
+git clone git@github.com:Revirator/Ebook-Fixer.git <path_to_local_directory>
 ```
 
 To clone the repository using HTTPS run the following command in Git Bash.
 ```shell
-git clone https://gitlab.ewi.tudelft.nl/cse2000-software-project/2021-2022-q4/cluster-00/fixing-e-books-with-image-description/fixing-e-books-with-image-description-for-visually-impaired-users.git path_to_local_directory 
+git clone https://github.com/Revirator/Ebook-Fixer.git <path_to_local_directory> 
 ```
 
 After that, the easiest way to build and run the app locally is to install [Docker](https://www.docker.com/) 

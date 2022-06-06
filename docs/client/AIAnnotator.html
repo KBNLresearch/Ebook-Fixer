@@ -70,7 +70,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#openBook">openBook</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="AISelection.html">AISelection</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FetchWithStatus.html">FetchWithStatus</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="NavBar.html">NavBar</a></li><li><a href="Overview.html">Overview</a></li><li><a href="ProgressBar.html">ProgressBar</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="Sidebar.html">Sidebar</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#openBook">openBook</a></li><li><a href="global.html#pollForFile">pollForFile</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getGoogleAnnotation">getGoogleAnnotation</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#getMicrosoftAnnotation">getMicrosoftAnnotation</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
                 
             </nav>
         </div>
@@ -90,7 +90,7 @@
 <header>
     
         <h2>
-            &ltAIAnnotator <i>annotationList</i> <i>currImage</i> <i>ebookId</i> <i>imageId</i> /&gt
+            &ltAIAnnotator <i>aiAnnotationList</i> <i>setAiAnnotationList</i> <i>currImage</i> <i>ebookId</i> <i>imageId</i> <i>aiChoice</i> <i>sentence</i> <i>setSentence</i> <i>setStage</i> /&gt
         </h2>
         
     
@@ -115,7 +115,7 @@
         
         <span class="code-name">
             
-                &ltAIAnnotator <i>annotationList</i> <i>currImage</i> <i>ebookId</i> <i>imageId</i> /&gt
+                &ltAIAnnotator <i>aiAnnotationList</i> <i>setAiAnnotationList</i> <i>currImage</i> <i>ebookId</i> <i>imageId</i> <i>aiChoice</i> <i>sentence</i> <i>setSentence</i> <i>setStage</i> /&gt
             
         </span>
     </h4>
@@ -124,7 +124,8 @@
     
     
     <div class="description">
-        <p>Handles generating AI image descriptions / labels</p>
+        <p>The AIAnnotator handles generating AI image descriptions / labels
+from different external APIs such as Google Vision or Microsoft Azure.</p>
     </div>
     
 
@@ -152,9 +153,20 @@
     <tbody>
     
           <tr class="deep-level-0">
-            <td class="name"><code>annotationList</code></td>
+            <td class="name"><code>aiAnnotationList</code></td>
             <td>
               arrayOf
+            </td>
+            <td>Yes</td>
+            <td></td>
+            <td></td>
+          </tr>
+          
+    
+          <tr class="deep-level-0">
+            <td class="name"><code>setAiAnnotationList</code></td>
+            <td>
+              func
             </td>
             <td>Yes</td>
             <td></td>
@@ -195,6 +207,50 @@
           </tr>
           
     
+          <tr class="deep-level-0">
+            <td class="name"><code>aiChoice</code></td>
+            <td>
+              string
+            </td>
+            <td>Yes</td>
+            <td></td>
+            <td></td>
+          </tr>
+          
+    
+          <tr class="deep-level-0">
+            <td class="name"><code>sentence</code></td>
+            <td>
+              string
+            </td>
+            <td>Yes</td>
+            <td></td>
+            <td></td>
+          </tr>
+          
+    
+          <tr class="deep-level-0">
+            <td class="name"><code>setSentence</code></td>
+            <td>
+              func
+            </td>
+            <td>Yes</td>
+            <td></td>
+            <td></td>
+          </tr>
+          
+    
+          <tr class="deep-level-0">
+            <td class="name"><code>setStage</code></td>
+            <td>
+              func
+            </td>
+            <td>Yes</td>
+            <td></td>
+            <td></td>
+          </tr>
+          
+    
     </tbody>
   </table>
 </div>
@@ -228,7 +284,7 @@
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>annotationList</code></td>
+      <td class="name"><code>aiAnnotationList</code></td>
   
 
   <td class="type">
@@ -244,7 +300,32 @@
 
   
 
-  <td class="description last"><p>props all labels/descriptions generated by the AI</p></td>
+  <td class="description last"><p>All labels/descriptions generated by the AI</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>setAiAnnotationList</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="external-SetStateAction.html">external:SetStateAction</a></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>Updates the list of AI annotations</p></td>
 </tr>
 
 
@@ -269,7 +350,7 @@
 
   
 
-  <td class="description last"><p>Metadata for image</p></td>
+  <td class="description last"><p>Metadata for current image under annotation</p></td>
 </tr>
 
 
@@ -324,6 +405,101 @@
 
 
         
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>aiChoice</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">String</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The choice of AI selected by user</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>sentence</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">String</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The description generated by AI</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>setSentence</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="external-SetStateAction.html">external:SetStateAction</a></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>Updates the description generated by AI</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code></code></td>
+  
+
+  <td class="type">
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"></td>
+</tr>
+
+
+        
         </tbody>
     </table>
 </div>
@@ -367,7 +543,7 @@
         <p class="tag-source">
             <a href="components_editor_AIAnnotator.js.html" class="button">View Source</a>
             <span>
-                <a href="components_editor_AIAnnotator.js.html">components/editor/AIAnnotator.js</a>, <a href="components_editor_AIAnnotator.js.html#line18">line 18</a>
+                <a href="components_editor_AIAnnotator.js.html">components/editor/AIAnnotator.js</a>, <a href="components_editor_AIAnnotator.js.html#line24">line 24</a>
             </span>
         </p>
     
@@ -554,7 +730,7 @@
         <p class="tag-source">
             <a href="components_editor_AIAnnotator.js.html" class="button">View Source</a>
             <span>
-                <a href="components_editor_AIAnnotator.js.html">components/editor/AIAnnotator.js</a>, <a href="components_editor_AIAnnotator.js.html#line58">line 58</a>
+                <a href="components_editor_AIAnnotator.js.html">components/editor/AIAnnotator.js</a>, <a href="components_editor_AIAnnotator.js.html#line59">line 59</a>
             </span>
         </p>
     
@@ -593,6 +769,108 @@
                 
         </div>
     </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="~handleClick">
+        <a class="href-link" href="#~handleClick">#</a>
+        
+            
+                <span class='tag'>inner</span>
+            
+        
+        <span class="code-name">
+            
+                handleClick<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Makes API call to server for fetching AI annotations
+and disables &quot;Generate&quot; button</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_editor_AIAnnotator.js.html" class="button">View Source</a>
+            <span>
+                <a href="components_editor_AIAnnotator.js.html">components/editor/AIAnnotator.js</a>, <a href="components_editor_AIAnnotator.js.html#line97">line 97</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

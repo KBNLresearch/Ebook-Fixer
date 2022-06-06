@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useAtom } from 'jotai'
 import { highlightElement, ImageInfo } from '../../helpers/EditorHelper'
 import styles from './Editor.module.scss'
 import { getImgFilename } from '../../helpers/EditImageHelper'
+import { nextImage } from '../../helpers/EbookContext'
 
 /**
- * The EditorControls component handles the controls for the editor. 
+ * The EditorControls component handles the controls for the editor.
  * Right now these are a bunch of buttons that scroll pictures from the book into view
  * These are passed as children via props.
  *
@@ -24,19 +26,18 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
     const [nextDisabled, setNextDisabled] = useState(false)
     const [prevDisabled, setPrevDisabled] = useState(true)
 
+    const [nextImageFunc, setNextImage] = useAtom(nextImage)
+
     const navigate = useNavigate()
 
-    // Get the Image filename from the url
-    const { imgFilename } = useParams()
+    const location = useLocation()
 
-    // When the imageList is instantiated / filled up (only happens at the beginning)
+    // Get the Image filename from the url
+    const { uuid, imgFilename } = useParams()
+
+    // When the imageList is instantiated / filled up (only happens at the beginning or when the image changes)
     useEffect(() => {
-        if (
-            imgFilename &&
-            currentImageIndex === -1 &&
-            rendition &&
-            imageList.length > 0
-        ) {
+        if (imgFilename && rendition && imageList.length > 0) {
             // Get the filename in a decoded format
             const imageFilenameDecoded = decodeURIComponent(imgFilename)
             // Find the index of the image in imageList
@@ -87,8 +88,10 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
         }
         if (currentImageIndex === imageList.length - 1) {
             setNextDisabled(true)
+            setNextImage(null)
         } else {
             setNextDisabled(false)
+            setNextImage(() => handleNext)
         }
     }
 
@@ -109,41 +112,59 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
         // Highlight the image in red for 5s
         highlightElement(newImage)
         // Set the URL to be of that Image
-        navigate(
-            'image/' + encodeURIComponent(getImgFilename(imageList[newIndex]))
-        )
+        const newUrl = `/ebook/${uuid}/image/${encodeURIComponent(
+            getImgFilename(imageList[newIndex])
+        )}`
+        // So that it doesn't navigate to the same image
+        if (location.pathname !== newUrl) navigate(newUrl)
         // Set the current image via the props from the parent
         setCurrentImage(imageList[newIndex])
         // Change the current index
         setCurrentImageIndex(newIndex)
     }
 
-    return (
-        <div className={styles.editor_controls}>
-            <button
-                type="button"
-                disabled={prevDisabled}
-                className={styles.navigation_button}
-                onClick={handlePrev}>
-                Previous Image
-            </button>
-            <button
-                type="button"
-                disabled={nextDisabled}
-                className={styles.navigation_button}
-                onClick={handleNext}>
-                {currentImageIndex === -1
-                    ? 'Begin Annotating the First Image'
-                    : 'Next Image'}
-            </button>
-        </div>
-    )
+    if (rendition)
+        return (
+            <div className={styles.editor_controls}>
+                <button
+                    type="button"
+                    disabled={prevDisabled}
+                    className={styles.arrow + ' ' + styles['arrow--left']}
+                    onClick={handlePrev}>
+                    <span>Previous image</span>
+                </button>
+
+                <div className={styles.block}>
+                    <h3>
+                        {currentImageIndex === -1
+                            ? 'Press arrow to start annotating first image'
+                            : currentImageIndex + 1 + '/' + imageList.length}
+                    </h3>
+                </div>
+
+                <button
+                    type="button"
+                    disabled={nextDisabled}
+                    className={styles.arrow + ' ' + styles['arrow--right']}
+                    onClick={handleNext}>
+                    {currentImageIndex === -1 ? (
+                        <span> First Image </span>
+                    ) : (
+                        <span>Next image</span>
+                    )}
+                </button>
+            </div>
+        )
+}
+
+EditorControls.defaultProps = {
+    rendition: null,
 }
 
 EditorControls.propTypes = {
     imageList: PropTypes.arrayOf(PropTypes.instanceOf(ImageInfo)).isRequired,
     getImage: PropTypes.func.isRequired,
-    rendition: PropTypes.shape({}).isRequired,
+    rendition: PropTypes.shape({}),
     setCurrentImage: PropTypes.func.isRequired,
 }
 

@@ -7,8 +7,9 @@ For more information on this file, see
 https://docs.djangoproject.com/en/4.0/howto/deployment/wsgi/
 """
 
-import subprocess
 import datetime
+import subprocess
+
 from configparser import ConfigParser
 from django.core.wsgi import get_wsgi_application
 from os import environ

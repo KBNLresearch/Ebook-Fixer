@@ -1,49 +1,34 @@
-from .serializers import EbookSerializer
+import os
+import uuid
+
 from .models import Ebook
-from .utils import inject_image_annotations, unzip_ebook, zip_ebook, push_epub_folder_to_github
-from images.models import Image
+from .serializers import EbookSerializer
+from .utils import (
+    inject_image_annotations,
+    process_ebook,
+    push_ebook_folder_to_github,
+    zip_ebook
+)
 from annotations.models import Annotation
+from images.models import Image
+
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.datastructures import MultiValueDictKeyError
 from rest_framework import status
-import uuid
-import os
+from _thread import start_new_thread
 
 
 mode = os.environ.get('GITHUB_MODE', 'production')
 
 
-def ebook_detail_view(request, uuid):
-    """ The GET endpoint for fetching metadata of an ebook instance
-
-    Args:
-        request (request object): The request object
-            - uuid (str): The UUID of an already uploaded ebook (URL param)
-
-    Returns:
-        JsonResponse: Response object sent to the client side
-            - .epub (File) (without human annotations injected)
-    """
-    if request.method == "GET":
-        try:
-            ebook = Ebook.objects.all().filter(uuid=uuid).get()
-        except Ebook.DoesNotExist:
-            return JsonResponse({'msg': f'Ebook with uuid {uuid} not found!'},
-                                status=status.HTTP_404_NOT_FOUND)
-        serializer = EbookSerializer(ebook)
-        return JsonResponse(serializer.data, status=status.HTTP_200_OK)
-    else:
-        return JsonResponse({'msg': 'Method Not Allowed!'},
-                            status=status.HTTP_405_METHOD_NOT_ALLOWED)
-
-
 def ebook_download_view(request, uuid):
-    """ GET endpoint for zipping the ebook with given uuid from storage and returns the epub
+    """ GET endpoint for zipping the ebook with given uuid from storage.
+    Injects the latest human annotations corresponding to the images found in the ePub.
 
     Args:
         request (request object): The request object
-            - uuid (str): The UUID of an already uploaded ebook (URL param)
+        uuid (str): The UUID of an already uploaded ebook (URL param)
 
     Returns:
         JsonResponse: Response object sent to the client side
@@ -55,19 +40,33 @@ def ebook_download_view(request, uuid):
         except Ebook.DoesNotExist:
             return JsonResponse({'msg': f'Ebook with uuid {uuid} not found!'},
                                 status=status.HTTP_404_NOT_FOUND)
-        images = Image.objects.all().filter(ebook=ebook).all()
-        annotations = [
-            a for a in Annotation.objects.all()
-            if a.image in images
-            if a.type == 'HUM'
-        ]
 
-        # Inject image annotations into the html files
-        inject_image_annotations(str(uuid), images, annotations)
-        # Push new contents to GitHub if mode is 'production'
-        if mode == "development":
-            message = f"Download {uuid}"
-            push_epub_folder_to_github(str(uuid), message)
+        # If the book is in one of the invalid states its entry will be deleted
+        if ebook.state in list(map(lambda t: t[0], Ebook.INVALID_STATES)):
+            serializer = EbookSerializer(ebook)
+            response = JsonResponse(serializer.data, status=status.HTTP_403_FORBIDDEN)
+            ebook.delete()
+            return response
+        # The book needs to be processed before it can be downloaded
+        elif ebook.state != "PROCESSED":
+            serializer = EbookSerializer(ebook)
+            return JsonResponse(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+        inject = request.GET.get("inject")
+        if inject == "true":
+            images = Image.objects.all().filter(ebook=ebook).all()
+            annotations = [
+                a for a in Annotation.objects.all()
+                if a.image in images
+                if a.type == 'HUM'
+            ]
+            # Inject image annotations into the html files
+            ebook_dir = f"test-books/{uuid}"
+            inject_image_annotations(ebook_dir, images, annotations)
+            # Push new contents to GitHub if mode is 'production'
+            if mode == "development":
+                message = f"{uuid}: download"
+                push_ebook_folder_to_github(ebook_dir, message)
 
         try:
             # Zip contents
@@ -90,8 +89,7 @@ def ebook_download_view(request, uuid):
 
 @csrf_exempt
 def ebook_upload_view(request):
-    """ POST endpoint for taking the uploaded epub from the request
-        and unzipping it under test-books/{uuid}/
+    """ POST endpoint for taking the uploaded epub from the request and unzipping it under test-books/{uuid}/. # noqa: E501
 
         Args:
             request (request object): The request object
@@ -104,35 +102,22 @@ def ebook_upload_view(request):
     """
     if request.method == "POST":
         # Generate random uuid for new ebook instance
-        book_uuid = str(uuid.uuid4())
+        ebook_uuid = str(uuid.uuid4())
         # Check if key 'epub' exists in MultiValueDictionary
         try:
+            # Check if key 'epub' exists in MultiValueDictionary
             uploaded_epub = request.FILES['epub']
             epub_name = request.FILES['epub'].name
         except MultiValueDictKeyError:
             return JsonResponse({'msg': 'No epub file found in request!'},
                                 status=status.HTTP_400_BAD_REQUEST)
-
         # Check if file extension is .epub
         file_ext = epub_name[-5:]
         if file_ext == '.epub':
             # Automatically stores the uploaded epub under MEDIA_ROOT/{uuid}/{filename}
-            new_ebook = Ebook(book_uuid, epub_name, uploaded_epub)
-            new_ebook.save()
-            # Unzip the epub file stored on the server, under MEDIA_ROOT/{uuid}
-            # Returns the extracted title, which override the title
-            try:
-                ebook_title = unzip_ebook(book_uuid, epub_name)
-                # Push unzipped contents to GitHub
-                if mode == "development":
-                    message = f"Upload {book_uuid}"
-                    push_epub_folder_to_github(book_uuid, message)
-            except FileNotFoundError:
-                return JsonResponse({'msg': 'Something went wrong! Please try again!'},
-                                    status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-            new_ebook.title = ebook_title
-            new_ebook.save(update_fields=["title"])
-            return JsonResponse({'book_id': str(book_uuid), 'title': ebook_title},
+            ebook = Ebook.objects.create(uuid=ebook_uuid, title=epub_name, epub=uploaded_epub)
+            start_new_thread(process_ebook, (ebook,))
+            return JsonResponse({'book_id': ebook_uuid, 'title': epub_name},
                                 status=status.HTTP_200_OK)
         else:
             return JsonResponse({'msg': 'Make sure your uploaded file has extension .epub!'},

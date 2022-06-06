@@ -85,7 +85,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="images.models.Image.IMAGE_TYPES">
-<span class="sig-name descname"><span class="pre">IMAGE_TYPES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('DECO',</span> <span class="pre">'Decoration'),</span> <span class="pre">('INFO',</span> <span class="pre">'Information'),</span> <span class="pre">('PHOTO',</span> <span class="pre">'Photo'),</span> <span class="pre">('ILLUS',</span> <span class="pre">'Illustration'),</span> <span class="pre">('FIG',</span> <span class="pre">'Figure'),</span> <span class="pre">('SYM',</span> <span class="pre">'Symbol'),</span> <span class="pre">('DRAW',</span> <span class="pre">'Drawing'),</span> <span class="pre">('COM',</span> <span class="pre">'Comic'),</span> <span class="pre">('LOGO',</span> <span class="pre">'Logo'),</span> <span class="pre">('GRAPH',</span> <span class="pre">'Graph'),</span> <span class="pre">('MAP',</span> <span class="pre">'Map')]</span></em><a class="headerlink" href="#images.models.Image.IMAGE_TYPES" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">IMAGE_TYPES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('DECO',</span> <span class="pre">'Decoration'),</span> <span class="pre">('INFO',</span> <span class="pre">'Information'),</span> <span class="pre">('PHOTO',</span> <span class="pre">'Photo'),</span> <span class="pre">('ILLUS',</span> <span class="pre">'Illustration'),</span> <span class="pre">('FIG',</span> <span class="pre">'Figure'),</span> <span class="pre">('SYM',</span> <span class="pre">'Symbol'),</span> <span class="pre">('ART',</span> <span class="pre">'Art'),</span> <span class="pre">('SIG',</span> <span class="pre">'Signature'),</span> <span class="pre">('TXT',</span> <span class="pre">'Text'),</span> <span class="pre">('FLAG',</span> <span class="pre">'Flag'),</span> <span class="pre">('COM',</span> <span class="pre">'Comic'),</span> <span class="pre">('LOGO',</span> <span class="pre">'Logo'),</span> <span class="pre">('GRAPH',</span> <span class="pre">'Graph'),</span> <span class="pre">('MAP',</span> <span class="pre">'Map')]</span></em><a class="headerlink" href="#images.models.Image.IMAGE_TYPES" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py exception">
@@ -324,13 +324,26 @@ object the first time, the query is executed.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="images.views.image_classification_view">
 <span class="sig-prename descclassname"><span class="pre">images.views.</span></span><span class="sig-name descname"><span class="pre">image_classification_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#images.views.image_classification_view" title="Permalink to this definition">¶</a></dt>
-<dd><p>Receives metadata for an image entry which is
+<dd><p>PUT endpoint for receiving metadata for an image entry which is
 added/updated in the database</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>request (request object): The request object that contains
-image metadata in the body</p>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>request (request object): The request object</dt><dd><ul class="simple">
+<li><p>uuid (str): id of e-book which the image belongs to (body)</p></li>
+<li><p>filename (str): full path of image (body)</p></li>
+<li><p>location (str): file name in which image appears, often html (body)</p></li>
+<li><p>classification (str): classification to store for image (body)</p></li>
+<li><p>raw_context (str): textual context around image (body)</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>JsonResponse: Response object sent back to the client</p>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>JsonResponse: Response object sent back to the client</dt><dd><ul class="simple">
+<li><p>Image (Image) with classification field updated</p></li>
+</ul>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -338,11 +351,23 @@ image metadata in the body</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="images.views.image_details_view">
 <span class="sig-prename descclassname"><span class="pre">images.views.</span></span><span class="sig-name descname"><span class="pre">image_details_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#images.views.image_details_view" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the metadata and the annotations for an image</p>
+<dd><p>GET endpoint for returning the metadata and the annotations for an image</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>request (request object): The request object with an ebook and image header</p>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>request (request object): The request object</dt><dd><ul class="simple">
+<li><p>ebook: e-book to which the image belongs to (header)</p></li>
+<li><p>image: id of image to get metadata of (query param)</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>JsonResponse: Response object sent back to the client</p>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>JsonResponse: Response object sent back to the client</dt><dd><ul class="simple">
+<li><p>image (Image): image object</p></li>
+<li><p>annotations (Annotation[]): list of all types of annotations for that image</p></li>
+</ul>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
