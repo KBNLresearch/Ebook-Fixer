@@ -19,28 +19,37 @@ import styles from './Annotator.module.scss'
  * @component
  * @returns The UserAnnotator component
  */
-function UserAnnotator({ annotationList, setAnnotationList, currImage, ebookId, imageId, setImageId, existingAlt, setStage }) {
+function UserAnnotator({ annotationList, setAnnotationList, currImage, ebookId, imageId, setImageId, existingAlt, setStage, copied, setCopied, sentence}) {
 
     const [textValue, setTextValue] = useState('')
     const saveButton = useRef(null)
 
     useEffect(() => {
 
-        const list = annotationList
-
-        if (list.length > 0) {
-            // Display the latest human annotation
-            setTextValue(list[list.length - 1])
-            saveButton.current.disabled = true
-            saveButton.current.innerText = 'Annotation saved'
+        
+        if(copied) {
+            setTextValue(sentence)
+            console.log(sentence)
+           // console.log(textValue)
+            // setCopied(false)
         } else {
-            // No human annotations or existing ALT-text
-            setTextValue('')
-            saveButton.current.disabled = false
-            saveButton.current.innerText = 'Save annotation'
-        }
+            const list = annotationList
+            if (list.length > 0) {
+                // Display the latest human annotation
+                setTextValue(list[list.length - 1])
+                saveButton.current.disabled = true
+                saveButton.current.innerText = 'Annotation saved'
+            } else {
+                // No human annotations or existing ALT-text
+                setTextValue('')
+                saveButton.current.disabled = false
+                saveButton.current.innerText = 'Save annotation'
+            }
+    }
+        
 
-    }, [annotationList])
+
+    }, [annotationList, copied])
 
 
      // TODO: add a settings button for explicitly editing the manual annotation
@@ -65,9 +74,11 @@ function UserAnnotator({ annotationList, setAnnotationList, currImage, ebookId, 
             saveButton.current.innerText = 'Annotation saved'
             saveButton.current.disabled = true
             setAnnotationList([...annotationList, textValue])
+            setCopied(false)
             setStage('overview')
         }
     }
+    
 
     return (
         <div className={styles.user_control}>
@@ -85,7 +96,7 @@ function UserAnnotator({ annotationList, setAnnotationList, currImage, ebookId, 
                 value={textValue}
                 id="userTextArea"
                 onChange={(e) => {
-                    setTextValue(e.target.value)
+                    setTextValue(e.target.value)                    
                 }}
                 placeholder="Your annotation here..."
                 onFocus={() => {
@@ -119,7 +130,10 @@ UserAnnotator.propTypes = {
     imageId: PropTypes.number.isRequired,
     setImageId: PropTypes.func.isRequired,
     existingAlt: PropTypes.string.isRequired,
-    setStage: PropTypes.func.isRequired
+    setStage: PropTypes.func.isRequired,
+    copied: PropTypes.bool.isRequired,
+    setCopied: PropTypes.func.isRequired,
+    sentence:PropTypes.string.isRequired
 }
 
 export default UserAnnotator

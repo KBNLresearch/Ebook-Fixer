@@ -33,6 +33,7 @@ function Annotator({ currImage, ebookId }) {
     const [aiAnnotationList, setAiAnnotationList] = useState([])
     const [userAnnotationList, setUserAnnotationList] = useState([])
     const [sentence, setSentence] = useState(null)
+    const [copied, setCopied] = useState(false)
 
     const [nextImageFunc] = useAtom(nextImage)
 
@@ -49,6 +50,7 @@ function Annotator({ currImage, ebookId }) {
             setAiAnnotationList([])
             setUserAnnotationList([])
             setSentence(null)
+            setCopied(false)
 
             // Save existing alt-text of image
             const altText = currImage.element.alt
@@ -188,7 +190,8 @@ function Annotator({ currImage, ebookId }) {
                                 aiChoice={currAiSelected}
                                 sentence={sentence}
                                 setSentence={setSentence}
-                                setStage={setStage}>
+                                setStage={setStage}
+                                setCopied={setCopied}>
                                 {' '}
                             </AIAnnotator>
                             <UserAnnotator
@@ -200,6 +203,9 @@ function Annotator({ currImage, ebookId }) {
                                 setImageId={setImageId}
                                 existingAlt={existingAltText}
                                 setStage={setStage}
+                                copied={copied}
+                                setCopied={setCopied}
+                                sentence={sentence}
                             />
                         </div>
                     ),
