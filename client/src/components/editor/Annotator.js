@@ -99,25 +99,20 @@ function Annotator({ currImage, ebookId }) {
                         (el) => el.type !== 'HUM'
                     )
                     if (allAiLabels.length > 0) {
-                        const mostRecentAiChoice =
-                            allAiLabels[allAiLabels.length - 2].type
-                        if (currAiSelected === null) {
+                        const mostRecentAiChoice = allAiLabels[allAiLabels.length - 2].type
+                        console.log(mostRecentAiChoice)
+                        console.log(currAiSelected)
+                        if (currAiSelected != mostRecentAiChoice) {
                             // To display most recently selected AI in dropdown
                             // TODO: either use key or value of AI choice (now we use both)
-                            setCurrAISelected(mostRecentAiChoice)
-                            // To display most recently generated AI suggestions when revisiting image
-                            setAiAnnotationList(
-                                allAiLabels.filter(
-                                    (el) => el.type === mostRecentAiChoice
-                                )
-                            )
+                            setCurrAISelected(mostRecentAiChoice)   
+                            console.log(currAiSelected)                         
                             // To display most recently generated AI description
-                            if (
-                                mostRecentAiChoice === 'BB_AZURE_SEN' ||
-                                mostRecentAiChoice === 'BB_AZURE_LAB'
-                            ) {
+                            if ( mostRecentAiChoice === 'BB_AZURE_LAB'){
                                 setSentence(allAiLabels.pop().text)
                             }
+                             // To display most recently generated AI suggestions when revisiting image
+                            setAiAnnotationList(allAiLabels)
                         }
                     }
                 }
@@ -153,56 +148,61 @@ function Annotator({ currImage, ebookId }) {
 
             {
                 {
-                    loading: <div className={styles.loader}> Loading... </div>,
 
-                    classify: (
-                        <Classifier
+                'loading': 
+                    <div className={styles.loader}> Loading... </div>,
+
+                'classify': 
+                    <Classifier
+                        currImage={currImage}
+                        ebookId={ebookId}
+                        setImageId={setImageId}
+                        currClassification={currClassification}
+                        setCurrClassification={setCurrClassification}
+                        setStage={setStage}>
+                        {' '}
+                    </Classifier>,
+
+                'ai-selection':
+                   <AISelection 
+                        setStage={setStage}
+                        currAiSelected={currAiSelected}
+                        setCurrAiSelected={setCurrAISelected}
+                        setAiAnnotationList={setAiAnnotationList}
+                        setSentence={setSentence}
+                        currImage={currImage}
+                        ebookId={ebookId}
+                        imageId={imageId} 
+                    />,
+                
+                'annotate': 
+                    <div className={styles.container}>
+                        {currAiSelected !='skipped' &&
+                            <AIAnnotator
+                            aiAnnotationList={aiAnnotationList}
+                            setAiAnnotationList={setAiAnnotationList}
                             currImage={currImage}
                             ebookId={ebookId}
-                            setImageId={setImageId}
-                            currClassification={currClassification}
-                            setCurrClassification={setCurrClassification}
-                            setStage={setStage}>
-                            {' '}
-                        </Classifier>
-                    ),
-
-                    'ai-selection': (
-                        <AISelection
-                            setStage={setStage}
-                            currAiSelected={currAiSelected}
-                            setCurrAiSelected={setCurrAISelected}
-                            setAiAnnotationList={setAiAnnotationList}
+                            imageId={imageId} 
+                            aiChoice={currAiSelected}
+                            sentence={sentence}
                             setSentence={setSentence}
-                        />
-                    ),
-
-                    annotate: (
-                        <div className={styles.container}>
-                            <AIAnnotator
-                                aiAnnotationList={aiAnnotationList}
-                                setAiAnnotationList={setAiAnnotationList}
-                                currImage={currImage}
-                                ebookId={ebookId}
-                                imageId={imageId}
-                                aiChoice={currAiSelected}
-                                sentence={sentence}
-                                setSentence={setSentence}
-                                setStage={setStage}>
-                                {' '}
-                            </AIAnnotator>
-                            <UserAnnotator
-                                annotationList={userAnnotationList}
-                                setAnnotationList={setUserAnnotationList}
-                                currImage={currImage}
-                                ebookId={ebookId}
-                                imageId={imageId}
-                                setImageId={setImageId}
-                                existingAlt={existingAltText}
-                                setStage={setStage}
+                            setStage={setStage}
+                        >
+                            {' '}
+                        </AIAnnotator>}
+                        <UserAnnotator 
+                            annotationList={userAnnotationList} 
+                            setAnnotationList={setUserAnnotationList}
+                            currImage={currImage}
+                            ebookId={ebookId}
+                            imageId={imageId}
+                            setImageId={setImageId}
+                            existingAlt={existingAltText}
+                            setStage={setStage}
                             />
                         </div>
-                    ),
+                    ,
 
                     overview: (
                         <div className={styles.overview}>
