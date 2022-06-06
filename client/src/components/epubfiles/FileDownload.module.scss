@@ -42,10 +42,10 @@
     button {
         font-family: inherit;
         padding: 0.4em 0.7em;
-        color: #eaeaea;
-        background-color: hsl(271, 84%, 35%);
+        color: #f7f7f7;
+        background-color: hsl(271, 35%, 50%);
         transition: border-color 0.3s ease;
-        border: 3px solid hsl(271, 100%, 20%);
+        border: 3px solid hsl(271, 70%, 60%);
         border-left: 0;
         padding: 0.4em 0.8em;
         border-radius: 0 1em 1em 0;
@@ -57,7 +57,7 @@
             padding-bottom: 0.1em;
         }
         &:hover {
-            border-color: hsl(271, 70%, 60%);
+            border-color: hsl(271, 80%, 35%);
         }
     }
 }

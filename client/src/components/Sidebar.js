@@ -104,7 +104,7 @@ function Sidebar({ download, imageSelected }) {
                             onClick={() => {
                                 setSidebarVisible(false)
                             }}>
-                            <GoBackArrowSVG /> Back to Overview
+                            <GoBackArrowSVG aria-hidden /> Back to Overview
                         </Link>
                     ) : (
                         ''

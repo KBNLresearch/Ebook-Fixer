@@ -1,7 +1,7 @@
 button.share_button {
     font-family: inherit;
-    color: #eaeaea;
-    $dark-purple: hsl(271, 60%, 40%);
+    color: #eee;
+    $dark-purple: hsl(271, 35%, 50%);
     background-color: $dark-purple;
     transition: border-color 0.3s ease;
     border: 3px solid $dark-purple;
@@ -11,10 +11,9 @@ button.share_button {
     gap: 0.5em;
     svg {
         height: 1.1em;
-        padding-bottom: 0.1em;
     }
     &:hover {
-        border-color: hsl(271, 70%, 60%);
+        border-color: hsl(271, 50%, 70%);
     }
 }
 
