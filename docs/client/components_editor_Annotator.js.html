@@ -72,7 +72,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#openBook">openBook</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="AISelection.html">AISelection</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FetchWithStatus.html">FetchWithStatus</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="NavBar.html">NavBar</a></li><li><a href="Overview.html">Overview</a></li><li><a href="ProgressBar.html">ProgressBar</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="Sidebar.html">Sidebar</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#openBook">openBook</a></li><li><a href="global.html#pollForFile">pollForFile</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getGoogleAnnotation">getGoogleAnnotation</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#getMicrosoftAnnotation">getMicrosoftAnnotation</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
                 
             </nav>
         </div>
@@ -89,206 +89,254 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { useEffect, useState, useRef } from 'react'
+            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import { useAtom } from 'jotai'
 import { ImageInfo } from '../../helpers/EditorHelper'
 import AIAnnotator from './AIAnnotator'
 import UserAnnotator from './UserAnnotator'
 import Classifier from './Classifier'
-import {getImgFilename} from '../../helpers/EditImageHelper'
+import AISelection from './AISelection'
+import { getImgFilename } from '../../helpers/EditImageHelper'
 import { getImageMetadataApiCall } from '../../api/GetImageMetadata'
 import styles from './Annotator.module.scss'
+import ProgressBar from './ProgressBar'
+import { nextImage } from '../../helpers/EbookContext'
 
 /**
- * Annotator component is meant to help the user produce an annotation for an image as an end result
- * It has an AI component for classifying images and generating AI descriptions
- * And a user component for letting the user annotate images
+ * The Annotator component is meant to help the user produce an annotation for an image as an end result
+ * It keeps track of the different stages in the image annotation process (classify, ai, manual, save)
  *
- * @param {ImageInfo} currImage Metadata for image
+ * @param {ImageInfo} currImage Metadata for current image under annotation
  * @param {String} ebookId The UUID for the ebook generated by server
  * @component
- * @returns The Annotator Component
+ * @returns The Annotator Component: different view depending on the stage
  */
 
 function Annotator({ currImage, ebookId }) {
-    // TODO: could be used to get the annotation history
-    const [userAnnotationList, setUserAnnotationList] = useState([])
-    const [aiAnnotationList, setAiAnnotationList] = useState([])
+    const [stage, setStage] = useState(null)
     const [imageId, setImageId] = useState(-1)
-    const [currClassification, setCurrClassification] = useState(null)
-    const [stage, setStage] = useState("")
-    const dropdownRef = useRef(null)
-    const saveAiChoiceButtonRef = useRef(null)
+    const [existingAltText, setExistingAltText] = useState(null)
 
+    const [currClassification, setCurrClassification] = useState(null)
+    const [currAiSelected, setCurrAISelected] = useState(null)
+    // TODO: could be used to get the annotation history
+    const [aiAnnotationList, setAiAnnotationList] = useState([])
+    const [userAnnotationList, setUserAnnotationList] = useState([])
+    const [sentence, setSentence] = useState(null)
+
+    const [nextImageFunc] = useAtom(nextImage)
 
     // Executed every time the currentImage changes
     useEffect(() => {
+        // Note that this start stage is overidden by the image overview
         if (!currImage) {
-            // saveButton.current.innerText = 'Select image first'
-            // saveButton.current.disabled = true
-            setStage('classify')
+            setStage('loading')
         } else {
-            // saveButton.current.innerText = 'Save annotation'
-            // saveButton.current.disabled = false
-            setStage("classify")
-            
-            const imgInfo = currImage
-            if (imgInfo) {
-                const altText = imgInfo.element.alt
-                if (altText) {
-                    // Initial alt text of image will be displayed if no HUM annotations yet
-                    setUserAnnotationList([altText + " (existing ALT-text)"])
-                    setAiAnnotationList([])
-                } else {
-                    setUserAnnotationList([])
-                    setAiAnnotationList([])
-                }
+            setStage('classify')
+            // Remove all AI suggestions when next image is loaded
+            setCurrClassification(null)
+            setCurrAISelected(null)
+            setAiAnnotationList([])
+            setUserAnnotationList([])
+            setSentence(null)
+
+            // Save existing alt-text of image
+            const altText = currImage.element.alt
+            if (altText) {
+                setExistingAltText(altText)
             }
-
             // For each image that is loaded, client fetches all metadata from server (even if the image does not exist yet)
-            console.log('Fetching image metadata...')
-            getImageMetadataApiCall(ebookId, getImgFilename(currImage)).then(
-                (result) => {
-                    if (
-                        Object.prototype.hasOwnProperty.call(result, 'annotations')
-                    ) {
-                        console.log('Annotations: ')
-                        console.log(result.annotations)
-                        console.log('Image metadata: ')
-                        console.log(result.image)
-                        // Decorative images don't have image descriptions
-                        if (currClassification !== 'Decoration') {
-                            setStage('overview')
-                        }
-                        // For each HUM annotation, add to user annotation list (for display in UserAnnotator)
-                        // Note that for now this list always contains 1 HUM annotation
-                        result.annotations.forEach((el) => {
-                            if (el.type === 'HUM') {
-                                setUserAnnotationList([...userAnnotationList, el.text])
-                                // Disable button if human annotation was saved earlier
-                                // saveButton.current.disabled = true
-                            } else {
-                                // We don't need to display AI suggestions in the overview
-                                    // [...aiAnnotationList, result.annotations
-                                        // .filter((el) => el.type !== 'HUM')
-                                        // .map(({ text, confidence }) => (JSON.stringify({ text, confidence })))])
-                            }
-                        })
-                    }
-
-                    // TODO: we may also wanna pass this classification to AIAnnotator in the future,
-                    //    to allow for different workflows per category
-                    if (Object.prototype.hasOwnProperty.call(result, 'image')) {
-                        console.log(
-                            'Classification stored: ' +
-                                result.image.classification
-                        )
-                        setCurrClassification(result.image.classification)
-                    }
-                    // Update image id after each new image is loaded
-                    if (Object.prototype.hasOwnProperty.call(result, 'image')) {
-                        setImageId(result.image.id)
-                    }
-                },
-                (error) => {
-                    if (error.cause === 404) {
-                        console.log(
-                            'Image does not exist on server yet, will be created after the first time classifying.'
-                        )
-                        setCurrClassification(null)
-                    }
-                }
-            )
+            fetchImageMetadata()
         }
     }, [currImage])
 
+    /**
+     * Makes API call to server for fetching image metadata
+     * i.e. the image itself and all annotations linked to it
+     * and updates state accordingly
+     */
+    function fetchImageMetadata() {
+        // As the user is waiting for the server's response
+        setStage('loading')
 
-    const options = [
-        {abr: 'GOOGL', val: 'Google Vision API'},
-    ]
+        console.log('Fetching image metadata...')
 
-    // TODO: is there a way to allow the user to scroll down to the user box, without having the epub move along?
-    // (so they can still see the image when doing the manual annotation)
+        getImageMetadataApiCall(ebookId, getImgFilename(currImage)).then(
+            (result) => {
+                setStage('overview')
+                if (
+                    Object.prototype.hasOwnProperty.call(result, 'annotations')
+                ) {
+                    console.log('Annotations: ')
+                    console.log(result.annotations)
+
+                    // Decorative images don't have image descriptions
+                    if (currClassification !== 'Decoration') {
+                        setStage('overview')
+                    }
+                    // For each HUM annotation, add to user annotation list (for display in UserAnnotator)
+                    // Note that for now this list always contains 1 HUM annotation
+                    result.annotations.forEach((el) => {
+                        if (el.type === 'HUM') {
+                            setUserAnnotationList([
+                                ...userAnnotationList,
+                                el.text,
+                            ])
+                        }
+                    })
+                    // TODO: use timestamp of annotation?
+                    const allAiLabels = result.annotations.filter(
+                        (el) => el.type !== 'HUM'
+                    )
+                    if (allAiLabels.length > 0) {
+                        const mostRecentAiChoice =
+                            allAiLabels[allAiLabels.length - 2].type
+                        if (currAiSelected === null) {
+                            // To display most recently selected AI in dropdown
+                            // TODO: either use key or value of AI choice (now we use both)
+                            setCurrAISelected(mostRecentAiChoice)
+                            // To display most recently generated AI suggestions when revisiting image
+                            setAiAnnotationList(
+                                allAiLabels.filter(
+                                    (el) => el.type === mostRecentAiChoice
+                                )
+                            )
+                            // To display most recently generated AI description
+                            if (
+                                mostRecentAiChoice === 'BB_AZURE_SEN' ||
+                                mostRecentAiChoice === 'BB_AZURE_LAB'
+                            ) {
+                                setSentence(allAiLabels.pop().text)
+                            }
+                        }
+                    }
+                }
+
+                if (Object.prototype.hasOwnProperty.call(result, 'image')) {
+                    console.log('Image metadata: ')
+                    console.log(result.image)
+                    setImageId(result.image.id)
+                    setCurrClassification(result.image.classification)
+                }
+            },
+            (error) => {
+                if (error.cause === 404) {
+                    setStage('classify')
+                    console.log(
+                        'Image does not exist on server yet, will be created after the first time classifying.'
+                    )
+                    setCurrClassification(null)
+                }
+            }
+        )
+    }
 
     return (
         &lt;div className={styles.container}>
+            &lt;ProgressBar
+                currStage={stage}
+                setStage={setStage}
+                classification={currClassification}
+                userAnnotations={userAnnotationList}
+                currAiSelected={currAiSelected}
+            />
+
             {
                 {
-                'classify': 
-                    &lt;Classifier
-                        currImage={currImage}
-                        ebookId={ebookId}
-                        setImageId={setImageId}
-                        currClassification={currClassification}
-                        setStage={setStage}>
-                        {' '}
-                    &lt;/Classifier>,
-                'ai-selection':
-                    &lt;div className={styles.ai_input}>
+                    loading: &lt;div className={styles.loader}> Loading... &lt;/div>,
 
-                        &lt;label htmlFor="selectClass">
-                            Please select AI to generate annotations
-                        &lt;/label>
-                        &lt;select
-                           
-                            ref={dropdownRef}
-                            className={styles.dropdown}
-                            onChange={() => {
-                                saveAiChoiceButtonRef.current.disabled = false
-                            }}>
-                            &lt;option value="none" selected disabled hidden>
-                                Select AI
-                            &lt;/option>
-                            {options.map((opt) => (
-                                &lt;option value={opt.val}> {opt.val} &lt;/option>
-                                // TODO: handle AI selected by user
-                                // handleMenuOption(ospt)
-                            ))}
-                        &lt;/select>
-                        &lt;button
-                            type="button"
-                            className={styles.save_button}
-                            ref={saveAiChoiceButtonRef}
-                            onClick={() => setStage("annotate")}>
+                    classify: (
+                        &lt;Classifier
+                            currImage={currImage}
+                            ebookId={ebookId}
+                            setImageId={setImageId}
+                            currClassification={currClassification}
+                            setCurrClassification={setCurrClassification}
+                            setStage={setStage}>
                             {' '}
-                            Save AI{' '}
-                        &lt;/button>
-                    &lt;/div> ,
-                'annotate': 
-                    &lt;div className={styles.container}>
-                        &lt;AIAnnotator
-                        annotationList={aiAnnotationList}
-                        currImage={currImage}
-                        ebookId={ebookId}
-                        imageId={imageId} >
-                            {' '}
-                        &lt;/AIAnnotator>
-                        &lt;UserAnnotator 
-                        annotationList={userAnnotationList} 
-                        currImage={currImage}
-                        ebookId={ebookId}
-                        imageId={imageId}
-                        setImageId={setImageId}
+                        &lt;/Classifier>
+                    ),
+
+                    'ai-selection': (
+                        &lt;AISelection
+                            setStage={setStage}
+                            currAiSelected={currAiSelected}
+                            setCurrAiSelected={setCurrAISelected}
+                            setAiAnnotationList={setAiAnnotationList}
+                            setSentence={setSentence}
                         />
-                    &lt;/div>,
-                'overview' : 
-                    &lt;div className={styles.overview}>
-                    &lt;div className={styles.overview_info}>
-                        &lt;br/>
-                        &lt;strong> Classification: &lt;/strong> {currClassification}
-                        &lt;br/>
-                    &lt;/div>
-                    &lt;div className={styles.overview_info}>
-                        &lt;strong> Image description: &lt;/strong> 
-                        {userAnnotationList[userAnnotationList.length - 1]}
-                    &lt;/div>
-                        &lt;button type="button"
-                                    className={styles.save_button}
-                                    onClick={() => setStage("classify")}>
-                                    Restart image annotation
-                        &lt;/button>
-                    &lt;/div>
+                    ),
 
+                    annotate: (
+                        &lt;div className={styles.container}>
+                            &lt;AIAnnotator
+                                aiAnnotationList={aiAnnotationList}
+                                setAiAnnotationList={setAiAnnotationList}
+                                currImage={currImage}
+                                ebookId={ebookId}
+                                imageId={imageId}
+                                aiChoice={currAiSelected}
+                                sentence={sentence}
+                                setSentence={setSentence}
+                                setStage={setStage}>
+                                {' '}
+                            &lt;/AIAnnotator>
+                            &lt;UserAnnotator
+                                annotationList={userAnnotationList}
+                                setAnnotationList={setUserAnnotationList}
+                                currImage={currImage}
+                                ebookId={ebookId}
+                                imageId={imageId}
+                                setImageId={setImageId}
+                                existingAlt={existingAltText}
+                                setStage={setStage}
+                            />
+                        &lt;/div>
+                    ),
+
+                    overview: (
+                        &lt;div className={styles.overview}>
+                            &lt;div className={styles.overview_info}>
+                                &lt;br />
+                                &lt;strong> Classification: &lt;/strong>{' '}
+                                {currClassification}
+                                &lt;br />
+                            &lt;/div>
+                            &lt;div className={styles.overview_info}>
+                                &lt;strong> Image description: &lt;/strong>
+                                {
+                                    userAnnotationList[
+                                        userAnnotationList.length - 1
+                                    ]
+                                }
+                            &lt;/div>
+                            &lt;button
+                                type="button"
+                                className={styles.restart_button}
+                                onClick={() => {
+                                    setStage('classify')
+                                    setCurrClassification(null)
+                                    setCurrAISelected(null)
+                                    setAiAnnotationList([])
+                                    setUserAnnotationList([])
+                                }}>
+                                Restart image annotation
+                            &lt;/button>
+                            {nextImageFunc ? (
+                                &lt;button
+                                    type="button"
+                                    className={styles.continue_button}
+                                    onClick={() => {
+                                        nextImageFunc()
+                                    }}>
+                                    Continue next image
+                                &lt;/button>
+                            ) : (
+                                ''
+                            )}
+                        &lt;/div>
+                    ),
                 }[stage]
             }
         &lt;/div>

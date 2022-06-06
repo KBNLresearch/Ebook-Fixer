@@ -46,6 +46,16 @@ and the GitHub API to store the contents of the epub files (for research purpose
 
 Documentation for the client and server code can be found on our [GitHub page](https://revirator.github.io/Ebook-Fixer/).
 
+To update the documentation run the following commands (you need to have the docker containers running):
+* For the client:
+```shell
+docker exec frontend npx run docs
+```
+* For the server:
+```shell
+docker exec backend bash -c 'cd docs && make html'
+```
+
 [comment]: <> (TODO: ADD THE LINK TO THE REPORT)
 For more information about the system architecture, list of requirements, ethical issues and more check our [report]().
 

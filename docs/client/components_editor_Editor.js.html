@@ -72,7 +72,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#openBook">openBook</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="AISelection.html">AISelection</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FetchWithStatus.html">FetchWithStatus</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="NavBar.html">NavBar</a></li><li><a href="Overview.html">Overview</a></li><li><a href="ProgressBar.html">ProgressBar</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="Sidebar.html">Sidebar</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#openBook">openBook</a></li><li><a href="global.html#pollForFile">pollForFile</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getGoogleAnnotation">getGoogleAnnotation</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#getMicrosoftAnnotation">getMicrosoftAnnotation</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
                 
             </nav>
         </div>
@@ -91,7 +91,8 @@
         <article>
             <pre class="prettyprint source linenums"><code>import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { useAtom } from 'jotai'
 import {
     getImageFromRendition,
     openBook,
@@ -101,15 +102,17 @@ import Annotator from './Annotator'
 import styles from './Editor.module.scss'
 import EditorControls from './EditorControls'
 import Viewer from './Viewer'
-import FileDownload from '../FileDownload'
-import { getFileBlob } from '../../api/GetFile'
+import FileDownload from '../epubfiles/FileDownload'
+import Overview from './Overview'
 import ShareURL from './ShareURL'
+import FetchWithStatus from '../epubfiles/FetchWithStatus'
+import { titleContext } from '../../helpers/EbookContext'
 
 /**
  * The editor component takes an epub file and displays it as well as a UI for interacting with it.
  *
- * @param {String } ebookFile e-book file name
- * @param {String} ebookId  The UUID for the ebook generated by server
+ * @param {String} ebookFile e-book file name
+ * @param {String} ebookId the UUID for the ebook generated by server
  * @param {String} ebookTitle The title of the ebook found in content.opf by server
  * @component
  * @returns The Editor component
@@ -121,8 +124,11 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
     const [currentImage, setCurrentImage] = useState(null)
     const [rendition, setRendition] = useState(null)
     const [ebookNotFound, setEbookNotFound] = useState(false)
+    const [fetchingEbookFile, setFetchingEbookFile] = useState(true)
 
-    const { uuid } = useParams()
+    const { uuid, imgFilename } = useParams()
+
+    const [, setTitle] = useAtom(titleContext)
 
     // Whether the component is already rendering / rendered the epub,
     // This is a fix for a bug that causes the epub to be rendered twice
@@ -147,56 +153,80 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
         return ebookId
     }
 
+    // Reads and opens the file provided
+    const readFile = (file) => {
+        if (window.FileReader) {
+            // For reading the file from the input
+            const reader = new FileReader()
+            reader.onload = (e) => {
+                openBook(
+                    e,
+                    getRendered,
+                    setRendered,
+                    setImageList,
+                    setRendition,
+                    setTitle
+                )
+            }
+            if (file) reader.readAsArrayBuffer(file)
+        }
+    }
+
     /**
      * Executed when ebookFile changes
      * The readFile func sets the reader and reads the file that was passed through props of this component
      * Or if it wasn't fetches it from the server
      */
     useEffect(() => {
-        const readFile = (file) => {
-            if (window.FileReader) {
-                // For reading the file from the input
-                const reader = new FileReader()
-                reader.onload = (e) => {
-                    openBook(
-                        e,
-                        getRendered,
-                        setRendered,
-                        setImageList,
-                        setRendition
-                    )
-                }
-                if (file) reader.readAsArrayBuffer(file)
-            }
-        }
-
         if (ebookFile === null) {
-            getFileBlob(getEbookUUID())
-                .then((blob) => {
-                    setEbookNotFound(false)
-                    readFile(blob)
-                })
-                .catch((error) => {
-                    setEbookNotFound(true)
-                })
+            setFetchingEbookFile(true)
         } else {
+            setFetchingEbookFile(false)
             readFile(ebookFile)
         }
     }, [ebookFile])
 
     return (
         &lt;div className={styles.container}>
-            &lt;h1 className={styles.title}>Editor&lt;/h1>
-            {ebookNotFound ? (
+            {ebookNotFound &amp;&amp; !fetchingEbookFile ? (
                 &lt;span style={{ color: 'red' }}>E-book not found!&lt;/span>
             ) : (
                 &lt;div>
-                    &lt;span> Editing e-book: {ebookTitle} &lt;/span>
-                    &lt;ShareURL />
+                    {/* {currentImage &amp;&amp; imgFilename ? (
+                        &lt;div className={styles.back_to_overview_btn}>
+                            &lt;Link to={`/ebook/${uuid}`}>
+                                &lt;button type="button">Back to overview&lt;/button>
+                            &lt;/Link>
+                        &lt;/div>
+                    ) : (
+                        ''
+                    )} */}
                 &lt;/div>
             )}
-
-            &lt;div className={styles.editor}>
+            {fetchingEbookFile || ebookNotFound ? (
+                &lt;FetchWithStatus
+                    fileId={getEbookUUID()}
+                    setEbookFile={(file) => {
+                        readFile(file)
+                        setFetchingEbookFile(false)
+                        setEbookNotFound(false)
+                    }}
+                    onError={(err) => {
+                        if (err.statusCode === 404) {
+                            setEbookNotFound(true)
+                        }
+                        setFetchingEbookFile(false)
+                    }}
+                />
+            ) : (
+                ''
+            )}
+            &lt;div
+                className={
+                    styles.editor +
+                    ' ' +
+                    (fetchingEbookFile ? styles.invisible : '')
+                }>
                 &lt;div className={styles.viewer_container}>
                     &lt;EditorControls
                         rendition={rendition}
@@ -206,12 +236,20 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
                     />
                     &lt;Viewer id={viewerId} />
                 &lt;/div>
-                &lt;div className={styles.annotator_container}>
-                    &lt;Annotator
-                        currImage={currentImage}
-                        ebookId={getEbookUUID()}
-                    />
-                    &lt;FileDownload ebookId={getEbookUUID()} />
+                &lt;div
+                    className={
+                        styles.annotator_container +
+                        ' ' +
+                        (!rendition ? styles.invisible : '')
+                    }>
+                    {currentImage &amp;&amp; imgFilename ? (
+                        &lt;Annotator
+                            currImage={currentImage}
+                            ebookId={getEbookUUID()}
+                        />
+                    ) : (
+                        &lt;Overview imageList={imageList} />
+                    )}
                 &lt;/div>
             &lt;/div>
         &lt;/div>

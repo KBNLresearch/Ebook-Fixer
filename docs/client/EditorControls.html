@@ -70,7 +70,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#openBook">openBook</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="AISelection.html">AISelection</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FetchWithStatus.html">FetchWithStatus</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="NavBar.html">NavBar</a></li><li><a href="Overview.html">Overview</a></li><li><a href="ProgressBar.html">ProgressBar</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="Sidebar.html">Sidebar</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#openBook">openBook</a></li><li><a href="global.html#pollForFile">pollForFile</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getGoogleAnnotation">getGoogleAnnotation</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#getMicrosoftAnnotation">getMicrosoftAnnotation</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
                 
             </nav>
         </div>
@@ -124,9 +124,9 @@
     
     
     <div class="description">
-        <p>The controls for the editor
+        <p>The EditorControls component handles the controls for the editor.
 Right now these are a bunch of buttons that scroll pictures from the book into view
-These are passed as children via props</p>
+These are passed as children via props.</p>
     </div>
     
 
@@ -180,9 +180,9 @@ These are passed as children via props</p>
             <td>
               shape
             </td>
-            <td>Yes</td>
+            <td>No</td>
             <td></td>
-            <td></td>
+            <td>null</td>
           </tr>
           
     
@@ -246,7 +246,7 @@ These are passed as children via props</p>
 
   
 
-  <td class="description last"><p>currently loaded images</p></td>
+  <td class="description last"><p>List of images that epubJS found in the ebook</p></td>
 </tr>
 
 
@@ -271,7 +271,7 @@ These are passed as children via props</p>
 
   
 
-  <td class="description last"><p>retrieves the image element from the rendition with the index and imagelist provided</p></td>
+  <td class="description last"><p>Retrieves the image element from the rendition with the index and imagelist provided</p></td>
 </tr>
 
 
@@ -286,7 +286,7 @@ These are passed as children via props</p>
   <td class="type">
   
       
-<code class="param-type"><a href="external-Rendition.html">external:Rendition</a></code>
+<code class="param-type">external:Render</code>
 
 
   
@@ -321,7 +321,7 @@ These are passed as children via props</p>
 
   
 
-  <td class="description last"><p>function for setting the image that is currently being annotated</p></td>
+  <td class="description last"><p>Updates the image that is currently being annotated</p></td>
 </tr>
 
 
@@ -369,7 +369,7 @@ These are passed as children via props</p>
         <p class="tag-source">
             <a href="components_editor_EditorControls.js.html" class="button">View Source</a>
             <span>
-                <a href="components_editor_EditorControls.js.html">components/editor/EditorControls.js</a>, <a href="components_editor_EditorControls.js.html#line20">line 20</a>
+                <a href="components_editor_EditorControls.js.html">components/editor/EditorControls.js</a>, <a href="components_editor_EditorControls.js.html#line22">line 22</a>
             </span>
         </p>
     
@@ -568,7 +568,7 @@ to the image new index given by newIndex.</p>
         <p class="tag-source">
             <a href="components_editor_EditorControls.js.html" class="button">View Source</a>
             <span>
-                <a href="components_editor_EditorControls.js.html">components/editor/EditorControls.js</a>, <a href="components_editor_EditorControls.js.html#line101">line 101</a>
+                <a href="components_editor_EditorControls.js.html">components/editor/EditorControls.js</a>, <a href="components_editor_EditorControls.js.html#line110">line 110</a>
             </span>
         </p>
     
@@ -671,7 +671,7 @@ When at the last image, disables the Next image button</p>
         <p class="tag-source">
             <a href="components_editor_EditorControls.js.html" class="button">View Source</a>
             <span>
-                <a href="components_editor_EditorControls.js.html">components/editor/EditorControls.js</a>, <a href="components_editor_EditorControls.js.html#line79">line 79</a>
+                <a href="components_editor_EditorControls.js.html">components/editor/EditorControls.js</a>, <a href="components_editor_EditorControls.js.html#line86">line 86</a>
             </span>
         </p>
     
