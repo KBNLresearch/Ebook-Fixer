@@ -33,7 +33,7 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
         } else {
             console.log('No AI annotations to display')
         }
-        if(copied == false){
+        if(copied == false && copyButton.current){
             copyButton.current.disabled=false
         }
     }, [aiAnnotationList, copied])
