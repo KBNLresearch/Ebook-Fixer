@@ -107,7 +107,11 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                         className={styles.copybtn}
                         ref={copyButton}
                         onClick={() => handleCopy()}>
-                            <CopySVG/>
+
+                            <div aria-hidden>
+                                <CopySVG />
+                            </div>
+                            Copy Over
                         </button>
                     </div>}
             </div>
