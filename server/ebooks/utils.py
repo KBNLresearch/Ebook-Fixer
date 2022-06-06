@@ -19,8 +19,11 @@ def inject_image_annotations(storage_path, images, annotations):
     """
     for image in images:
         try:
-            image_annotation = filter(lambda a: a.image == image, annotations).__next__()
-        except StopIteration:
+            # Inject the one with the largest id (the latest one)
+            image_annotation = sorted([a for a in annotations if a.image == image],
+                                      key=lambda a: a.id,
+                                      reverse=True)[0]
+        except IndexError:
             pass
         else:
             try:

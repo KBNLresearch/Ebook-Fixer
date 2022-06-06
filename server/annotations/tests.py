@@ -1,6 +1,5 @@
 import json
 
-from .models import Annotation
 from .views import (
     annotation_save_view,
     azure_annotation_generation_view,
@@ -155,26 +154,22 @@ class AnnotationViewsTest(TestCase):
         self.assertEqual(response_content["type"], "HUM")
         self.assertEqual(response_content["text"], "new annotation")
 
-    def test_annotation_save_view_200_update_existing_annotation(self):
+    def test_annotation_save_view_400_missing_text_parameter(self):
         uuid = uuid4()
         image_id = 1
         ebook = Ebook.objects.create(uuid=uuid, title="Test title", epub="test.epub")
-        image = Image.objects.create(id=image_id, ebook=ebook,
-                                     filename="test.jpg", location="test.html")
-        Annotation.objects.create(image=image, type="HUM", text="old annotation")
+        Image.objects.create(id=image_id, ebook=ebook, filename="test.jpg", location="test.html")
         content = {"ebook": str(uuid), "id": image_id,
-                   "filename": "test.jpg", "text": "new annotation"}
+                   "filename": "test.jpg"}
         request = self.factory.post("save/",
                                     data=content,
                                     content_type="application/json")
 
         response = annotation_save_view(request)
 
-        self.assertEqual(response.status_code, 200)
-        response_content = json.loads(response.content)
-        self.assertEqual(response_content["image"], image_id)
-        self.assertEqual(response_content["type"], "HUM")
-        self.assertEqual(response_content["text"], "new annotation")
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(decode_message(response.content),
+                         "{'msg': 'Text parameter missing in the request body!'}")
 
     def test_annotation_save_view_error(self):
         request = self.factory.post("save/")

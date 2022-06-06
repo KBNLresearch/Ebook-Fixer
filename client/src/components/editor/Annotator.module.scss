@@ -190,6 +190,28 @@
 
         border-radius: 5em;
     }
+    .copybtn {
+        font-size: 0.7em;
+        svg {
+            height: 1.3em;
+            fill: currentColor
+
+
+        }
+        margin-top: 8px;
+        &:hover {
+            background-color: #838282
+        }
+        &:disabled {
+            background-color: #b8c3b8;
+            border-color: #eee;
+            opacity: 0.6;
+            cursor: default;
+        }
+
+        
+    }
+
 
     button.save_button {
         font-family: inherit;
@@ -235,29 +257,7 @@
         }
     }
 
-    button.restart_button {
-        font-family: inherit;
-        font-size: 80%;
-        margin-top: 0.2em;
-        background-color: #27ce51;
-        border: 0.2em solid #ccc;
-        transition: border-color 0.2s ease, background-color 0.2s ease;
-        padding: 0.5em 0.7em;
-        visibility: visible;
-        position: absolute;
-        left: 7em;
-        top: 10em;
 
-        &:hover {
-            background-color: #2ebf50;
-            border-color: #eee;
-        }
-        &:disabled {
-            background-color: #b8c3b8;
-            border-color: #eee;
-            cursor: default;
-        }
-    }
 
     .icon {
         width: 1.5em;
