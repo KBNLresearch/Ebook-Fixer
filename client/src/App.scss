@@ -33,7 +33,7 @@ body,
     justify-content: center;
     color: black;
     h1 {
-        font-size: 2.5rem;
+        font-size: 4rem;
         font-weight: 800;
         line-height: 1.5em;
         color: #444;
@@ -61,9 +61,9 @@ body,
 
     --x-offset: -0.0625em;
     --y-offset: 0.0625em;
-    --stroke: 0.125em;
+    --stroke: 0.095em;
     --background-color: white;
-    --stroke-color: lightblue;
+    --stroke-color: rgba(173, 216, 230, 0.527);
 
     text-shadow: var(--x-offset) var(--y-offset) 0px var(--background-color),
         calc(var(--x-offset) - var(--stroke))
@@ -71,18 +71,8 @@ body,
 }
 
 .logo_subtitle {
-    font-size: 100%;
-    font-weight: 600;
-
-    --x-offset: -0.0625em;
-    --y-offset: 0.0625em;
-    --stroke: 0.025em;
-    --background-color: white;
-    --stroke-color: rgb(230, 173, 215);
-
-    text-shadow: var(--x-offset) var(--y-offset) 0px var(--background-color),
-        calc(var(--x-offset) - var(--stroke))
-            calc(var(--y-offset) + var(--stroke)) 0px var(--stroke-color);
+    font-size: 2rem;
+    font-weight: 400;
 }
 
 .home-navigation {
