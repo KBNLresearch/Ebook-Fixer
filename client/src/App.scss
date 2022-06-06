@@ -13,6 +13,9 @@
         cursor: pointer;
     }
     box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
 }
 
 html,
@@ -39,6 +42,7 @@ body,
 
 .App-main {
     // min-height: 90vh;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
