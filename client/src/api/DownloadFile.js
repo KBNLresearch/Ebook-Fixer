@@ -8,7 +8,13 @@
  */
 export function getFile(fileId) {
     return fetch(
-        process.env.REACT_APP_API_URL + 'ebooks/download/' + fileId + '/',
+        process.env.REACT_APP_API_URL +
+            'ebooks/download/' +
+            fileId +
+            '/?' +
+            new URLSearchParams({
+                inject: 'true',
+            }),
         {
             method: 'GET',
         }

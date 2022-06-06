@@ -1,11 +1,10 @@
 .container {
     position: relative;
-    width: min-content;
-    align-self: center;
+    text-align: left;
 
     .popup {
         $arrow_size: 0.3em;
-        $popup_width: 16em;
+        $popup_width: 12em;
         position: absolute;
         visibility: hidden;
         font-size: 20px;
@@ -16,7 +15,7 @@
         margin-left: calc($popup_width/-2);
         margin-bottom: $arrow_size;
         width: $popup_width;
-        padding: 0.5em 0.6em;
+        padding: 0.5em 0.1em;
         border-radius: 0.7em;
         text-align: center;
         background-color: rgba(0, 0, 0, 0.8);
@@ -42,11 +41,23 @@
 
     button {
         font-family: inherit;
-        font-size: 85%;
         padding: 0.4em 0.7em;
-        background-color: rgb(207, 164, 247);
+        color: white;
+        background-color: hsl(271, 84%, 35%);
+        transition: border-color 0.3s ease;
+        border: 3px solid hsl(271, 100%, 20%);
+        border-left: 0;
+        padding: 0.4em 0.8em;
+        border-radius: 0 1em 1em 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        svg {
+            height: 1.3em;
+            padding-bottom: 0.1em;
+        }
         &:hover {
-            background-color: #2ec72e;
+            border-color: hsl(271, 70%, 60%);
         }
     }
 }
