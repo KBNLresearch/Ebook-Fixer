@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useAtom } from 'jotai'
 import { highlightElement, ImageInfo } from '../../helpers/EditorHelper'
 import styles from './Editor.module.scss'
@@ -30,17 +30,14 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
 
     const navigate = useNavigate()
 
+    const location = useLocation()
+
     // Get the Image filename from the url
     const { uuid, imgFilename } = useParams()
 
-    // When the imageList is instantiated / filled up (only happens at the beginning)
+    // When the imageList is instantiated / filled up (only happens at the beginning or when the image changes)
     useEffect(() => {
-        if (
-            imgFilename &&
-            currentImageIndex === -1 &&
-            rendition &&
-            imageList.length > 0
-        ) {
+        if (imgFilename && rendition && imageList.length > 0) {
             // Get the filename in a decoded format
             const imageFilenameDecoded = decodeURIComponent(imgFilename)
             // Find the index of the image in imageList
@@ -115,11 +112,11 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
         // Highlight the image in red for 5s
         highlightElement(newImage)
         // Set the URL to be of that Image
-        navigate(
-            `/ebook/${uuid}/image/${encodeURIComponent(
-                getImgFilename(imageList[newIndex])
-            )}`
-        )
+        const newUrl = `/ebook/${uuid}/image/${encodeURIComponent(
+            getImgFilename(imageList[newIndex])
+        )}`
+        // So that it doesn't navigate to the same image
+        if (location.pathname !== newUrl) navigate(newUrl)
         // Set the current image via the props from the parent
         setCurrentImage(imageList[newIndex])
         // Change the current index
@@ -138,11 +135,11 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
                 </button>
 
                 <div className={styles.block}>
-                    <h1>
+                    <h3>
                         {currentImageIndex === -1
                             ? 'Press arrow to start annotating first image'
                             : currentImageIndex + 1 + '/' + imageList.length}
-                    </h1>
+                    </h3>
                 </div>
 
                 <button

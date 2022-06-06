@@ -6,9 +6,9 @@ import step3 from '../assets/svgs/step3.svg'
 import step4 from '../assets/svgs/step4.svg'
 
 /**
- * The EpubInfoPage component contains information about our website and 
+ * The EpubInfoPage component contains information about our website and
  * how the image annotation process works
- * 
+ *
  * @component
  * @returns The EpubInfoPage component
  * @component
@@ -16,21 +16,15 @@ import step4 from '../assets/svgs/step4.svg'
 function EpubInfoPage() {
     return (
         <div className={styles.info_title_container}>
-            <h1>Let&apos;s make e-books accessible to all!</h1>
+            <h2>Let&apos;s make e-books accessible to all!</h2>
             <div className={styles.info_container}>
                 <div className={styles.info_box}>
-                    <br />
                     <p>
                         This annotation platform can be used to create better
                         image descriptions for ePub2 or ePub3 files, in order to
                         make e-books more accessible to visually impaired users.
                     </p>
-                    <br />
-                    <br />
-                    <p>
-                        <strong> E-BOOK FIXER </strong> has built-in support
-                        for:{' '}
-                    </p>
+                    <p>E-BOOK FIXER has built-in support for: </p>
                     <ul>
                         <li>Automatically generated image annotations </li>
                         <li>Manual annotations</li>
@@ -44,7 +38,7 @@ function EpubInfoPage() {
                 />
             </div>
             <div className={styles.info_title_container}>
-                <h1 >How to annotate images?</h1>
+                <h2>How to annotate images?</h2>
                 <div className={styles.workflow_box}>
                     <div className={styles.step_box}>
                         <img alt="" className={styles.step_icon} src={step1} />

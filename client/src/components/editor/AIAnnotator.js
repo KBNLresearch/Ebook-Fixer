@@ -93,7 +93,23 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
             <div className={styles.ai_control}>
                 <label htmlFor="AiLabelsBox" className={styles.box_label}> Generated labels </label>
                 <div  className={styles.ai_labels_box} id="AiLabelsBox" > 
-                    {                 aiAnnotationList.map((obj) => (<p className={getProportionalClass(obj)}> {obj.text} </p>))} 
+                    {aiAnnotationList
+                   // Sort by second char
+                   .sort((a, b) => {
+                       const a1 = a.confidence.charAt(2)
+                       const b1 = b.confidence.charAt(2)
+                       if (a1 === b1) {
+                           return 0
+                       }
+                       return a1 < b1 ? 1 : -1
+                   })
+                   .map((obj) => (
+                       <div>
+                           <p className={getProportionalClass(obj)}>
+                               {obj.text}
+                           </p>
+                       </div>
+                   ))} 
                 </div>
                 {aiChoice === 'BB_AZURE_LAB' &&
                     <div>

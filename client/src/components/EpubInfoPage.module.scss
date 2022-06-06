@@ -17,28 +17,24 @@
     justify-content: center;
     align-items: center;
 
-    h1 {
+    h2 {
         font-weight: 100;
         font-size: 1.5em;
-        line-height: 2em;
+        line-height: 1.3em;
 
         --x-offset: -0.0625em;
         --y-offset: 0.0625em;
         --stroke: 0.125em;
         --background-color: white;
         --stroke-color: lightblue;
-        
-        text-shadow: 
-          
-          var(--x-offset)
-          var(--y-offset)
-          0px
-          var(--background-color), 
-          
-          calc( var(--x-offset) - var(--stroke) )
-          calc( var(--y-offset) + var(--stroke) )
-          0px
-          var(--stroke-color);
+        padding: 0em 0.2em;
+        border-radius: 0.5em;
+
+        box-shadow: var(--x-offset) var(--y-offset) 0px var(--background-color),
+            calc(var(--x-offset) - var(--stroke))
+                calc(var(--y-offset) + var(--stroke)) 0px var(--stroke-color),
+            calc(var(--x-offset) - var(--stroke))
+                calc(var(--y-offset) + var(--stroke)) 10px rgba(0, 0, 0, 0.123);
     }
 }
 
@@ -54,7 +50,7 @@
 .epub_logo {
     height: 150px;
     width: 150px;
-    background-color: #52ceff4d;
+    background-color: #cbf0ff4d;
     border: 4px solid white;
     border-radius: 1em;
     margin: 1em 3em 3em 1em;
@@ -75,19 +71,16 @@
 .info_box {
     border-radius: 2em;
     padding: 0.2em;
-    max-width: 50%;
+    @media only screen and (min-width: 768px) {
+        max-width: 50%;
+    }
     font-size: 0.9em;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 0.2em;
-
-    h1 {
-        font-weight: 100;
-        font-size: 1.5em;
-        line-height: 2em;
-    }
+    gap: 0.7em;
+    text-align: left;
 
     strong {
         font-weight: bold;
@@ -117,9 +110,10 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 3em;
+    justify-content: space-around;
+    align-items: flex-start;
+    align-self: stretch;
+    gap: 1em;
 
     strong {
         font-weight: bold;
@@ -135,7 +129,8 @@
     border-radius: 1em;
     padding: 0.2em;
     width: 15em;
-    max-width: 25%;
+    flex-basis: 22%;
+    flex-grow: 1;
     font-size: 0.9em;
     display: flex;
     flex-direction: column;
@@ -157,10 +152,4 @@
     filter: hue-rotate(0deg);
     transition: transform 0.3s ease, filter 0.3s ease;
     @include text-3d(197);
-
-    &:hover {
-        transform: scale3d(0.95, 0.95, 1) rotateX(11deg) rotateY(-22deg)
-            rotateZ(0deg) translate3d(0px, 0px, 30px) skew(0deg, 0deg);
-        filter: hue-rotate(120deg);
-    }
 }
