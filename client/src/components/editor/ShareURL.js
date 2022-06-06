@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useParams } from 'react-router-dom'
+import { ReactComponent as ShareSVG } from '../../assets/svgs/share-icon.svg'
 import styles from './ShareURL.module.scss'
 
 /**
@@ -108,6 +109,7 @@ function ShareURL() {
                 onClick={handleShareClick}
                 className={styles.share_button}
                 type="button">
+                <ShareSVG aria-hidden />
                 Share link
             </button>
             <div

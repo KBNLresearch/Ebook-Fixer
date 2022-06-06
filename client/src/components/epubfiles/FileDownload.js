@@ -16,7 +16,7 @@ function FileDownload({ ebookId }) {
         <div id="container" className={styles.container}>
             <div className={styles.popup}>Exports annotated ePub file</div>
             <button type="button" onClick={() => getFile(ebookId)}>
-                <DownloadSVG /> Download e-book
+                <DownloadSVG aria-hidden /> Download e-book
             </button>
         </div>
     )
