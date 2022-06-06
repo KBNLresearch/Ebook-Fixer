@@ -98,13 +98,6 @@
         outline: none;
         font-family: 'Times New Roman', Times, serif;
         text-align: left;
-        // .icon {
-        //     padding: 0.2em;
-        //     &:disabled {
-        //         background-color: rgb(171, 178, 186);
-        //         cursor: auto;
-        //     }
-        // }
         .conf_zero {
             display: inline;
             font-size: 50%;
@@ -170,6 +163,8 @@
     .dropdown {
         width: 60%;
         height: 2em;
+        margin-top: 10px;
+        margin-bottom: 10px;
         position: relative;
         font-size: medium;
     }
@@ -186,8 +181,69 @@
         outline: none;
         font-family: 'Times New Roman', Times, serif;
     }
+    .moreinfobtn {
+        font-size: 0.9em;
+        svg {
+            height: 0.9em;
+            fill: currentColor
+
+
+        }
+        opacity: 0.8;
+        &:hover {
+            background-color: #4a4a4a
+        }
+
+        border-radius: 5em;
+    }
+
 
     button.save_button {
+        font-family: inherit;
+        font-size: 80%;
+        margin-top: 0.2em;
+        border-radius: 7px;
+        background-color: #27ce51;
+        border: 0.1em solid #ccc;
+        transition: border-color 0.2s ease, background-color 0.2s ease;
+        padding: 0.5em 0.7em;
+        visibility: visible;
+
+        &:hover {
+            background-color: #2ebf50;
+            border-color: #eee;
+        }
+        &:disabled {
+            background-color: #b8c3b8;
+            border-color: #eee;
+            cursor: default;
+        }
+    }
+
+    button.skip {
+        font-family: inherit;
+        font-size: 80%;
+        margin-left: 0.3em;
+        margin-top: 0.2em;
+        border:0.1em solid  #191d1a;
+        color: #191d1a;
+        border-radius: 7px;
+        padding: 0.5em 0.7em;
+        visibility: visible;
+
+        &:hover {
+            background-color: #2ebf50;
+            border-color: #eee;
+        }
+        &:disabled {
+            background-color: #b8c3b8;
+            border-color: #eee;
+            cursor: default;
+        }
+    }
+
+
+    button.restart_button {
         font-family: inherit;
         font-size: 80%;
         margin-top: 0.2em;
@@ -196,6 +252,9 @@
         transition: border-color 0.2s ease, background-color 0.2s ease;
         padding: 0.5em 0.7em;
         visibility: visible;
+        position: absolute;
+        left: 7em;
+        top: 10em;
 
         &:hover {
             background-color: #2ebf50;
