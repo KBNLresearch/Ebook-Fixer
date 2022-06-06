@@ -100,17 +100,7 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
             {ebookNotFound && !fetchingEbookFile ? (
                 <span style={{ color: 'red' }}>E-book not found!</span>
             ) : (
-                <div>
-                    {/* {currentImage && imgFilename ? (
-                        <div className={styles.back_to_overview_btn}>
-                            <Link to={`/ebook/${uuid}`}>
-                                <button type="button">Back to overview</button>
-                            </Link>
-                        </div>
-                    ) : (
-                        ''
-                    )} */}
-                </div>
+                ''
             )}
             {fetchingEbookFile || ebookNotFound ? (
                 <FetchWithStatus
@@ -121,7 +111,7 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
                         setEbookNotFound(false)
                     }}
                     onError={(err) => {
-                        if (err.statusCode === 404 && !fetchingEbookFile) {
+                        if (err.statusCode === 404 && fetchingEbookFile) {
                             setEbookNotFound(true)
                         }
                         setFetchingEbookFile(false)
