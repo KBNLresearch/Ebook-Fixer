@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import { useEffect, useRef, useState } from 'react'
 import styles from './Annotator.module.scss'
 import { ImageInfo } from '../../helpers/EditorHelper'
+import { ReactComponent as CopySVG } from '../../assets/svgs/copy.svg'
 
 /**
  * The AIAnnotator handles generating AI image descriptions / labels
@@ -20,18 +21,22 @@ import { ImageInfo } from '../../helpers/EditorHelper'
  * @component
  * @returns The AIAnnotator component
  */
-function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId, imageId, aiChoice, sentence, setSentence, setStage, setCopied}) {
+function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId, imageId, aiChoice, sentence, setSentence, setStage, copied,setCopied}) {
 
+    const copyButton=useRef()
 
     useEffect(() => {
         if (aiAnnotationList.length > 0) {
             // Order annotation labels by confidence descendingly  
              aiAnnotationList.sort((a, b) => b.confidence - a.confidence)
+             
         } else {
             console.log('No AI annotations to display')
         }
-        setCopied(false)
-    }, [aiAnnotationList])
+        if(copied == false){
+            copyButton.current.disabled=false
+        }
+    }, [aiAnnotationList, copied])
 
 
     /**
@@ -78,6 +83,12 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                 return classes[0]
             } 
         }
+        function handleCopy() {
+            setCopied(true)
+            copyButton.current.disabled=true
+            console.log("copied")
+            
+        }
     
         return (
             <div className={styles.ai_control}>
@@ -93,8 +104,11 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                            
                         </div>
                         <button type='button' 
-                        className={styles.save_button}
-                        onClick={() => setCopied(true)}>Copy</button>
+                        className={styles.copybtn}
+                        ref={copyButton}
+                        onClick={() => handleCopy()}>
+                            <CopySVG/>
+                        </button>
                     </div>}
             </div>
         )
@@ -110,6 +124,7 @@ AIAnnotator.propTypes = {
     sentence: PropTypes.string.isRequired,
     setSentence: PropTypes.func.isRequired,
     setStage: PropTypes.func.isRequired,
+    copied:PropTypes.bool.isRequired,
     setCopied: PropTypes.func.isRequired,
 }
 

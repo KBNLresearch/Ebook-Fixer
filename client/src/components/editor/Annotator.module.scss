@@ -196,6 +196,27 @@
 
         border-radius: 5em;
     }
+    .copybtn {
+        // font-size: 0em;
+        svg {
+            height: 1.2em;
+            fill: currentColor
+
+
+        }
+        margin-top: 8px;
+        &:hover {
+            background-color: #838282
+        }
+        &:disabled {
+            background-color: #b8c3b8;
+            border-color: #eee;
+            opacity: 0.6;
+            cursor: default;
+        }
+
+        
+    }
 
 
     button.save_button {

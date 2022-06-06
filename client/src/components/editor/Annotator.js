@@ -190,6 +190,7 @@ function Annotator({ currImage, ebookId }) {
                                 sentence={sentence}
                                 setSentence={setSentence}
                                 setStage={setStage}
+                                copied={copied}
                                 setCopied={setCopied}>
                                 {' '}
                             </AIAnnotator>
