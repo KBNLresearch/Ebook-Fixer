@@ -49,9 +49,22 @@ function Sidebar({ download, imageSelected }) {
         // else inside the popup, do nothing
     }
 
+    /**
+     * Closes sidebar if the key detected is Escape
+     *
+     * @param {Event} e Keydown event
+     */
+    function closeOnEscapeKey(e) {
+        if (e.key === 'Escape') {
+            setSidebarVisible(false)
+            document.removeEventListener('keydown', closeOnEscapeKey)
+        }
+    }
+
     useEffect(() => {
         if (sidebarVisible) {
             document.addEventListener('mousedown', closePopupOnMouseDownOutside)
+            document.addEventListener('keydown', closeOnEscapeKey)
         } else {
             document.removeEventListener(
                 'mousedown',

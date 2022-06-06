@@ -45,6 +45,18 @@ function ShareURL() {
     }
 
     /**
+     * Closes popup if the key detected is Escape
+     *
+     * @param {Event} e Keydown event
+     */
+    function closeOnEscapeKey(e) {
+        if (e.key === 'Escape') {
+            setPopupVisible(false)
+            document.removeEventListener('keydown', closeOnEscapeKey)
+        }
+    }
+
+    /**
      * This function handles the click on the share buttons
      * Shows the popup with the share menu
      *
@@ -54,6 +66,7 @@ function ShareURL() {
         if (!popupVisible) {
             // Add event listener for a use click, to close the popup
             document.addEventListener('mousedown', closePopupOnMouseDownOutside)
+            document.addEventListener('keydown', closeOnEscapeKey)
         }
         // Show popup
         setPopupVisible(!popupVisible)
