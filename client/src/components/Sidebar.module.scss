@@ -12,6 +12,7 @@
     background-color: #fff; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     padding: 1em 0em; /* Place content 60px from the top */
+    color: #111;
 
     display: flex;
     flex-direction: column;
@@ -81,14 +82,11 @@
 
     .download {
         width: 100%;
-        display: flex;
-        flex-direction: column;
         margin: 1em 0;
     }
 }
 
 .menu {
-    margin-top: 0.2em;
     font-size: 0.9em;
     display: flex;
     flex-direction: row;
