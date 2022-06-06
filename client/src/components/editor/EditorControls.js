@@ -135,11 +135,11 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
                 </button>
 
                 <div className={styles.block}>
-                    <h1>
+                    <h3>
                         {currentImageIndex === -1
                             ? 'Press arrow to start annotating first image'
                             : currentImageIndex + 1 + '/' + imageList.length}
-                    </h1>
+                    </h3>
                 </div>
 
                 <button
