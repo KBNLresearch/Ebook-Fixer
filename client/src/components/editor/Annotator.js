@@ -180,6 +180,7 @@ function Annotator({ currImage, ebookId }) {
                 'annotate':
                     <div className={styles.container}>
                         {currAiSelected !='skipped' &&
+                        <div>
                             <AIAnnotator
                                 aiAnnotationList={aiAnnotationList}
                                 setAiAnnotationList={setAiAnnotationList}
@@ -206,6 +207,8 @@ function Annotator({ currImage, ebookId }) {
                                 setCopied={setCopied}
                                 sentence={sentence}
                             />
+                            </div>
+                            }
                         </div>
                     ,
 
