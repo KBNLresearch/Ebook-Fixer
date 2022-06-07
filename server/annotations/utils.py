@@ -107,10 +107,6 @@ def azure_api_call(image_path):
     for label in analysis['tags']:
         generated_labels[label['name']] = round(label['confidence'], 4)
 
-    # Get only the first 10 labels
-    if len(generated_labels) > 10:
-        generated_labels = dict(list(generated_labels.items())[:10])
-
     return description['text'], generated_labels
 
 
