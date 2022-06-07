@@ -136,6 +136,5 @@ def yake_labels(image_path):
     generated_labels = dict()
     for kw, v in keywords:
         generated_labels[kw] = round(1-v, 4)
-    print(generated_labels)
 
     return generated_labels

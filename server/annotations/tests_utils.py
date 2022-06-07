@@ -1,4 +1,4 @@
-from .utils import google_vision_labels, azure_api_call
+from .utils import google_vision_labels, azure_api_call, yake_labels
 
 from django.test import TestCase
 from uuid import uuid4
@@ -59,6 +59,14 @@ class MockedImageAnnotatorClient:
         return self
 
 
+class MockedKeywordExtractor:
+    def __init__(self, top, stopwords):
+        return None
+
+    def extract_keywords(self, full_text):
+        return [("House", 1-0.9422), ("Sky", 1-0.8424), ("Tile", 1-0.8421)]
+
+
 class UtilsTest(TestCase):
     def setUp(self):
         self.uuid = uuid4()
@@ -79,4 +87,11 @@ class UtilsTest(TestCase):
         test_image_path = "test.jpg"
         generated_labels = azure_api_call(test_image_path)
         expected = "Test MS sentence", {'House': 0.9422, 'Sky': 0.8424, 'Tile': 0.8421}
+        self.assertEquals(expected, generated_labels)
+
+    @patch("annotations.utils.yake.KeywordExtractor", MockedKeywordExtractor)
+    def test_yake_api_call(self):
+        test_image_path = "test.jpg"
+        generated_labels = yake_labels(test_image_path)
+        expected = {'House': 0.9422, 'Sky': 0.8424, 'Tile': 0.8421}
         self.assertEquals(expected, generated_labels)
