@@ -40,7 +40,8 @@
         // Right Arrow, inherits border color
         content: '';
         position: absolute;
-        border-left: 25px solid transparent;
+        border-left-width: 25px;
+        border-left-style: solid;
         border-left-color: inherit;
         border-right: 25px solid transparent;
         border-top: 25px solid transparent;
