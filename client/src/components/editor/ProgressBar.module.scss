@@ -17,9 +17,11 @@
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: 0.5em;
+    row-gap: 0.5em;
     font-size: 18px;
     box-sizing: border-box;
+
+    overflow: hidden;
 
     .left_arrow:before {
         // Left Arrow, inherits border color
@@ -53,8 +55,12 @@
         height: 0;
         display: block;
     }
+    .right_arrow {
+        margin-right: 10px;
+    }
 
     button {
+        padding: 0;
         &:disabled {
             cursor: default;
         }
@@ -71,7 +77,7 @@
     .step {
         overflow: visible;
         border-radius: 0.4em;
-        width: 110px;
+        max-width: 150px;
         height: 50px;
         position: relative;
         color: rgb(0, 0, 0);
@@ -85,25 +91,32 @@
 
     .class_step {
         z-index: 10;
-        width: 100px;
+        width: 80px;
         background: var(--background_class);
         border-left-color: var(--background_class);
+        span {
+            left: 0em;
+        }
     }
 
     .ai_step {
         z-index: 9;
-        width: 90px;
+        width: 70px;
         background: var(--background_ai);
         border-left-color: var(--background_ai);
     }
 
     .manual_step {
+        width: 110px;
         z-index: 8;
+        flex-grow: 0;
         background: var(--background_manual);
         border-left-color: var(--background_manual);
     }
 
     .review_step {
+        min-width: 110px;
+        flex-grow: 1;
         z-index: 7;
         background: var(--background_check);
         border-left-color: var(--background_check);

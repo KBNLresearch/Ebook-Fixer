@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     padding: 0.5rem;
+    padding-top: 1rem;
     gap: 1em;
     align-items: center;
     width: 100%;
@@ -73,87 +74,10 @@
     .existing_alt {
         max-width: 50em;
         font-size: 80%;
+        margin: 0.8em 0em;
         strong {
             font-weight: bold;
         }
-    }
-
-    .ai_control {
-        width: 100%;
-        position: relative;
-        gap: 1em;
-        text-align: right;
-    }
-
-    .ai_labels_box {
-        width: 100%;
-        height: fit-content;
-        border-radius: 0.5em;
-        border: 0.2em solid rgb(117, 124, 132);
-        padding: 0.3em;
-        box-sizing: border-box;
-        resize: none;
-        font-size: inherit;
-        outline: none;
-        font-family: 'Times New Roman', Times, serif;
-        text-align: left;
-        div {
-            display: inline-block;
-        }
-        .conf_zero,
-        .conf_one,
-        .conf_two,
-        .conf_three,
-        .conf_four,
-        .conf_five,
-        .conf_six,
-        .conf_seven,
-        .conf_eight,
-        .conf_nine,
-        .conf_ten {
-            display: inline;
-            padding: 0.1em 0.5em;
-            text-transform: capitalize;
-        }
-        .conf_zero {
-            font-size: 50%;
-        }
-        .conf_one {
-            font-size: 55%;
-        }
-        .conf_two {
-            font-size: 60%;
-        }
-        .conf_three {
-            font-size: 65%;
-        }
-        .conf_four {
-            font-size: 70%;
-        }
-        .conf_five {
-            font-size: 75%;
-        }
-        .conf_six {
-            font-size: 80%;
-        }
-        .conf_seven {
-            font-size: 100%;
-        }
-        .conf_eight {
-            font-size: 120%;
-        }
-        .conf_nine {
-            font-size: 140%;
-        }
-        .conf_ten {
-            font-size: 150%;
-        }
-    }
-
-    .box_label {
-        font-size: 75%;
-        text-align: right;
-        font-weight: bold;
     }
 
     .dropdown {
@@ -178,7 +102,7 @@
         font-family: 'Times New Roman', Times, serif;
     }
     .moreinfobtn {
-        font-size: 0.9em;
+        font-size: 1.2em;
         svg {
             height: 0.9em;
             fill: currentColor;
@@ -190,28 +114,16 @@
 
         border-radius: 5em;
     }
-    .copybtn {
-        font-size: 0.7em;
-        svg {
-            height: 1.3em;
-            fill: currentColor
 
-
-        }
-        margin-top: 8px;
-        &:hover {
-            background-color: #838282
-        }
-        &:disabled {
-            background-color: #b8c3b8;
-            border-color: #eee;
-            opacity: 0.6;
-            cursor: default;
-        }
-
-        
+    select {
+        border: 3px solid skyblue;
+        background-color: inherit;
+        width: min-content;
+        padding: 0.2em 0.5em;
+        line-height: 1.3em;
+        border-radius: 0.8em;
+        margin: 0em 0.3em;
     }
-
 
     button.save_button {
         font-family: inherit;
@@ -256,8 +168,6 @@
             cursor: default;
         }
     }
-
-
 
     .icon {
         width: 1.5em;
