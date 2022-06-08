@@ -10,7 +10,9 @@
 
 .info_title_container {
     max-width: fit-content;
-    padding: 1em;
+    @media only screen and (min-width: 768px) {
+        padding: 1em;
+    }
     display: flex;
     flex-direction: column;
     gap: 1em;
@@ -54,6 +56,9 @@
     border: 4px solid white;
     border-radius: 1em;
     margin: 1em 3em 3em 1em;
+    @media only screen and (max-width: 768px) {
+        margin: 0em;
+    }
     padding: 0.8em 0.8em;
     transform: scale3d(1, 1, 1) rotateX(11deg) rotateY(-22deg) rotateZ(0deg)
         translate3d(0px, 0px, 0px) skew(0deg, 0deg);
