@@ -166,46 +166,46 @@ function AISelection({
                 Please select AI to generate annotations
             </label>
 
-            <select
-                ref={dropdownRef}
-                className={styles.dropdown}
-                onChange={() => {
-                    generateButtonRef.current.disabled = false
-                    generateButtonRef.current.innerText = notSavedTextButton
-                    setAiAnnotationList([])
-                    setSentence(null)
-                }}>
-                <option value="none" selected disabled hidden>
-                    Select AI
-                </option>
-                {options.map((opt) => (
-                    <option value={opt.key} key={opt.key}>
-                        {' '}
-                        {opt.val}{' '}
+            <div className={styles.select_ai}>
+                <select
+                    ref={dropdownRef}
+                    className={styles.dropdown}
+                    onChange={() => {
+                        generateButtonRef.current.disabled = false
+                        generateButtonRef.current.innerText = notSavedTextButton
+                        setAiAnnotationList([])
+                        setSentence(null)
+                    }}>
+                    <option value="none" selected disabled hidden>
+                        Select AI
                     </option>
-                ))}
-            </select>
-            <button
-                type="button"
-                className={styles.moreinfobtn}
-                onClick={() => setMoreInfo(!moreInfo)}>
-                <MoreInfoSVG />
-            </button>
+                    {options.map((opt) => (
+                        <option value={opt.key} key={opt.key}>
+                            {' '}
+                            {opt.val}{' '}
+                        </option>
+                    ))}
+                </select>
+                <button
+                    type="button"
+                    className={styles.moreinfobtn}
+                    onClick={() => setMoreInfo(!moreInfo)}>
+                    <MoreInfoSVG />
+                </button>
+            </div>
             {moreInfo ? (
-                <div>
-                    <p className={styles.extra_content}>
-                        <p>
-                            Google Cloud Vision API: generates image labels with
-                            a corresponding confidence. Best used for flags,
-                            covers, text and logos.
-                        </p>
-                        <br />
-                        <p>
-                            Microsoft Computer Vision: generates image labels
-                            with a corresponding confidence as well as a
-                            sentence describing the image. Best used for art,
-                            drawings, icons and photographs.
-                        </p>
+                <div className={styles.extra_content}>
+                    <p>
+                        Google Cloud Vision API: generates image labels with a
+                        corresponding confidence. Best used for flags, covers,
+                        text and logos.
+                    </p>
+                    <br />
+                    <p>
+                        Microsoft Computer Vision: generates image labels with a
+                        corresponding confidence as well as a sentence
+                        describing the image. Best used for art, drawings, icons
+                        and photographs.
                     </p>
                 </div>
             ) : (

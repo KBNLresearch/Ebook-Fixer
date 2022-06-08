@@ -101,7 +101,7 @@
 
     .ai_step {
         z-index: 9;
-        width: 70px;
+        width: 80px;
         background: var(--background_ai);
         border-left-color: var(--background_ai);
     }
@@ -116,7 +116,7 @@
 
     .review_step {
         min-width: 110px;
-        flex-grow: 1;
+        flex-grow: 3;
         z-index: 7;
         background: var(--background_check);
         border-left-color: var(--background_check);

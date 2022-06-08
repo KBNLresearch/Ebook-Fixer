@@ -101,18 +101,68 @@
         outline: none;
         font-family: 'Times New Roman', Times, serif;
     }
-    .moreinfobtn {
-        font-size: 1.2em;
-        svg {
-            height: 0.9em;
-            fill: currentColor;
+    .ai_input {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .select_ai {
+            align-self: stretch;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            select {
+                flex-grow: 1;
+                max-width: 20em;
+            }
         }
-        opacity: 0.8;
-        &:hover {
-            background-color: #4a4a4a;
+        .moreinfobtn {
+            height: 2.3em;
+            width: 2.3em;
+            display: inline-block;
+            padding: 0.5em;
+            border-radius: 50%;
+            svg {
+                height: 1.3em;
+                fill: currentColor;
+            }
+            opacity: 0.8;
+            &:hover {
+                background-color: #4a4a4a;
+            }
+
+            border-radius: 5em;
         }
 
-        border-radius: 5em;
+        button.skip {
+            font-family: inherit;
+            font-size: 80%;
+            margin-left: 0.3em;
+            margin-top: 0.2em;
+            border: 0.2em solid #eee;
+            color: #191d1a;
+            border-radius: 7px;
+            padding: 0.5em 0.7em;
+            visibility: visible;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+
+            &:hover {
+                background-color: inherit;
+                border-color: skyblue;
+            }
+            &:disabled {
+                background-color: #b8c3b8;
+                border-color: #eee;
+                cursor: default;
+            }
+        }
+
+        .extra_content {
+            font-size: 0.9em;
+            text-align: left;
+            margin: 0.8em 0em;
+            line-height: 1.1em;
+        }
     }
 
     select {
@@ -133,28 +183,6 @@
         background-color: #27ce51;
         border: 0.1em solid #ccc;
         transition: border-color 0.2s ease, background-color 0.2s ease;
-        padding: 0.5em 0.7em;
-        visibility: visible;
-
-        &:hover {
-            background-color: #2ebf50;
-            border-color: #eee;
-        }
-        &:disabled {
-            background-color: #b8c3b8;
-            border-color: #eee;
-            cursor: default;
-        }
-    }
-
-    button.skip {
-        font-family: inherit;
-        font-size: 80%;
-        margin-left: 0.3em;
-        margin-top: 0.2em;
-        border: 0.1em solid #191d1a;
-        color: #191d1a;
-        border-radius: 7px;
         padding: 0.5em 0.7em;
         visibility: visible;
 
