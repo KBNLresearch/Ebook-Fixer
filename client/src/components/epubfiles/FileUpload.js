@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link, useNavigate } from 'react-router-dom'
 import { sendFile } from '../../api/SendFile'
-import styles from './FileUpload.module.css'
+import styles from './FileUpload.module.scss'
 import { ReactComponent as UploadSVG } from '../../assets/svgs/upload-sign.svg'
 import FetchWithStatus from './FetchWithStatus'
 
@@ -71,6 +71,8 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
     function handleDrop(e) {
         droppedFile = e.dataTransfer.files
         setFilename(droppedFile[0].name)
+        // Submit form
+        handleSubmit(e)
     }
 
     // When the mouse is in the drag and drop area
@@ -224,6 +226,8 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                     onChange={(e) => {
                         droppedFile = e.target.files
                         setFilename(droppedFile[0].name)
+                        // Submit form
+                        handleSubmit(e)
                     }}
                 />
 
@@ -244,15 +248,9 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                         <span>{filename}</span>
                     )}
                 </label>
-
-                <button
-                    className={
-                        styles.button + ' ' + (uploading ? styles.hidden : '')
-                    }
-                    type="submit">
-                    <UploadSVG className={styles.svg} />
-                    Upload
-                </button>
+            </div>
+            <div className={uploading ? styles.hidden : ''}>
+                <UploadSVG className={styles.svg} />
             </div>
 
             <div className={uploading ? '' : styles.hidden}>
@@ -265,7 +263,8 @@ function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
                 Uploaded! Redirecting to editor...
             </div>
             <div className={status === 'error' ? styles.error : styles.hidden}>
-                This e-book contains errors, thus cannot be processed by the system... <br />
+                This e-book contains errors, thus cannot be processed by the
+                system... <br />
                 Please try another e-book or fix the errors.
             </div>
             <div
