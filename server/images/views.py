@@ -116,10 +116,6 @@ def image_classification_view(request):
                                     status=status.HTTP_400_BAD_REQUEST)
         except KeyError:
             pass
-        try:
-            image.raw_context = data["raw_context"]
-        except KeyError:
-            pass
         image.save(update_fields=["classification", "raw_context"])
         serializer = ImageSerializer(image)
         return JsonResponse(serializer.data, status=status.HTTP_200_OK)

@@ -119,13 +119,12 @@ class ImageViewsTest(TestCase):
         ebook = Ebook.objects.create(uuid=uuid, title="TEST TITLE", epub="TEST_EPUB.epub")
         image = Image.objects.create(ebook=ebook, filename="image.jpg", location="file.html")
         content = "{\n" f'"ebook": "{str(uuid)}",\n' '"filename": "image.jpg",\n' \
-                  '"location": "file.html",\n' '"classification": "Decoration",\n' \
-                  '"raw_context": "NEW CONTEXT"\n' "}"
+                  '"location": "file.html",\n' '"classification": "Decoration"\n' \
+                  "}"
 
         response, msg = self.response_image_classification_view(content)
 
         image.classification = "Decoration"
-        image.raw_context = "NEW CONTEXT"
         serializer = ImageSerializer(image)
         js = JsonResponse(serializer.data)
 
@@ -139,13 +138,12 @@ class ImageViewsTest(TestCase):
         image = Image.objects.create(ebook=ebook, filename="image.jpg", location="file.html")
         Annotation.objects.create(image=image, type="HUM", text="OLD TEXT")
         content = "{\n" f'"ebook": "{str(uuid)}",\n' '"filename": "image.jpg",\n' \
-                  '"location": "file.html",\n' '"classification": "Decoration",\n' \
-                  '"raw_context": "NEW CONTEXT"\n' "}"
+                  '"location": "file.html",\n' '"classification": "Decoration"\n' \
+                  "}"
 
         response, msg = self.response_image_classification_view(content)
 
         image.classification = "Decoration"
-        image.raw_context = "NEW CONTEXT"
         serializer = ImageSerializer(image)
         js = JsonResponse(serializer.data)
 
@@ -159,13 +157,12 @@ class ImageViewsTest(TestCase):
         ebook = Ebook.objects.create(uuid=uuid, title="TEST TITLE", epub="TEST_EPUB.epub")
         image = Image.objects.create(ebook=ebook, filename="image.jpg", location="file.html")
         content = "{\n" f'"ebook": "{str(uuid)}",\n' '"filename": "image.jpg",\n' \
-                  '"location": "file.html",\n' '"classification": "Map",\n' \
-                  '"raw_context": "NEW CONTEXT"\n' "}"
+                  '"location": "file.html",\n' '"classification": "Map"\n' \
+                  "}"
 
         response, msg = self.response_image_classification_view(content)
 
         image.classification = "Map"
-        image.raw_context = "NEW CONTEXT"
         serializer = ImageSerializer(image)
         js = JsonResponse(serializer.data)
 
