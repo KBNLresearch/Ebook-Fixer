@@ -22,17 +22,20 @@ const leftJoinImages = (objArr1, objArr2) =>
  * @returns String, a name of a class based on the parameters of the image
  */
 function getImageClass(img) {
+    // The order of these If statements MATTERS,
+    // Because we want to display user changes first
+    // So a user annotation / classification as decorative OVERRIDES an existing alt text
     // User Annotation
     if (img.annotation) {
         return imageClasses[0]
     }
-    // Existing alt-text
-    if (img.element.alt) {
-        return imageClasses[1]
-    }
     // Classified as Decorative
     if (img.classification === 'Decoration') {
         return imageClasses[2]
+    }
+    // Existing alt-text
+    if (img.element.alt) {
+        return imageClasses[1]
     }
     // No annotation
     return imageClasses[3]
@@ -86,12 +89,10 @@ function Overview({ imageList }) {
             }
             return v
         })
-        console.log(newFilters)
         setFilters(newFilters)
     }
 
     function filterNewImages() {
-        console.log(newImageList)
         return newImageList
             .slice(0, expanded ? imageList.length : imageLimit)
             .filter((img) => {
