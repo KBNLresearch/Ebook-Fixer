@@ -156,6 +156,7 @@ function Overview({ imageList }) {
                         to={`/ebook/${uuid}/image/${encodeURIComponent(
                             getImgFilename(img)
                         )}`}
+                        aria-label={`Link to image ${i}`}
                         key={getImgFilename(img)}>
                         {React.createElement('img', {
                             src: img.replacementUrl,
