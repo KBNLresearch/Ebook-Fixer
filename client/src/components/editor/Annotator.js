@@ -177,7 +177,7 @@ function Annotator({ currImage, ebookId }) {
 
                 'annotate':
                     <div className={styles.container}>
-                        {currAiSelected !='skipped' &&
+                        {currAiSelected !== 'skipped' &&
                             <AIAnnotator
                                 aiAnnotationList={aiAnnotationList}
                                 setAiAnnotationList={setAiAnnotationList}

@@ -24,11 +24,26 @@ import { ReactComponent as CopySVG } from '../../assets/svgs/copy.svg'
 function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId, imageId, aiChoice, sentence, setSentence, setStage, copied, setCopied}) {
 
     const copyButton = useRef()
+    const [contextKeywords, setContextKeywords] = useState([])
+    const [imageAiAnnotations, setImageAiAnnotations] = useState([])
 
     useEffect(() => {
         if (aiAnnotationList.length > 0) {
             // Order annotation labels by confidence descendingly  
              aiAnnotationList.sort((a, b) => b.confidence - a.confidence)
+
+             // TODO: split AiAnnotationList into context keywords and image suggestions for currAiSelected
+             const cxtKeywords = []
+             const imgAnnotations = []
+             aiAnnotationList.forEach((el) => {
+                if (el.type === 'CXT_YAKE_LAB') {
+                    cxtKeywords.push(el)
+                } else {
+                    imgAnnotations.push(el)
+                }
+             })
+             setContextKeywords(cxtKeywords)
+             setImageAiAnnotations(imgAnnotations)
              
         } else {
             console.log('No AI annotations to display')
@@ -84,34 +99,19 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                 return classes[0]
             } 
         }
+
+
         function handleCopy() {
             setCopied(true)
             copyButton.current.disabled=true
             
         }
-
-        // TODO: split AiAnnotationList into context keywords and image suggestions
     
         return (
             <div className={styles.ai_control}>
                 <label htmlFor="AiLabelsBox" className={styles.box_label}> Generated labels </label>
                 <div  className={styles.ai_labels_box} id="AiLabelsBox" > 
-                    {aiAnnotationList
-                   // Return the one having 1.0000, or sort by second char
-                   .sort((a, b) => {
-                       if (a.confidence.charAt(0) === 1) {
-                           return -1
-                       } 
-                       if (b.confidence.charAt(0) === 1) {
-                          return 1
-                       } 
-                        const a1 = a.confidence.charAt(2)
-                        const b1 = b.confidence.charAt(2)
-                        if (a1 === b1) {
-                            return 0
-                        }
-                        return a1 < b1 ? 1 : -1
-                   })
+                    {imageAiAnnotations
                    .map((obj) => (
                        <div>
                            <p className={getProportionalClass(obj)}>
@@ -120,6 +120,7 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                        </div>
                    ))} 
                 </div>
+
                 {aiChoice === 'BB_AZURE_LAB' &&
                     <div>
                         <label htmlFor="AiSentenceBox" className={styles.box_label}> <br/> Generated description </label>
@@ -134,9 +135,17 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                             Copy Over
                         </button>
                     </div>}
+
                 <label htmlFor="CxtKeywordsBox" className={styles.box_label}> Textual context keywords </label>
                 <div className={styles.ai_labels_box} id="CxtKeywordsBox">
-                    Yake keywords
+                    {contextKeywords
+                    .map((obj) => (
+                        <div>
+                            <p className={getProportionalClass(obj)}>
+                                {obj.text}
+                            </p>
+                        </div>
+                    ))} 
                 </div>
             </div>
         )
