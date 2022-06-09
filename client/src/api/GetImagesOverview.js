@@ -24,7 +24,7 @@ export function getImagesOverview(ebookUuid) {
     fetch(
         // Encoding of URI component allows for encoding of chars such as /, ?, =, &
         // Some image filenames have a path such as images/hoof001ware10ill0001.gif
-        process.env.REACT_APP_API_URL + 'ebooks/getImages/',
+        process.env.REACT_APP_API_URL + 'iamges/getAll/',
         // + encodeURIComponent(filename)
         {
             method: 'GET',
