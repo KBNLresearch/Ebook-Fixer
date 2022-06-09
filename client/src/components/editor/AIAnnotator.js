@@ -136,7 +136,7 @@ function AIAnnotator({aiAnnotationList, setAiAnnotationList, currImage, ebookId,
                         </button>
                     </div>}
 
-                <label htmlFor="CxtKeywordsBox" className={styles.box_label}> Textual context keywords </label>
+                <label htmlFor="CxtKeywordsBox" className={styles.box_label}> <br/> Textual context keywords </label>
                 <div className={styles.ai_labels_box} id="CxtKeywordsBox">
                     {contextKeywords
                     .map((obj) => (
