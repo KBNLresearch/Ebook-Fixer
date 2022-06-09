@@ -126,3 +126,39 @@ def image_classification_view(request):
     else:
         return JsonResponse({'msg': 'Method Not Allowed!'},
                             status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+def image_get_all_view(request):
+    """ GET endpoint for returning the metadata and the annotations for an image.
+
+    Args:
+        request (request object): The request object
+            - ebook: e-book to which the image belongs to (header)
+            - image: id of image to get metadata of (query param)
+
+    Returns:
+        JsonResponse: Response object sent back to the client
+            - image (Image): image object
+            - annotations (Annotation[]): list of all types of annotations for that image
+    """
+    if request.method == "GET":
+        try:
+            uuid = request.headers["ebook"]
+        except KeyError:
+            return JsonResponse({'msg': 'Ebook header not found in the request!'},
+                                status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            ebook = Ebook.objects.filter(uuid=uuid).get()
+        except Ebook.DoesNotExist:
+            return JsonResponse({'msg': f'Ebook with uuid {uuid} not found!'},
+                                status=status.HTTP_404_NOT_FOUND)
+
+        images = [
+            i for i in Image.objects.all()
+            if i.ebook == ebook
+        ]
+        images = list(map(lambda a: ImageSerializer(a).data, images))
+        return JsonResponse({'images': images}, status=status.HTTP_200_OK)
+    else:
+        return JsonResponse({'msg': 'Method Not Allowed!'},
+                            status=status.HTTP_405_METHOD_NOT_ALLOWED)
