@@ -101,7 +101,8 @@ class UtilsTest(TestCase):
 
         with open(html_path + "/OEBPS/" + html_filename, "r") as file:
             self.assertEqual(file.readline(),
-                             '<html><body><img src="test.jpg"/><img src="moon.jpg"/></body></html>')
+                             '<html><body><img src="test.jpg"/>'
+                             '<img src="moon.jpg"/></body></html>')
         shutil.rmtree(html_path)
 
     def test_annotations_injection_html_file_missing(self):
@@ -120,7 +121,8 @@ class UtilsTest(TestCase):
 
         with open(html_path + "/OEBPS/" + html_filename, "r") as file:
             self.assertEqual(file.readline(),
-                             '<html><body><img src="test.jpg"/><img src="moon.jpg"/></body></html>')
+                             '<html><body><img src="test.jpg"/>'
+                             '<img src="moon.jpg"/></body></html>')
         shutil.rmtree(html_path)
 
     @patch("ebooks.utils.ZipFile", mock_zip)
