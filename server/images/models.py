@@ -26,8 +26,7 @@ class Image(models.Model):
     ]
     SERIALIZED_FIELDS = ['ebook', 'filename', 'location', 'classification', 'raw_context']
     classification = models.CharField(max_length=10, choices=IMAGE_TYPES, default='INFO')
-    raw_context = models.CharField(max_length=1000, blank=True)
-    # keywords = array??
+    raw_context = models.CharField(max_length=5000, blank=True)
 
     class Meta:
         # Combine ebook and filename into a primary key
