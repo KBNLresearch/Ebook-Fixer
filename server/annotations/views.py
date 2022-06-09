@@ -144,8 +144,10 @@ def yake_annotation_generation_view(request):
     The annotations for save in the database.
 
     Args:
-        request (request object): The request with the image
-        metadata in the body
+        request (request object): The request object
+            - id (str): id of image for which AI annotation(s) has to be generated (body)
+            - ebook (str): uuid of ebook which the image belongs to (body)
+            - filename (str): full path of image (body)
 
     Returns:
         JsonResponse: Response object sent back to the client

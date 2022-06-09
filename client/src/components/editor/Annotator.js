@@ -96,19 +96,16 @@ function Annotator({ currImage, ebookId }) {
                             ])
                         }
                     })
-                    // TODO: use timestamp of annotation?
                     const allAiLabels = result.annotations.filter(
                         (el) => el.type !== 'HUM'
                     )
                     if (allAiLabels.length > 0) {
+                        // TODO: find better way of getting most recent annotation (largest id?)
                         const mostRecentAiChoice = allAiLabels[allAiLabels.length - 2].type
-                        console.log(mostRecentAiChoice)
-                        console.log(currAiSelected)
-                        if (currAiSelected != mostRecentAiChoice) {
+                        if (currAiSelected !== mostRecentAiChoice) {
                             // To display most recently selected AI in dropdown
                             // TODO: either use key or value of AI choice (now we use both)
                             setCurrAISelected(mostRecentAiChoice)
-                            console.log(currAiSelected)
                             // To display most recently generated AI description
                             if ( mostRecentAiChoice === 'BB_AZURE_LAB'){
                                 setSentence(allAiLabels.pop().text)
@@ -170,6 +167,7 @@ function Annotator({ currImage, ebookId }) {
                         setStage={setStage}
                         currAiSelected={currAiSelected}
                         setCurrAiSelected={setCurrAISelected}
+                        aiAnnotationList={aiAnnotationList}
                         setAiAnnotationList={setAiAnnotationList}
                         setSentence={setSentence}
                         currImage={currImage}

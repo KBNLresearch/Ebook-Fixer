@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styles from './Annotator.module.scss'
 import { ImageInfo } from '../../helpers/EditorHelper'
 import { getImgFilename } from '../../helpers/EditImageHelper'
-import { getGoogleAnnotation, getMicrosoftAnnotation} from '../../api/AnnotateImage'
+import { getGoogleAnnotation, getMicrosoftAnnotation, getYakeContextKeywords } from '../../api/AnnotateImage'
 import { ReactComponent as MoreInfoSVG } from '../../assets/svgs/information-button.svg'
 
 /**
@@ -16,7 +16,7 @@ import { ReactComponent as MoreInfoSVG } from '../../assets/svgs/information-but
  * @component
  * @returns the AISelection component
  */
-function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotationList, setSentence, currImage, ebookId, imageId}) {
+function AISelection({setStage, currAiSelected, setCurrAiSelected, aiAnnotationList, setAiAnnotationList, setSentence, currImage, ebookId, imageId}) {
     
     const dropdownRef = useRef(null)
     const generateButtonRef = useRef(null)
@@ -47,6 +47,8 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
     ]
 
     useEffect(() => {
+
+        // TODO: split AIAnnotations into context keywords and image suggestions
         
         generateButtonRef.current.disabled = false
 
@@ -88,7 +90,6 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
         const choice = getSelectedAi()
         setCurrAiSelected(choice)
 
-
         if (choice !== 'Invalid') {
             
             display(choice)
@@ -102,6 +103,8 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
     }
 
     function handleSkip() {
+        // TODO: In any case, we show Yake keywords
+        getYakeContextKeywords()
         setCurrAiSelected("skipped")
         setStage("annotate")
     }
@@ -118,49 +121,70 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
                 console.log('No e-book UUID stored on client!')
             }
 
+            // TODO: In any case, we show Yake keywords
+            getYakeKeywords()
+
             switch(choice) {
                 case 'BB_GOOGLE_LAB':
-                    // Loading spinner while user waits for AI annotations
-                    setStage('loading')
-                    console.log('Fetching Google Vision labels...')
-                     getGoogleAnnotation(
-                    ebookId,
-                    imageId,
-                    getImgFilename(currImage)
-                ) .then(result => {
-                    setStage("annotate")
-                    if (Object.prototype.hasOwnProperty.call(result, "annotations")){ 
-                        // Order annotation labels by confidence ascendingly  
-                        setAiAnnotationList(result.annotations)
-                       }
-                })
-                break
-
-                case 'BB_AZURE_LAB':
-                    // Loading spinner while user waits for AI annotations
-                    setStage('loading')
-                    console.log('Fetching Microsoft Azure labels and description...')
-                    getMicrosoftAnnotation(
-                        ebookId,
-                        imageId,
-                        getImgFilename(currImage)
-                    ) .then(result => {
-                        setStage('annotate')
-                        if (Object.prototype.hasOwnProperty.call(result, "annotations")){
-                                setSentence(result.annotations.pop().text)
-                                // Order annotation labels by confidence ascendingly
-                                setAiAnnotationList(result.annotations)
-                           }
-                    })
+                    getGoogleAnnotations()
                     break
-                
-                default :
-                   
+                case 'BB_AZURE_LAB':
+                    getMsAnnotations()
+                    break
+                default:
+                    // TODO: proper handling of no matching AI choice
             }
         }
-            
-           
-        
+    }
+
+
+    function getGoogleAnnotations() {
+        // Loading spinner while user waits for AI annotations
+        setStage('loading')
+        console.log('Fetching Google Vision labels...')
+        getGoogleAnnotation(
+            ebookId,
+            imageId,
+            getImgFilename(currImage)
+        ) .then(result => {
+            setStage("annotate")
+            if (Object.prototype.hasOwnProperty.call(result, "annotations")){ 
+                setAiAnnotationList(result.annotations)
+               }
+        })
+    }
+
+    function getMsAnnotations() {
+        setStage('loading')
+        console.log('Fetching Microsoft Azure labels and description...')
+        getMicrosoftAnnotation(
+            ebookId,
+            imageId,
+            getImgFilename(currImage)
+        ) .then(result => {
+            setStage('annotate')
+            if (Object.prototype.hasOwnProperty.call(result, "annotations")){
+                    setSentence(result.annotations.pop().text)
+                    setAiAnnotationList(result.annotations)
+                }
+        })
+    }
+
+    function getYakeKeywords() {
+        setStage('loading')
+        console.log('Fetching Yake context keywords...')
+        getYakeContextKeywords(
+            ebookId,
+            imageId,
+            getImgFilename(currImage)
+        ) .then(result => {
+            setStage('annotate')
+            if (Object.prototype.hasOwnProperty.call(result, "annotations")){
+                // Add Yake keywords to already existing list of AI annotations (by Google or MS)
+                    setAiAnnotationList([...aiAnnotationList, result.annotations])
+                }
+        })
+        console.log('Yake keywords appended to AIAnnotationsList? ' + aiAnnotationList)
     }
 
 
@@ -222,6 +246,7 @@ AISelection.propTypes = {
     setStage: PropTypes.func.isRequired,
     currAiSelected: PropTypes.string.isRequired,
     setCurrAiSelected: PropTypes.func.isRequired,
+    aiAnnotationList: PropTypes.func.isRequired,
     setAiAnnotationList: PropTypes.func.isRequired,
     setSentence: PropTypes.func.isRequired,
     currImage: PropTypes.instanceOf(ImageInfo).isRequired,
