@@ -7,6 +7,7 @@ import yake
 from ebooks.models import Ebook
 from images.models import Image
 
+from bs4 import BeautifulSoup
 from django.http import JsonResponse
 from google.cloud import vision
 from json import JSONDecodeError
@@ -37,7 +38,7 @@ def check_request_body(request):
 
 
 def google_vision_labels(image_path):
-    """Calls Google Vision API on the given image path
+    """ Calls Google Vision API on the given image path.
 
     Args:
         image_path (str): The path in storage to the image file
@@ -114,32 +115,48 @@ def azure_api_call(image_path):
     return description['text'], generated_labels
 
 
-def yake_labels(image_path):
-    """Performs keyword extraction on the textual context of the image
+def yake_labels(image):
+    """ Performs keyword extraction on the textual context of the image.
 
     Args:
-        image_path (str): The path in storage to the image file
+        image (Image): the image for which we want to extract the keywords
 
     Returns:
         dict: The keyword and the confidence with (description, score) as (key, value)
     """
-    full_text = """Sources tell us that Google is acquiring Kaggle, a platform that hosts data
-    science and machine learning competitions. Details about the transaction remain somewhat
-    vague, but given that Google is hosting its Cloud Next conference in San Francisco this
-    week, the official announcement could come as early as tomorrow. Reached by phone, Kaggle
-    co-founder CEO Anthony Goldbloom declined to deny that the acquisition is happening.
-    Google itself declined 'to comment on rumors'. Kaggle, which has about half a million
-    data scientists on its platform, was founded by Goldbloom  and Ben Hamner in 2010.
-    The service got an early start and even though it has a few competitors like DrivenData,
-    TopCoder and HackerRank, it has managed to stay well ahead of them by focusing on its
-    specific niche. The service is basically the de facto home for running data science and
-    machine learning competitions."""
-
+    context = extract_context(image)
     kw_extractor = yake.KeywordExtractor(top=10, stopwords=None)
-    keywords = kw_extractor.extract_keywords(full_text)
+    keywords = kw_extractor.extract_keywords(context)
     generated_labels = dict()
     for kw, v in keywords:
-        generated_labels[kw] = round(1-v, 4)
-    print(generated_labels)
+        generated_labels[kw] = round(1 - v, 4)
 
     return generated_labels
+
+
+def extract_context(image):
+    """ Extracts the text, surrounding an image, from the html file, in which it can be found.
+
+    Args:
+        image (Image): the image for which we want to extract the textual context
+
+    Returns:
+        String: The text surrounding the image
+    """
+    html_file = f"test-books/{image.ebook}{image.location}"
+    with open(html_file, 'r') as file:
+        soup = BeautifulSoup(file, 'html.parser')
+        html_image = filter(lambda im: im['src'].endswith(os.path.basename(image.filename)),
+                            soup.find_all('img')
+                            ).__next__()
+        surrounding_elements = html_image.find_all_previous(name='p', limit=2) + \
+            html_image.find_all_previous(name='div', limit=2) + \
+            html_image.find_all_next(name='p', limit=2) + \
+            html_image.find_all_next(name='div', limit=2)
+        surrounding_elements = list(map(lambda e: e.text, surrounding_elements))
+
+    context = ''
+    for element in surrounding_elements:
+        context += element.rstrip('\n')
+
+    return context

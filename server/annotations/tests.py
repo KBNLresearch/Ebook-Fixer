@@ -368,7 +368,7 @@ class AnnotationViewsTest(TestCase):
 
         self.assertEqual(response.status_code, 404)
         self.assertEqual(decode_message(response.content),
-                         "{'msg': 'Img test.jpg in ebook TEST_UUID not found'}")
+                         "{'msg': 'The files for image test.jpg not found!'}")
 
     @patch("annotations.views.yake_labels", mock_yake_utils)
     def test_yake_annotation_generation_view_200(self):
