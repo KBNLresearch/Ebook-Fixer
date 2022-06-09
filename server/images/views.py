@@ -128,17 +128,15 @@ def image_classification_view(request):
                             status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 def image_get_all_view(request):
-    """ GET endpoint for returning the metadata and the annotations for an image.
+    """ GET endpoint for returning all images in an ebook.
 
     Args:
         request (request object): The request object
             - ebook: e-book to which the image belongs to (header)
-            - image: id of image to get metadata of (query param)
 
     Returns:
         JsonResponse: Response object sent back to the client
-            - image (Image): image object
-            - annotations (Annotation[]): list of all types of annotations for that image
+            - images (Image[]): list of image objects for the given ebook
     """
     if request.method == "GET":
         try:
