@@ -155,4 +155,6 @@ def extract_context(image):
     for element in surrounding_elements:
         context += element.rstrip('\n')
 
+    image.raw_context = context
+    image.save(update_fields=["raw_context"])
     return context
