@@ -6,6 +6,7 @@ from .views import (
     google_annotation_generation_view,
     yake_annotation_generation_view
 )
+from annotations.models import Annotation
 from ebooks.models import Ebook
 from images.models import Image
 
@@ -131,7 +132,7 @@ class AnnotationViewsTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
-    # TODO Fix this test
+    # TODO Fix these three tests
     # @patch("annotations.views.google_vision_labels", mock_google_vision_labels)
     # def test_google_annotation_generation_view_200_annotations_already_exists(self):
     #     uuid = uuid4()
@@ -143,6 +144,34 @@ class AnnotationViewsTest(TestCase):
 
     #     content = {"ebook": str(uuid), "id": image_id, "filename": "test.jpg"}
     #     response, msg = self.response_annotation_generation_view(content)
+
+    #     self.assertEqual(response.status_code, 200)
+
+    # @patch("annotations.views.azure_api_call", mock_azure_utils)
+    # def test_azure_annotation_generation_view_200_annotations_already_exists(self):
+    #     uuid = uuid4()
+    #     image_id = 1
+    #     ebook = Ebook.objects.create(uuid=uuid, title="Test title", epub="test.epub")
+    #     image1 = Image.objects.create(id=image_id, ebook=ebook,
+    #                                  filename="test.jpg", location="test.html")
+    #     Annotation.objects.create(image=image1, type="BB_AZURE_LAB", text="Already existing")
+
+    #     content = {"ebook": str(uuid), "id": image_id, "filename": "test.jpg"}
+    #     response, msg = self.azure_response_annotation_generation_view(content)
+
+    #     self.assertEqual(response.status_code, 200)
+
+    # @patch("annotations.views.yake_labels", mock_yake_utils)
+    # def test_yake_annotation_generation_view_200_annotations_already_exists(self):
+    #     uuid = uuid4()
+    #     image_id = 1
+    #     ebook = Ebook.objects.create(uuid=uuid, title="Test title", epub="test.epub")
+    #     image1 = Image.objects.create(id=image_id, ebook=ebook,
+    #                                  filename="test.jpg", location="test.html")
+    #     Annotation.objects.create(image=image1, type="BB_YAKE_LAB", text="Already existing")
+
+    #     content = {"ebook": str(uuid), "id": image_id, "filename": "test.jpg"}
+    #     response, msg = self.yake_response_annotation_generation_view(content)
 
     #     self.assertEqual(response.status_code, 200)
 
