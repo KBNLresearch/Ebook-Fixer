@@ -19,8 +19,8 @@ import { ReactComponent as CopySVG } from '../../assets/svgs/copy.svg'
 function AIAnnotator({aiAnnotationList, aiChoice, sentence, copied, setCopied}) {
 
     const copyButton = useRef()
-    const [contextKeywords, setContextKeywords] = useState([])
-    const [imageAiAnnotations, setImageAiAnnotations] = useState([])
+    const [cxtKeywords, setCxtKeywords] = useState([])
+    const [imageAiLabs, setImageAiLabs] = useState([])
 
     useEffect(() => {
         if (aiAnnotationList.length > 0) {
@@ -28,17 +28,17 @@ function AIAnnotator({aiAnnotationList, aiChoice, sentence, copied, setCopied}) 
              aiAnnotationList.sort((a, b) => b.confidence - a.confidence)
 
              // Split AiAnnotationList into context keywords and image suggestions for currAiSelected
-             const cxtKeywords = []
-             const imgAnnotations = []
+             const tempCxtKeywords = []
+             const tempImageAiLabs = []
              aiAnnotationList.forEach((el) => {
                 if (el.type === 'CXT_YAKE_LAB') {
-                    cxtKeywords.push(el)
-                } else if (el.type === aiChoice) {
-                    imgAnnotations.push(el)
+                    tempCxtKeywords.push(el)
+                } else if (el.type === aiChoice) {  // can be 'BB_GOOGLE_LAB' or 'BB_AZURE_LAB'
+                    tempImageAiLabs.push(el)
                 }
              })
-             setContextKeywords(cxtKeywords)
-             setImageAiAnnotations(imgAnnotations)
+             setCxtKeywords(tempCxtKeywords)
+             setImageAiLabs(tempImageAiLabs)
              
         } else {
             console.log('No AI annotations to display')
@@ -106,14 +106,16 @@ function AIAnnotator({aiAnnotationList, aiChoice, sentence, copied, setCopied}) 
             <div className={styles.ai_control}>
                 <label htmlFor="AiLabelsBox" className={styles.box_label}> Generated labels </label>
                 <div  className={styles.ai_labels_box} id="AiLabelsBox" > 
-                    {imageAiAnnotations
+                    {imageAiLabs.slice(0, -1)
                    .map((obj) => (
-                       <div>
                            <p className={getProportionalClass(obj)}>
-                               {obj.text}
+                               {obj.text + ","}
                            </p>
-                       </div>
-                   ))} 
+                   ))}
+                   {imageAiLabs.slice(-1)
+                   .map((last) => ( 
+                        <span className={getProportionalClass(last)}> {last.text} </span>
+                   ))}
                 </div>
 
                 {aiChoice === 'BB_AZURE_LAB' &&
@@ -133,14 +135,16 @@ function AIAnnotator({aiAnnotationList, aiChoice, sentence, copied, setCopied}) 
 
                 <label htmlFor="CxtKeywordsBox" className={styles.box_label}> <br/> Textual context keywords </label>
                 <div className={styles.ai_labels_box} id="CxtKeywordsBox">
-                    {contextKeywords
+                    {cxtKeywords.slice(0, -1)
                     .map((obj) => (
-                        <div>
                             <p className={getProportionalClass(obj)}>
-                                {obj.text}
+                                {obj.text + ","}
                             </p>
-                        </div>
                     ))} 
+                   {cxtKeywords.slice(-1)
+                   .map((last) => ( 
+                        <span className={getProportionalClass(last)}> {last.text} </span>
+                   ))}
                 </div>
             </div>
         )

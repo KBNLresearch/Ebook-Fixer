@@ -182,7 +182,6 @@ function Annotator({ currImage, ebookId }) {
                         setStage={setStage}
                         currAiSelected={currAiSelected}
                         setCurrAiSelected={setCurrAISelected}
-                        aiAnnotationList={aiAnnotationList}
                         setAiAnnotationList={setAiAnnotationList}
                         setSentence={setSentence}
                         currImage={currImage}
@@ -195,14 +194,8 @@ function Annotator({ currImage, ebookId }) {
                         {currAiSelected !== 'skipped' &&
                             <AIAnnotator
                                 aiAnnotationList={aiAnnotationList}
-                                setAiAnnotationList={setAiAnnotationList}
-                                currImage={currImage}
-                                ebookId={ebookId}
-                                imageId={imageId}
                                 aiChoice={currAiSelected}
                                 sentence={sentence}
-                                setSentence={setSentence}
-                                setStage={setStage}
                                 copied={copied}
                                 setCopied={setCopied}>
                                 {' '}

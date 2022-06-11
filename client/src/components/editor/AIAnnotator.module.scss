@@ -10,7 +10,7 @@
     height: fit-content;
     border-radius: 0.5em;
     border: 0.2em solid rgb(117, 124, 132);
-    padding: 0.3em;
+    padding: 0.1em;
     box-sizing: border-box;
     resize: none;
     font-size: inherit;
@@ -20,6 +20,9 @@
     div {
         display: inline-block;
     }
+    // span {
+    //     padding: 0em;
+    // }
     .conf_zero,
     .conf_one,
     .conf_two,
@@ -32,7 +35,7 @@
     .conf_nine,
     .conf_ten {
         display: inline;
-        padding: 0.1em 0.5em;
+        padding: 0.1em 0.2em;
         text-transform: capitalize;
     }
     .conf_zero {
