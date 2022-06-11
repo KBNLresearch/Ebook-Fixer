@@ -21,67 +21,57 @@ import { ReactComponent as MoreInfoSVG } from '../../assets/svgs/information-but
  * @component
  * @returns the AISelection component
  */
-function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotationList, setSentence, currImage, ebookId, imageId}) {
-    
+function AISelection({
+    setStage,
+    currAiSelected,
+    setCurrAiSelected,
+    setAiAnnotationList,
+    setSentence,
+    currImage,
+    ebookId,
+    imageId,
+}) {
     const dropdownRef = useRef(null)
     const generateButtonRef = useRef(null)
-    const savedTextButton = "Generated"
-    const notSavedTextButton = "Get AI suggestions"
-    const [moreInfo, setMoreInfo] = useState(false);
-
-    const extraContent = <div>
-      <p className="extra-content" style={{fontSize : '16px'}}>
-          <p>
-            Google Cloud Vision API: generates image labels with a corresponding confidence.
-            Best used for flags, covers, text and logos.
-        </p>
-        <br/>
-        <p>
-            Microsoft Computer Vision: generates image labels with a corresponding confidence as well as a sentence describing the image.
-            Best used for art, drawings, icons and photographs.
-        </p>
-
-      </p>
-  </div>
+    const savedTextButton = 'Generated'
+    const notSavedTextButton = 'Get AI suggestions'
+    const [moreInfo, setMoreInfo] = useState(false)
 
     const options = [
-        {key: 'BB_GOOGLE_LAB', val: 'Google Vision'},
-        {key: 'BB_AZURE_LAB', val: 'Microsoft Azure'}
+        { key: 'BB_GOOGLE_LAB', val: 'Google Vision' },
+        { key: 'BB_AZURE_LAB', val: 'Microsoft Azure' },
     ]
 
     useEffect(() => {
-        
         generateButtonRef.current.disabled = false
 
         if (currAiSelected !== null && currAiSelected !== 'skipped') {
             generateButtonRef.current.disabled = true
             generateButtonRef.current.innerText = savedTextButton
             // Show the selected AI in dropdown menu
-            const idx = options.findIndex(opt =>  opt.key === currAiSelected ) + 1;
-            dropdownRef.current.selectedIndex = idx;
+            const idx =
+                options.findIndex((opt) => opt.key === currAiSelected) + 1
+            dropdownRef.current.selectedIndex = idx
         } else {
             // Show the label
             dropdownRef.current.selectedIndex = 0
             generateButtonRef.current.disabled = false
             generateButtonRef.current.innerText = notSavedTextButton
         }
-
     }, [])
-
-
 
     /**
      * @returns the AI type selected in dropdown menu
      */
     function getSelectedAi() {
-        const choice =  dropdownRef.current.options[dropdownRef.current.selectedIndex].value
+        const choice =
+            dropdownRef.current.options[dropdownRef.current.selectedIndex].value
         if (dropdownRef.current.selectedIndex === 0) {
             window.alert('This option is not allowed!')
             return 'Invalid'
         }
-        return choice   
+        return choice
     }
-
 
     /**
      * Stores the AI selected in dropdown menu
@@ -92,15 +82,13 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
         setCurrAiSelected(choice)
 
         if (choice !== 'Invalid') {
-            
             display(choice)
             generateButtonRef.current.disabled = true
             generateButtonRef.current.innerText = savedTextButton
-
         } else {
             generateButtonRef.current.disabled = false
             generateButtonRef.current.innerText = notSavedTextButton
-        } 
+        }
     }
 
     function handleSkip() {
@@ -115,9 +103,8 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
      *  Gets Yake keywords
      *  Gets AI suggestions for image annotations, depending on the user's AI choice
      */
-      function display(choice) {
+    function display(choice) {
         if (currImage) {
-            
             // When only the client is run during development, we still want to inspect this function though
             if (!ebookId) {
                 console.log('No e-book UUID stored on client!')
@@ -207,58 +194,74 @@ function AISelection({setStage, currAiSelected, setCurrAiSelected, setAiAnnotati
         })
     }
 
-
     return (
         <div className={styles.ai_input}>
-
             <label htmlFor="selectClass">
                 Please select AI to generate annotations
             </label>
-            
-            <select
-                ref={dropdownRef}
-                className={styles.dropdown}
-                onChange={() => {
-                    generateButtonRef.current.disabled = false
-                    generateButtonRef.current.innerText = notSavedTextButton
-                    setAiAnnotationList([])
-                    setSentence(null)
-                }}>
-                <option value="none" selected disabled hidden>
-                    Select AI
-                </option>
-                {options.map((opt) => (
-                    <option value={opt.key} key={opt.key}> {opt.val} </option>
-                ))}
-            </select>
-            <button
+
+            <div className={styles.select_ai}>
+                <select
+                    ref={dropdownRef}
+                    className={styles.dropdown}
+                    onChange={() => {
+                        generateButtonRef.current.disabled = false
+                        generateButtonRef.current.innerText = notSavedTextButton
+                        setAiAnnotationList([])
+                        setSentence(null)
+                    }}>
+                    <option value="none" selected disabled hidden>
+                        Select AI
+                    </option>
+                    {options.map((opt) => (
+                        <option value={opt.key} key={opt.key}>
+                            {' '}
+                            {opt.val}{' '}
+                        </option>
+                    ))}
+                </select>
+                <button
                     type="button"
                     className={styles.moreinfobtn}
-                    onClick={() => setMoreInfo(!moreInfo)}
-                    >
-                    <MoreInfoSVG />       
+                    onClick={() => setMoreInfo(!moreInfo)}>
+                    <MoreInfoSVG />
                 </button>
-            <div>
-                {moreInfo ? extraContent: ""}
             </div>
+            {moreInfo ? (
+                <div className={styles.extra_content}>
+                    <p>
+                        Google Cloud Vision API: generates image labels with a
+                        corresponding confidence. Best used for flags, covers,
+                        text and logos.
+                    </p>
+                    <br />
+                    <p>
+                        Microsoft Computer Vision: generates image labels with a
+                        corresponding confidence as well as a sentence
+                        describing the image. Best used for art, drawings, icons
+                        and photographs.
+                    </p>
+                </div>
+            ) : (
+                ''
+            )}
             <div>
-            <button
-                type="button"
-                className={styles.save_button}
-                ref={generateButtonRef}
-                onClick={() => handleAiClick()}>
-                {notSavedTextButton}
-            </button>
-            <button
-                type="button"
-                className={styles.skip}
-                onClick={() => handleSkip()}
-                >
-                {' '}
-                Skip{' '}
-            </button>
+                <button
+                    type="button"
+                    className={styles.save_button}
+                    ref={generateButtonRef}
+                    onClick={() => handleAiClick()}>
+                    {notSavedTextButton}
+                </button>
+                <button
+                    type="button"
+                    className={styles.skip}
+                    onClick={() => handleSkip()}>
+                    {' '}
+                    Skip{' '}
+                </button>
             </div>
-        </div> 
+        </div>
     )
 }
 
@@ -274,5 +277,3 @@ AISelection.propTypes = {
 }
 
 export default AISelection
-
-
