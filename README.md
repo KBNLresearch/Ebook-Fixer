@@ -1,8 +1,8 @@
 [![main](https://img.shields.io/badge/build-passing-brightgreen)]()
-[![tests](https://img.shields.io/badge/total%20tests-42-9cf)]()
+[![tests](https://img.shields.io/badge/total%20tests-65-9cf)]()
 [![client](https://img.shields.io/badge/client-react-blue)]()
 [![client](https://img.shields.io/badge/server-django-success)]()
-[![Netlify Status](https://api.netlify.com/api/v1/badges/d31339bb-30ae-4785-b43b-ba2c91fe9c93/deploy-status/?branch=main)](https://app.netlify.com/sites/amazing-dusk-2e2000/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/164037d8-fdc1-423b-8f4c-8e99b25d4bf8/deploy-status)](https://app.netlify.com/sites/amazing-dusk-2e2000/deploys/?branch=main)
 
 # E-book Fixer
 

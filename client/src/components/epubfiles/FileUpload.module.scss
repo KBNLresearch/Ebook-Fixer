@@ -23,6 +23,9 @@ div.error {
     min-height: 8em;
     height: fit-content;
     width: 70%;
+    @media only screen and (max-width: 768px) {
+        width: 90%;
+    }
     color: black;
     background-color: #e1cff2;
     display: flex;

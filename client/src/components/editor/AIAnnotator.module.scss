@@ -1,0 +1,92 @@
+.ai_control {
+    width: 100%;
+    position: relative;
+    gap: 1em;
+    text-align: right;
+}
+
+.ai_labels_box {
+    width: 100%;
+    height: fit-content;
+    border-radius: 0.5em;
+    border: 0.2em solid rgb(117, 124, 132);
+    padding: 0.1em;
+    box-sizing: border-box;
+    resize: none;
+    font-size: inherit;
+    outline: none;
+    font-family: 'Times New Roman', Times, serif;
+    text-align: left;
+    .conf_zero,
+    .conf_one,
+    .conf_two,
+    .conf_three,
+    .conf_four,
+    .conf_five,
+    .conf_six,
+    .conf_seven,
+    .conf_eight,
+    .conf_nine,
+    .conf_ten {
+        display: inline-block;
+        padding: 0.1em 0.2em;
+        text-transform: capitalize;
+    }
+    .conf_zero {
+        font-size: 55%;
+    }
+    .conf_one {
+        font-size: 55%;
+    }
+    .conf_two {
+        font-size: 55%;
+    }
+    .conf_three {
+        font-size: 55%;
+    }
+    .conf_four {
+        font-size: 60%;
+    }
+    .conf_five {
+        font-size: 60%;
+    }
+    .conf_six {
+        font-size: 60%;
+    }
+    .conf_seven {
+        font-size: 70%;
+    }
+    .conf_eight {
+        font-size: 80%;
+    }
+    .conf_nine {
+        font-size: 90%;
+    }
+    .conf_ten {
+        font-size: 100%;
+    }
+}
+
+button.copybtn {
+    font-size: 0.7em;
+    svg {
+        height: 1.3em;
+        fill: currentColor;
+    }
+    margin-top: 0.4em;
+    &:hover {
+        background-color: #838282;
+    }
+    &:disabled {
+        background-color: #b8c3b8;
+        border-color: #eee;
+        opacity: 0.6;
+        cursor: default;
+    }
+}
+
+.box_label {
+    font-size: 75%;
+    text-align: right;
+    font-weight: bold;
+}
