@@ -230,13 +230,15 @@ function AISelection({
             {moreInfo ? (
                 <div className={styles.extra_content}>
                     <p>
-                        Google Cloud Vision API: generates image labels with a
+                        Google Cloud Vision API: <br/>
+                        generates image labels with a
                         corresponding confidence. Best used for flags, covers,
                         text and logos.
                     </p>
                     <br />
                     <p>
-                        Microsoft Computer Vision: generates image labels with a
+                        Microsoft Computer Vision: <br/>
+                        generates image labels with a
                         corresponding confidence as well as a sentence
                         describing the image. Best used for art, drawings, icons
                         and photographs.
