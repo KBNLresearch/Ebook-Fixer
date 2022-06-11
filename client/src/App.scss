@@ -1,7 +1,11 @@
 .App {
     text-align: center;
     font-family: 'Roboto Condensed', serif;
-    font-size: 24px;
+    font-size: 20px;
+    @media only screen and (min-width: 768px) {
+        font-size: 24px;
+    }
+
     box-sizing: border-box;
 
     button {
@@ -33,7 +37,7 @@ body,
     justify-content: center;
     color: black;
     h1 {
-        font-size: 4rem;
+        font-size: 2.5em;
         font-weight: 800;
         line-height: 1.5em;
         color: #444;
@@ -51,12 +55,11 @@ body,
 }
 
 .logo {
-    width: 30%;
+    width: 6em;
     margin: 0.5em;
 }
 
 .logo_title {
-    font-size: 200%;
     font-weight: 800;
 
     --x-offset: -0.0625em;
@@ -71,22 +74,6 @@ body,
 }
 
 .logo_subtitle {
-    font-size: 2rem;
+    font-size: 1.2em;
     font-weight: 400;
-}
-
-.home-navigation {
-    position: absolute;
-    left: 2em;
-    color: rgb(0, 0, 0);
-    background-color: rgb(207, 164, 247);
-    padding: 0.2em 0.5em;
-    padding-bottom: 0.5em;
-    border-radius: 0.5em;
-    svg {
-        height: 1.2em;
-        margin-right: 0.5em;
-        position: relative;
-        top: 0.25em;
-    }
 }

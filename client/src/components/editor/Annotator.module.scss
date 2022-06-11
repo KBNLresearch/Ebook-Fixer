@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     padding: 0.5rem;
+    padding-top: 1rem;
     gap: 1em;
     align-items: center;
     width: 100%;
@@ -73,87 +74,10 @@
     .existing_alt {
         max-width: 50em;
         font-size: 80%;
+        margin: 0.8em 0em;
         strong {
             font-weight: bold;
         }
-    }
-
-    .ai_control {
-        width: 100%;
-        position: relative;
-        gap: 1em;
-        text-align: right;
-    }
-
-    .ai_labels_box {
-        width: 100%;
-        height: fit-content;
-        border-radius: 0.5em;
-        border: 0.2em solid rgb(117, 124, 132);
-        padding: 0.3em;
-        box-sizing: border-box;
-        resize: none;
-        font-size: inherit;
-        outline: none;
-        font-family: 'Times New Roman', Times, serif;
-        text-align: left;
-        div {
-            display: inline-block;
-        }
-        .conf_zero,
-        .conf_one,
-        .conf_two,
-        .conf_three,
-        .conf_four,
-        .conf_five,
-        .conf_six,
-        .conf_seven,
-        .conf_eight,
-        .conf_nine,
-        .conf_ten {
-            display: inline;
-            padding: 0.1em 0.5em;
-            text-transform: capitalize;
-        }
-        .conf_zero {
-            font-size: 50%;
-        }
-        .conf_one {
-            font-size: 55%;
-        }
-        .conf_two {
-            font-size: 60%;
-        }
-        .conf_three {
-            font-size: 65%;
-        }
-        .conf_four {
-            font-size: 70%;
-        }
-        .conf_five {
-            font-size: 75%;
-        }
-        .conf_six {
-            font-size: 80%;
-        }
-        .conf_seven {
-            font-size: 100%;
-        }
-        .conf_eight {
-            font-size: 120%;
-        }
-        .conf_nine {
-            font-size: 140%;
-        }
-        .conf_ten {
-            font-size: 150%;
-        }
-    }
-
-    .box_label {
-        font-size: 75%;
-        text-align: right;
-        font-weight: bold;
     }
 
     .dropdown {
@@ -177,41 +101,79 @@
         outline: none;
         font-family: 'Times New Roman', Times, serif;
     }
-    .moreinfobtn {
-        font-size: 0.9em;
-        svg {
-            height: 0.9em;
-            fill: currentColor;
+    .ai_input {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .select_ai {
+            align-self: stretch;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            select {
+                flex-grow: 1;
+                max-width: 20em;
+            }
         }
-        opacity: 0.8;
-        &:hover {
-            background-color: #4a4a4a;
+        .moreinfobtn {
+            height: 2.3em;
+            width: 2.3em;
+            display: inline-block;
+            padding: 0.5em;
+            border-radius: 50%;
+            svg {
+                height: 1.3em;
+                fill: currentColor;
+            }
+            opacity: 0.8;
+            &:hover {
+                background-color: #4a4a4a;
+            }
+
+            border-radius: 5em;
         }
 
-        border-radius: 5em;
+        button.skip {
+            font-family: inherit;
+            font-size: 80%;
+            margin-left: 0.3em;
+            margin-top: 0.2em;
+            border: 0.2em solid #eee;
+            color: #191d1a;
+            border-radius: 7px;
+            padding: 0.5em 0.7em;
+            visibility: visible;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+
+            &:hover {
+                background-color: inherit;
+                border-color: skyblue;
+            }
+            &:disabled {
+                background-color: #b8c3b8;
+                border-color: #eee;
+                cursor: default;
+            }
+        }
+
+        .extra_content {
+            font-size: 0.9em;
+            text-align: left;
+            margin: 0.8em 0em;
+            line-height: 1.1em;
+        }
     }
-    .copybtn {
-        font-size: 0.7em;
-        svg {
-            height: 1.3em;
-            fill: currentColor
 
-
-        }
-        margin-top: 8px;
-        &:hover {
-            background-color: #838282
-        }
-        &:disabled {
-            background-color: #b8c3b8;
-            border-color: #eee;
-            opacity: 0.6;
-            cursor: default;
-        }
-
-        
+    select {
+        border: 3px solid skyblue;
+        background-color: inherit;
+        width: min-content;
+        padding: 0.2em 0.5em;
+        line-height: 1.3em;
+        border-radius: 0.8em;
+        margin: 0em 0.3em;
     }
-
 
     button.save_button {
         font-family: inherit;
@@ -234,30 +196,6 @@
             cursor: default;
         }
     }
-
-    button.skip {
-        font-family: inherit;
-        font-size: 80%;
-        margin-left: 0.3em;
-        margin-top: 0.2em;
-        border: 0.1em solid #191d1a;
-        color: #191d1a;
-        border-radius: 7px;
-        padding: 0.5em 0.7em;
-        visibility: visible;
-
-        &:hover {
-            background-color: #2ebf50;
-            border-color: #eee;
-        }
-        &:disabled {
-            background-color: #b8c3b8;
-            border-color: #eee;
-            cursor: default;
-        }
-    }
-
-
 
     .icon {
         width: 1.5em;

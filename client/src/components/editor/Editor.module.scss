@@ -3,10 +3,16 @@
 }
 
 .editor {
-    padding: 1rem;
+    padding: 0rem;
     display: grid;
     grid-template-columns: 5fr 3fr;
     grid-template-areas: 'viewer_container annotator_container';
+    @media only screen and (max-width: 768px) {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            'annotator_container'
+            'viewer_container';
+    }
     gap: 0.5em;
     align-content: stretch;
     flex-grow: 1;
@@ -20,6 +26,7 @@
     grid-area: viewer_container;
     align-self: stretch;
     justify-self: stretch;
+    max-width: 80vw;
 }
 
 .annotator_container {
@@ -44,128 +51,6 @@
     font-weight: bold;
     font-size: 2rem;
     line-height: 1.5em;
-}
-
-.editor_controls {
-    display: flex;
-    justify-content: center;
-    gap: 1em;
-    align-items: center;
-    margin-bottom: 0.5em;
-
-    .block {
-        width: fit-content;
-        height: 2em;
-        margin: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        h3 {
-            color: rgb(0, 20, 50);
-            text-align: center;
-            transition: opacity 0.3s;
-        }
-    }
-
-    .arrow {
-        $size: 16px;
-        $width: 2px;
-
-        color: rgb(0, 0, 0);
-        cursor: pointer;
-        align-items: flex-start;
-        position: relative;
-        font-family: inherit;
-        background-color: var(--page_background);
-        padding: 0.5em 1.5em;
-        width: fit-content;
-
-        span {
-            display: block;
-            width: fit-content;
-            opacity: 0;
-            transition: opacity 0.3s 0s;
-            padding: 0 0.5em;
-            font-size: smaller;
-        }
-
-        &:hover:enabled {
-            span {
-                opacity: 1;
-                transition: opacity 0.3s 0.1s;
-            }
-        }
-        &:disabled {
-            cursor: default;
-        }
-
-        &:before {
-            content: '';
-            display: block;
-            border: solid rgb(0, 0, 0);
-            border-width: $width $width 0 0;
-            position: absolute;
-            top: 15px;
-            width: $size;
-            height: $size;
-        }
-
-        &:disabled:before {
-            border: solid var(--page_background);
-        }
-
-        &.arrow--left:before {
-            transform: rotate(-135deg);
-            right: 0;
-            transition: right 0.3s ease 0.2s;
-        }
-        &.arrow--left:hover:before {
-            right: 100%;
-            transition: right 0.3s ease;
-        }
-
-        &.arrow--right {
-            text-align: right;
-        }
-        &.arrow--right:before {
-            left: 0;
-            transform: rotate(45deg);
-            transition: left 0.3s ease 0.2s;
-        }
-        &.arrow--right:hover:before {
-            left: 100%;
-            transition: left 0.3s ease;
-        }
-
-        &:hover {
-            transform: none;
-        }
-        &:after {
-            content: '';
-            position: absolute;
-            top: 0;
-            width: 100%;
-            background-color: transparent;
-            padding: 1em;
-            border-radius: 2em;
-            transform: scaleX(0.4) scaleY(0.5);
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-
-        &.arrow--right:after {
-            left: 0;
-        }
-
-        &.arrow--left:after {
-            right: 0;
-        }
-
-        &:hover:enabled:after {
-            transform: scaleX(1);
-            background-color: rgba(0, 0, 100, $alpha: 0.05);
-        }
-    }
 }
 
 .back_to_overview_btn {
