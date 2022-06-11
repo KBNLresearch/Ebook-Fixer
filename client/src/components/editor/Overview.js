@@ -10,7 +10,9 @@ import { getImagesOverview } from '../../api/GetImagesOverview'
 // Join the ImageList with server results, keeping everything from Imagelists
 const leftJoinImages = (objArr1, objArr2) =>
     objArr1.map((anObj1) => ({
-        ...objArr2.find((anObj2) => getImgFilename(anObj1) === anObj2.filename),
+        ...objArr2.find(
+            (anObj2) => getImgFilename(anObj1) === anObj2.image.filename
+        ),
         ...anObj1,
     }))
 
@@ -25,13 +27,13 @@ function getImageClass(img) {
     // The order of these If statements MATTERS,
     // Because we want to display user changes first
     // So a user annotation / classification as decorative OVERRIDES an existing alt text
-    // User Annotation
-    if (img.annotation) {
-        return imageClasses[0]
-    }
     // Classified as Decorative
-    if (img.classification === 'Decoration') {
+    if (img.image && img.image.classification === 'Decoration') {
         return imageClasses[2]
+    }
+    // User Annotation
+    if (img.annotated === true) {
+        return imageClasses[0]
     }
     // Existing alt-text
     if (img.element.alt) {
@@ -77,8 +79,9 @@ function Overview({ imageList }) {
 
     useEffect(() => {
         getImagesOverview(uuid).then((serverImgList) => {
-            const list = leftJoinImages(imageList, serverImgList)
+            const list = leftJoinImages(imageList, serverImgList.images)
             setNewImageList(list)
+            console.log(list)
         })
     }, [imageList, uuid])
 

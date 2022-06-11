@@ -8,23 +8,10 @@
  * @see Server Documentation for description of request & response
  */
 export function getImagesOverview(ebookUuid) {
-    return new Promise((resolve, reject) => {
-        resolve([
-            {
-                filename: '/EPUB/images/moon-images/1.new-moon.jpg',
-                annotation: 'a',
-            },
-            {
-                filename: '/EPUB/images/moon-images/4.waxing-gibbous.jpg',
-                classification: 'Decoration',
-            },
-        ])
-    })
-    /* 
-    fetch(
+    return fetch(
         // Encoding of URI component allows for encoding of chars such as /, ?, =, &
         // Some image filenames have a path such as images/hoof001ware10ill0001.gif
-        process.env.REACT_APP_API_URL + 'iamges/getAll/',
+        process.env.REACT_APP_API_URL + 'images/getAll/',
         // + encodeURIComponent(filename)
         {
             method: 'GET',
@@ -48,5 +35,4 @@ export function getImagesOverview(ebookUuid) {
                 throw error
             }
         )
-        */
 }
