@@ -63,19 +63,29 @@ function Annotator({ currImage, ebookId }) {
     }, [currImage])
 
     /**
-     * @param aiSuggestions: Annotation objects of type not equal to 'HUM'
-     * Looks for the largest id within the list of AI annotations
-     * @returns the most recent AI choice, which can be the following types:
+     * @param {List of Annotation objects} aiSuggestions: Annotation objects of type not equal to 'HUM'
+     * Sets the most recent AI choice, which can be the following types:
      *    - BB_GOOGLE_LAB
      *    - BB_AZURE_LAB
+     * Sets generated sentence if Microsoft Azure was most recent
      */
-    function getRecentAiChoice(aiSuggestions) {
+    function setRecentAiResult(aiSuggestions) {
         // Filter out types BB_AZURE_SEN and CXT_YAKE_LAB, which do not correspond to dropdown menu choices
         const filtered = aiSuggestions.filter((el) =>  el.type !== 'BB_AZURE_SEN' && el.type !== 'CXT_YAKE_LAB')
         // Take final Annotation object is considered most recent
          // TODO: find better way of getting most recent annotation (largest id?)
-        return filtered[filtered.length - 1].type
+        const mostRecentAiChoice = filtered[filtered.length - 1].type
+        setCurrAISelected(mostRecentAiChoice)
+
+        // Set previous AI description 
+        if (mostRecentAiChoice === 'BB_AZURE_LAB') {
+            const sentences = aiSuggestions.filter((el) => el.type === 'BB_AZURE_SEN')
+            if (sentences.length > 0) {
+                setSentence(sentences[sentences.length - 1].text)
+            }
+        }
     }
+
 
     /**
      * Makes API call to server for fetching image metadata
@@ -116,23 +126,8 @@ function Annotator({ currImage, ebookId }) {
                     setAiAnnotationList(allAiLabels)
 
                     if (allAiLabels.length > 0) {
-                        const mostRecentAiChoice = getRecentAiChoice(allAiLabels)
-                        // To display most recently selected AI in dropdown
-                        setCurrAISelected(mostRecentAiChoice)
-                        // To display most recently generated AI description
-                        if ( mostRecentAiChoice === 'BB_AZURE_LAB'){
-                            setSentence(allAiLabels.pop().text)
-                        }
-                    
-                        // if (currAiSelected !== mostRecentAiChoice) {
-                        //     // To display most recently selected AI in dropdown
-                        //     // TODO: either use key or value of AI choice (now we use both)
-                        //     setCurrAISelected(mostRecentAiChoice)
-                        //     // To display most recently generated AI description
-                        //     if ( mostRecentAiChoice === 'BB_AZURE_LAB'){
-                        //         setSentence(allAiLabels.pop().text)
-                        //     }
-                        // }
+                         // To display most recently selected AI choice in dropdown and set sentence
+                        setRecentAiResult(allAiLabels)
                     }
                 }
 
