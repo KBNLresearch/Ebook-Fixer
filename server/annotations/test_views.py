@@ -6,7 +6,6 @@ from .views import (
     google_annotation_generation_view,
     yake_annotation_generation_view
 )
-from annotations.models import Annotation
 from ebooks.models import Ebook
 from images.models import Image
 
