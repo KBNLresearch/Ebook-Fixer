@@ -336,10 +336,13 @@ export function highlightElement(el) {
     }, 5000)
 }
 
+// Helper for highlighting text
 function findTextInDocument(doc, text) {
     const instance = new Mark(doc)
+    // First un-highlight everything
     instance.unmark({
         done: () => {
+            // then highlight the given text
             instance.mark(text, {
                 className: 'context-label',
                 accuracy: 'exactly',
@@ -356,12 +359,17 @@ function findTextInDocument(doc, text) {
     })
 }
 
+/**
+ * Highlights given text using the Mark.js library
+ *
+ * @param {external:Rendition} rendition The epubJS rendition (to get the documents from)
+ * @param {String} text string to highlight
+ */
 export function highlightText(rendition, text) {
     const contents = rendition.getContents()
 
     // Try to find the image in every document
     for (const doc of contents) {
-        const found = findTextInDocument(doc.document, text)
+        findTextInDocument(doc.document, text)
     }
-    return undefined
 }
