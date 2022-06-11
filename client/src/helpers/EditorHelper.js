@@ -121,7 +121,7 @@ export function openBook(
             if (metadata.title) {
                 const title = metadata.title.slice(0, 72) + '...'
 
-                setTitle(metadata.title)
+                setTitle(title)
             }
         })
     })

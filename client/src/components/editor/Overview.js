@@ -71,20 +71,31 @@ function Overview({ imageList }) {
     const [expanded, setExpanded] = useState(false)
     const imageLimit = 5
 
+    const [serverImageList, setServerImageList] = useState([])
+
     const [newImageList, setNewImageList] = useState([])
 
     const [filters, setFilters] = useState(
         new Array(imageClasses.length).fill(false)
     )
 
+    // Set the new image list with whatever is in the server image list joined with the normal image list.
+    // The server image list can be empty
     useEffect(() => {
-        getImagesOverview(uuid).then((serverImgList) => {
-            const list = leftJoinImages(imageList, serverImgList.images)
-            setNewImageList(list)
-            console.log(list)
-        })
-    }, [imageList, uuid])
+        const list = leftJoinImages(imageList, serverImageList)
+        setNewImageList(list)
+    }, [imageList, serverImageList])
 
+    // Send a request for the server images list when the page loads
+    useEffect(() => {
+        if (serverImageList.length === 0) {
+            getImagesOverview(uuid).then((serverImgList) => {
+                setServerImageList(serverImgList.images)
+            })
+        }
+    }, [serverImageList.length, uuid])
+
+    // When someone presses one of the filters, we need to update the state
     function handleFilterChange(e, i) {
         const newFilters = filters.map((v, index) => {
             if (i === index) {
@@ -95,6 +106,7 @@ function Overview({ imageList }) {
         setFilters(newFilters)
     }
 
+    // Filter the list of images
     function filterNewImages() {
         return newImageList
             .slice(0, expanded ? imageList.length : imageLimit)
