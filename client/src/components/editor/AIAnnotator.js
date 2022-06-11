@@ -103,22 +103,27 @@ function AIAnnotator({aiAnnotationList, aiChoice, sentence, copied, setCopied}) 
         }
     
         return (
-            <div className={styles.ai_control}>
-                <label htmlFor="AiLabelsBox" className={styles.box_label}> Generated labels </label>
-                <div  className={styles.ai_labels_box} id="AiLabelsBox" > 
-                    {imageAiLabs.slice(0, -1)
-                   .map((obj) => (
-                           <p className={getProportionalClass(obj)}>
-                               {obj.text + ","}
-                           </p>
-                   ))}
-                   {imageAiLabs.slice(-1)
-                   .map((last) => ( 
-                        <span className={getProportionalClass(last)}> {last.text} </span>
-                   ))}
-                </div>
 
-                {aiChoice === 'BB_AZURE_LAB' &&
+                
+            <div className={styles.ai_control}>
+                {aiChoice !== 'skipped' &&
+                    <div> 
+                        <label htmlFor="AiLabelsBox" className={styles.box_label}> Generated labels </label>
+                        <div  className={styles.ai_labels_box} id="AiLabelsBox" > 
+                            {imageAiLabs.slice(0, -1)
+                        .map((obj) => (
+                                <p className={getProportionalClass(obj)}>
+                                    {obj.text + ","}
+                                </p>
+                        ))}
+                        {imageAiLabs.slice(-1)
+                        .map((last) => ( 
+                                <span className={getProportionalClass(last)}> {last.text} </span>
+                        ))}
+                        </div>
+                    </div>}
+
+                {aiChoice === 'BB_AZURE_LAB' && aiChoice !== 'skipped' &&
                     <div>
                         <label htmlFor="AiSentenceBox" className={styles.box_label}> <br/> Generated description </label>
                         <div className={styles.ai_labels_box} id="AiSentenceBox">

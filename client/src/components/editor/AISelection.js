@@ -92,11 +92,9 @@ function AISelection({
     }
 
     function handleSkip() {
-        // TODO: Also show textual keywords when AI skipped?
-        // Currently this is kinda hard cause the whole AIAnnotator component is disabled when skipped
-        // getYakeKeywords()
         setCurrAiSelected("skipped")
-        setStage("annotate")
+        // Pass empty array, since there are no black box AI suggestions
+        getYakeKeywords([])
     }
 
      /**

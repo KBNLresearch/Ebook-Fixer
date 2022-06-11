@@ -62,29 +62,6 @@ function Annotator({ currImage, ebookId }) {
         }
     }, [currImage])
 
-    /**
-     * @param {List of Annotation objects} aiSuggestions: Annotation objects of type not equal to 'HUM'
-     * Sets the most recent AI choice, which can be the following types:
-     *    - BB_GOOGLE_LAB
-     *    - BB_AZURE_LAB
-     * Sets generated sentence if Microsoft Azure was most recent
-     */
-    function setRecentAiResult(aiSuggestions) {
-        // Filter out types BB_AZURE_SEN and CXT_YAKE_LAB, which do not correspond to dropdown menu choices
-        const filtered = aiSuggestions.filter((el) =>  el.type !== 'BB_AZURE_SEN' && el.type !== 'CXT_YAKE_LAB')
-        // Take final Annotation object is considered most recent
-         // TODO: find better way of getting most recent annotation (largest id?)
-        const mostRecentAiChoice = filtered[filtered.length - 1].type
-        setCurrAISelected(mostRecentAiChoice)
-
-        // Set previous AI description 
-        if (mostRecentAiChoice === 'BB_AZURE_LAB') {
-            const sentences = aiSuggestions.filter((el) => el.type === 'BB_AZURE_SEN')
-            if (sentences.length > 0) {
-                setSentence(sentences[sentences.length - 1].text)
-            }
-        }
-    }
 
 
     /**
@@ -126,8 +103,8 @@ function Annotator({ currImage, ebookId }) {
                     setAiAnnotationList(allAiLabels)
 
                     if (allAiLabels.length > 0) {
-                         // To display most recently selected AI choice in dropdown and set sentence
-                        setRecentAiResult(allAiLabels)
+                        // To display most recently selected AI choice in dropdown and set sentence
+                        setRecentAiResults(allAiLabels)
                     }
                 }
 
@@ -149,6 +126,31 @@ function Annotator({ currImage, ebookId }) {
             }
         )
     }
+
+        /**
+     * @param {List of Annotation objects} aiSuggestions: Annotation objects of type not equal to 'HUM'
+     * Sets the most recent AI choice, which can be the following types:
+     *    - BB_GOOGLE_LAB
+     *    - BB_AZURE_LAB
+     * Sets generated sentence if Microsoft Azure was most recent
+     */
+         function setRecentAiResults(aiSuggestions) {
+    
+            // Filter out types BB_AZURE_SEN and CXT_YAKE_LAB, which do not correspond to dropdown menu choices
+            const filtered = aiSuggestions.filter((el) =>  el.type !== 'BB_AZURE_SEN' && el.type !== 'CXT_YAKE_LAB')
+            // Take final Annotation object is considered most recent
+            // TODO: find better way of getting most recent annotation (largest id?)
+            const mostRecentAiChoice = filtered[filtered.length - 1].type
+            setCurrAISelected(mostRecentAiChoice)
+
+            // Set previous AI description 
+            if (mostRecentAiChoice === 'BB_AZURE_LAB') {
+                const sentences = aiSuggestions.filter((el) => el.type === 'BB_AZURE_SEN')
+                if (sentences.length > 0) {
+                    setSentence(sentences[sentences.length - 1].text)
+                }
+            }
+        }
 
     return (
         <div className={styles.container}>
@@ -191,7 +193,6 @@ function Annotator({ currImage, ebookId }) {
 
                 'annotate':
                     <div className={styles.container}>
-                        {currAiSelected !== 'skipped' &&
                             <AIAnnotator
                                 aiAnnotationList={aiAnnotationList}
                                 aiChoice={currAiSelected}
@@ -200,7 +201,6 @@ function Annotator({ currImage, ebookId }) {
                                 setCopied={setCopied}>
                                 {' '}
                             </AIAnnotator>
-                        }
                             <UserAnnotator
                                 annotationList={userAnnotationList}
                                 setAnnotationList={setUserAnnotationList}

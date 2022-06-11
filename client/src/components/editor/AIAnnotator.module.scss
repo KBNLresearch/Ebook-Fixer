@@ -17,12 +17,6 @@
     outline: none;
     font-family: 'Times New Roman', Times, serif;
     text-align: left;
-    div {
-        display: inline-block;
-    }
-    // span {
-    //     padding: 0em;
-    // }
     .conf_zero,
     .conf_one,
     .conf_two,
@@ -34,7 +28,7 @@
     .conf_eight,
     .conf_nine,
     .conf_ten {
-        display: inline;
+        display: inline-block;
         padding: 0.1em 0.2em;
         text-transform: capitalize;
     }
