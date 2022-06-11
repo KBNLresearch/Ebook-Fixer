@@ -15,7 +15,7 @@ import FileDownload from '../epubfiles/FileDownload'
 import Overview from './Overview'
 import ShareURL from './ShareURL'
 import FetchWithStatus from '../epubfiles/FetchWithStatus'
-import { titleContext } from '../../helpers/EbookContext'
+import { renditionContext, titleContext } from '../../helpers/EbookContext'
 
 /**
  * The editor component takes an epub file and displays it as well as a UI for interacting with it.
@@ -31,7 +31,7 @@ function Editor({ ebookFile, ebookId, ebookTitle }) {
     // used to render the buttons on the left
     const [imageList, setImageList] = useState([])
     const [currentImage, setCurrentImage] = useState(null)
-    const [rendition, setRendition] = useState(null)
+    const [rendition, setRendition] = useAtom(renditionContext)
     const [ebookNotFound, setEbookNotFound] = useState(false)
     const [fetchingEbookFile, setFetchingEbookFile] = useState(true)
 

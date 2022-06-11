@@ -62,15 +62,12 @@ function Annotator({ currImage, ebookId }) {
         }
     }, [currImage])
 
-
-
     /**
      * Makes API call to server for fetching image metadata
      * i.e. the image itself and all annotations linked to it
      * and updates state accordingly
      */
     function fetchImageMetadata() {
-
         // As the user is waiting for the server's response
         setStage('loading')
         console.log('Fetching image metadata...')
@@ -78,10 +75,9 @@ function Annotator({ currImage, ebookId }) {
         getImageMetadataApiCall(ebookId, getImgFilename(currImage)).then(
             (result) => {
                 setStage('overview')
-                if (Object.prototype.hasOwnProperty.call(result, 'annotations')) {
-                    console.log('Annotations: ')
-                    console.log(result.annotations)
-
+                if (
+                    Object.prototype.hasOwnProperty.call(result, 'annotations')
+                ) {
                     // Decorative images don't have image descriptions
                     if (currClassification !== 'Decoration') {
                         setStage('overview')
@@ -127,30 +123,35 @@ function Annotator({ currImage, ebookId }) {
         )
     }
 
-        /**
+    /**
      * @param {List of Annotation objects} aiSuggestions: Annotation objects of type not equal to 'HUM'
      * Sets the most recent AI choice, which can be the following types:
      *    - BB_GOOGLE_LAB
      *    - BB_AZURE_LAB
      * Sets generated sentence if Microsoft Azure was most recent
      */
-         function setRecentAiResults(aiSuggestions) {
-    
-            // Filter out types BB_AZURE_SEN and CXT_YAKE_LAB, which do not correspond to dropdown menu choices
-            const filtered = aiSuggestions.filter((el) =>  el.type !== 'BB_AZURE_SEN' && el.type !== 'CXT_YAKE_LAB')
-            // Take final Annotation object is considered most recent
-            // TODO: find better way of getting most recent annotation (largest id?)
+    function setRecentAiResults(aiSuggestions) {
+        // Filter out types BB_AZURE_SEN and CXT_YAKE_LAB, which do not correspond to dropdown menu choices
+        const filtered = aiSuggestions.filter(
+            (el) => el.type !== 'BB_AZURE_SEN' && el.type !== 'CXT_YAKE_LAB'
+        )
+        // Take final Annotation object is considered most recent
+        // TODO: find better way of getting most recent annotation (largest id?)
+        if (filtered.length > 0) {
             const mostRecentAiChoice = filtered[filtered.length - 1].type
             setCurrAISelected(mostRecentAiChoice)
 
-            // Set previous AI description 
+            // Set previous AI description
             if (mostRecentAiChoice === 'BB_AZURE_LAB') {
-                const sentences = aiSuggestions.filter((el) => el.type === 'BB_AZURE_SEN')
+                const sentences = aiSuggestions.filter(
+                    (el) => el.type === 'BB_AZURE_SEN'
+                )
                 if (sentences.length > 0) {
                     setSentence(sentences[sentences.length - 1].text)
                 }
             }
         }
+    }
 
     return (
         <div className={styles.container}>
@@ -164,35 +165,35 @@ function Annotator({ currImage, ebookId }) {
 
             {
                 {
+                    loading: <div className={styles.loader}> Loading... </div>,
 
-                'loading':
-                    <div className={styles.loader}> Loading... </div>,
+                    classify: (
+                        <Classifier
+                            currImage={currImage}
+                            ebookId={ebookId}
+                            setImageId={setImageId}
+                            currClassification={currClassification}
+                            setCurrClassification={setCurrClassification}
+                            setStage={setStage}>
+                            {' '}
+                        </Classifier>
+                    ),
 
-                'classify':
-                    <Classifier
-                        currImage={currImage}
-                        ebookId={ebookId}
-                        setImageId={setImageId}
-                        currClassification={currClassification}
-                        setCurrClassification={setCurrClassification}
-                        setStage={setStage}>
-                        {' '}
-                    </Classifier>,
+                    'ai-selection': (
+                        <AISelection
+                            setStage={setStage}
+                            currAiSelected={currAiSelected}
+                            setCurrAiSelected={setCurrAISelected}
+                            setAiAnnotationList={setAiAnnotationList}
+                            setSentence={setSentence}
+                            currImage={currImage}
+                            ebookId={ebookId}
+                            imageId={imageId}
+                        />
+                    ),
 
-                'ai-selection':
-                   <AISelection
-                        setStage={setStage}
-                        currAiSelected={currAiSelected}
-                        setCurrAiSelected={setCurrAISelected}
-                        setAiAnnotationList={setAiAnnotationList}
-                        setSentence={setSentence}
-                        currImage={currImage}
-                        ebookId={ebookId}
-                        imageId={imageId}
-                    />,
-
-                'annotate':
-                    <div className={styles.container}>
+                    annotate: (
+                        <div className={styles.container}>
                             <AIAnnotator
                                 aiAnnotationList={aiAnnotationList}
                                 aiChoice={currAiSelected}
@@ -214,11 +215,8 @@ function Annotator({ currImage, ebookId }) {
                                 setCopied={setCopied}
                                 sentence={sentence}
                             />
-                            
-                            
                         </div>
-                    ,
-
+                    ),
                     overview: (
                         <div className={styles.overview}>
                             <div className={styles.overview_info}>
