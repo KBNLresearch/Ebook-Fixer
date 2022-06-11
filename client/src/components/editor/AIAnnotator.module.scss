@@ -10,16 +10,13 @@
     height: fit-content;
     border-radius: 0.5em;
     border: 0.2em solid rgb(117, 124, 132);
-    padding: 0.3em;
+    padding: 0.1em;
     box-sizing: border-box;
     resize: none;
     font-size: inherit;
     outline: none;
     font-family: 'Times New Roman', Times, serif;
     text-align: left;
-    div {
-        display: inline-block;
-    }
     .conf_zero,
     .conf_one,
     .conf_two,
@@ -31,42 +28,42 @@
     .conf_eight,
     .conf_nine,
     .conf_ten {
-        display: inline;
-        padding: 0.1em 0.5em;
+        display: inline-block;
+        padding: 0.1em 0.2em;
         text-transform: capitalize;
     }
     .conf_zero {
-        font-size: 50%;
+        font-size: 55%;
     }
     .conf_one {
         font-size: 55%;
     }
     .conf_two {
-        font-size: 60%;
+        font-size: 55%;
     }
     .conf_three {
-        font-size: 65%;
+        font-size: 55%;
     }
     .conf_four {
-        font-size: 70%;
+        font-size: 60%;
     }
     .conf_five {
-        font-size: 75%;
+        font-size: 60%;
     }
     .conf_six {
-        font-size: 80%;
+        font-size: 60%;
     }
     .conf_seven {
-        font-size: 100%;
+        font-size: 70%;
     }
     .conf_eight {
-        font-size: 120%;
+        font-size: 80%;
     }
     .conf_nine {
-        font-size: 140%;
+        font-size: 90%;
     }
     .conf_ten {
-        font-size: 150%;
+        font-size: 100%;
     }
 }
 

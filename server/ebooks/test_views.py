@@ -27,6 +27,10 @@ def mock_uuid():
     return mocked_uuid
 
 
+def mock_github_mode(key, default=''):
+    return 'development'
+
+
 class EbookViewsTest(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
@@ -84,6 +88,7 @@ class EbookViewsTest(TestCase):
         self.assertEqual(msg, bytes(expected_msg, 'utf-8'))
         self.assertEqual(ebook.__str__(), self.uuid)
 
+    @patch("ebooks.views.os.environ.get", mock_github_mode)
     @patch("ebooks.views.push_ebook_folder_to_github", dummy_mock)
     def test_ebook_download_view_200(self):
         test_filename = "test_content.txt"
