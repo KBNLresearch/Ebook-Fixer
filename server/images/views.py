@@ -127,8 +127,10 @@ def image_classification_view(request):
         return JsonResponse({'msg': 'Method Not Allowed!'},
                             status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
+
 def image_get_all_view(request):
-    """ GET endpoint for returning all images in an ebook.
+    """ GET endpoint for returning all classified images in an ebook along with a parameter
+    indicating if they have been annotated.
 
     Args:
         request (request object): The request object
@@ -136,7 +138,8 @@ def image_get_all_view(request):
 
     Returns:
         JsonResponse: Response object sent back to the client
-            - images (Image[]): list of image objects for the given ebook
+            - images ((Image,boolean)[]): list of tuples of image objects and
+            boolean indicating if they have been annotated for the given ebook
     """
     if request.method == "GET":
         try:
@@ -154,8 +157,16 @@ def image_get_all_view(request):
         images = [
             i for i in Image.objects.all()
             if i.ebook == ebook
+
         ]
-        images = list(map(lambda a: ImageSerializer(a).data, images))
+        is_annotated = list(map(lambda i: (True
+                                           if(len(Annotation.objects.all().filter(image=i)) > 0)
+                                           else False), images))
+        images = list(zip(images, is_annotated))
+
+        images = list(map(
+            lambda t: {'image': ImageSerializer(t[0]).data, 'annotated': t[1]}, images))
+
         return JsonResponse({'images': images}, status=status.HTTP_200_OK)
     else:
         return JsonResponse({'msg': 'Method Not Allowed!'},

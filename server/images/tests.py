@@ -267,7 +267,7 @@ class ImageViewsTest(TestCase):
         self.assertEqual(expected_response["annotations"], [])
 
     def test_image_get_all_view_405(self):
-        request = self.factory.post(f"getAll/")
+        request = self.factory.post("getAll/")
         request.user = self.user
 
         response = image_get_all_view(request)
@@ -297,15 +297,18 @@ class ImageViewsTest(TestCase):
         test_classification = "Art"
         test_raw_context = "RAW CONTEXT"
         ebook = Ebook.objects.create(uuid=uuid, title="TEST TITLE", epub="test.epub")
-        Image.objects.create(ebook=ebook, filename=test_filename, location=test_location, classification= test_classification,raw_context= test_raw_context)
+        Image.objects.create(ebook=ebook, filename=test_filename, location=test_location,
+                             classification=test_classification, raw_context=test_raw_context)
 
         response, msg = self.response_image_get_all_view(uuid)
 
         self.assertEqual(response.status_code, 200)
         expected_response = json.loads(msg)
         self.assertEqual(len(expected_response["images"]), 1)
-        self.assertEqual(expected_response["images"][0]["ebook"], str(uuid))
-        self.assertEqual(expected_response["images"][0]["filename"], test_filename)
-        self.assertEqual(expected_response["images"][0]["location"], test_location)
-        self.assertEqual(expected_response["images"][0]["classification"], test_classification)
-        self.assertEqual(expected_response["images"][0]["raw_context"], test_raw_context)
+        self.assertEqual(expected_response["images"][0]['image']["ebook"], str(uuid))
+        self.assertEqual(expected_response["images"][0]['image']["filename"], test_filename)
+        self.assertEqual(expected_response["images"][0]['image']["location"], test_location)
+        self.assertEqual(expected_response["images"][0]['image']["classification"],
+                         test_classification)
+        self.assertEqual(expected_response["images"][0]['image']["raw_context"], test_raw_context)
+        self.assertEqual(expected_response["images"][0]['annotated'], False)
