@@ -111,10 +111,12 @@ function ShareURL() {
 
     // If an imgFilename is detected in the URL, we set the default link type to image
     useEffect(() => {
-        if (imgFilename) {
+        if (uuid && imgFilename) {
             setLinkType('image')
+        } else if (uuid) {
+            setLinkType('e-book')
         }
-    }, [imgFilename])
+    }, [imgFilename, uuid])
 
     return (
         <div id="container" className={styles.container} ref={containerRef}>
