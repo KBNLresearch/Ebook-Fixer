@@ -158,7 +158,9 @@ class AnnotationViewsTest(TestCase):
         uuid = uuid4()
         ebook = Ebook.objects.create(uuid=uuid, title="Test title", epub="test.epub")
         image = Image.objects.create(ebook=ebook, filename="test.jpg", location="test.html")
-        annotation = Annotation.objects.create(image=image, type="BB_GOOGLE_LAB", text="Already existing")
+        annotation = Annotation.objects.create(image=image,
+                                               type="BB_GOOGLE_LAB",
+                                               text="Already existing")
 
         content = {"ebook": str(uuid), "id": image.id, "filename": image.filename}
         response, msg = self.response_annotation_generation_view(content)
@@ -173,7 +175,9 @@ class AnnotationViewsTest(TestCase):
         uuid = uuid4()
         ebook = Ebook.objects.create(uuid=uuid, title="Test title", epub="test.epub")
         image = Image.objects.create(ebook=ebook, filename="test.jpg", location="test.html")
-        annotation = Annotation.objects.create(image=image, type="BB_AZURE_LAB", text="Already existing")
+        annotation = Annotation.objects.create(image=image,
+                                               type="BB_AZURE_LAB",
+                                               text="Already existing")
 
         content = {"ebook": str(uuid), "id": image.id, "filename": image.filename}
         response, msg = self.azure_response_annotation_generation_view(content)
@@ -188,7 +192,9 @@ class AnnotationViewsTest(TestCase):
         uuid = uuid4()
         ebook = Ebook.objects.create(uuid=uuid, title="Test title", epub="test.epub")
         image = Image.objects.create(ebook=ebook, filename="test.jpg", location="test.html")
-        annotation = Annotation.objects.create(image=image, type="CXT_YAKE_LAB", text="Already existing")
+        annotation = Annotation.objects.create(image=image,
+                                               type="CXT_YAKE_LAB",
+                                               text="Already existing")
 
         content = {"ebook": str(uuid), "id": image.id, "filename": image.filename}
         response, msg = self.yake_response_annotation_generation_view(content)
