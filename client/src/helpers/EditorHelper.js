@@ -345,7 +345,6 @@ function findTextInDocument(doc, text) {
             // then highlight the given text
             instance.mark(text, {
                 className: 'context-label',
-                accuracy: 'exactly',
                 separateWordSearch: false,
                 ignorePunctuation: ':;.,-–—‒_(){}[]!\'"+='.split(''),
                 done: (n) => {

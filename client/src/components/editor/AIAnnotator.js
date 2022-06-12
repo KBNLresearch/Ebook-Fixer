@@ -168,7 +168,8 @@ function AIAnnotator({
                         onClick={() => {
                             highlightText(rendition, obj.text)
                         }}
-                        title="Click to highlight in text">
+                        title="Click to highlight in text"
+                        key={obj.text + '_highlight_button'}>
                         <p className={getProportionalClass(obj)}>
                             {obj.text +
                                 (i === cxtKeywords.length - 1 ? '' : ',')}
