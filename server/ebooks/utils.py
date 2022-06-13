@@ -202,12 +202,17 @@ def process_ebook(ebook):
     ebook.checker_issues = str(list(map(lambda m: f"{m.level} - {m.id} "
                                                   f"- {m.location} - {m.message}",
                                         messages)))
-    if not valid:
-        ebook.state = 'INVALID'
-        ebook.save(update_fields=["state", "checker_issues"])
-        # Remove the original .epub file
-        shutil.rmtree(ebook_dir)
-        return
+    ebook.save(update_fields=["checker_issues"])
+    # Deprecated because EpubCheck is not as reliable as we thought
+    # The errors/warnings will still be shown to the users, but they will be allowed to work on the EPUB # noqa: E501
+    #############################
+    # if not valid:
+    #     ebook.state = 'INVALID'
+    #     ebook.save(update_fields=["state"])
+    #     # Remove the original .epub file
+    #     shutil.rmtree(ebook_dir)
+    #     return
+    #############################
     ebook.state = 'UNZIPPING'
     ebook.save(update_fields=["state", "checker_issues"])
 

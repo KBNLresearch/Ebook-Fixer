@@ -44,8 +44,9 @@ def ebook_download_view(request, uuid):
             response = JsonResponse(serializer.data, status=status.HTTP_403_FORBIDDEN)
             ebook.delete()
             return response
+
         # The book needs to be processed before it can be downloaded
-        elif ebook.state != "PROCESSED":
+        if ebook.state != "PROCESSED":
             serializer = EbookSerializer(ebook)
             return JsonResponse(serializer.data, status=status.HTTP_202_ACCEPTED)
 

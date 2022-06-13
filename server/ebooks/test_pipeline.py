@@ -114,17 +114,6 @@ class DataProcessingPipelineTests(TestCase):
         self.assertEqual(self.ebook.state, "NOT_ACCESSIBLE")
         self.assertEqual(self.ebook.title, "MOCKED_TITLE")
 
-    @patch("ebooks.utils.EpubCheck", MockInvalidEpubCheck)
-    @patch("ebooks.utils.shutil.rmtree", dummy_mock)
-    @patch("ebooks.utils.os.path.isfile", dummy_mock)
-    def test_process_invalid_ebook(self):
-        process_ebook(self.ebook)
-
-        self.assertEqual(self.ebook.state, "INVALID")
-        self.assertEqual(self.ebook.checker_issues,
-                         "['WARNING - 0 - file.html - WARNING_MESSAGE', "
-                         "'ERROR - 1 - file.html - ERROR_MESSAGE']")
-
     @patch("ebooks.utils.EpubCheck", MockValidEpubCheck)
     @patch("ebooks.utils.unzip_ebook", mock_unzipping)
     @patch("ebooks.utils.os.path.isfile", dummy_mock)

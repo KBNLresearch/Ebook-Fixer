@@ -107,21 +107,6 @@ class EbookViewsTest(TestCase):
 
         shutil.rmtree(folder_path)
 
-    def test_ebook_download_204_invalid_book(self):
-        ebook = Ebook.objects.create(uuid=self.uuid,
-                                     title="TEST_TITLE",
-                                     epub=None,
-                                     state="INVALID")
-        serializer = EbookSerializer(ebook)
-        expected_msg = f'{serializer.data}'.replace("'", '"')
-
-        response, msg = self.response_ebook_download_view()
-
-        self.assertEqual(response.status_code, 403)
-        self.assertEqual(msg, bytes(expected_msg, 'utf-8'))
-        # Check that the ebook DB entry was deleted
-        self.assertEqual(Ebook.objects.filter(uuid=self.uuid).count(), 0)
-
     def test_ebook_download_202_unprocessed_book(self):
         ebook = Ebook.objects.create(uuid=self.uuid,
                                      title="TEST_TITLE",

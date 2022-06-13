@@ -1,5 +1,5 @@
 [![main](https://img.shields.io/badge/build-passing-brightgreen)]()
-[![tests](https://img.shields.io/badge/total%20tests-71-9cf)]()
+[![tests](https://img.shields.io/badge/total%20tests-73-9cf)]()
 [![client](https://img.shields.io/badge/client-react-blue)]()
 [![client](https://img.shields.io/badge/server-django-success)]()
 
@@ -43,8 +43,7 @@ and the GitHub API to store the contents of the epub files (for research purpose
 
 ## Documentation
 
-[comment]: <> (TODO: ADD THE LINK TO THE REPORT)
-For more information about the system architecture, list of requirements, ethical issues and more check our [<u>report</u>]().
+For more information about the system architecture, list of requirements, ethical issues and more check our [<u>report</u>](docs/report.pdf).
 
 Documentation for the client and server code can be found on our [<u>GitHub page</u>](https://revirator.github.io/Ebook-Fixer/).
 
