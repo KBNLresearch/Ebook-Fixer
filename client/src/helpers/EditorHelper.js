@@ -346,6 +346,7 @@ function findTextInDocument(doc, text) {
             instance.mark(text, {
                 className: 'context-label',
                 separateWordSearch: false,
+                acrossElements: true,
                 ignorePunctuation: ':;.,-–—‒_(){}[]!\'"+='.split(''),
                 done: (n) => {
                     if (n > 0) {
