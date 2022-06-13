@@ -23,8 +23,8 @@ ease navigation through the pages / images.
 but also its surrounding context and thus improving the final description.
 
 If you want to learn more about the topics of image annotation and accessibility of e-books here are some helpful links:
-* [Image Description Guidelines](http://diagramcenter.org/table-of-contents-2.html)
-* [Accessible Image Sample Book Webinar](http://diagramcenter.org/diagramwebinars.html#aisb)
+* [<u>Image Description Guidelines</u>](http://diagramcenter.org/table-of-contents-2.html)
+* [<u>Accessible Image Sample Book Webinar</u>](http://diagramcenter.org/diagramwebinars.html#aisb)
 
 ## Technology Stack
 
@@ -38,12 +38,15 @@ If you want to learn more about the topics of image annotation and accessibility
   * Style library: ``flake8``
   * To see the list of all the libraries we used check ``requirements.txt`` under the ``server`` directory.
 
-* External resources - the systems makes use of the Google Vision API to create image annotations
+* External resources - the systems makes use of the Google Vision API and MS Vision AI to create image annotations
 and the GitHub API to store the contents of the epub files (for research purposes).
 
 ## Documentation
 
-Documentation for the client and server code can be found on our [GitHub page](https://revirator.github.io/Ebook-Fixer/).
+[comment]: <> (TODO: ADD THE LINK TO THE REPORT)
+For more information about the system architecture, list of requirements, ethical issues and more check our [<u>report</u>]().
+
+Documentation for the client and server code can be found on our [<u>GitHub page</u>](https://revirator.github.io/Ebook-Fixer/).
 
 To update the documentation run the following commands (you need to have the docker containers running):
 * For the client:
@@ -55,12 +58,9 @@ docker exec frontend npx run docs
 docker exec backend bash -c 'cd docs && make html'
 ```
 
-[comment]: <> (TODO: ADD THE LINK TO THE REPORT)
-For more information about the system architecture, list of requirements, ethical issues and more check our [report]().
-
 ## Installation
 
-First, you need to [download the scripts](https://github.com/Revirator/Ebook-Fixer/archive/refs/heads/main.zip) 
+First, you need to [<u>download the scripts</u>](https://github.com/Revirator/Ebook-Fixer/archive/refs/heads/main.zip)
 or clone the repository.
 
 To clone the repository using SSH run the following command in Git Bash.
@@ -73,8 +73,8 @@ To clone the repository using HTTPS run the following command in Git Bash.
 git clone https://github.com/Revirator/Ebook-Fixer.git <path_to_local_directory> 
 ```
 
-After that, the easiest way to build and run the app locally is to install [Docker](https://www.docker.com/) 
-(you can find more information on how to do this [here](https://docs.docker.com/get-docker/)).
+After that, the easiest way to build and run the app locally is to install [<u>Docker</u>](https://www.docker.com/)
+(you can find more information on how to do this [<u>here</u>](https://docs.docker.com/get-docker/)).
 
 Next, open your terminal and navigate to the root of the project directory. You should also make sure that
 Docker is running using this command.
@@ -138,4 +138,4 @@ Thanks goes to the following people:
 
 ## License 
 
-[KB](https://lab.kb.nl/terms-use)
+[<u>KB</u>](https://lab.kb.nl/terms-use)
