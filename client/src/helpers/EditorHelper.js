@@ -88,7 +88,7 @@ export function openBook(
 
     setRendered(true)
 
-    const height = window.innerHeight * 0.7
+    const height = window.innerHeight * 0.8
 
     // Render the epub using the epubJS viewer
     const rendition = book.renderTo(viewerId, {
@@ -121,7 +121,7 @@ export function openBook(
             if (metadata.title) {
                 const title = metadata.title.slice(0, 72) + '...'
 
-                setTitle(metadata.title)
+                setTitle(title)
             }
         })
     })

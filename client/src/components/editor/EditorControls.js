@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useAtom } from 'jotai'
 import { highlightElement, ImageInfo } from '../../helpers/EditorHelper'
-import styles from './Editor.module.scss'
+import styles from './EditorControls.module.scss'
 import { getImgFilename } from '../../helpers/EditImageHelper'
 import { nextImage } from '../../helpers/EbookContext'
 

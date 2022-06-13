@@ -116,13 +116,54 @@ def image_classification_view(request):
                                     status=status.HTTP_400_BAD_REQUEST)
         except KeyError:
             pass
-        try:
-            image.raw_context = data["raw_context"]
-        except KeyError:
-            pass
         image.save(update_fields=["classification", "raw_context"])
         serializer = ImageSerializer(image)
         return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return JsonResponse({'msg': 'Method Not Allowed!'},
+                            status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+def image_get_all_view(request):
+    """ GET endpoint for returning all classified images in an ebook along with a parameter
+    indicating if they have been annotated.
+
+    Args:
+        request (request object): The request object
+            - ebook: e-book to which the image belongs to (header)
+
+    Returns:
+        JsonResponse: Response object sent back to the client
+            - images ((Image,boolean)[]): list of tuples of image objects and
+            boolean indicating if they have been annotated for the given ebook
+    """
+    if request.method == "GET":
+        try:
+            uuid = request.headers["ebook"]
+        except KeyError:
+            return JsonResponse({'msg': 'Ebook header not found in the request!'},
+                                status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            ebook = Ebook.objects.filter(uuid=uuid).get()
+        except Ebook.DoesNotExist:
+            return JsonResponse({'msg': f'Ebook with uuid {uuid} not found!'},
+                                status=status.HTTP_404_NOT_FOUND)
+
+        images = [
+            i for i in Image.objects.all()
+            if i.ebook == ebook
+
+        ]
+        is_annotated = list(map(lambda i: (True
+                                           if(len(Annotation.objects.all().filter(image=i)) > 0)
+                                           else False), images))
+        images = list(zip(images, is_annotated))
+
+        images = list(map(
+            lambda t: {'image': ImageSerializer(t[0]).data, 'annotated': t[1]}, images))
+
+        return JsonResponse({'images': images}, status=status.HTTP_200_OK)
     else:
         return JsonResponse({'msg': 'Method Not Allowed!'},
                             status=status.HTTP_405_METHOD_NOT_ALLOWED)

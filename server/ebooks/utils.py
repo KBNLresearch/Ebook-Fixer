@@ -80,7 +80,6 @@ def zip_ebook(ebook_uuid):
     path_name = f"test-books/{ebook_uuid}/"
     zipfile_name = shutil.make_archive(ebook_uuid, 'zip', path_name)
     path = Path(zipfile_name)
-    path = path.rename(path.with_suffix('.epub'))
     return path
 
 
@@ -219,7 +218,8 @@ def process_ebook(ebook):
         ebook.save(update_fields=["state"])
         return
 
-    html_files = glob.glob(f"{ebook_dir}/**/*html", recursive=True)
+    html_files = list(filter(lambda hf: os.path.isfile(hf),
+                             glob.glob(f"{ebook_dir}/**/*html", recursive=True)))
     # Push unzipped contents to GitHub
     mode = os.environ.get('GITHUB_MODE', 'production')
     if mode == "development":

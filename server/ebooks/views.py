@@ -19,9 +19,6 @@ from rest_framework import status
 from _thread import start_new_thread
 
 
-mode = os.environ.get('GITHUB_MODE', 'production')
-
-
 def ebook_download_view(request, uuid):
     """ GET endpoint for zipping the ebook with given uuid from storage.
     Injects the latest human annotations corresponding to the images found in the ePub.
@@ -63,8 +60,8 @@ def ebook_download_view(request, uuid):
             # Inject image annotations into the html files
             ebook_dir = f"test-books/{uuid}"
             inject_image_annotations(ebook_dir, images, annotations)
-            # Push new contents to GitHub if mode is 'production'
-            if mode == "development":
+            # Push new contents to GitHub if mode is 'development'
+            if os.environ.get('GITHUB_MODE', 'production') == "development":
                 message = f"{uuid}: download"
                 push_ebook_folder_to_github(ebook_dir, message)
 

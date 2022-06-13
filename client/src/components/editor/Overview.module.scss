@@ -1,13 +1,5 @@
-.img {
-    max-width: 100%;
-    max-height: 25vh;
-    cursor: pointer;
-    border: 5px solid blueviolet;
-    border-radius: 0.3em;
-}
-
 .container {
-    max-height: 70vh;
+    max-height: 90vh;
     transition: max-height 0.3s ease;
     display: flex;
     flex-direction: column;
@@ -15,6 +7,14 @@
     align-content: flex-start;
     width: 100%;
     height: 100%;
+    font-size: 0.8em;
+
+    // Classes:
+    $annotated-color: #add8e6;
+    $existing_alt-color: #3c0e67;
+    $decorative-color: #f0e442;
+    $not_annotated-color: #d55e00;
+
     &.expanded {
         position: fixed;
         width: 96%;
@@ -28,6 +28,40 @@
         border-radius: 1em;
         max-height: 96vh;
         padding-bottom: 0.6em;
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1em;
+            margin: 0.5em 1em;
+            input,
+            label {
+                cursor: pointer;
+            }
+
+            .filter {
+                display: flex;
+                gap: 8px;
+                align-items: center;
+            }
+            input {
+                height: 1.2em;
+                width: 1.2em;
+                &.annotated {
+                    box-shadow: 0px 0px 2px 5px $annotated-color;
+                }
+                &.existing_alt {
+                    box-shadow: 0px 0px 2px 5px $existing_alt-color;
+                }
+                &.decorative {
+                    box-shadow: 0px 0px 2px 5px $decorative-color;
+                }
+                &.not_annotated {
+                    box-shadow: 0px 0px 2px 5px $not_annotated-color;
+                }
+            }
+        }
     }
 
     .expandbtn {
@@ -60,5 +94,30 @@
         color: white;
         border-radius: 0.7em;
         margin: 0.3em 1em;
+    }
+
+    .img {
+        max-width: 100%;
+        max-height: 25vh;
+        cursor: pointer;
+        border: 5px solid blueviolet;
+        border-radius: 0.3em;
+
+        &.annotated {
+            border-color: $annotated-color;
+            box-shadow: 0px 0px 10px $annotated-color;
+        }
+        &.existing_alt {
+            border-color: $existing_alt-color;
+            box-shadow: 0px 0px 10px $existing_alt-color;
+        }
+        &.decorative {
+            border-color: $decorative-color;
+            box-shadow: 0px 0px 10px $decorative-color;
+        }
+        &.not_annotated {
+            border-color: $not_annotated-color;
+            box-shadow: 0px 0px 10px $not_annotated-color;
+        }
     }
 }
