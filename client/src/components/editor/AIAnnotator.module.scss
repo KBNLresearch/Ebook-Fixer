@@ -17,6 +17,17 @@
     outline: none;
     font-family: 'Times New Roman', Times, serif;
     text-align: left;
+
+    button {
+        padding: 0;
+        border: 0;
+        background: inherit;
+        font-size: inherit;
+        &:hover {
+            background-color: yellow;
+        }
+    }
+
     .conf_zero,
     .conf_one,
     .conf_two,

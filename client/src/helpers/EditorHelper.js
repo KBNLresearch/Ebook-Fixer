@@ -1,4 +1,5 @@
 import ePub from 'epubjs'
+import Mark from 'mark.js'
 
 // The id of the div that should contain the viewer
 export const viewerId = 'epubviewer'
@@ -333,4 +334,42 @@ export function highlightElement(el) {
         css(element, prevStyle)
         element.dataset.highlighted = false
     }, 5000)
+}
+
+// Helper for highlighting text
+function findTextInDocument(doc, text) {
+    const instance = new Mark(doc)
+    // First un-highlight everything
+    instance.unmark({
+        done: () => {
+            // then highlight the given text
+            instance.mark(text, {
+                className: 'context-label',
+                separateWordSearch: false,
+                acrossElements: true,
+                ignorePunctuation: ':;.,-–—‒_(){}[]!\'"+='.split(''),
+                done: (n) => {
+                    if (n > 0) {
+                        const element = doc.querySelector('.context-label')
+                        if (element) element.scrollIntoView()
+                    }
+                },
+            })
+        },
+    })
+}
+
+/**
+ * Highlights given text using the Mark.js library
+ *
+ * @param {external:Rendition} rendition The epubJS rendition (to get the documents from)
+ * @param {String} text string to highlight
+ */
+export function highlightText(rendition, text) {
+    const contents = rendition.getContents()
+
+    // Try to find the image in every document
+    for (const doc of contents) {
+        findTextInDocument(doc.document, text)
+    }
 }
