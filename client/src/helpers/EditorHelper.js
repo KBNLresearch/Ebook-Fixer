@@ -120,7 +120,10 @@ export function openBook(
         })
         book.loaded.metadata.then((metadata) => {
             if (metadata.title) {
-                const title = metadata.title.slice(0, 72) + '...'
+                const title =
+                    metadata.title.length > 72
+                        ? metadata.title.slice(0, 72) + '...'
+                        : metadata.title
 
                 setTitle(title)
             }

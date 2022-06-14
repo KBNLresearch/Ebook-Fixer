@@ -1,5 +1,7 @@
+import { useAtom } from 'jotai'
 import PropTypes from 'prop-types'
 import { getFile } from '../../api/DownloadFile'
+import { titleContext } from '../../helpers/EbookContext'
 import styles from './FileDownload.module.scss'
 import { ReactComponent as DownloadSVG } from '../../assets/svgs/download-icon.svg'
 
@@ -12,10 +14,28 @@ import { ReactComponent as DownloadSVG } from '../../assets/svgs/download-icon.s
  * @returns element containing download button
  */
 function FileDownload({ ebookId }) {
+    const [title] = useAtom(titleContext)
+
     return (
         <div id="container" className={styles.container}>
             <div className={styles.popup}>Exports annotated ePub file</div>
-            <button type="button" onClick={() => getFile(ebookId)}>
+            <button
+                type="button"
+                onClick={() => {
+                    getFile(ebookId).then((blob) => {
+                        const url = window.URL.createObjectURL(blob)
+                        const a = document.createElement('a')
+                        a.href = url
+                        a.download =
+                            (title
+                                ? title
+                                      .replace(/ /g, '_')
+                                      .replace(/[^a-z0-9_]/gi, '')
+                                      .toLowerCase()
+                                : 'epub_fixer_result') + '.epub'
+                        a.click()
+                    })
+                }}>
                 <DownloadSVG aria-hidden /> Download e-book
             </button>
         </div>

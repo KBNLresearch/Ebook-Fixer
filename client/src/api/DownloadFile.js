@@ -21,20 +21,11 @@ export function getFile(fileId) {
     )
         .then((response) => {
             if (response.ok) {
-                response.blob().then((blob) => {
-                    const url = window.URL.createObjectURL(blob)
-                    const a = document.createElement('a')
-                    a.href = url
-                    a.download = fileId + '.epub'
-                    a.click()
-                })
+                return response.blob()
             }
+            throw Error('Cannnot download the ebook')
         })
-        .then((response) => {
-            console.log('Response: ')
-            console.log(response)
-            return response
-        })
+        .then((response) => response)
         .catch((error) => {
             window.alert(
                 'Error in fetching ebook for download! Please try again.'
