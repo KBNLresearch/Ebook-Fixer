@@ -292,8 +292,8 @@ export function getImageFromRendition(imagetobeDisplayed, rendition) {
  * @inner
  */
 const highlightedStyle = {
-    outline: '7px solid rgba(0, 255, 0, 0.8)',
-    'box-shadow': '0 0 10px 10px rgba(0, 255, 0, 0.8)',
+    outline: '7px solid #9ed9a1aa',
+    'box-shadow': '0 0 10px 10px #9ed9a1aa',
     transition: 'all 0.3s ease',
 }
 
