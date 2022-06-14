@@ -28,6 +28,13 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
 
     const [nextImageFunc, setNextImage] = useAtom(nextImage)
 
+    const [unHighlightFunc, setUnHighlightFunc] = useState(
+        () =>
+            function () {
+                return null
+            }
+    )
+
     const navigate = useNavigate()
 
     const location = useLocation()
@@ -109,8 +116,11 @@ function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
         const newImage = await getImage(imageList[newIndex], rendition)
         // Scroll to the image
         newImage.scrollIntoView()
-        // Highlight the image in red for 5s
-        highlightElement(newImage)
+        // Un highlight the prev. image
+        unHighlightFunc()
+        // Highlight the image
+        const newunhighlightfunc = highlightElement(newImage)
+        setUnHighlightFunc(() => newunhighlightfunc)
         // Set the URL to be of that Image
         const newUrl = `/ebook/${uuid}/image/${encodeURIComponent(
             getImgFilename(imageList[newIndex])

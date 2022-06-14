@@ -315,6 +315,7 @@ function css(el, style) {
  * then returns the style back to what it was before.
  *
  * @param {HTMLElement} el The HTML Element to highlight
+ * @return function that un-highlights the image
  */
 export function highlightElement(el) {
     const element = el
@@ -325,15 +326,17 @@ export function highlightElement(el) {
         element.dataset = {}
     } else if (element.dataset.highlighted === 'true') {
         // to prevent re-highlighting, which makes the element stay highlighted forever
-        return
+        return () => {}
     }
     element.dataset.highlighted = true
     const prevStyle = css(element, highlightedStyle)
     // Reset to previous in 5 seconds
-    setTimeout(() => {
-        css(element, prevStyle)
-        element.dataset.highlighted = false
-    }, 5000)
+    return () => {
+        if (element) {
+            css(element, prevStyle)
+            element.dataset.highlighted = false
+        }
+    }
 }
 
 // Helper for highlighting text
