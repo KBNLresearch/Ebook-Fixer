@@ -1,0 +1,33 @@
+@mixin text-3d($hue) {
+    $ts: ();
+    @for $i from 1 through 30 {
+        $ts: $ts,
+            $i *
+                2px
+                $i *
+                2px
+                $i *
+                0.4px
+                hsla($hue + 4 * $i, 100%, 70%, 30% - $i);
+    }
+    text-shadow: $ts, 0 0 30px #87cfeb69, 0 0 55px rgba(135, 207, 235, 0.37);
+}
+
+.cool_text {
+    font-size: 20rem;
+    -webkit-text-stroke: 5px white;
+    border-radius: 1em;
+    margin-bottom: 0.1em;
+    transform: scale3d(1, 1, 1) rotateX(11deg) rotateY(-22deg) rotateZ(0deg)
+        translate3d(0px, 0px, 0px) skew(0deg, 0deg);
+    filter: hue-rotate(30deg);
+    @include text-3d(197);
+}
+
+.container {
+    // background-color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+}

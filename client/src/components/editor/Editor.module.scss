@@ -1,0 +1,64 @@
+:root {
+    --page_background: #f8f8f8;
+}
+
+.editor {
+    padding: 0rem;
+    display: grid;
+    grid-template-columns: 5fr 3fr;
+    grid-template-areas: 'viewer_container annotator_container';
+    @media only screen and (max-width: 768px) {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            'annotator_container'
+            'viewer_container';
+    }
+    gap: 0.5em;
+    align-content: stretch;
+    flex-grow: 1;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.viewer_container {
+    grid-area: viewer_container;
+    align-self: stretch;
+    justify-self: stretch;
+    max-width: 80vw;
+}
+
+.annotator_container {
+    grid-area: annotator_container;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+    gap: 2em;
+}
+
+.container {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f8f8;
+    position: relative;
+}
+
+.title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 2rem;
+    line-height: 1.5em;
+}
+
+.back_to_overview_btn {
+    position: absolute;
+    top: 0.5em;
+    left: 2em;
+    button {
+        background-color: inherit;
+        border: 5px solid rgb(207, 164, 247);
+    }
+}

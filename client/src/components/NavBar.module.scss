@@ -1,0 +1,27 @@
+.navbar {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    font-size: 0.85em;
+    color: rgb(80, 80, 80);
+    padding: 0.2em 0em;
+}
+
+.title {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    h1 {
+        position: relative; 
+        left: 2vw;
+    }
+}
+
+.logo {
+    height: 1.7em;
+    width: 2em;
+    margin: 0 0.5em;
+}

@@ -1,0 +1,123 @@
+.container {
+    max-height: 90vh;
+    transition: max-height 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: flex-start;
+    width: 100%;
+    height: 100%;
+    font-size: 0.8em;
+
+    // Classes:
+    $annotated-color: #add8e6;
+    $existing_alt-color: #3c0e67;
+    $decorative-color: #f0e442;
+    $not_annotated-color: #d55e00;
+
+    &.expanded {
+        position: fixed;
+        width: 96%;
+        left: 2%;
+        top: 2%;
+        height: 96%;
+        background-color: #f8f8f8;
+        z-index: 999;
+        border: 8px solid #fff;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        border-radius: 1em;
+        max-height: 96vh;
+        padding-bottom: 0.6em;
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1em;
+            margin: 0.5em 1em;
+            input,
+            label {
+                cursor: pointer;
+            }
+
+            .filter {
+                display: flex;
+                gap: 8px;
+                align-items: center;
+            }
+            input {
+                height: 1.2em;
+                width: 1.2em;
+                &.annotated {
+                    box-shadow: 0px 0px 2px 5px $annotated-color;
+                }
+                &.existing_alt {
+                    box-shadow: 0px 0px 2px 5px $existing_alt-color;
+                }
+                &.decorative {
+                    box-shadow: 0px 0px 2px 5px $decorative-color;
+                }
+                &.not_annotated {
+                    box-shadow: 0px 0px 2px 5px $not_annotated-color;
+                }
+            }
+        }
+    }
+
+    .expandbtn {
+        font-size: 1.1em;
+        svg {
+            height: 1.6em;
+            margin-right: 0.5em;
+            margin-bottom: -0.3em;
+        }
+        padding: 0.5em 0.7em;
+        margin: 0.2em 10%;
+        border: 4px solid blueviolet;
+    }
+
+    .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: stretch;
+        align-content: flex-start;
+        overflow-y: scroll;
+        height: inherit;
+        gap: 2em;
+        padding: 1em;
+    }
+
+    .overview_info {
+        line-height: 1.5em;
+        background-color: hsl(271, 76%, 23%);
+        color: white;
+        border-radius: 0.7em;
+        margin: 0.3em 1em;
+    }
+
+    .img {
+        max-width: 100%;
+        max-height: 25vh;
+        cursor: pointer;
+        border: 5px solid blueviolet;
+        border-radius: 0.3em;
+
+        &.annotated {
+            border-color: $annotated-color;
+            box-shadow: 0px 0px 10px $annotated-color;
+        }
+        &.existing_alt {
+            border-color: $existing_alt-color;
+            box-shadow: 0px 0px 10px $existing_alt-color;
+        }
+        &.decorative {
+            border-color: $decorative-color;
+            box-shadow: 0px 0px 10px $decorative-color;
+        }
+        &.not_annotated {
+            border-color: $not_annotated-color;
+            box-shadow: 0px 0px 10px $not_annotated-color;
+        }
+    }
+}

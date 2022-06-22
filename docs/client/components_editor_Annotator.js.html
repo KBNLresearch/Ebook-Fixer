@@ -1,0 +1,395 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/editor/Annotator.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Fixing E-Books Client Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="AISelection.html">AISelection</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FetchWithStatus.html">FetchWithStatus</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="NavBar.html">NavBar</a></li><li><a href="Overview.html">Overview</a></li><li><a href="ProgressBar.html">ProgressBar</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="Sidebar.html">Sidebar</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#highlightText">highlightText</a></li><li><a href="global.html#openBook">openBook</a></li><li><a href="global.html#pollForFile">pollForFile</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getGoogleAnnotation">getGoogleAnnotation</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#getImagesOverview">getImagesOverview</a></li><li><a href="global.html#getMicrosoftAnnotation">getMicrosoftAnnotation</a></li><li><a href="global.html#getYakeContextKeywords">getYakeContextKeywords</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/editor/Annotator.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import { useAtom } from 'jotai'
+import { ImageInfo } from '../../helpers/EditorHelper'
+import AIAnnotator from './AIAnnotator'
+import UserAnnotator from './UserAnnotator'
+import Classifier from './Classifier'
+import AISelection from './AISelection'
+import { getImgFilename } from '../../helpers/EditImageHelper'
+import { getImageMetadataApiCall } from '../../api/GetImageMetadata'
+import styles from './Annotator.module.scss'
+import ProgressBar from './ProgressBar'
+import { nextImage } from '../../helpers/EbookContext'
+
+/**
+ * The Annotator component is meant to help the user produce an annotation for an image as an end result
+ * It keeps track of the different stages in the image annotation process (classify, ai, manual, save)
+ *
+ * @param {ImageInfo} currImage Metadata for current image under annotation
+ * @param {String} ebookId The UUID for the ebook generated by server
+ * @component
+ * @returns The Annotator Component: different view depending on the stage
+ */
+
+function Annotator({ currImage, ebookId }) {
+    const [stage, setStage] = useState(null)
+    const [imageId, setImageId] = useState(-1)
+    const [existingAltText, setExistingAltText] = useState(null)
+
+    const [currClassification, setCurrClassification] = useState(null)
+    const [currAiSelected, setCurrAISelected] = useState(null)
+    // TODO: could be used to get the annotation history
+    const [aiAnnotationList, setAiAnnotationList] = useState([])
+    const [userAnnotationList, setUserAnnotationList] = useState([])
+    const [sentence, setSentence] = useState(null)
+    const [copied, setCopied] = useState(false)
+    const decorativetxt ='Decorative images do not have an annotation'
+
+    const [nextImageFunc] = useAtom(nextImage)
+
+    // Executed every time the currentImage changes
+    useEffect(() => {
+        // Note that this start stage is overidden by the image overview
+        if (!currImage) {
+            setStage('loading')
+        } else {
+            setStage('classify')
+            // Remove all AI suggestions when next image is loaded
+            setCurrClassification(null)
+            setCurrAISelected(null)
+            setAiAnnotationList([])
+            setUserAnnotationList([])
+            setSentence(null)
+            setCopied(false)
+
+            // Save existing alt-text of image
+            const altText = currImage.element.alt
+            if (altText) {
+                setExistingAltText(altText)
+            }
+            // For each image that is loaded, client fetches all metadata from server (even if the image does not exist yet)
+            fetchImageMetadata()
+        }
+    }, [currImage])
+
+    /**
+     * Makes API call to server for fetching image metadata
+     * i.e. the image itself and all annotations linked to it
+     * and updates state accordingly
+     */
+    function fetchImageMetadata() {
+        // As the user is waiting for the server's response
+        setStage('loading')
+        console.log('Fetching image metadata...')
+
+        getImageMetadataApiCall(ebookId, getImgFilename(currImage)).then(
+            (result) => {
+                setStage('overview')
+                if (
+                    Object.prototype.hasOwnProperty.call(result, 'annotations')
+                ) {
+                    // Decorative images don't have image descriptions
+                    if (currClassification !== 'Decoration') {
+                        setStage('overview')
+                    }
+                    // For each HUM annotation, add to user annotation list (for display in UserAnnotator)
+                    // Note that for now this list always contains 1 HUM annotation
+                    result.annotations.forEach((el) => {
+                        if (el.type === 'HUM') {
+                            setUserAnnotationList([
+                                ...userAnnotationList,
+                                el.text,
+                            ])
+                        }
+                    })
+                    const allAiLabels = result.annotations.filter(
+                        (el) => el.type !== 'HUM'
+                    )
+                    // To display most recently generated AI suggestions when revisiting image
+                    setAiAnnotationList(allAiLabels)
+
+                    if (allAiLabels.length > 0) {
+                        // To display most recently selected AI choice in dropdown and set sentence
+                        setRecentAiResults(allAiLabels)
+                    }
+                }
+
+                if (Object.prototype.hasOwnProperty.call(result, 'image')) {
+                    console.log('Image metadata: ')
+                    console.log(result.image)
+                    setImageId(result.image.id)
+                    setCurrClassification(result.image.classification)
+                }
+            },
+            (error) => {
+                if (error.cause === 404) {
+                    setStage('classify')
+                    console.log(
+                        'Image does not exist on server yet, will be created after the first time classifying.'
+                    )
+                    setCurrClassification(null)
+                }
+            }
+        )
+    }
+
+    /**
+     * @param {List of Annotation objects} aiSuggestions: Annotation objects of type not equal to 'HUM'
+     * Sets the most recent AI choice, which can be the following types:
+     *    - BB_GOOGLE_LAB
+     *    - BB_AZURE_LAB
+     * Sets generated sentence if Microsoft Azure was most recent
+     */
+    function setRecentAiResults(aiSuggestions) {
+        // Filter out types BB_AZURE_SEN and CXT_YAKE_LAB, which do not correspond to dropdown menu choices
+        const filtered = aiSuggestions.filter(
+            (el) => el.type !== 'BB_AZURE_SEN' &amp;&amp; el.type !== 'CXT_YAKE_LAB'
+        )
+        // Take final Annotation object is considered most recent
+        // TODO: find better way of getting most recent annotation (largest id?)
+        if (filtered.length > 0) {
+            const mostRecentAiChoice = filtered[filtered.length - 1].type
+            setCurrAISelected(mostRecentAiChoice)
+
+            // Set previous AI description
+            if (mostRecentAiChoice === 'BB_AZURE_LAB') {
+                const sentences = aiSuggestions.filter(
+                    (el) => el.type === 'BB_AZURE_SEN'
+                )
+                if (sentences.length > 0) {
+                    setSentence(sentences[sentences.length - 1].text)
+                }
+            }
+        }
+    }
+
+    return (
+        &lt;div className={styles.container}>
+            &lt;ProgressBar
+                currStage={stage}
+                setStage={setStage}
+                classification={currClassification}
+                userAnnotations={userAnnotationList}
+                currAiSelected={currAiSelected}
+            />
+
+            {
+                {
+                    loading: &lt;div className={styles.loader}> Loading... &lt;/div>,
+
+                    classify: (
+                        &lt;Classifier
+                            currImage={currImage}
+                            ebookId={ebookId}
+                            setImageId={setImageId}
+                            currClassification={currClassification}
+                            setCurrClassification={setCurrClassification}
+                            setStage={setStage}>
+                            {' '}
+                        &lt;/Classifier>
+                    ),
+
+                    'ai-selection': (
+                        &lt;AISelection
+                            setStage={setStage}
+                            currAiSelected={currAiSelected}
+                            setCurrAiSelected={setCurrAISelected}
+                            setAiAnnotationList={setAiAnnotationList}
+                            setSentence={setSentence}
+                            currImage={currImage}
+                            ebookId={ebookId}
+                            imageId={imageId}
+                        />
+                    ),
+
+                    annotate: (
+                        &lt;div className={styles.container}>
+                            &lt;AIAnnotator
+                                aiAnnotationList={aiAnnotationList}
+                                aiChoice={currAiSelected}
+                                sentence={sentence}
+                                copied={copied}
+                                setCopied={setCopied}>
+                                {' '}
+                            &lt;/AIAnnotator>
+                            &lt;UserAnnotator
+                                annotationList={userAnnotationList}
+                                setAnnotationList={setUserAnnotationList}
+                                currImage={currImage}
+                                ebookId={ebookId}
+                                imageId={imageId}
+                                setImageId={setImageId}
+                                existingAlt={existingAltText}
+                                setStage={setStage}
+                                copied={copied}
+                                setCopied={setCopied}
+                                sentence={sentence}
+                            />
+                        &lt;/div>
+                    ),
+                    overview: (
+                        &lt;div className={styles.overview}>
+                            &lt;div className={styles.overview_info}>
+                                &lt;br />
+                                &lt;strong> Classification: &lt;/strong>{' '}
+                                {currClassification}
+                                &lt;br />
+                            &lt;/div>
+                            &lt;div className={styles.overview_info}>
+                                &lt;strong> Image description: &lt;/strong>
+                                {currClassification === 'Decoration'
+                                    ? decorativetxt
+                                    : userAnnotationList[
+                                          userAnnotationList.length - 1
+                                      ]}
+                            &lt;/div>
+                            &lt;button
+                                type="button"
+                                className={styles.restart_button}
+                                onClick={() => {
+                                    setStage('classify')
+                                    setCurrClassification(null)
+                                    setCurrAISelected(null)
+                                    setAiAnnotationList([])
+                                    setUserAnnotationList([])
+                                }}>
+                                Restart image annotation
+                            &lt;/button>
+                            {nextImageFunc ? (
+                                &lt;button
+                                    type="button"
+                                    className={styles.continue_button}
+                                    onClick={() => {
+                                        nextImageFunc()
+                                    }}>
+                                    Continue next image
+                                &lt;/button>
+                            ) : (
+                                ''
+                            )}
+                        &lt;/div>
+                    ),
+                }[stage]
+            }
+        &lt;/div>
+    )
+}
+
+Annotator.propTypes = {
+    currImage: PropTypes.instanceOf(ImageInfo).isRequired,
+    ebookId: PropTypes.string.isRequired,
+}
+
+export default Annotator
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

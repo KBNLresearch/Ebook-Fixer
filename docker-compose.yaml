@@ -1,0 +1,47 @@
+version: '3.7'
+
+services:
+
+  mongodb:
+    image: mongo:${MONGO_DB_TAG}
+    restart: always
+    volumes:
+      - ./data-db:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DB_NAME}
+    ports:
+      - "27017:27017"
+
+  server:
+    restart: always
+    container_name: backend
+    image: ${GITLAB_REGISTRY}/server:${TAG}
+    command: bash -c 'python manage.py makemigrations ebooks images annotations && 
+                      python manage.py migrate && 
+                      python manage.py runserver 0.0.0.0:8000'
+    build:
+      context: ./server/
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    links:
+      - mongodb
+    volumes:
+      - ./server-vol:/app/test-books
+      - ./docs/server:/app/docs/_build/html
+
+  client:
+    restart: always
+    container_name: frontend
+    image: ${GITLAB_REGISTRY}/client:${TAG}
+    command : npm start
+    build:
+      context: ./client/
+      dockerfile: Dockerfile
+    volumes:
+      - ./docs/client:/client/docs
+    ports:
+      - "3000:3000"
+    stdin_open: true

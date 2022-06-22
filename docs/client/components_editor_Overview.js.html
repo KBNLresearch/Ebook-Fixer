@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/editor/Overview.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Fixing E-Books Client Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="AISelection.html">AISelection</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FetchWithStatus.html">FetchWithStatus</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="NavBar.html">NavBar</a></li><li><a href="Overview.html">Overview</a></li><li><a href="ProgressBar.html">ProgressBar</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="Sidebar.html">Sidebar</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#highlightText">highlightText</a></li><li><a href="global.html#openBook">openBook</a></li><li><a href="global.html#pollForFile">pollForFile</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getGoogleAnnotation">getGoogleAnnotation</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#getImagesOverview">getImagesOverview</a></li><li><a href="global.html#getMicrosoftAnnotation">getMicrosoftAnnotation</a></li><li><a href="global.html#getYakeContextKeywords">getYakeContextKeywords</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/editor/Overview.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import { Link, useParams } from 'react-router-dom'
+import { ImageInfo } from '../../helpers/EditorHelper'
+import styles from './Overview.module.scss'
+import { getImgFilename } from '../../helpers/EditImageHelper'
+import { ReactComponent as ExpandSVG } from '../../assets/svgs/fullscreen-icon.svg'
+import { getImagesOverview } from '../../api/GetImagesOverview'
+
+// Join the ImageList with server results, keeping everything from Imagelists
+const leftJoinImages = (objArr1, objArr2) =>
+    objArr1.map((anObj1) => ({
+        ...objArr2.find(
+            (anObj2) => getImgFilename(anObj1) === anObj2.image.filename
+        ),
+        ...anObj1,
+    }))
+
+/**
+ * Gets the styles class of an image based on it's characteristics
+ *
+ * @param {ImageInfo+} img ImageInfo object with the response from the server attached
+ * @private
+ * @returns String, a name of a class based on the parameters of the image
+ */
+function getImageClass(img) {
+    // The order of these If statements MATTERS,
+    // Because we want to display user changes first
+    // So a user annotation / classification as decorative OVERRIDES an existing alt text
+    // Classified as Decorative
+    if (img.image &amp;&amp; img.image.classification === 'Decoration') {
+        return imageClasses[2]
+    }
+    // User Annotation
+    if (img.annotated === true) {
+        return imageClasses[0]
+    }
+    // Existing alt-text
+    if (img.element.alt) {
+        return imageClasses[1]
+    }
+    // No annotation
+    return imageClasses[3]
+}
+
+const imageClasses = [
+    'annotated',
+    'existing_alt',
+    'decorative',
+    'not_annotated',
+]
+
+const prettyImageClasses = [
+    'Annotated',
+    'Existing alt-text',
+    'Decorative',
+    'Not Annotated',
+]
+
+/**
+ * The Overview component provides the user with a way to see all the images in the book at once,
+ * it also takes the place of the annotator when no image is selected
+ *
+ * @param {ImageInfo[]} imageList List of images that epubJS found in the ebook
+ * @component
+ * @returns the Overview component
+ */
+function Overview({ imageList }) {
+    const { uuid } = useParams()
+
+    const [expanded, setExpanded] = useState(false)
+    const imageLimit = 5
+
+    const [serverImageList, setServerImageList] = useState([])
+
+    const [newImageList, setNewImageList] = useState([])
+
+    const [filters, setFilters] = useState(
+        new Array(imageClasses.length).fill(false)
+    )
+
+    // Set the new image list with whatever is in the server image list joined with the normal image list.
+    // The server image list can be empty
+    useEffect(() => {
+        const list = leftJoinImages(imageList, serverImageList)
+        setNewImageList(list)
+    }, [imageList, serverImageList])
+
+    // Send a request for the server images list when the page loads
+    useEffect(() => {
+        if (serverImageList.length === 0) {
+            getImagesOverview(uuid).then((serverImgList) => {
+                setServerImageList(serverImgList.images)
+            })
+        }
+    }, [serverImageList.length, uuid])
+
+    // When someone presses one of the filters, we need to update the state
+    function handleFilterChange(e, i) {
+        const newFilters = filters.map((v, index) => {
+            if (i === index) {
+                return e.target.checked
+            }
+            return v
+        })
+        setFilters(newFilters)
+    }
+
+    // Filter the list of images
+    function filterNewImages() {
+        return newImageList
+            .slice(0, expanded ? imageList.length : imageLimit)
+            .filter((img) => {
+                if (filters.some((e) => e)) {
+                    return filters[imageClasses.indexOf(getImageClass(img))]
+                }
+                return true
+            })
+    }
+
+    return (
+        &lt;div
+            className={
+                styles.container + ' ' + (expanded ? styles.expanded : '')
+            }>
+            &lt;button
+                type="button"
+                className={styles.expandbtn}
+                onClick={() => {
+                    setExpanded(!expanded)
+                }}>
+                &lt;ExpandSVG aria-hidden="true" />
+                {expanded ? 'Collapse ' : 'Expand '}
+                overview
+            &lt;/button>
+            &lt;div className={styles.overview_info}>
+                Showing {filterNewImages().length} /{' ' + imageList.length}{' '}
+                images
+                {expanded ? '' : &lt;div>Expand the overview to see more&lt;/div>}
+                &lt;div>Click on an image to annotate it&lt;/div>
+            &lt;/div>
+
+            {expanded ? (
+                &lt;div className={styles.filters}>
+                    &lt;p>Filter Images: &lt;/p>
+                    {imageClasses.map((classStr, i) => (
+                        &lt;div className={styles.filter}>
+                            &lt;input
+                                type="checkbox"
+                                id={classStr}
+                                name={classStr}
+                                value={classStr}
+                                className={styles[classStr]}
+                                onChange={(e) => {
+                                    handleFilterChange(e, i)
+                                }}
+                            />
+                            &lt;label htmlFor={classStr}>
+                                {prettyImageClasses[i]}
+                            &lt;/label>
+                        &lt;/div>
+                    ))}
+                &lt;/div>
+            ) : (
+                ''
+            )}
+
+            &lt;div className={styles.gallery}>
+                {filterNewImages().map((img, i) => (
+                    &lt;Link
+                        to={`/ebook/${uuid}/image/${encodeURIComponent(
+                            getImgFilename(img)
+                        )}`}
+                        aria-label={`Link to image ${i}`}
+                        key={getImgFilename(img)}>
+                        {React.createElement('img', {
+                            src: img.replacementUrl,
+                            id: `overViewImage${i}`,
+                            className:
+                                styles.img + ' ' + styles[getImageClass(img)],
+                        })}
+                    &lt;/Link>
+                ))}
+            &lt;/div>
+        &lt;/div>
+    )
+}
+
+Overview.propTypes = {
+    imageList: PropTypes.arrayOf(PropTypes.instanceOf(ImageInfo)).isRequired,
+}
+
+export default Overview
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

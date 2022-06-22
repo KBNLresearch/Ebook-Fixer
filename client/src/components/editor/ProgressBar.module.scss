@@ -1,0 +1,131 @@
+// Will be set in ProgressBar.js depending on the current stage
+:root {
+    --page_background: #f8f8f8;
+    $disabled-color: #b8c1c3;
+
+    // Color for each stage:
+    --background_class: #b8c1c3;
+    --background_ai: #b8c1c3;
+    --background_manual: #b8c1c3;
+    --background_check: #b8c1c3;
+}
+
+.progress_container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    row-gap: 0.5em;
+    font-size: 18px;
+    box-sizing: border-box;
+
+    overflow: hidden;
+
+    .left_arrow:before {
+        // Left Arrow, inherits border color
+        content: '';
+        position: absolute;
+        border-left: 26px solid var(--page_background);
+        border-right: 26px solid transparent;
+        border-top: 26px solid transparent;
+        border-bottom: 26px solid transparent;
+        left: 0px;
+        top: -0px;
+        width: 0;
+        height: 0;
+        display: block;
+    }
+
+    .right_arrow:after {
+        // Right Arrow, inherits border color
+        content: '';
+        position: absolute;
+        border-left-width: 25px;
+        border-left-style: solid;
+        border-left-color: inherit;
+        border-right: 25px solid transparent;
+        border-top: 25px solid transparent;
+        border-bottom: 25px solid transparent;
+        border-radius: 0.2em;
+        right: -46px;
+        top: 0px;
+        width: 0;
+        height: 0;
+        display: block;
+    }
+    .right_arrow {
+        margin-right: 10px;
+    }
+
+    button {
+        padding: 0;
+        &:disabled {
+            cursor: default;
+        }
+        &:hover {
+            // Can use background-color instead
+            // background-color: black;
+            // border-color: black !important;
+            // color: white;
+            filter: hue-rotate(70deg) saturate(130%);
+        }
+        transition: border-color 0.3s ease, background-color 0.3s ease,
+            filter 0.5s ease;
+    }
+    .step {
+        overflow: visible;
+        border-radius: 0.4em;
+        max-width: 150px;
+        height: 50px;
+        position: relative;
+        color: rgb(0, 0, 0);
+        border-color: white;
+        span {
+            font-size: 17px;
+            position: relative;
+            left: 0.8em;
+        }
+    }
+
+    .class_step {
+        z-index: 10;
+        width: 80px;
+        background: var(--background_class);
+        border-left-color: var(--background_class);
+        span {
+            left: 0em;
+        }
+    }
+
+    .ai_step {
+        z-index: 9;
+        width: 80px;
+        background: var(--background_ai);
+        border-left-color: var(--background_ai);
+    }
+
+    .manual_step {
+        width: 110px;
+        z-index: 8;
+        flex-grow: 0;
+        background: var(--background_manual);
+        border-left-color: var(--background_manual);
+    }
+
+    .review_step {
+        min-width: 110px;
+        flex-grow: 3;
+        z-index: 7;
+        background: var(--background_check);
+        border-left-color: var(--background_check);
+    }
+
+    // Add new steps here:
+
+    .activeBtn {
+        background-color: #9fdf9f;
+        border-color: #9fdf9f;
+    }
+}

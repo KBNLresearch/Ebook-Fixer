@@ -1,0 +1,418 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/editor/AISelection.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Fixing E-Books Client Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="AISelection.html">AISelection</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FetchWithStatus.html">FetchWithStatus</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="NavBar.html">NavBar</a></li><li><a href="Overview.html">Overview</a></li><li><a href="ProgressBar.html">ProgressBar</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="Sidebar.html">Sidebar</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#highlightText">highlightText</a></li><li><a href="global.html#openBook">openBook</a></li><li><a href="global.html#pollForFile">pollForFile</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getGoogleAnnotation">getGoogleAnnotation</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#getImagesOverview">getImagesOverview</a></li><li><a href="global.html#getMicrosoftAnnotation">getMicrosoftAnnotation</a></li><li><a href="global.html#getYakeContextKeywords">getYakeContextKeywords</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/editor/AISelection.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect, useState, useRef } from 'react'
+import PropTypes from 'prop-types'
+import styles from './Annotator.module.scss'
+import { ImageInfo } from '../../helpers/EditorHelper'
+import { getImgFilename } from '../../helpers/EditImageHelper'
+import { getGoogleAnnotation, getMicrosoftAnnotation, getYakeContextKeywords } from '../../api/AnnotateImage'
+import { ReactComponent as MoreInfoSVG } from '../../assets/svgs/information-button.svg'
+
+/**
+ * The AISelection component handles selection of various AI types, such as Google Vision or Microsoft Azure.
+ * After this step the AIAnnotator component will deal with generating the actual annotations using that AI.
+ * 
+ * @param {external: SetStateAction} setStage Sets the next stage in annotation process 
+ * @param {String} currAiSelected AI type selected by user
+ * @param {external: SetStateAction} setCurrAiSelected Sets the AI choice of the user
+ * @param {external: SetStateAction} setAiAnnotationList Updates the list of AI annotations 
+ * @param {external: SetStateAction} setSentence Updates the description generated by AI
+ * @param {ImageInfo} currImage Metadata for current image under annotation
+ * @param {String} ebookId The UUID for the ebook generated by server
+ * @param {String} imageId The image id generated by server
+ * @component
+ * @returns the AISelection component
+ */
+function AISelection({
+    setStage,
+    currAiSelected,
+    setCurrAiSelected,
+    setAiAnnotationList,
+    setSentence,
+    currImage,
+    ebookId,
+    imageId,
+}) {
+    const dropdownRef = useRef(null)
+    const generateButtonRef = useRef(null)
+    const savedTextButton = 'Generated'
+    const notSavedTextButton = 'Get AI suggestions'
+    const [moreInfo, setMoreInfo] = useState(false)
+
+    const options = [
+        { key: 'BB_GOOGLE_LAB', val: 'Google Vision' },
+        { key: 'BB_AZURE_LAB', val: 'Microsoft Azure' },
+    ]
+
+    useEffect(() => {
+        generateButtonRef.current.disabled = false
+
+        if (currAiSelected !== null &amp;&amp; currAiSelected !== 'skipped') {
+            generateButtonRef.current.disabled = true
+            generateButtonRef.current.innerText = savedTextButton
+            // Show the selected AI in dropdown menu
+            const idx =
+                options.findIndex((opt) => opt.key === currAiSelected) + 1
+            dropdownRef.current.selectedIndex = idx
+        } else {
+            // Show the label
+            dropdownRef.current.selectedIndex = 0
+            generateButtonRef.current.disabled = false
+            generateButtonRef.current.innerText = notSavedTextButton
+        }
+    }, [])
+
+    /**
+     * @returns the AI type selected in dropdown menu
+     */
+    function getSelectedAi() {
+        const choice =
+            dropdownRef.current.options[dropdownRef.current.selectedIndex].value
+        if (dropdownRef.current.selectedIndex === 0) {
+            return 'Invalid'
+        }
+        return choice
+    }
+
+    /**
+     * Stores the AI selected in dropdown menu
+     * and disables the "Save AI" button
+     */
+    function handleAiClick() {
+        const choice = getSelectedAi()
+        setCurrAiSelected(choice)
+
+        if (choice !== 'Invalid') {
+            display(choice)
+            generateButtonRef.current.disabled = true
+            generateButtonRef.current.innerText = savedTextButton
+        } else {
+            generateButtonRef.current.disabled = false
+            generateButtonRef.current.innerText = notSavedTextButton
+        }
+    }
+
+    function handleSkip() {
+        setCurrAiSelected("skipped")
+        // Pass empty array, since there are no black box AI suggestions
+        getYakeKeywords([])
+    }
+
+     /**
+     *  Gets Yake keywords
+     *  Gets AI suggestions for image annotations, depending on the user's AI choice
+     */
+    function display(choice) {
+        if (currImage) {
+            // When only the client is run during development, we still want to inspect this function though
+            if (!ebookId) {
+                console.log('No e-book UUID stored on client!')
+            }
+            // Each of these helpers also gets Yake keywords, which are appended to the list of image AI suggestions
+            switch(choice) {
+                case 'BB_GOOGLE_LAB':
+                    getGoogleAnnotations()
+                    break
+                case 'BB_AZURE_LAB':
+                    getMsAnnotations()
+                    break
+                default:
+                    setCurrAiSelected('skipped')
+                    // TODO: proper handling of no matching AI choice
+            }
+        }
+    }
+
+
+    /**
+     * Makes API call to server for fetching Google labels
+     */
+    function getGoogleAnnotations() {
+        // Loading spinner while user waits for AI annotations
+        setStage('loading')
+        console.log('Fetching Google Vision labels...')
+        getGoogleAnnotation(
+            ebookId,
+            imageId,
+            getImgFilename(currImage)
+        ) .then(result => {
+            setStage('annotate')
+            if (Object.prototype.hasOwnProperty.call(result, "annotations")){ 
+                setAiAnnotationList(result.annotations)
+                // Appends context keywords generated by Yake to black box annotations
+                getYakeKeywords(result.annotations)
+            }
+        }).catch((error) =>{
+            setCurrAiSelected(null)
+            setStage("ai-selection")
+            console.log(error)
+           
+           
+            
+        })
+    }
+
+    /**
+     * Makes API call to server for fetching MS labels and descriptions
+     */
+    function getMsAnnotations() {
+        setStage('loading')
+        console.log('Fetching Microsoft Azure labels and description...')
+
+        getMicrosoftAnnotation(
+            ebookId,
+            imageId,
+            getImgFilename(currImage)
+        ) .then(result => {
+            setStage('annotate')
+            if (Object.prototype.hasOwnProperty.call(result, "annotations")){
+                    setSentence(result.annotations.pop().text)
+                    setAiAnnotationList(result.annotations)
+                    // Appends context keywords generated by Yake to black box annotations
+                    getYakeKeywords(result.annotations)
+            }
+        }).catch((error) =>{
+            setCurrAiSelected(null)
+            setStage("ai-selection")
+            console.log(error)
+           
+           
+            
+        })
+    }
+
+    /**
+     * @param generatedAiImageSuggestions: List of Annotation objects generated by black box AI in the same step
+     * Makes API call to server for fetching Yake keywords
+     */
+    function getYakeKeywords(generatedAiImageSuggestions) {
+
+        // TODO: if Yake was fetched already, use that result
+
+        setStage('loading')
+        console.log('Fetching Yake context keywords...')
+        getYakeContextKeywords(
+            ebookId,
+            imageId,
+            getImgFilename(currImage)
+        ) .then(result => {
+            setStage('annotate')
+            if (Object.prototype.hasOwnProperty.call(result, "annotations")){
+                // Add Yake keywords to already existing list of AI annotations (by Google or MS)
+                const allAiGenerations = generatedAiImageSuggestions
+                result.annotations.forEach((el) => {
+                    allAiGenerations.push(el)
+                })  
+                // Combines all black box AI suggestions and context keywords
+                setAiAnnotationList(allAiGenerations)
+                }
+        }).catch((error) =>{
+            console.log(error)
+            setStage('annotate')
+        })
+    }
+
+    return (
+        &lt;div className={styles.ai_input}>
+            &lt;label htmlFor="selectClass">
+                Please select AI to generate annotations
+            &lt;/label>
+
+            &lt;div className={styles.select_ai}>
+                &lt;select
+                    ref={dropdownRef}
+                    className={styles.dropdown}
+                    onChange={() => {
+                        generateButtonRef.current.disabled = false
+                        generateButtonRef.current.innerText = notSavedTextButton
+                        setAiAnnotationList([])
+                        setSentence(null)
+                    }}>
+                    &lt;option value="none" selected disabled hidden>
+                        Select AI
+                    &lt;/option>
+                    {options.map((opt) => (
+                        &lt;option value={opt.key} key={opt.key}>
+                            {' '}
+                            {opt.val}{' '}
+                        &lt;/option>
+                    ))}
+                &lt;/select>
+                &lt;button
+                    type="button"
+                    className={styles.moreinfobtn}
+                    onClick={() => setMoreInfo(!moreInfo)}>
+                    &lt;MoreInfoSVG />
+                &lt;/button>
+            &lt;/div>
+            {moreInfo ? (
+                &lt;div className={styles.extra_content}>
+                    &lt;p>
+                        Google Cloud Vision API: &lt;br/>
+                        generates image labels with a
+                        corresponding confidence. Best used for flags, covers,
+                        text and logos.
+                    &lt;/p>
+                    &lt;br />
+                    &lt;p>
+                        Microsoft Computer Vision: &lt;br/>
+                        generates image labels with a
+                        corresponding confidence as well as a sentence
+                        describing the image. Best used for art, drawings, icons
+                        and photographs.
+                    &lt;/p>
+                &lt;/div>
+            ) : (
+                ''
+            )}
+            &lt;div>
+                &lt;button
+                    type="button"
+                    className={styles.save_button}
+                    ref={generateButtonRef}
+                    onClick={() => handleAiClick()}>
+                    {notSavedTextButton}
+                &lt;/button>
+                &lt;button
+                    type="button"
+                    className={styles.skip}
+                    onClick={() => handleSkip()}>
+                    {' '}
+                    Skip{' '}
+                &lt;/button>
+            &lt;/div>
+        &lt;/div>
+    )
+}
+
+AISelection.propTypes = {
+    setStage: PropTypes.func.isRequired,
+    currAiSelected: PropTypes.string.isRequired,
+    setCurrAiSelected: PropTypes.func.isRequired,
+    setAiAnnotationList: PropTypes.func.isRequired,
+    setSentence: PropTypes.func.isRequired,
+    currImage: PropTypes.instanceOf(ImageInfo).isRequired,
+    ebookId: PropTypes.string.isRequired,
+    imageId: PropTypes.string.isRequired,
+}
+
+export default AISelection
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

@@ -1,0 +1,298 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/editor/Classifier.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Fixing E-Books Client Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="AISelection.html">AISelection</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FetchWithStatus.html">FetchWithStatus</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="NavBar.html">NavBar</a></li><li><a href="Overview.html">Overview</a></li><li><a href="ProgressBar.html">ProgressBar</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="Sidebar.html">Sidebar</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#highlightText">highlightText</a></li><li><a href="global.html#openBook">openBook</a></li><li><a href="global.html#pollForFile">pollForFile</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getGoogleAnnotation">getGoogleAnnotation</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#getImagesOverview">getImagesOverview</a></li><li><a href="global.html#getMicrosoftAnnotation">getMicrosoftAnnotation</a></li><li><a href="global.html#getYakeContextKeywords">getYakeContextKeywords</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/editor/Classifier.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect, useRef } from 'react'
+import PropTypes from 'prop-types'
+import styles from './Annotator.module.scss'
+import { classifyImageApiCall } from '../../api/ClassifyImage'
+import { ImageInfo } from '../../helpers/EditorHelper'
+import {
+    getImgFilename,
+    getLocation,
+    getRawContext,
+} from '../../helpers/EditImageHelper'
+
+/**
+ * The Classifier component is in charge of letting the user classify the image under annotation.
+ * Decorative images will not be annotated.
+ * 
+ * @param {ImageInfo} currImage Metadata for current image under annotation
+ * Note that changing of the image is propagated to this child
+ * @param {String} ebookId The UUID for the ebook generated by server
+ * @param {external:SetStateAction} setImageId Updates image id stored on client, generated by server
+ * @param {String} currClassification Classification for this image stored on server
+ * @param {external:SetStateAction} setCurrClassification Sets the current classification
+ * @param {external:SetStateAction} setStage Sets next stage in annotation process 
+ * @component
+ * @returns The Classifier component
+ */
+function Classifier({ currImage, ebookId, setImageId, currClassification, setCurrClassification, setStage }) {
+
+    // References/hooks to React DOM elements
+    const saveButtonRef = useRef(null)
+    const dropdownRef = useRef(null)
+
+    // Creates a hook that executes the arrow func. every time imageSelected or classification changes
+    useEffect(() => {
+        if (!currImage) {
+            saveButtonRef.current.disabled = true
+            saveButtonRef.current.innerText = 'Select image first'
+        } else {
+            saveButtonRef.current.disabled = false
+            saveButtonRef.current.innerText = 'Save classification'
+
+            if (currClassification != null) {
+                saveButtonRef.current.disabled = true
+                // Show the selected classification
+                const idx = options.findIndex(opt => opt.val === currClassification || opt.abr === currClassification) + 1;
+                dropdownRef.current.selectedIndex = idx;
+            } else {
+                // Show the label
+                dropdownRef.current.selectedIndex = 0
+                saveButtonRef.current.disabled = false
+            }
+        }
+    }, [currImage, currClassification])
+
+    /**
+     * @returns the currently selected classification
+     */
+    function getClassification() {
+        if (currImage) {
+            const choice =
+                dropdownRef.current.options[dropdownRef.current.selectedIndex]
+                    .value
+            
+            if (dropdownRef.current.selectedIndex === 0) {
+               
+                return 'Invalid'
+            }
+            return choice
+        }
+    }
+
+    /**
+     * Makes API call to server and disables "Save" button
+     */
+    function handleSubmit() {
+        if (currImage) {
+            // When only the client is run during development, we still want to inspect this function though
+            if (!ebookId) {
+                console.log('No e-book UUID stored on client!')
+            }
+            // Store current classification for this image on client (but will only be fetched from server when image changes)
+            const choice = getClassification()
+            if (choice === 'Invalid') return
+            setCurrClassification(choice)
+
+            classifyImageApiCall(
+                ebookId,
+                getImgFilename(currImage),
+                getLocation(currImage),
+                choice,
+                getRawContext(currImage)
+            ).then((result) => {
+                // console.log(JSON.stringify(result));
+                // Keep image id up to date after classifying
+                if (Object.prototype.hasOwnProperty.call(result, 'id')) {
+                    setImageId(result.id)
+                }
+            }).catch((error) => {
+                setStage('classify')
+
+            })
+
+            if (choice !== 'Invalid') {
+                saveButtonRef.current.disabled = true
+                saveButtonRef.current.innerText = 'Classification Saved'
+            } else {
+                saveButtonRef.current.disabled = false
+            }
+
+            // For decorative images, user will not proceed to next stage
+            if (choice !== 'Decoration' &amp;&amp; choice !== 'Invalid') {
+                setStage('ai-selection')
+            } 
+            if (choice == 'Decoration' ) {
+                setStage('overview')
+            } 
+        }
+    }
+
+    const options = [
+        {abr: 'DECO', val: 'Decoration'},
+        {abr: 'INFO', val: 'Information'},
+        {abr: 'PHOTO', val: 'Photo'},
+        {abr: 'ILLUS', val: 'Illustration'},
+        {abr: 'FIG', val: 'Figure'},
+        {abr: 'SYM', val: 'Symbol'},
+        {abr: 'ART', val: 'Art'},
+        {abr: 'SIG', val: 'Signature'},
+        {abr: 'TXT', val: 'Text'},
+        {abr: 'FLAG', val: 'Flag'},
+        {abr: 'COM', val: 'Comic'},
+        {abr: 'LOGO', val: 'Logo'},
+        {abr: 'GRAPH', val: 'Graph'},
+        {abr: 'MAP', val: 'Map'},
+    ]
+
+    return (
+        &lt;div className={styles.ai_input}>
+            &lt;label htmlFor="selectClass">
+                Please classify your selected image
+            &lt;/label>
+            &lt;select
+                name="selectedClass"
+                id="selectClass"
+                ref={dropdownRef}
+                className={styles.dropdown}
+                onClick={() => {
+                    saveButtonRef.current.disabled = false
+                }}>
+                &lt;option value="none" selected disabled hidden>
+                    Classify image
+                &lt;/option>
+                {options.map((opt) => (
+                    &lt;option value={opt.val}> {opt.val} &lt;/option>
+                ))}
+            &lt;/select>
+            &lt;button
+                type="button"
+                className={styles.save_button}
+                ref={saveButtonRef}
+                onClick={() => handleSubmit()}>
+                {' '}
+                Save classification{' '}
+            &lt;/button>
+        &lt;/div>
+    )
+}
+
+Classifier.propTypes = {
+    currImage: PropTypes.instanceOf(ImageInfo).isRequired,
+    ebookId: PropTypes.string.isRequired,
+    setImageId: PropTypes.func.isRequired,
+    currClassification: PropTypes.string.isRequired,
+    setCurrClassification: PropTypes.func.isRequired,
+    setStage: PropTypes.func.isRequired,
+}
+
+export default Classifier
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

@@ -1,0 +1,296 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/editor/ShareURL.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Fixing E-Books Client Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="AISelection.html">AISelection</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FetchWithStatus.html">FetchWithStatus</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="NavBar.html">NavBar</a></li><li><a href="Overview.html">Overview</a></li><li><a href="ProgressBar.html">ProgressBar</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="Sidebar.html">Sidebar</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#highlightText">highlightText</a></li><li><a href="global.html#openBook">openBook</a></li><li><a href="global.html#pollForFile">pollForFile</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getGoogleAnnotation">getGoogleAnnotation</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#getImagesOverview">getImagesOverview</a></li><li><a href="global.html#getMicrosoftAnnotation">getMicrosoftAnnotation</a></li><li><a href="global.html#getYakeContextKeywords">getYakeContextKeywords</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/editor/ShareURL.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect, useRef, useState } from 'react'
+import PropTypes from 'prop-types'
+import { useParams } from 'react-router-dom'
+import { ReactComponent as ShareSVG } from '../../assets/svgs/share-icon.svg'
+import styles from './ShareURL.module.scss'
+
+/**
+ * This component provides a button and popup combo
+ * that let the user share the URL to the current book / image
+ *
+ * @returns The ShareURL component
+ * @component
+ */
+function ShareURL() {
+    // Get e-book UUID and imgFilename (which might be undefined) from the URL
+    const { uuid, imgFilename } = useParams()
+
+    const [popupVisible, setPopupVisible] = useState(false)
+    const [linkType, setLinkType] = useState(imgFilename ? 'image' : 'e-book') // can be either 'e-book' or 'image'
+    const urlText = useRef(null)
+    const containerRef = useRef(null)
+
+    /**
+     * Listens for a mouse click somewhere in the document
+     * If it detects one outside the container for the share button &amp; popup then it closes the popup
+     *
+     * One problem is that if the use clicks on disabled elements, then there is no mousedown event.
+     * So if the user clicks on a disabled button outside the popup, it won't be closed.
+     * I don't think that's a big problem that really needs solving.
+     *
+     * @param {Event} e MouseDown Event
+     */
+    function closePopupOnMouseDownOutside(e) {
+        // If the container doesn't contain the element that we clicked on
+        if (containerRef.current &amp;&amp; !containerRef.current.contains(e.target)) {
+            // outside the popup
+            setPopupVisible(false)
+            // Remove this event listener
+            document.removeEventListener(
+                'mousedown',
+                closePopupOnMouseDownOutside
+            )
+        }
+        // else inside the popup, do nothing
+    }
+
+    /**
+     * Closes popup if the key detected is Escape
+     *
+     * @param {Event} e Keydown event
+     */
+    function closeOnEscapeKey(e) {
+        if (e.key === 'Escape') {
+            setPopupVisible(false)
+            document.removeEventListener('keydown', closeOnEscapeKey)
+        }
+    }
+
+    /**
+     * This function handles the click on the share buttons
+     * Shows the popup with the share menu
+     *
+     * @param {Event} e click event from the share button
+     */
+    function handleShareClick(e) {
+        if (!popupVisible) {
+            // Add event listener for a use click, to close the popup
+            document.addEventListener('mousedown', closePopupOnMouseDownOutside)
+            document.addEventListener('keydown', closeOnEscapeKey)
+        }
+        // Show popup
+        setPopupVisible(!popupVisible)
+    }
+
+    /**
+     * This function takes a few steps to show the URL that they want to share to the user:
+     * - Copies it to the clipboard
+     * - Puts it in the readonly input element
+     * - Highlights the readonly input element
+     * @param {String} url the URL to show
+     */
+    function showURL(url) {
+        navigator.clipboard.writeText(url)
+        const urlTextElement = urlText.current
+        urlTextElement.value = url
+        // Focusing is a bit buggy sometimes so we can do it after a short pause.
+        // So that nothing else steals our focus (like the share button)
+        setTimeout(() => {
+            urlTextElement.focus()
+            urlTextElement.select()
+        }, 100)
+    }
+
+    // Executed every time the link Type changes or popupVisible changes
+    useEffect(() => {
+        if (popupVisible) {
+            // Set URL for ebook
+            if (linkType === 'e-book') {
+                const url = `${window.location.origin}/ebook/${uuid}`
+                showURL(url)
+            }
+            // Set URL for image
+            else if (linkType === 'image') {
+                const url = `${
+                    window.location.origin
+                }/ebook/${uuid}/image/${encodeURIComponent(imgFilename)}`
+                showURL(url)
+            }
+        }
+    }, [linkType, popupVisible])
+
+    // If an imgFilename is detected in the URL, we set the default link type to image
+    useEffect(() => {
+        if (uuid &amp;&amp; imgFilename) {
+            setLinkType('image')
+        } else if (uuid) {
+            setLinkType('e-book')
+        }
+    }, [imgFilename, uuid])
+
+    return (
+        &lt;div id="container" className={styles.container} ref={containerRef}>
+            &lt;button
+                onClick={handleShareClick}
+                className={styles.share_button}
+                type="button">
+                &lt;ShareSVG aria-hidden />
+                Share link
+            &lt;/button>
+            &lt;div
+                className={
+                    styles.popup + ' ' + (popupVisible ? styles.visible : '')
+                }>
+                &lt;button
+                    type="button"
+                    title="Close Popup"
+                    aria-label="Close Popup"
+                    onClick={() => {
+                        setPopupVisible(false)
+                    }}
+                    className={styles.close}>
+                    &amp;#10006;
+                &lt;/button>
+                &lt;p>Share link to:&lt;/p>
+                &lt;div className={styles.tabs}>
+                    &lt;button
+                        type="button"
+                        className={
+                            linkType === 'e-book' ? styles.activebtn : ''
+                        }
+                        onClick={() => {
+                            setLinkType('e-book')
+                        }}>
+                        E-book
+                    &lt;/button>
+                    &lt;button
+                        type="button"
+                        disabled={imgFilename === undefined}
+                        className={linkType === 'image' ? styles.activebtn : ''}
+                        onClick={(e) => {
+                            if (!e.target.disabled) {
+                                setLinkType('image')
+                            }
+                        }}>
+                        Image
+                    &lt;/button>
+                &lt;/div>
+                &lt;input type="text" readOnly ref={urlText} />
+                &lt;p className={styles.copied}>Copied!&lt;/p>
+            &lt;/div>
+        &lt;/div>
+    )
+}
+
+export default ShareURL
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

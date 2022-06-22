@@ -1,0 +1,485 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/epubfiles/FileUpload.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Fixing E-Books Client Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="AISelection.html">AISelection</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FetchWithStatus.html">FetchWithStatus</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="NavBar.html">NavBar</a></li><li><a href="Overview.html">Overview</a></li><li><a href="ProgressBar.html">ProgressBar</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="Sidebar.html">Sidebar</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#highlightText">highlightText</a></li><li><a href="global.html#openBook">openBook</a></li><li><a href="global.html#pollForFile">pollForFile</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getGoogleAnnotation">getGoogleAnnotation</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#getImagesOverview">getImagesOverview</a></li><li><a href="global.html#getMicrosoftAnnotation">getMicrosoftAnnotation</a></li><li><a href="global.html#getYakeContextKeywords">getYakeContextKeywords</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/epubfiles/FileUpload.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect, useRef, useState } from 'react'
+import PropTypes from 'prop-types'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAtom } from 'jotai'
+import { sendFile } from '../../api/SendFile'
+import styles from './FileUpload.module.scss'
+import { ReactComponent as UploadSVG } from '../../assets/svgs/upload-sign.svg'
+import FetchWithStatus from './FetchWithStatus'
+import { epubCheckReportContext } from '../../helpers/EbookContext'
+
+// Tests that drag and drop features and File reading are available
+// in the user's browser. The code will use a workaround if they're not.
+function testForDragAndDropSupport() {
+    const div = document.createElement('div')
+    return (
+        ('draggable' in div || ('ondragstart' in div &amp;&amp; 'ondrop' in div)) &amp;&amp;
+        'FormData' in window &amp;&amp;
+        'FileReader' in window
+    )
+}
+
+// This helper function checks that the file type of the file provided is an epub
+function checkFileType(file) {
+    return file.type === 'application/epub+zip'
+}
+
+// The file that the user will upload
+let droppedFile = null
+
+/**
+ * The FileUpload handles uploading the epub and sending it to the server.
+ * It supports both drag and drop and choosing a file with a system window.
+ * It checks the file type to be an epub.
+ * @param {SetStateAction} setEbookFile Updates the current e-book file
+ * @param {SetStateAction} setEbookIds Updates the current e-book id
+ * @param {SetStateAction} setEbookTitle Updates the current e-book title
+ * @component
+ * @returns The FileUpload component, ready for rendering.
+ */
+function FileUpload({ setEbookFile, setEbookId, setEbookTitle }) {
+    // State of this component:
+    // If the user is dragging a file across the component
+    const [dragging, setDragging] = useState(false)
+    // If the user is uploading a file
+    const [uploading, setUploading] = useState(false)
+    // The filename of the file that the user is uploading
+    const [filename, setFilename] = useState('')
+    // Status when the user uploads a file
+    const [status, setStatus] = useState('')
+    // File id from uploading
+    const [fileId, setFileId] = useState('')
+
+    const [epubCheckReport] = useAtom(epubCheckReportContext)
+
+    // A reference to the form that is returned below,
+    // Used for adding event listeners to it.
+    const form = useRef(null)
+
+    // For navigation to the editor
+    const navigate = useNavigate()
+
+    // When the mouse enters the file drop area
+    function handleDragEnter(e) {
+        if (e.dataTransfer.items &amp;&amp; e.dataTransfer.items.length > 0) {
+            setDragging(true)
+        }
+    }
+
+    // When the mouse leaves the file drop area
+    function handleDragLeave(e) {
+        setDragging(false)
+    }
+
+    // When the mouse drops the file
+    function handleDrop(e) {
+        droppedFile = e.dataTransfer.files
+        setFilename(droppedFile[0].name)
+        // Submit form
+        handleSubmit(e)
+    }
+
+    // When the mouse is in the drag and drop area
+    function handleDrag(e) {
+        // prevent browser from opening the file
+        e.preventDefault()
+        e.stopPropagation()
+    }
+
+    // This executes when the component is mounted:
+    // This is used for adding event listeners for dragging and dropping (for UI elements)
+    useEffect(() => {
+        if (testForDragAndDropSupport()) {
+            // get form element
+            const formElement = form.current
+            // Add Events (react only supports adding 1 event at a time so I had to do it this way)
+            ;[
+                'drag',
+                'dragstart',
+                'dragend',
+                'dragover',
+                'dragenter',
+                'dragleave',
+                'drop',
+            ].forEach((s) => {
+                formElement.addEventListener(s, handleDrag)
+            })
+            ;['dragover', 'dragenter'].forEach((s) => {
+                formElement.addEventListener(s, handleDragEnter)
+            })
+            ;['dragenter', 'dragleave', 'drop'].forEach((s) => {
+                formElement.addEventListener(s, handleDragLeave)
+            })
+            formElement.addEventListener('drop', handleDrop)
+
+            // Cleans up by removing the event listeners
+            return function cleanup() {
+                ;[
+                    'drag',
+                    'dragstart',
+                    'dragend',
+                    'dragover',
+                    'dragenter',
+                    'dragleave',
+                    'drop',
+                ].forEach((s) => {
+                    formElement.removeEventListener(s, handleDrag)
+                })
+                ;['dragover', 'dragenter'].forEach((s) => {
+                    formElement.removeEventListener(s, handleDragEnter)
+                })
+                ;['dragenter', 'dragleave', 'drop'].forEach((s) => {
+                    formElement.removeEventListener(s, handleDragLeave)
+                })
+                formElement.removeEventListener('drop', handleDrop)
+            }
+        }
+    }, [])
+
+    /**
+     * This Function checks that a file has been submitted / dropped
+     * and is called automatically when the user submits the form (by clicking the upload button)
+     * It checks the file type of the submission (by calling a helper function)
+     * And sends the file to the server using the API.
+     *
+     * @param e The event that submitted the form.
+     * @returns False if the submission is not meant to be done at this point, nothing if it succeeds / fails
+     */
+    function handleSubmit(e) {
+        // Dont reload the page with the form
+        e.preventDefault()
+        setStatus('')
+
+        // Already submitted
+        if (uploading) return false
+
+        // If the file exists
+        if (droppedFile) {
+            // Check the file type:
+            if (!checkFileType(droppedFile[0])) {
+                // Wrong file type
+                setStatus('bad_file_type')
+                return false
+            }
+
+            setUploading(true)
+
+            // -----------------------------------------------------
+            // TODO: Remove the next line of code once the endpoint for downloading ebooks is done
+            // this is for development purposes only:
+            // Puts the dropped file into the state of the App component to use for the Editor
+            if (setEbookFile) {
+                setEbookFile(droppedFile[0])
+            }
+            // -----------------------------------------------------
+
+            // sending the file:
+            const formdata = new FormData()
+            formdata.append('epub', droppedFile[0])
+            sendFile(formdata)
+                .then((result) => {
+                    if (
+                        Object.prototype.hasOwnProperty.call(result, 'book_id')
+                    ) {
+                        setEbookId(result.book_id)
+                        setFileId(result.book_id)
+                    }
+                    if (Object.prototype.hasOwnProperty.call(result, 'title')) {
+                        const { title } = result
+                        if (title.length &lt;= 75) {
+                            setEbookTitle(title)
+                        } else {
+                            setEbookTitle(title.slice(0, 72) + '...')
+                        }
+                    }
+                })
+                .catch((error) => {
+                    setUploading(false)
+                    setStatus('error')
+                })
+        }
+    }
+
+    // Checks whether the status is 'processing_finished' and if it is
+    // then sets it to warning or success based on the epubCheckReport
+    // If it's success, redirects to the editor in 2s
+    useEffect(() => {
+        if (status === 'processing_finished') {
+            setStatus(epubCheckReport ? 'warning' : 'success')
+        } else if (status === 'success') {
+            setTimeout(() => {
+                navigate(`/ebook/${fileId}`)
+            }, 2000)
+        }
+    }, [epubCheckReport, fileId, navigate, status])
+
+    // Return the final HTML of the component:
+    return (
+        &lt;form
+            className={
+                styles.box +
+                ' ' +
+                (testForDragAndDropSupport() ? styles.advanced_upload : '') +
+                ' ' +
+                (dragging ? styles.dragging : '') +
+                ' ' +
+                styles[status]
+            }
+            method="post"
+            encType="multipart/form-data"
+            ref={form}
+            onSubmit={handleSubmit}>
+            &lt;div
+                className={
+                    styles.input + ' ' + (uploading ? styles.hidden : '')
+                }>
+                &lt;input
+                    className={styles.file}
+                    type="file"
+                    name="epub"
+                    id="file"
+                    onChange={(e) => {
+                        droppedFile = e.target.files
+                        setFilename(droppedFile[0].name)
+                        // Submit form
+                        handleSubmit(e)
+                    }}
+                />
+
+                &lt;label htmlFor="file">
+                    {/* If the filename is not empty, display it. 
+                    Otherwise, display file choosing prompt */}
+                    {filename === '' ? (
+                        &lt;div>
+                            &lt;strong className={styles.chooseFile}>
+                                Choose an .epub file
+                            &lt;/strong>
+                            &lt;span className={styles.dragndrop}>
+                                {' '}
+                                or drag it here
+                            &lt;/span>
+                        &lt;/div>
+                    ) : (
+                        &lt;span>{filename}&lt;/span>
+                    )}
+                &lt;/label>
+            &lt;/div>
+            &lt;div className={uploading || fileId ? styles.hidden : ''}>
+                &lt;UploadSVG className={styles.svg} />
+            &lt;/div>
+
+            &lt;div className={uploading ? '' : styles.hidden}>
+                {fileId ? 'Processing file...' : 'Uploading…'}
+            &lt;/div>
+            &lt;div
+                className={
+                    status === 'success' ? styles.success : styles.hidden
+                }>
+                Uploaded! Redirecting to editor...
+            &lt;/div>
+            &lt;div className={status === 'error' ? styles.error : styles.hidden}>
+                This e-book contains errors, thus cannot be processed by the
+                system... &lt;br />
+                Please try another e-book or fix the errors.
+            &lt;/div>
+            &lt;div
+                className={
+                    status === 'bad_file_type' ? styles.error : styles.hidden
+                }>
+                The chosen file has the wrong file type!
+                &lt;br />
+                Please submit an .epub file.
+            &lt;/div>
+
+            &lt;div
+                className={
+                    epubCheckReport &amp;&amp; status === 'warning'
+                        ? styles.warning_box
+                        : styles.hidden
+                }>
+                &lt;h3>Warning!&lt;/h3>
+                &lt;p>
+                    The EPUB you just uploaded failed epubcheck. Our tool might
+                    not work perfectly with it. You can download the error
+                    report below.
+                &lt;/p>
+                &lt;a
+                    href={
+                        'data:attachment/text,' +
+                        encodeURI(epubCheckReport.replaceAll(',', ',\n'))
+                    }
+                    target="_blank"
+                    download="epubcheck_report.txt"
+                    rel="noreferrer">
+                    Download epubcheck report
+                &lt;/a>
+                &lt;button
+                    type="button"
+                    onClick={() => {
+                        if (fileId) {
+                            navigate(`/ebook/${fileId}`)
+                        }
+                    }}>
+                    Proceed to editor
+                &lt;/button>
+            &lt;/div>
+            {fileId === '' ? (
+                ''
+            ) : (
+                &lt;FetchWithStatus
+                    fileId={fileId}
+                    setEbookFile={(file) => {
+                        setEbookFile(file)
+                        setUploading(false)
+                        setStatus('processing_finished')
+                    }}
+                    onError={(err) => {
+                        setStatus('error')
+                        setTimeout(() => {
+                            setUploading(false)
+                            setFilename('')
+                        }, 2000)
+                    }}
+                />
+            )}
+        &lt;/form>
+    )
+}
+
+FileUpload.propTypes = {
+    /**
+     * Function to set the epub file once uploaded
+     */
+    setEbookFile: PropTypes.func.isRequired,
+    /**
+     * Function to set epub id once received response from server
+     */
+    setEbookId: PropTypes.func.isRequired,
+    /**
+     * Function to set epub title
+     */
+    setEbookTitle: PropTypes.func.isRequired,
+}
+
+export default FileUpload
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

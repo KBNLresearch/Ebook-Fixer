@@ -1,0 +1,302 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/editor/EditorControls.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Fixing E-Books Client Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Externals</h3><ul><li><a href="external-Rendition.html">Rendition</a></li><li><a href="external-Section.html">Section</a></li><li><a href="external-SetStateAction.html">SetStateAction</a></li></ul><h3>Classes</h3><ul><li><a href="ImageInfo.html">ImageInfo</a></li></ul><h3>Components</h3><ul><li><a href="AIAnnotator.html">AIAnnotator</a></li><li><a href="AISelection.html">AISelection</a></li><li><a href="Annotator.html">Annotator</a></li><li><a href="App.html">App</a></li><li><a href="Classifier.html">Classifier</a></li><li><a href="Editor.html">Editor</a></li><li><a href="EditorControls.html">EditorControls</a></li><li><a href="EpubInfoPage.html">EpubInfoPage</a></li><li><a href="FetchWithStatus.html">FetchWithStatus</a></li><li><a href="FileDownload.html">FileDownload</a></li><li><a href="FileUpload.html">FileUpload</a></li><li><a href="NavBar.html">NavBar</a></li><li><a href="Overview.html">Overview</a></li><li><a href="ProgressBar.html">ProgressBar</a></li><li><a href="ShareURL.html">ShareURL</a></li><li><a href="Sidebar.html">Sidebar</a></li><li><a href="UserAnnotator.html">UserAnnotator</a></li><li><a href="Viewer.html">Viewer</a></li></ul><h3>Global</h3><ul><li><a href="global.html#findImageInDocument">findImageInDocument</a></li><li><a href="global.html#getAllImages">getAllImages</a></li><li><a href="global.html#getImageFromRendition">getImageFromRendition</a></li><li><a href="global.html#getImgFilename">getImgFilename</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getRawContext">getRawContext</a></li><li><a href="global.html#highlightedStyle">highlightedStyle</a></li><li><a href="global.html#highlightElement">highlightElement</a></li><li><a href="global.html#highlightText">highlightText</a></li><li><a href="global.html#openBook">openBook</a></li><li><a href="global.html#pollForFile">pollForFile</a></li></ul></div><div class="category"><h2>API</h2><h3>Global</h3><ul><li><a href="global.html#classifyImageApiCall">classifyImageApiCall</a></li><li><a href="global.html#getFile">getFile</a></li><li><a href="global.html#getFileBlob">getFileBlob</a></li><li><a href="global.html#getGoogleAnnotation">getGoogleAnnotation</a></li><li><a href="global.html#getImageMetadataApiCall">getImageMetadataApiCall</a></li><li><a href="global.html#getImagesOverview">getImagesOverview</a></li><li><a href="global.html#getMicrosoftAnnotation">getMicrosoftAnnotation</a></li><li><a href="global.html#getYakeContextKeywords">getYakeContextKeywords</a></li><li><a href="global.html#saveUserAnnotation">saveUserAnnotation</a></li><li><a href="global.html#sendFile">sendFile</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/editor/EditorControls.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useAtom } from 'jotai'
+import { highlightElement, ImageInfo } from '../../helpers/EditorHelper'
+import styles from './EditorControls.module.scss'
+import { getImgFilename } from '../../helpers/EditImageHelper'
+import { nextImage } from '../../helpers/EbookContext'
+
+/**
+ * The EditorControls component handles the controls for the editor.
+ * Right now these are a bunch of buttons that scroll pictures from the book into view
+ * These are passed as children via props.
+ *
+ * @param {ImageInfo[]} imageList List of images that epubJS found in the ebook
+ * @param {Function} getImage Retrieves the image element from the rendition with the index and imagelist provided
+ * @param {external:Render} rendition Render object from ePubJS
+ * @param {external:SetStateAction} setCurrentImage Updates the image that is currently being annotated
+ * @component
+ * @returns The EditorControls component
+ */
+function EditorControls({ imageList, getImage, rendition, setCurrentImage }) {
+    // The index of the image currently being displayed
+    const [currentImageIndex, setCurrentImageIndex] = useState(-1)
+
+    const [nextDisabled, setNextDisabled] = useState(false)
+    const [prevDisabled, setPrevDisabled] = useState(true)
+
+    const [nextImageFunc, setNextImage] = useAtom(nextImage)
+
+    const [unHighlightFunc, setUnHighlightFunc] = useState(
+        () =>
+            function () {
+                return null
+            }
+    )
+
+    const navigate = useNavigate()
+
+    const location = useLocation()
+
+    // Get the Image filename from the url
+    const { uuid, imgFilename } = useParams()
+
+    // When the imageList is instantiated / filled up (only happens at the beginning or when the image changes)
+    useEffect(() => {
+        if (imgFilename &amp;&amp; rendition &amp;&amp; imageList.length > 0) {
+            // Get the filename in a decoded format
+            const imageFilenameDecoded = decodeURIComponent(imgFilename)
+            // Find the index of the image in imageList
+            const foundIndex = imageList.findIndex(
+                (imageInfo) => imageInfo.asset.href === imageFilenameDecoded
+            )
+            // If found
+            if (foundIndex > -1) {
+                changeToImageIndex(foundIndex)
+            } else {
+                // Alert the user that this link doesn't point to an image
+                alert("The image with that name wasn't found in this book!")
+            }
+        } else if (!imgFilename &amp;&amp; currentImageIndex > -1) {
+            setCurrentImageIndex(-1)
+            setCurrentImage(null)
+        }
+    }, [imageList, imgFilename])
+
+    // Gets the next index
+    function nextIndex() {
+        return Math.min(currentImageIndex + 1, imageList.length - 1)
+    }
+
+    // Gets the previous index
+    function prevIndex() {
+        return Math.max(currentImageIndex - 1, 0)
+    }
+
+    function handleNext(e) {
+        changeToImageIndex(nextIndex())
+    }
+
+    function handlePrev(e) {
+        changeToImageIndex(prevIndex())
+    }
+
+    /**
+     * This function handles enabling and disabling the buttons for navigating between images.
+     * When at the first image, disables the Previous image button
+     * When at the last image, disables the Next image button
+     */
+    function disableEnableNavButtons() {
+        if (currentImageIndex &lt;= 0) {
+            setPrevDisabled(true)
+        } else {
+            setPrevDisabled(false)
+        }
+        if (currentImageIndex === imageList.length - 1) {
+            setNextDisabled(true)
+            setNextImage(null)
+        } else {
+            setNextDisabled(false)
+            setNextImage(() => handleNext)
+        }
+    }
+
+    // Each time the index changes see if the navigation buttons need to be disabled
+    useEffect(disableEnableNavButtons, [currentImageIndex, imageList.length])
+
+    /**
+     * An asynchronous function to change the view of the book
+     * to the image new index given by newIndex.
+     *
+     * @param {Integer} newIndex The new Index of the image to switch to
+     */
+    async function changeToImageIndex(newIndex) {
+        // Get the image
+        const newImage = await getImage(imageList[newIndex], rendition)
+        // Scroll to the image
+        newImage.scrollIntoView()
+        // Un highlight the prev. image
+        unHighlightFunc()
+        // Highlight the image
+        const newunhighlightfunc = highlightElement(newImage)
+        setUnHighlightFunc(() => newunhighlightfunc)
+        // Set the URL to be of that Image
+        const newUrl = `/ebook/${uuid}/image/${encodeURIComponent(
+            getImgFilename(imageList[newIndex])
+        )}`
+        // So that it doesn't navigate to the same image
+        if (location.pathname !== newUrl) navigate(newUrl)
+        // Set the current image via the props from the parent
+        setCurrentImage(imageList[newIndex])
+        // Change the current index
+        setCurrentImageIndex(newIndex)
+    }
+
+    if (rendition)
+        return (
+            &lt;div className={styles.editor_controls}>
+                &lt;button
+                    type="button"
+                    disabled={prevDisabled}
+                    className={styles.arrow + ' ' + styles['arrow--left']}
+                    onClick={handlePrev}>
+                    &lt;span>Previous image&lt;/span>
+                &lt;/button>
+
+                &lt;div className={styles.block}>
+                    &lt;h3>
+                        {currentImageIndex === -1
+                            ? 'Press arrow to start annotating first image'
+                            : currentImageIndex + 1 + '/' + imageList.length}
+                    &lt;/h3>
+                &lt;/div>
+
+                &lt;button
+                    type="button"
+                    disabled={nextDisabled}
+                    className={styles.arrow + ' ' + styles['arrow--right']}
+                    onClick={handleNext}>
+                    {currentImageIndex === -1 ? (
+                        &lt;span> First Image &lt;/span>
+                    ) : (
+                        &lt;span>Next image&lt;/span>
+                    )}
+                &lt;/button>
+            &lt;/div>
+        )
+}
+
+EditorControls.defaultProps = {
+    rendition: null,
+}
+
+EditorControls.propTypes = {
+    imageList: PropTypes.arrayOf(PropTypes.instanceOf(ImageInfo)).isRequired,
+    getImage: PropTypes.func.isRequired,
+    rendition: PropTypes.shape({}),
+    setCurrentImage: PropTypes.func.isRequired,
+}
+
+export default EditorControls
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>
